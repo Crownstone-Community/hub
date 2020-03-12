@@ -1,0 +1,28 @@
+
+import {Entity, model, property, hasMany,} from '@loopback/repository';
+import {UserPermission} from './user-permission.model';
+
+@model()
+export class User extends Entity {
+  constructor(data?: Partial<User>) {
+    super(data);
+  }
+
+  @property({type: 'string', id: true})
+  id: string;
+
+  @property({type: 'string', required: true})
+  userId: string;
+
+  @property({type: 'string', required: true})
+  userToken: string;
+
+  @property({type: 'string'})
+  firstName?: string;
+
+  @property({type: 'string'})
+  lastName?: string;
+
+  @hasMany(() => UserPermission)
+  permissions: UserPermission[];
+}
