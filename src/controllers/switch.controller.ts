@@ -8,7 +8,6 @@ import {SecurityBindings} from '@loopback/security';
 
 export class SwitchController {
 
-
   @post('/switch', EmptyReturnCode)
   @authenticate('csTokens')
   async switchCrownstone(
@@ -16,7 +15,6 @@ export class SwitchController {
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
     @param.query.number('switchState',   {required:true}) switchState:   number,
   ) : Promise<void> {
-    console.log(arguments)
 
     if (switchState < 0 || switchState > 1) {
       throw new HttpErrors.UnprocessableEntity("Switch state must be between 0 and 1.")
@@ -24,12 +22,17 @@ export class SwitchController {
     await Promise.resolve()
   }
 
-  // @post('/switchMultiple', EmptyReturnCode)
-  // switchCrownstones(
-  //   @param.array('switchPairs', "query", {type: 'SwitchPair'}) switchPairs : []
-  // ) : string {
-  //   return 'Hello ' + JSON.stringify(switchPairs);
-  // }
+
+  @post('/switchMultiple', EmptyReturnCode)
+  @authenticate('csTokens')
+  switchCrownstones(
+    @inject(SecurityBindings.USER)
+    @param.array('switchPairs', "query", {type: 'SwitchPair'}) switchPairs : []
+  ) : string {
+
+
+    return 'Hello ' + JSON.stringify(switchPairs);
+  }
 
 }
 

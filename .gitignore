@@ -64,3 +64,6 @@ typings/
 *.tsbuildinfo
 
 .idea
+
+key.pem
+cert.pem

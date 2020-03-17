@@ -13,6 +13,7 @@ import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback
 import {AuthorizationComponent} from '@loopback/authorization';
 import {CsTokenStrategy} from './security/authentication-strategies/csToken-strategy';
 import {UserService} from './services';
+import {LaunchModules} from './modules';
 
 export interface PackageInfo {
   name: string;
@@ -59,6 +60,7 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
     this.projectRoot = __dirname;
 
+    LaunchModules();
 
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
