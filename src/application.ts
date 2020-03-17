@@ -60,8 +60,6 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
     this.projectRoot = __dirname;
 
-    LaunchModules();
-
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {

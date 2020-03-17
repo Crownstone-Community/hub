@@ -2,6 +2,7 @@ import {CrownstoneHubApplication} from './application';
 import {ApplicationConfig} from '@loopback/core';
 import * as fs from 'fs';
 import {verifyCertificate} from './security/VerifyCertificates';
+import {LaunchModules} from './modules';
 
 export {CrownstoneHubApplication};
 
@@ -9,6 +10,9 @@ export {CrownstoneHubApplication};
 
 export async function main(options: ApplicationConfig = {}) {
   await verifyCertificate();
+
+  await LaunchModules();
+
 
   let httpsOptions = {
     rest: {

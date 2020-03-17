@@ -1,7 +1,6 @@
-
 let launched = false;
 
-export function LaunchModules() {
+export async function LaunchModules() {
   if (launched === false) {
     // execute modules
 
