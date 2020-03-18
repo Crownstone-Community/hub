@@ -19,9 +19,6 @@ export class CsTokenStrategy implements AuthenticationStrategy {
       throw new HttpErrors.Unauthorized(`Access token not found.`);
     }
     let token = request.query.access_token;
-    // await this.userService.mock()
-    await this.userService.mock()
-    let all = await this.userService.getAll()
     let user = await this.userService.checkAccessToken(token)
 
     let userProfile : UserProfile = {

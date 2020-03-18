@@ -4,9 +4,11 @@
   "compilerOptions": {
     "esModuleInterop"  : true,
     "outDir"           : "dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "declarations"     : true
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/bluenet-nodejs-lib-core/src/declarations/declarations.d.ts"
   ]
 }

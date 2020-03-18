@@ -11,17 +11,9 @@ export class EventBusClass {
     this._topics   = {};
     this._topicIds = {};
   }
-  
-  on(topic : string, callback : () => void) {
-    if (!(topic)) {
-      debug('Attempting to subscribe to undefined topic:', topic);
-      return;
-    }
-    if (!(callback)) {
-      debug('Attempting to subscribe without callback to topic:', topic);
-      return;
-    }
 
+
+  on(topic : string, callback : (data:any) => void) : () => void {
     if (this._topics[topic] === undefined) {
       this._topics[topic] = [];
     }
