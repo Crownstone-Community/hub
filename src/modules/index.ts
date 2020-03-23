@@ -1,6 +1,6 @@
 import {BluenetBridge} from './Bluenet/BluenetBridge';
 import {EventBusClass} from './EventBus';
-import {Event} from '@loopback/repository';
+import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 
 let launched = false;
 
@@ -8,21 +8,29 @@ const eventBus = new EventBusClass();
 
 
 interface Modules {
-  bluenet:  BluenetBridge,
-  eventBus: EventBusClass
+  bluenet:     BluenetBridge,
+  meshMonitor: MeshMonitor
+  eventBus:    EventBusClass,
 }
 
 
 export let Modules : Modules = {
-  bluenet  : new BluenetBridge(eventBus),
-  eventBus : eventBus,
+  bluenet     : new BluenetBridge(eventBus),
+  meshMonitor : new MeshMonitor(eventBus),
+  eventBus    : eventBus,
 }
 
 
 export async function LaunchModules() {
+  console.log("Launching Modules")
   if (launched === false) {
     // execute modules
-    await openUartConnection();
+    console.log("intializig")
+    await Modules.bluenet.initialize();
+    console.log("BluenetUart connection ready!");
+
+    await Modules.meshMonitor.initialize();
+
 
     launched = true;
   }
@@ -30,12 +38,5 @@ export async function LaunchModules() {
 
 
 async function openUartConnection() {
-  try {
-    await Modules.bluenet.initialize();
-    console.log("BluenetUart connection ready!");
-  }
-  catch (err) {
-    console.log("Could not open UART connection. Trying again...");
-    setTimeout(() => { openUartConnection(); }, 1000)
-  }
+
 }

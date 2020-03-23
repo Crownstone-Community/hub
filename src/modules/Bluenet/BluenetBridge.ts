@@ -1,7 +1,7 @@
 import { ModuleBase }     from '../ModuleBaseClass';
 import { BluenetUart }    from 'bluenet-nodejs-lib-uart'
 import { PromiseManager } from './PromiseManager';
-import {EventBusClass} from '../EventBus';
+import { EventBusClass }  from '../EventBus';
 
 interface SwitchPair {
   crownstoneId: number,
@@ -50,6 +50,7 @@ export class BluenetBridge extends ModuleBase {
       throw err;
     }
   }
+
 
   switchCrownstones(switchPairs : SwitchPair[]) {
     if (!this.ready) { throw "NOT_READY"; }

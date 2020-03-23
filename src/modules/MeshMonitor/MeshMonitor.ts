@@ -3,20 +3,14 @@ import {EventBusClass} from '../EventBus';
 
 
 export class MeshMonitor extends ModuleBase {
-  eventBus : EventBusClass;
   topology = {nodes: [], edges: []}
 
-  initialize(eventBus: EventBusClass) : Promise<void> {
-    this.eventBus = eventBus;
-
+  initialize() : Promise<void> {
     this.eventBus.on("MeshServiceData", this._handleServiceData.bind(this))
     return Promise.resolve()
   }
 
   _handleServiceData(serviceData: ServiceDataJson) {
-
+    console.log("I got serviceData", serviceData);
   }
-
-
-
 }
