@@ -29,8 +29,6 @@ export class SwitchController {
     @inject(SecurityBindings.USER)
     @param.array('switchPairs', "query", {type: 'SwitchPair'}) switchPairs : []
   ) : string {
-
-
     return 'Hello ' + JSON.stringify(switchPairs);
   }
 

@@ -1,9 +1,10 @@
 
-import {HttpErrors, Request} from '@loopback/rest';
+import {HttpErrors} from '@loopback/rest';
 import {AuthenticationStrategy, TokenService} from '@loopback/authentication';
 import {securityId, UserProfile} from '@loopback/security';
 import {UserService} from '../../services';
 import {inject} from '@loopback/context';
+import {Request, Response} from "express-serve-static-core";
 
 export class CsTokenStrategy implements AuthenticationStrategy {
   name = 'csTokens';

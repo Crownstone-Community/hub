@@ -72,6 +72,6 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
   }
 
   setUpBindings(): void {
-    this.service(UserService);
+    this.bind("UserService").toClass(UserService);
   }
 }

@@ -1,5 +1,5 @@
 import { ModuleBase }     from '../ModuleBaseClass';
-import { BluenetUart }    from 'bluenet-nodejs-lib-uart'
+import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
 import { EventBusClass }  from '../EventBus';
 
@@ -8,22 +8,22 @@ interface SwitchPair {
   switchState: number
 }
 
-export class BluenetBridge extends ModuleBase {
-  bluenet : BluenetUart;
-  queue   : PromiseManager;
-  ready   : boolean = false
+export class Bridge extends ModuleBase {
+  uart  : CrownstoneUart;
+  queue : PromiseManager;
+  ready : boolean = false
 
   constructor(eventBus: EventBusClass) {
     super(eventBus);
 
-    this.queue   = new PromiseManager();
-    this.bluenet = new BluenetUart();
+    this.queue = new PromiseManager();
+    this.uart  = new CrownstoneUart();
 
     this.forwardEvents();
   }
 
   forwardEvents() {
-    // generate a list of topics that can be remapped from bluenet to lib.
+    // generate a list of topics that can be remapped from uart to lib.
     let eventsToForward = [
       {bluenetTopic: "MeshServiceData", moduleTopic: "MeshServiceData"},
     ];
@@ -34,7 +34,7 @@ export class BluenetBridge extends ModuleBase {
       if (!event.moduleTopic) {
         moduleEvent = event.bluenetTopic;
       }
-      this.bluenet.on(event.bluenetTopic, (data) => { this.eventBus.emit(moduleEvent, data); })
+      this.uart.on(event.bluenetTopic, (data) => { this.eventBus.emit(moduleEvent, data); })
     });
 
   }
@@ -42,7 +42,7 @@ export class BluenetBridge extends ModuleBase {
 
   async initialize() {
     try {
-      await this.bluenet.start()
+      await this.uart.start()
       this.ready = true;
     }
     catch (err) {
@@ -56,7 +56,7 @@ export class BluenetBridge extends ModuleBase {
     if (!this.ready) { throw "NOT_READY"; }
 
     this.queue.register(() => {
-      return this.bluenet.switchCrownstones(switchPairs);
+      return this.uart.switchCrownstones(switchPairs);
     });
   }
 
@@ -73,7 +73,7 @@ export class BluenetBridge extends ModuleBase {
     if (!this.ready) { throw "NOT_READY"; }
 
     this.queue.register(() => {
-      return this.bluenet.registerTrackedDevice(
+      return this.uart.registerTrackedDevice(
         trackingNumber,
         locationUID,
         profileId,

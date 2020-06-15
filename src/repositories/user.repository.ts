@@ -15,6 +15,7 @@ import {DataObject, Options} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest/dist';
 
 export class UserRepository extends DefaultCrudRepository<User,typeof User.prototype.id> {
+
   public permissions: HasManyRepositoryFactory<UserPermission, typeof User.prototype.id>;
 
   constructor(
@@ -22,10 +23,7 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
     @inject('datasources.mongo') protected datasource: juggler.DataSource,
   ) {
     super(User, datasource);
-    this.permissions = this.createHasManyRepositoryFactoryFor(
-      'permissions',
-      async () => userPermissionRepository,
-    );
+    this.permissions = this.createHasManyRepositoryFactoryFor('permissions',async () => userPermissionRepository);
   }
 
   async create(entity: DataObject<User>, options?: Options): Promise<User> {
