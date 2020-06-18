@@ -13,7 +13,6 @@ import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback
 import {AuthorizationComponent} from '@loopback/authorization';
 import {CsTokenStrategy} from './security/authentication-strategies/csToken-strategy';
 import {UserService} from './services';
-import {LaunchModules} from './modules';
 
 export interface PackageInfo {
   name: string;

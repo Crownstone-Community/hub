@@ -6,7 +6,7 @@ export default {
   port: 27017,
   user: "",
   password: "",
-  database: "myNewDatabase",
+  database: "CrownstoneHub",
   useNewUrlParser: true,
   useUnifiedTopology: true,
   connectionTimeout: 10000,

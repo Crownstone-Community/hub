@@ -2,17 +2,16 @@ import {CrownstoneHubApplication} from './application';
 import {ApplicationConfig} from '@loopback/core';
 import * as fs from 'fs';
 import {verifyCertificate} from './security/VerifyCertificates';
-import {LaunchModules} from './modules';
+import {HubRepository} from './repositories/hub.repository';
+import {PowerDataRepository} from './repositories/power-data.repository';
+import {EnergyDataRepository} from './repositories/energy-data.repository';
+import {CrownstoneHub} from './modules/CrownstoneHub';
+import {DbRef} from './modules/Data/DbReference';
 
 export {CrownstoneHubApplication};
 
-
-
 export async function main(options: ApplicationConfig = {}) {
   await verifyCertificate();
-
-  await LaunchModules();
-
 
   let httpsOptions = {
     rest: {
@@ -21,13 +20,20 @@ export async function main(options: ApplicationConfig = {}) {
       key:  fs.readFileSync('./src/https/key.pem'),
       cert: fs.readFileSync('./src/https/cert.pem'),
     },
-  }
+  };
 
   const app = new CrownstoneHubApplication(httpsOptions);
   await app.boot();
   await app.start();
 
   const url = app.restServer.url;
+
+  DbRef.hub    = await app.getRepository(HubRepository)
+  DbRef.power  = await app.getRepository(PowerDataRepository)
+  DbRef.energy = await app.getRepository(EnergyDataRepository)
+
+  await CrownstoneHub.initialize();
+
   console.log(`Server is running at ${url}`);
 
   return app;

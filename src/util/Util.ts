@@ -1,3 +1,4 @@
+import * as os from 'os';
 
 export const Util = {
 
@@ -348,6 +349,19 @@ export const Util = {
     return inputStr[0].toUpperCase() + inputStr.substr(1)
   },
 
+  getLocalIps: function() : string[] {
+    let ifaces = os.networkInterfaces();
+    let localIps : string[] = [];
+    Object.keys(ifaces).forEach((inter) => {
+      // @ts-ignore
+      ifaces[inter].forEach((item) => {
+        if (item.family === "IPv4" && item.internal === false) {
+          localIps.push(item.address);
+        }
+      })
+    })
+    return localIps;
+  }
 
 
 };
