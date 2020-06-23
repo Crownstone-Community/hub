@@ -4,28 +4,42 @@ import {DbRef} from '../Data/DbReference';
 import {Hub} from '../../models/hub.model';
 import {REST} from 'crownstone-cloud/dist/rest/cloudAPI';
 import {MemoryDb} from '../Data/MemoryDb';
+import {Util} from '../../util/Util';
+import {SseEventHandler} from './SseEventHandler';
+import {eventBus} from '../EventBus';
 
 
 export class CloudManager {
 
-  cloud   : CrownstoneCloud;
-  sse     : CrownstoneSSE;
+  cloud           : CrownstoneCloud;
+  sse             : CrownstoneSSE | null = null;
+  sseEventHandler : SseEventHandler;
 
   sphereId: string;
-
-
+  eventsRegistered = false;
 
   constructor() {
     this.cloud = new CrownstoneCloud("http://localhost:3000/api/")
+    this.sseEventHandler = new SseEventHandler();
+
+    this.setupEvents();
   }
+
+  setupEvents() {
+    if (this.eventsRegistered === false) {
+      eventBus.on("TOKEN_EXPIRED",       () => { this.initialize(); })
+      eventBus.on("CLOUD_SYNC_REQUIRED", () => { this.sync(); })
+      this.eventsRegistered = true;
+    }
+  }
+
 
   async initialize() {
     let hub = await DbRef.hub.get();
     if (hub) {
-      console.log("We have hub data")
       await this.login(hub);
-      // await this.sync();
-      // await this.setupSSE(hub)
+      await this.setupSSE(hub);
+      await this.sync();
     }
     else {
       console.log("No hub data yet")
@@ -34,41 +48,54 @@ export class CloudManager {
 
   async login(hub: Hub) {
     this.sphereId = hub.sphereId;
-    if (!hub.accessToken || hub.accessToken && new Date() <= hub.accessTokenExpiration) {
-      await this.cloud.hubLogin(hub.token, hub.cloudId)
 
-      hub.accessToken = this.cloud.accessToken;
-      hub.accessTokenExpiration = this.cloud.accessTokenExpiration;
-      await DbRef.hub.update(hub);
+    // LOGIN:
+    let cloudLoggedIn = false;
+    while (cloudLoggedIn == false) {
+      try      { await this.cloud.hubLogin(hub.cloudId, hub.token); cloudLoggedIn = true; }
+      catch(e) { console.log("Error in login to cloud",e); await Util.wait(5000); }
     }
+    hub.accessToken = this.cloud.accessToken;
+    hub.accessTokenExpiration = this.cloud.accessTokenExpiration;
+    await DbRef.hub.update(hub);
+
+    // STARTUP
     REST.setAccessToken(hub.accessToken)
-    await this.setupSSE(hub);
   }
 
   async sync() {
     // download stones from sphere, load in memory
-
-    return REST.forSphere(this.sphereId).getStonesInSphere()
-      .then((result : CloudStoneData[]) => {
-        if (result) {
-          MemoryDb.loadCloudStoneData(result);
+    let stonesSynced = false;
+    while (stonesSynced == false) {
+      try {
+        let stones : CloudStoneData[] = await REST.forSphere(this.sphereId).getStonesInSphere()
+        if (stones) {
+          MemoryDb.loadCloudStoneData(stones);
         }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      })
+        stonesSynced = true;
+      }
+      catch(e) { console.log("Error in sync", e); await Util.wait(5000); }
+    }
+
+    // TODO: sphere users & their tokens.
+    // LOAD IN MONGO DB.
+
   }
 
-  handleSseEvent = (event: SseEvent) => {
-    // handle token expired and other system events.
-    console.log("SSE EVENT:", event)
-  }
+
 
   async setupSSE(hub: Hub) {
-    this.sse = new CrownstoneSSE({hubLoginBase: 'http://localhost:3000/api/Hubs/'})
-    // TODO: add automatic retry.
-    await this.sse.hubLogin(hub.cloudId,hub.token);
+    if (this.sse === null) {
+      this.sse = new CrownstoneSSE({hubLoginBase: 'http://localhost:3000/api/Hubs/'});
+    }
 
-    this.sse.start(this.handleSseEvent)
+    let sseLoggedIn = false;
+    while (sseLoggedIn == false) {
+      try      { await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true; }
+      catch(e) { console.log("Error in SSE", e); await Util.wait(5000); }
+    }
+
+    this.sse.start(this.sseEventHandler.handleSseEvent)
   }
 }
+

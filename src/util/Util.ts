@@ -2,6 +2,12 @@ import * as os from 'os';
 
 export const Util = {
 
+  wait: function(waitTimeMs : number) : Promise<void> {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() { resolve() }, waitTimeMs)
+    })
+  },
+
   pad: function(str : string | number) {
     if (Number(str) < 10) {
       return '0' + str;

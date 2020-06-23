@@ -21,8 +21,10 @@ interface CloudStoneData {
   locations: LocationData[],
   abilities:  AbilityData[]
 }
+
+type AbilityType = "dimming" | "switchcraft" | "tapToToggle";
 interface AbilityData {
-  type: "dimming" | "switchcraft" | "tapToToggle",
+  type: AbilityType,
   enabled: boolean,
   syncedToCrownstone: boolean,
   id: string,
