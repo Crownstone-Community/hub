@@ -76,3 +76,27 @@ interface BehaviourData {
   createdAt: string,
   updatedAt: string,
 }
+interface CloudSphereUsers {
+  admins: SphereUser[],
+  members: SphereUser[],
+  guests: SphereUser[],
+
+}
+interface SphereUser {
+  profilePicId:        string,
+  firstName:           string,
+  lastName:            string,
+  new:                 boolean,
+  uploadLocation:      boolean,
+  uploadSwitchState:   boolean,
+  uploadDeviceDetails: boolean,
+  language:            string,
+  email:               string,
+  emailVerified:       boolean,
+  id:                  string,
+  createdAt:           string,
+  updatedAt:           string,
+}
+interface CloudAuthorizationTokens {
+  [key: string]: string // userId: token
+}

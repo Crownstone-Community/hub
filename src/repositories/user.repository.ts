@@ -42,4 +42,50 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
     }
   }
 
+  async merge(cloudUserData : CloudSphereUsers, tokenData: CloudAuthorizationTokens) {
+    let userData : { [key:string] : DataObject<User>} = {};
+    let matchingCloudIdMap : map = {};
+
+    let currentUsers = await this.find();
+
+    function prepareUser(sphereUser: SphereUser) : DataObject<User> {
+      return {
+        userId: sphereUser.id,
+        userToken: tokenData[sphereUser.id],
+        firstName: sphereUser.firstName,
+        lastName: sphereUser.lastName
+      }
+    }
+    cloudUserData.admins.forEach((user)  => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
+    cloudUserData.members.forEach((user) => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
+    cloudUserData.guests.forEach((user)  => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
+
+    for (let i = 0; i < currentUsers.length; i++) {
+      let user = currentUsers[i];
+      let data : DataObject<User> = userData[user.userId]
+      if (data !== undefined) {
+        matchingCloudIdMap[user.id] = true;
+        if (data.userToken) {
+          user.userToken = data.userToken;
+        }
+        user.firstName = data.firstName;
+        user.lastName  = data.lastName;
+        await this.save(user);
+      }
+      else {
+        await this.delete(user);
+      }
+    }
+
+    let matchingCloudIds = Object.keys(matchingCloudIdMap);
+    for (let i = 0; i < matchingCloudIds.length; i++) {
+      let id = matchingCloudIds[i];
+      if (matchingCloudIdMap[id] === false) {
+        await this.create(userData[id])
+      }
+    }
+
+
+  }
+
 }

@@ -9,7 +9,7 @@
   },
   "include": [
     "src",
-    "node_modules/bluenet-nodejs-lib-core/dist/declarations/declarations.d.ts",
-    "node_modules/crownstone-core/dist/declarations/declarations.d.ts"
+    "node_modules/crownstone-core/src/declarations/declarations.d.ts",
+    "node_modules/crownstone-cloud/src/declarations/**/*"
   ]
 }

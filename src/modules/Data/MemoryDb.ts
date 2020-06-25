@@ -12,7 +12,7 @@ interface Crownstone {
 }
 
 class MemoryDbClass {
-  stones: {[key: string]: Crownstone};
+  stones: {[key: string]: Crownstone} = {};
 
   loadCloudStoneData( stoneData: CloudStoneData[] ) {
     let usedUIDs : map = {};
