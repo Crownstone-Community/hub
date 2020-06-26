@@ -6,12 +6,12 @@ import {MemoryDb} from '../Data/MemoryDb';
 import {Util} from '../../util/Util';
 import {SseEventHandler} from './SseEventHandler';
 import {eventBus} from '../EventBus';
+import {topics} from '../topics';
 
 const RETRY_INTERVAL_MS = 5000;
 
 
 export class CloudManager {
-
   cloud           : CrownstoneCloud;
   sse             : CrownstoneSSE | null = null;
   sseEventHandler : SseEventHandler;
@@ -24,6 +24,8 @@ export class CloudManager {
   sphereId: string;
   eventsRegistered = false;
 
+  resetTriggered = false;
+
   constructor() {
     this.cloud = new CrownstoneCloud("http://localhost:3000/api/")
     this.sseEventHandler = new SseEventHandler();
@@ -33,9 +35,27 @@ export class CloudManager {
 
   setupEvents() {
     if (this.eventsRegistered === false) {
-      eventBus.on("TOKEN_EXPIRED",       () => { this.initialize(); })
-      eventBus.on("CLOUD_SYNC_REQUIRED", () => { this.sync(); })
+      eventBus.on(topics.HUB_CREATED,         () => { this.initialize(); });
+      // eventBus.on(topics.HUB_DELETED,         () => { this.cleanup(); }); // this is done via direct call.
+      eventBus.on(topics.TOKEN_EXPIRED,       () => { this.initialize(); });
+      eventBus.on(topics.CLOUD_SYNC_REQUIRED, () => { this.sync();       });
       this.eventsRegistered = true;
+    }
+  }
+
+  async cleanup() {
+    this.resetTriggered = true;
+    // wait for everything to clean up.
+    while (this.initializeInProgress || this.loginInProgress || this.sseSetupInprogress || this.syncInProgress) {
+      await Util.wait(100);
+    }
+
+    this.resetTriggered = false;
+    // @ts-ignore
+    this.sphereId = null;
+    if (this.sse) {
+      this.sse.stop()
+      this.sse = null;
     }
   }
 
@@ -65,16 +85,22 @@ export class CloudManager {
 
     // LOGIN:
     let cloudLoggedIn = false;
-    while (cloudLoggedIn === false) {
-      try      { await this.cloud.hubLogin(hub.cloudId, hub.token); cloudLoggedIn = true; }
-      catch(e) { console.log("Error in login to cloud",e); await Util.wait(RETRY_INTERVAL_MS); }
-    }
-    hub.accessToken = this.cloud.accessToken;
-    hub.accessTokenExpiration = this.cloud.accessTokenExpiration;
-    await DbRef.hub.update(hub);
+    while (cloudLoggedIn === false && this.resetTriggered === false) {
+      try      {
+        await this.cloud.hubLogin(hub.cloudId, hub.token);
+        cloudLoggedIn = true;
+        hub.accessToken = this.cloud.accessToken;
+        hub.accessTokenExpiration = this.cloud.accessTokenExpiration;
+        await DbRef.hub.update(hub);
 
-    // STARTUP
-    REST.setAccessToken(hub.accessToken)
+        // STARTUP
+        REST.setAccessToken(hub.accessToken);
+      }
+      catch(e) {
+        if (e && e.status && e.status === 401) { eventBus.emit(topics.COULD_NOT_LOG_IN); break; }
+        console.log("Error in login to cloud",e); await Util.wait(RETRY_INTERVAL_MS);
+      }
+    }
     this.loginInProgress = false;
   }
 
@@ -85,7 +111,7 @@ export class CloudManager {
 
     // download stones from sphere, load in memory
     let stonesSynced = false;
-    while (stonesSynced === false) {
+    while (stonesSynced === false && this.resetTriggered === false) {
       try {
         let stones : CloudStoneData[] = await REST.forSphere(this.sphereId).getStonesInSphere()
         if (stones) { MemoryDb.loadCloudStoneData(stones); }
@@ -95,7 +121,7 @@ export class CloudManager {
     }
 
     let usersObtained = false;
-    while (usersObtained === false) {
+    while (usersObtained === false && this.resetTriggered === false) {
       try {
         let sphereUsers : CloudSphereUsers = await REST.forSphere(this.sphereId).getUsers();
         let tokenSets : CloudAuthorizationTokens = await REST.forSphere(this.sphereId).getSphereAuthorizationTokens();
@@ -104,9 +130,6 @@ export class CloudManager {
       }
       catch(e) { console.log("Error in sync user obtaining", e); await Util.wait(RETRY_INTERVAL_MS); }
     }
-
-
-    // LOAD IN MONGO DB.
 
     this.syncInProgress = false;
   }
@@ -122,9 +145,12 @@ export class CloudManager {
     }
 
     let sseLoggedIn = false;
-    while (sseLoggedIn == false) {
+    while (sseLoggedIn == false && this.resetTriggered === false) {
       try      { await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true; }
-      catch(e) { console.log("Error in SSE", e); await Util.wait(RETRY_INTERVAL_MS); }
+      catch(e) {
+        if (e && e.status && e.status === 401) { eventBus.emit(topics.COULD_NOT_LOG_IN); break; }
+        console.log("Error in SSE", e); await Util.wait(RETRY_INTERVAL_MS);
+      }
     }
 
     this.sse.start(this.sseEventHandler.handleSseEvent)

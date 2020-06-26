@@ -21,7 +21,7 @@ export class PromiseManager {
     this.clearPendingPromiseTimeout = undefined;
   }
 
-  register(promise : () => Promise<any>, message= "" , customTimeoutMs: number = PROMISE_MANAGER_FALLBACK_TIMEOUT) {
+  register(promise : () => Promise<any>, message= "" , customTimeoutMs: number = PROMISE_MANAGER_FALLBACK_TIMEOUT) : Promise<any> {
     return this._register(promise, message, false, customTimeoutMs);
   }
 

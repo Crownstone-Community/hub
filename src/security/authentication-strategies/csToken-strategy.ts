@@ -6,14 +6,20 @@ import {UserService} from '../../services';
 import {inject} from '@loopback/context';
 import {Request, Response} from "express-serve-static-core";
 
+
+interface userProfile {
+  [securityId] : string,
+  permissions: {
+    switch: boolean
+  }
+}
+
 export class CsTokenStrategy implements AuthenticationStrategy {
   name = 'csTokens';
 
   constructor(
-    @inject('services.UserService')
-    public userService: UserService,
-  ) {
-  }
+    @inject('UserService') public userService: UserService,
+  ) {}
 
   async authenticate(request: Request): Promise<UserProfile | undefined> {
     if (!request.query.access_token) {
@@ -22,7 +28,7 @@ export class CsTokenStrategy implements AuthenticationStrategy {
     let token = request.query.access_token;
     let user = await this.userService.checkAccessToken(token)
 
-    let userProfile : UserProfile = {
+    let userProfile : userProfile = {
       [securityId]: user.id,
       permissions: {
         switch: true

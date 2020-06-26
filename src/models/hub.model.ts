@@ -18,7 +18,7 @@ export class Hub extends Entity {
   @property({type: 'string', required: true})
   token: string;
 
-  @property({type: 'string', required: true})
+  @property({type: 'string'})
   uartKey: string;
 
 

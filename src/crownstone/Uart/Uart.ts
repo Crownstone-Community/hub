@@ -1,6 +1,5 @@
 import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
-import { EventBusClass }  from '../EventBus';
 
 const log = require('debug-level')('bridge')
 
@@ -12,7 +11,6 @@ interface SwitchPair {
 export class Uart {
   uart     : CrownstoneUart;
   queue    : PromiseManager;
-  internalEventBus : EventBusClass;
   ready : boolean = false
 
   constructor() {
@@ -39,14 +37,6 @@ export class Uart {
 
   }
 
-  // async login(token : string) {
-  //   this.sse.setAccessToken(token);
-  //   await this.sse.start((data) => { this._sseEventHandler(data) })
-  // }
-  //
-  // _sseEventHandler(data: SseEvent) {
-  //
-  // }
 
   async initialize() {
     try {
@@ -61,10 +51,10 @@ export class Uart {
   }
 
 
-  switchCrownstones(switchPairs : SwitchPair[]) {
+  async switchCrownstones(switchPairs : SwitchPair[]) {
     if (!this.ready) { throw "NOT_READY"; }
 
-    this.queue.register(() => {
+    return this.queue.register(() => {
       return this.uart.switchCrownstones(switchPairs);
     });
   }

@@ -1,4 +1,6 @@
 import {eventBus} from '../EventBus';
+import {topics} from '../topics';
+import {CrownstoneHub} from '../CrownstoneHub';
 
 export class SseEventHandler {
 
@@ -21,7 +23,7 @@ export class SseEventHandler {
 
       case 'sphereTokensChanged':
         // sync
-        eventBus.emit("CLOUD_SYNC_REQUIRED");
+        eventBus.emit(topics.CLOUD_SYNC_REQUIRED);
         break;
       case 'abilityChange':
         // we will get this information over the mesh, not the cloud.
@@ -38,7 +40,7 @@ export class SseEventHandler {
     switch (event.subType) {
       case 'TOKEN_EXPIRED':
         // login again
-        eventBus.emit("TOKEN_EXPIRED");
+        eventBus.emit(topics.TOKEN_EXPIRED);
         break;
       case 'NO_ACCESS_TOKEN':
       case 'NO_CONNECTION':
@@ -53,8 +55,12 @@ export class SseEventHandler {
   handleCommandEvent(event: SwitchCrownstoneEvent) {
     switch (event.subType) {
       case 'switchCrownstone':
+        console.log("RECEIVED COMMAND", new Date().valueOf(), event)
         // switch the crownstone!
-        eventBus.emit("SWITCH_CROWNSTONE", event.crownstone);
+        if (event.crownstone.switchState !== null) {
+          let switchPairs: SwitchPair[] = [{crownstoneId: event.crownstone.uid, switchState: event.crownstone.switchState}];
+          CrownstoneHub.uart.switchCrownstones(switchPairs)
+        }
         break;
     }
   }
@@ -63,7 +69,7 @@ export class SseEventHandler {
     switch (event.subType) {
       case 'stones':
         // sync
-        eventBus.emit("CLOUD_SYNC_REQUIRED");
+        eventBus.emit(topics.CLOUD_SYNC_REQUIRED);
         break;
       case 'users':
         // ignore, the token change event is relevant for the hub.

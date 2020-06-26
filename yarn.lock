@@ -1495,7 +1495,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "0.4.0"
   dependencies:
     cross-fetch "^3.0.4"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-cloud-0.4.0-2c0d5497-c01e-44b7-b819-3308dbca37c6-1593096129353/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-cloud-0.4.0-3b30795a-b193-41e3-ae52-deef4ba852a5-1593175291072/node_modules/crownstone-lib-nodejs-core"
     debug-level "^0.3.1"
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
@@ -1517,7 +1517,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "0.4.0"
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.4.0-35d8c5ec-086f-4e55-a026-2b4af455d1e5-1593096129259/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.4.0-7aa30923-effe-4f55-b453-7dd0fd481e24-1593175291459/node_modules/crownstone-lib-nodejs-core"
     debug-level "^0.3.1"
     serialport "9.0.0"
 

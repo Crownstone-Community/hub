@@ -1,5 +1,8 @@
 import {Uart} from './Uart/Uart';
 import {CloudManager} from './Cloud/CloudManager';
+import {eventBus} from './EventBus';
+import {topics} from './topics';
+import {DbRef} from './Data/DbReference';
 
 
 class CrownstoneHubClass {
@@ -7,11 +10,13 @@ class CrownstoneHubClass {
   cloud    : CloudManager;
 
   launched = false
+  eventsRegistered = false
 
   constructor() {
     this.uart     = new Uart();
     this.cloud    = new CloudManager()
   }
+
 
   async initialize() {
     console.log("Launching Modules");
@@ -26,6 +31,13 @@ class CrownstoneHubClass {
     }
   }
 
+  async cleanupAndDestroy() {
+    await CrownstoneHub.cloud.cleanup();
+    await DbRef.hub.deleteAll();
+    await DbRef.user.deleteAll();
+    await DbRef.power.deleteAll();
+    await DbRef.energy.deleteAll();
+  }
 
 }
 

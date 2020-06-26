@@ -1,0 +1,10 @@
+
+
+export const topics = {
+  CLOUD_SYNC_REQUIRED : "CLOUD_SYNC_REQUIRED",
+  TOKEN_EXPIRED       : "TOKEN_EXPIRED",
+  COULD_NOT_LOG_IN    : "COULD_NOT_LOG_IN",
+
+  HUB_CREATED         : "HUB_CREATED",
+  HUB_DELETED         : "HUB_DELETED",
+}

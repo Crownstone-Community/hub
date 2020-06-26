@@ -30,10 +30,6 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
     await this.checkUniqueness(entity);
     return super.create(entity, options)
   }
-  async save(entity: User, options?: Options): Promise<User> {
-    await this.checkUniqueness(entity);
-    return super.save(entity, options)
-  }
 
   async checkUniqueness(entity: DataObject<User>) {
     let tokenUniqueness = await this.findOne({where:{userToken: entity.userToken}, fields: {id:true}})
@@ -64,13 +60,13 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
       let user = currentUsers[i];
       let data : DataObject<User> = userData[user.userId]
       if (data !== undefined) {
-        matchingCloudIdMap[user.id] = true;
+        matchingCloudIdMap[user.userId] = true;
         if (data.userToken) {
           user.userToken = data.userToken;
         }
         user.firstName = data.firstName;
         user.lastName  = data.lastName;
-        await this.save(user);
+        await this.update(user);
       }
       else {
         await this.delete(user);
