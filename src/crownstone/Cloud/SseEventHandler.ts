@@ -55,7 +55,6 @@ export class SseEventHandler {
   handleCommandEvent(event: SwitchCrownstoneEvent) {
     switch (event.subType) {
       case 'switchCrownstone':
-        console.log("RECEIVED COMMAND", new Date().valueOf(), event)
         // switch the crownstone!
         if (event.crownstone.switchState !== null) {
           let switchPairs: SwitchPair[] = [{crownstoneId: event.crownstone.uid, switchState: event.crownstone.switchState}];

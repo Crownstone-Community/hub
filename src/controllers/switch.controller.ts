@@ -5,6 +5,7 @@ import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
+import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 
 
 export class SwitchController {
@@ -13,7 +14,7 @@ export class SwitchController {
   @post('/switch', EmptyReturnCode)
   @authenticate('csTokens')
   async switchCrownstone(
-    @inject(SecurityBindings.USER) userProfile : userProfile,
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
     @param.query.number('switchState',   {required:true}) switchState:   number,
   ) : Promise<void> {
@@ -30,7 +31,7 @@ export class SwitchController {
     @inject(SecurityBindings.USER)
     @param.array('switchPairs', "query", {type: 'SwitchPair'}) switchPairs : []
   ) : Promise<void> {
-    await CrownstoneHub.uart.switchCrownstones([{crownstoneId: crownstoneUID, switchState: switchState}])
+    await CrownstoneHub.uart.switchCrownstones(switchPairs)
   }
 
 }
