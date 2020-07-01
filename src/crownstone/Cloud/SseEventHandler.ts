@@ -2,11 +2,14 @@ import {eventBus} from '../EventBus';
 import {topics} from '../topics';
 import {CrownstoneHub} from '../CrownstoneHub';
 
+const LOG = require('debug-level')('crownstone-hub-sse')
+
 export class SseEventHandler {
 
   constructor() {}
 
   handleSseEvent = (event: SseEvent) => {
+    LOG.debug("Event received: ", event)
     // handle token expired and other system events.
     switch (event.type) {
       case 'system':
@@ -56,8 +59,16 @@ export class SseEventHandler {
     switch (event.subType) {
       case 'switchCrownstone':
         // switch the crownstone!
-        if (event.crownstone.switchState !== null) {
-          let switchPairs: SwitchPair[] = [{crownstoneId: event.crownstone.uid, switchState: event.crownstone.switchState}];
+        LOG.info("switchCrownstoneEvent received: ", event)
+        let switchState = event.crownstone.switchState;
+        if (switchState !== null) {
+          let switchPairs: SwitchData[] = [];
+          if (switchState == 1) {
+            switchPairs.push({ type:"TURN_ON", crownstoneId: event.crownstone.uid });
+          }
+          else {
+            switchPairs.push({ type:"DIMMING", crownstoneId: event.crownstone.uid, switchState: switchState });
+          }
           CrownstoneHub.uart.switchCrownstones(switchPairs)
         }
         break;

@@ -1,3 +1,7 @@
 
+export DEBUG="crownstone*"
+export DEBUG_HIDE_DATE="false"
+export DEBUG_LEVEL="INFO"
+export DEBUG_JSON="false"
 
-./node_modules/.bin/supervisor -r source-map-support/register .
+unbuffer nodemon -r source-map-support/register -i ./logs . > >(tee -a ./logs/log.log) 2> >(tee -a ./logs/log.log >&2)

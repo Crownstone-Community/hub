@@ -1,12 +1,10 @@
-import {HubRepository} from '../../repositories/hub.repository';
-import {PowerDataRepository} from '../../repositories/power-data.repository';
-import {EnergyDataRepository} from '../../repositories/energy-data.repository';
-import {UserRepository} from '../../repositories';
+import {EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from '../../repositories';
 
 class DbReferenceClass {
-  hub    : HubRepository
-  power  : PowerDataRepository
-  energy : EnergyDataRepository
-  user   : UserRepository
+  hub      : HubRepository
+  power    : PowerDataRepository
+  energy   : EnergyDataRepository
+  switches : SwitchDataRepository
+  user     : UserRepository
 }
 export const DbRef = new DbReferenceClass();

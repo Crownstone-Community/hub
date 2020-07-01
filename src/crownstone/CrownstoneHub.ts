@@ -1,31 +1,31 @@
 import {Uart} from './Uart/Uart';
 import {CloudManager} from './Cloud/CloudManager';
-import {eventBus} from './EventBus';
-import {topics} from './topics';
 import {DbRef} from './Data/DbReference';
-
+import {MeshMonitor} from './MeshMonitor/MeshMonitor';
+const LOG = require('debug-level')('crownstone-hub-base')
 
 class CrownstoneHubClass {
   uart     : Uart;
   cloud    : CloudManager;
+  mesh     : MeshMonitor;
 
   launched = false
-  eventsRegistered = false
 
   constructor() {
     this.uart     = new Uart();
     this.cloud    = new CloudManager()
+    this.mesh     = new MeshMonitor()
   }
 
 
   async initialize() {
-    console.log("Launching Modules");
+    LOG.info("Launching Modules");
     if (this.launched === false) {
       // execute modules
       await this.uart.initialize();
-      console.log("Uart initialized")
+      LOG.info("Uart initialized")
       await this.cloud.initialize();
-      console.log("Cloud initialized")
+      LOG.info("Cloud initialized")
 
       this.launched = true;
     }

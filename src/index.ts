@@ -2,10 +2,7 @@ import {CrownstoneHubApplication} from './application';
 import {ApplicationConfig} from '@loopback/core';
 import * as fs from 'fs';
 import {verifyCertificate} from './security/VerifyCertificates';
-import {HubRepository} from './repositories/hub.repository';
-import {PowerDataRepository} from './repositories/power-data.repository';
-import {EnergyDataRepository} from './repositories/energy-data.repository';
-import {UserRepository} from './repositories';
+import {EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 
@@ -29,10 +26,11 @@ export async function main(options: ApplicationConfig = {}) {
 
   const url = app.restServer.url;
 
-  DbRef.hub    = await app.getRepository(HubRepository)
-  DbRef.power  = await app.getRepository(PowerDataRepository)
-  DbRef.energy = await app.getRepository(EnergyDataRepository)
-  DbRef.user   = await app.getRepository(UserRepository)
+  DbRef.hub      = await app.getRepository(HubRepository)
+  DbRef.power    = await app.getRepository(PowerDataRepository)
+  DbRef.energy   = await app.getRepository(EnergyDataRepository)
+  DbRef.user     = await app.getRepository(UserRepository)
+  DbRef.switches = await app.getRepository(SwitchDataRepository)
 
   await CrownstoneHub.initialize();
 

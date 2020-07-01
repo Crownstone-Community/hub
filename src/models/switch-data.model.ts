@@ -9,8 +9,8 @@ export class SwitchData extends Entity {
   @property({type: 'string', id: true})
   id: string;
 
-  @property({type: 'string', required: true})
-  stoneUID: string;
+  @property({type: 'number', required: true})
+  stoneUID: number;
 
   @property({type: 'number'})
   switchState: number;

@@ -61,6 +61,7 @@
     "crownstone-sse": "file:../crownstone-lib-nodejs-sse",
     "crownstone-uart": "file:../crownstone-lib-nodejs-uart",
     "debug": "^4.1.1",
+    "debug-level": "^0.3.1",
     "loopback-connector-mongodb": "^5.2.3",
     "tslib": "^2.0.0"
   },
@@ -76,8 +77,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-eslint-plugin": "^2.2.2",
     "eslint-plugin-mocha": "^7.0.1",
+    "nodemon": "^2.0.4",
     "source-map-support": "^0.5.19",
-    "supervisor": "^0.12.0",
     "typescript": "^3.9.5"
   }
 }

@@ -1,7 +1,8 @@
 import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
+import {eventBus} from '../EventBus';
 
-const log = require('debug-level')('bridge')
+const LOG = require('debug-level')('crownstone-uart-bridge')
 
 interface SwitchPair {
   crownstoneId: number,
@@ -22,26 +23,25 @@ export class Uart {
 
   forwardEvents() {
     // generate a list of topics that can be remapped from uart to lib.
-    // let eventsToForward = [
-    //   {bluenetTopic: "MeshServiceData", moduleTopic: "MeshServiceData"},
-    // ];
-    //
-    // // forward all required events to the module eventbus.
-    // eventsToForward.forEach((event) => {
-    //   let moduleEvent = event.moduleTopic;
-    //   if (!event.moduleTopic) {
-    //     moduleEvent = event.bluenetTopic;
-    //   }
-    //   this.uart.on(event.bluenetTopic, (data) => { this.internalEventBus.emit(moduleEvent, data); })
-    // });
+    let eventsToForward = [
+      {uartTopic: "MeshServiceData", moduleTopic: "MESH_SERVICE_DATA"},
+    ];
 
+    // forward all required events to the module eventbus.
+    eventsToForward.forEach((event) => {
+      let moduleEvent = event.moduleTopic;
+      if (!event.moduleTopic) {
+        moduleEvent = event.uartTopic;
+      }
+      this.uart.on(event.uartTopic, (data) => { eventBus.emit(moduleEvent, data); })
+    });
   }
 
 
   async initialize() {
     try {
       await this.uart.start()
-      log.info("Uart is ready")
+      LOG.info("Uart is ready")
       this.ready = true;
     }
     catch (err) {
@@ -51,10 +51,11 @@ export class Uart {
   }
 
 
-  async switchCrownstones(switchPairs : SwitchPair[]) {
+  async switchCrownstones(switchPairs : SwitchData[]) {
     if (!this.ready) { throw "NOT_READY"; }
 
     return this.queue.register(() => {
+      LOG.info("Dispatching switchAction", switchPairs);
       return this.uart.switchCrownstones(switchPairs);
     });
   }

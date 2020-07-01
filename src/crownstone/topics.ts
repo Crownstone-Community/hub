@@ -7,4 +7,6 @@ export const topics = {
 
   HUB_CREATED         : "HUB_CREATED",
   HUB_DELETED         : "HUB_DELETED",
+
+  MESH_SERVICE_DATA   : "MESH_SERVICE_DATA",
 }
