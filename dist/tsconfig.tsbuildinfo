@@ -2056,7 +2056,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "19ec4fba63fa56523d2a03284767baad61bb1df8b92b6919bb58ffce113f0355",
+        "version": "c3d892e54b8f9554bb6cd81a21cf6e0964153b2c33a4ad9517b24db0007f5a49",
         "signature": "abed36326449101e7f398a60af0ad7880b36c91f370152e72fc3b35bafd2efcb",
         "affectsGlobalScope": false
       },

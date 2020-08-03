@@ -38,7 +38,7 @@ export class CloudManager {
   interval_ip   : Timeout | null = null;
 
   constructor() {
-    this.cloud = new CrownstoneCloud("http://localhost:3000/api/")
+    this.cloud = new CrownstoneCloud("https://cloud.crownstone.rocks/api/")
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();

@@ -26,7 +26,7 @@ class CloudManager {
         this.intervalsRegistered = false;
         this.interval_sync = null;
         this.interval_ip = null;
-        this.cloud = new crownstone_cloud_1.CrownstoneCloud("http://localhost:3000/api/");
+        this.cloud = new crownstone_cloud_1.CrownstoneCloud("https://cloud.crownstone.rocks/api/");
         this.sseEventHandler = new SseEventHandler_1.SseEventHandler();
         this.setupEvents();
     }
