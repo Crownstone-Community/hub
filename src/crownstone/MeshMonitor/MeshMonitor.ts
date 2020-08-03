@@ -29,13 +29,12 @@ export class MeshMonitor {
 
   setupEvents() {
     if (this.eventsRegistered === false) {
-      eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); });
+      // eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); });
       this.eventsRegistered = true;
     }
   }
 
   gather(data: ServiceDataJson) {
-
     let crownstoneId = data.crownstoneId;
     LOG.debug("Received data from", crownstoneId)
     this.power.collect(crownstoneId, data.powerUsageReal, data.powerFactor);

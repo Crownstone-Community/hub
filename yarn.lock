@@ -1590,7 +1590,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "0.4.0"
   dependencies:
     cross-fetch "^3.0.4"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-cloud-0.4.0-1db780c3-e199-487c-89be-1eeab2667f46-1593619674953/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-cloud-0.4.0-8dee104f-8311-420c-a68d-0b799e8ef5d6-1594842502125/node_modules/crownstone-lib-nodejs-core"
     debug-level "^0.3.1"
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
@@ -1612,7 +1612,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "0.4.0"
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.4.0-2f9304b7-2d94-4a0a-9d7b-b3d35711b1a9-1593619675950/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.4.0-b28f8afc-61d9-4bc7-875c-e293e059c683-1594842502242/node_modules/crownstone-lib-nodejs-core"
     debug-level "^0.3.1"
     serialport "9.0.0"
 
@@ -4935,7 +4935,12 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.7.5, typescript@^3.9.5, typescript@~3.9.3:
+typescript@^3.7.5:
+  version "3.9.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.6.tgz#8f3e0198a34c3ae17091b35571d3afd31999365a"
+  integrity sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
+
+typescript@^3.9.5, typescript@~3.9.3:
   version "3.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
   integrity sha512-hSAifV3k+i6lEoCJ2k6R2Z/rp/H3+8sdmcn5NrS3/3kE7+RyZXm9aqvxWqjEXHAd8b0pShatpcdMTvEdvAJltQ==

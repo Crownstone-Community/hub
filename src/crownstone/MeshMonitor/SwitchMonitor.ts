@@ -2,12 +2,12 @@ import {DbRef} from '../Data/DbReference';
 
 
 export class SwitchMonitor {
-  lastSwitchState : number | null = null
+  lastSwitchStates : {[key:number]: number} = {};
 
   collect( crownstoneId: number, switchState: number ) {
-    if (switchState !== this.lastSwitchState) {
-      DbRef.switches.create({ stoneUID: crownstoneId, switchState: switchState});
-      this.lastSwitchState = switchState;
+    if (switchState !== this.lastSwitchStates[crownstoneId]) {
+      DbRef.switches.create({ stoneUID: crownstoneId, switchState: switchState, timestamp: new Date() });
+      this.lastSwitchStates[crownstoneId] = switchState;
     }
   }
 }

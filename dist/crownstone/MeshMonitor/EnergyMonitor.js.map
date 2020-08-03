@@ -1,0 +1,1 @@
+{"version":3,"file":"EnergyMonitor.js","sourceRoot":"","sources":["../../../src/crownstone/MeshMonitor/EnergyMonitor.ts"],"names":[],"mappings":";;;AAAA,qDAA0C;AAG1C,MAAa,aAAa;IAExB,OAAO,CAAC,YAAoB,EAAE,iBAAyB;QACrD,mBAAK,CAAC,MAAM,CAAC,MAAM,CAAC,EAAE,QAAQ,EAAE,YAAY,EAAE,WAAW,EAAE,iBAAiB,EAAE,SAAS,EAAE,IAAI,IAAI,EAAE,EAAE,CAAC,CAAA;IACxG,CAAC;CAEF;AAND,sCAMC"}
