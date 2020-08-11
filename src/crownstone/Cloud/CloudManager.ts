@@ -1,5 +1,5 @@
-import {CrownstoneSSE} from 'crownstone-sse/dist';
 import {CrownstoneCloud, REST} from 'crownstone-cloud';
+import {CrownstoneSSE} from 'crownstone-sse';
 import {DbRef} from '../Data/DbReference';
 import {Hub} from '../../models/hub.model';
 import {MemoryDb} from '../Data/MemoryDb';

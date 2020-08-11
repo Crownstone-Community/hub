@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudManager = void 0;
-const dist_1 = require("crownstone-sse/dist");
 const crownstone_cloud_1 = require("crownstone-cloud");
+const crownstone_sse_1 = require("crownstone-sse");
 const DbReference_1 = require("../Data/DbReference");
 const MemoryDb_1 = require("../Data/MemoryDb");
 const Util_1 = require("../../util/Util");
@@ -159,7 +159,7 @@ class CloudManager {
         this.sseSetupInprogress = true;
         LOG.info("Cloudmanager SSE setup started.");
         if (this.sse === null) {
-            this.sse = new dist_1.CrownstoneSSE({ hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false });
+            this.sse = new crownstone_sse_1.CrownstoneSSE({ hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false });
         }
         let sseLoggedIn = false;
         while (sseLoggedIn == false && this.resetTriggered === false) {

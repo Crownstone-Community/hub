@@ -1605,16 +1605,16 @@ crownstone-core@^0.4.0:
     aes-js "^3.1.1"
 
 crownstone-sse@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.1.tgz#8a23d1e6a023d61cdeeba037f79106b1f55a3707"
-  integrity sha512-IaR4OQWcT6IdlcuucD809aK+qTy5Qzg/5JPGd2L0D9ByYkhvD4+zsEKq1XOoIxPXUUN0nVr23cx9AI+g4uIFTQ==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.2.tgz#5d5d1a199dc9fa0c7910f4c718b01f304f502e1e"
+  integrity sha512-/+F9TcPKd0DBUqcVjTamMtTAoM03c0cmTqIlQE/vQp2IPf3GhNSL+qjyYjYDX9NuXp+4sCXCwtK8enH+cBBejA==
   dependencies:
     cross-fetch "^3.0.4"
     debug-level "^0.3.1"
     eventsource "^1.0.7"
     typescript "^3.7.5"
 
-crownstone-uart@0.4.1:
+crownstone-uart@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.1.tgz#7e87712a49b8f3b0292d6149d775e6238ce44963"
   integrity sha512-pAMA9qo543VKEiJl7Z8DpQUo/Ol0ZVkt8DDW1silmayMwqVaZaU37vu/7mWZBAxqiG5UB8aczDwDB+Wr9pmQuQ==
@@ -4944,9 +4944,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 typescript@^3.7.5:
-  version "3.9.6"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.6.tgz#8f3e0198a34c3ae17091b35571d3afd31999365a"
-  integrity sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typescript@^3.9.5, typescript@~3.9.3:
   version "3.9.5"

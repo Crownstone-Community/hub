@@ -2010,21 +2010,6 @@
         "signature": "791f4a55c6850051678d66020062927391fa8b01f8915068da8741e97fe67258",
         "affectsGlobalScope": false
       },
-      "../node_modules/crownstone-sse/src/declarations/declarations.d.ts": {
-        "version": "8968ea1799bce1ab4a674ce19f153c2bf6b8c00a1cbf9fc4da1a64f9bf0af5ec",
-        "signature": "8968ea1799bce1ab4a674ce19f153c2bf6b8c00a1cbf9fc4da1a64f9bf0af5ec",
-        "affectsGlobalScope": true
-      },
-      "../node_modules/crownstone-sse/dist/crownstonesse.d.ts": {
-        "version": "a81c9963491fc3e7887cf29a8ce047ba5a515cde1232091fc96f336758db21fa",
-        "signature": "a81c9963491fc3e7887cf29a8ce047ba5a515cde1232091fc96f336758db21fa",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/crownstone-sse/dist/index.d.ts": {
-        "version": "877f1b8a76fb074b3946d037e9d28e99a73820ddea70f150a29c143af9c7d90a",
-        "signature": "877f1b8a76fb074b3946d037e9d28e99a73820ddea70f150a29c143af9c7d90a",
-        "affectsGlobalScope": false
-      },
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts": {
         "version": "d58f87d7afc7a85a7826c26bfedce07fffc03b85ebe28e9921007383f3076a43",
         "signature": "d58f87d7afc7a85a7826c26bfedce07fffc03b85ebe28e9921007383f3076a43",
@@ -2038,6 +2023,21 @@
       "../node_modules/crownstone-cloud/dist/index.d.ts": {
         "version": "d94d3d1a9c6f2f5ea165358ad5837ef6635a1ff1415b5082c266ff5c619775b4",
         "signature": "d94d3d1a9c6f2f5ea165358ad5837ef6635a1ff1415b5082c266ff5c619775b4",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-sse/src/declarations/declarations.d.ts": {
+        "version": "d9fadc7f7da2fcac3bab38cfd97a74f9ba3002f1f6bcf041bb937e2d2802549d",
+        "signature": "d9fadc7f7da2fcac3bab38cfd97a74f9ba3002f1f6bcf041bb937e2d2802549d",
+        "affectsGlobalScope": true
+      },
+      "../node_modules/crownstone-sse/dist/crownstonesse.d.ts": {
+        "version": "ede907dd9fc91ef0c905b906585791ad3e53c728bb9d3338f1dc8742c0c1ece1",
+        "signature": "ede907dd9fc91ef0c905b906585791ad3e53c728bb9d3338f1dc8742c0c1ece1",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-sse/dist/index.d.ts": {
+        "version": "877f1b8a76fb074b3946d037e9d28e99a73820ddea70f150a29c143af9c7d90a",
+        "signature": "877f1b8a76fb074b3946d037e9d28e99a73820ddea70f150a29c143af9c7d90a",
         "affectsGlobalScope": false
       },
       "../src/crownstone/data/memorydb.ts": {
@@ -2056,8 +2056,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "4b1e742950f9cabb2fe9efe3dba4e30882635e5883dbd6eecb6fe784f6f575ec",
-        "signature": "abed36326449101e7f398a60af0ad7880b36c91f370152e72fc3b35bafd2efcb",
+        "version": "dc8e7d4c9e4dee84ced53b3fa8b27990655d5dd7b43c66f5b9864a3f3c4c6a12",
+        "signature": "1f01d1354c3da41202d1aebc1cce5c2b1277b27064680ca0130a975c269ae7ba",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/powermonitor.ts": {
@@ -2496,6 +2496,7 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
+      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {

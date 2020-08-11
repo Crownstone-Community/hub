@@ -10,6 +10,7 @@
   "include": [
     "src",
     "node_modules/crownstone-core/src/declarations/declarations.d.ts",
-    "node_modules/crownstone-cloud/src/declarations/**/*"
+    "node_modules/crownstone-cloud/src/declarations/**/*",
+    "node_modules/crownstone-sse/src/declarations/**/*"
   ]
 }

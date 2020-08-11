@@ -1,1 +1,0 @@
-{"version":3,"file":"ModuleBaseClass.js","sourceRoot":"","sources":["../../src/modules/ModuleBaseClass.ts"],"names":[],"mappings":";;;AAGA,MAAa,UAAU;IAGrB,YAAY,QAAuB;QACjC,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;IAC3B,CAAC;IAED,oFAAoF;IACpF,UAAU;QACR,OAAO,OAAO,CAAC,OAAO,EAAE,CAAA;IAC1B,CAAC;CAEF;AAZD,gCAYC"}
