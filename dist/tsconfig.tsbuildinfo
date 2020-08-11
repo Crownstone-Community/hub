@@ -1877,7 +1877,7 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/switch-data.repository.ts": {
-        "version": "d544a1f742bfa035a957a1a6d4fb90261582809e722de073e909b44c2af3571c",
+        "version": "c11829b95f4dc2d52df4f2eb891463e894619ef0b9be6c725a76886828e02efd",
         "signature": "2db39101a4e1796eb4e41914f025a11480dc069a2ff0e0b3c1c30972e7d6c90a",
         "affectsGlobalScope": false
       },
@@ -2056,7 +2056,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "c3d892e54b8f9554bb6cd81a21cf6e0964153b2c33a4ad9517b24db0007f5a49",
+        "version": "4b1e742950f9cabb2fe9efe3dba4e30882635e5883dbd6eecb6fe784f6f575ec",
         "signature": "abed36326449101e7f398a60af0ad7880b36c91f370152e72fc3b35bafd2efcb",
         "affectsGlobalScope": false
       },
@@ -2496,7 +2496,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {

@@ -1586,33 +1586,41 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-"crownstone-cloud@file:../crownstone-lib-nodejs-cloud":
-  version "0.4.0"
+crownstone-cloud@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.4.1.tgz#826b45c071aed0bf3c550d4cf81e1135869b94e8"
+  integrity sha512-E/btAzFQPnl/s0MsjIbjEKDjTbBYEs/mkilME5nk3zRpr7+7Ubwyt+ud5AfQ3Y6Bvi1USn6x8rokQKYKB5FEJQ==
   dependencies:
     cross-fetch "^3.0.4"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-cloud-0.4.0-8dee104f-8311-420c-a68d-0b799e8ef5d6-1594842502125/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "^0.4.0"
     debug-level "^0.3.1"
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-"crownstone-core@file:../crownstone-lib-nodejs-core":
+crownstone-core@^0.4.0:
   version "0.4.0"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.4.0.tgz#1a0c380146f5d73f822825f8ef9d7e67e01e9d44"
+  integrity sha512-6//dZH227D+YB1gX8UqvLvNug8bLrZ8Yyo8yDN0suAWs6GcGoHX9B6LndogHEKymcz/uebVrhPPA9JxYzHUAtg==
   dependencies:
     aes-js "^3.1.1"
 
-"crownstone-sse@file:../crownstone-lib-nodejs-sse":
-  version "3.0.0"
+crownstone-sse@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.1.tgz#8a23d1e6a023d61cdeeba037f79106b1f55a3707"
+  integrity sha512-IaR4OQWcT6IdlcuucD809aK+qTy5Qzg/5JPGd2L0D9ByYkhvD4+zsEKq1XOoIxPXUUN0nVr23cx9AI+g4uIFTQ==
   dependencies:
     cross-fetch "^3.0.4"
     debug-level "^0.3.1"
     eventsource "^1.0.7"
     typescript "^3.7.5"
 
-"crownstone-uart@file:../crownstone-lib-nodejs-uart":
-  version "0.4.0"
+crownstone-uart@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.1.tgz#7e87712a49b8f3b0292d6149d775e6238ce44963"
+  integrity sha512-pAMA9qo543VKEiJl7Z8DpQUo/Ol0ZVkt8DDW1silmayMwqVaZaU37vu/7mWZBAxqiG5UB8aczDwDB+Wr9pmQuQ==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.4.0-b28f8afc-61d9-4bc7-875c-e293e059c683-1594842502242/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "^0.4.0"
     debug-level "^0.3.1"
     serialport "9.0.0"
 

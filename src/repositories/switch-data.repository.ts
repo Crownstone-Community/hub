@@ -11,4 +11,3 @@ export class SwitchDataRepository extends DefaultCrudRepository<SwitchData,typeo
   }
 
 }
-
