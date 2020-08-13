@@ -11,13 +11,13 @@ const DbReference_1 = require("./crownstone/Data/DbReference");
 const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
-    await VerifyCertificates_1.verifyCertificate();
+    let path = await VerifyCertificates_1.verifyCertificate();
     let httpsOptions = {
         rest: {
             ...options.rest,
             protocol: 'https',
-            key: fs.readFileSync('./src/https/key.pem'),
-            cert: fs.readFileSync('./src/https/cert.pem'),
+            key: fs.readFileSync(path + '/key.pem'),
+            cert: fs.readFileSync(path + '/cert.pem'),
         },
     };
     const app = new application_1.CrownstoneHubApplication(httpsOptions);

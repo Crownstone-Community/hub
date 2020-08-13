@@ -1,1 +1,1 @@
-export declare function verifyCertificate(): Promise<void>;
+export declare function verifyCertificate(): Promise<string>;

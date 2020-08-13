@@ -1946,8 +1946,8 @@
         "affectsGlobalScope": false
       },
       "../src/security/verifycertificates.ts": {
-        "version": "d1411d5d2bb2060b2b5ed1b8d3e1cbffe7c9b42a60d00d2b0a389a4010df73bf",
-        "signature": "0eac068e522852471bc8d3d35512701f64e555c7aad069ccb2a4633356c98e0c",
+        "version": "e425a559f0b0b6b8c264ec2b58ea8035b022bade6ce763f0b972f92909f43b50",
+        "signature": "e458d8a7091c64deea3087d9c7c76f36220a4d7baa40b5bf987f41bd8cd12667",
         "affectsGlobalScope": false
       },
       "../src/crownstone/data/dbreference.ts": {
@@ -2091,7 +2091,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "03072f4f9911fcc28954363ea9bd2ac24c7a733e1b9d939ca0d3a8ccb3d2c7e9",
+        "version": "44a43ff49fe558c4028f4fd3e2612776f79f30e2b75d13b82032bbb0b557dc99",
         "signature": "2254a80d1603316588f28f708704f4d1b3b293306753a55f6a0b8d87ce2d93d8",
         "affectsGlobalScope": false
       },

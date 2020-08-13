@@ -9,14 +9,14 @@ import {CrownstoneHub} from './crownstone/CrownstoneHub';
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
 export async function main(options: ApplicationConfig = {}) {
-  await verifyCertificate();
+  let path = await verifyCertificate();
 
   let httpsOptions = {
     rest: {
       ...options.rest,
       protocol: 'https',
-      key:  fs.readFileSync('./src/https/key.pem'),
-      cert: fs.readFileSync('./src/https/cert.pem'),
+      key:  fs.readFileSync(path + '/key.pem'),
+      cert: fs.readFileSync(path + '/cert.pem'),
     },
   };
 
