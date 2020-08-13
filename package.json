@@ -7,6 +7,9 @@
     "loopback"
   ],
   "main": "index.js",
+  "bin": {
+    "runHub": "execute.js"
+  },
   "engines": {
     "node": ">=10"
   },
@@ -29,7 +32,7 @@
     "docker:run": "docker run -p 3000:3000 -d crownstone-hub",
     "migrate": "node ./dist/migrate",
     "prestart": "npm run build",
-    "start": "node -r source-map-support/register .",
+    "start": "node execute.js",
     "prepublishOnly": "npm run test"
   },
   "repository": {
