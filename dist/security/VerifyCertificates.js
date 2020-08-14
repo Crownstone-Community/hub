@@ -25,8 +25,9 @@ function stripTrailingSlash(path) {
 }
 async function generateSelfSignedCertificatePair(dir) {
     console.log("Generating self-signed certificate pair...");
-    let command = "req -newkey rsa:2048 -nodes -keyout " + dir + "/key.pem -x509 -days 18500 -out " + dir + "/cert.pem";
-    let input = ["NL", "Zuid-Holland", "Rotterdam", "Crownstone", "Hub v1", "", "ask@crownstone.rocks"];
+    let command = "req -config openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
+    //let input = ["NL", "Zuid-Holland", "Rotterdam", "Crownstone", "Hub v1", "", "ask@crownstone.rocks"];
+    let input = [];
     return new Promise((resolve, reject) => {
         // @ts-ignore
         runOpenSSLCommand(command, input.reverse(), (something, other) => {
