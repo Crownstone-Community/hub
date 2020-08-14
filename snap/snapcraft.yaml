@@ -1,0 +1,50 @@
+name: crownstone-hub
+version: '0.0.1'
+summary: Crownstone gateway.
+description: |
+  Provides a REST API for your Crownstones: https://crownstone.rocks
+  This snap is made to run on the Crownstone Hub, which enables:
+
+    * Energy monitoring.
+    * Integration with other smart home devices.
+    * Control via the internet.
+
+  Requires a Crownstone USB dongle to connect to your Crownstones via the mesh.
+
+base: core18
+grade: stable
+confinement: strict
+
+#plugs:
+#    home:
+#    network:
+#    network-bind:
+
+parts:
+  crownstone-hub:
+    # See 'snapcraft plugins'
+    plugin: nodejs
+    nodejs-version: "12.18.3"
+    nodejs-package-manager: yarn
+    nodejs-yarn-version: "v1.22.4"
+#    source: https://github.com/crownstone/hub.git
+    source: .
+    source-type: local
+
+#    build-packages:
+#    stage-packages:
+
+apps:
+  crownstone-hub:
+    command: runHub
+    environment:
+      LANG: C.UTF-8
+      HTTPS_CERTIFICATE_PATH: $SNAP_USER_COMMON
+    plugs:
+      - network
+      - network-bind
+      - serial-port
+
+  mytest:
+    command: echo "bla" > $SNAP_COMMON/bla.txt
+
