@@ -1945,8 +1945,13 @@
         "signature": "7e2cac665c6fb0c4ea69f03d732342a1d3bbc809582e77477de36f308fa60050",
         "affectsGlobalScope": false
       },
+      "../src/config.ts": {
+        "version": "39f2e5e79ca8316f5bcc44df5055793dad36973054294032888de241e98f1cbf",
+        "signature": "a9e097f4ccc00ca3e9acd40103158379a1a44539ad532085da707fa5043bdea2",
+        "affectsGlobalScope": false
+      },
       "../src/security/verifycertificates.ts": {
-        "version": "e425a559f0b0b6b8c264ec2b58ea8035b022bade6ce763f0b972f92909f43b50",
+        "version": "e8c6e93114a1c21d8bd668e5d942f32901e6e87a4438c816fa7dd69fd2411f11",
         "signature": "e458d8a7091c64deea3087d9c7c76f36220a4d7baa40b5bf987f41bd8cd12667",
         "affectsGlobalScope": false
       },
@@ -1971,8 +1976,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts": {
-        "version": "dcb322f8301547de7473c61b26190eb9cde3522d9c1e5348b503b2fe85c0b57f",
-        "signature": "dcb322f8301547de7473c61b26190eb9cde3522d9c1e5348b503b2fe85c0b57f",
+        "version": "7c415f3f5935774864abff99d6f7370f27a1003cee0b1c65961c731dfced915b",
+        "signature": "7c415f3f5935774864abff99d6f7370f27a1003cee0b1c65961c731dfced915b",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartmanager.d.ts": {
@@ -1981,8 +1986,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/crownstoneuart.d.ts": {
-        "version": "1b9bdba812ec70e625e5de1a6d0cf25bbae148fb0e2caeb10e0088ab5f7a9a90",
-        "signature": "1b9bdba812ec70e625e5de1a6d0cf25bbae148fb0e2caeb10e0088ab5f7a9a90",
+        "version": "c411d2513e8af4e05f1c0e41a86c9f0e9106c741601a2b4dae60a5908cfdf205",
+        "signature": "c411d2513e8af4e05f1c0e41a86c9f0e9106c741601a2b4dae60a5908cfdf205",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/index.d.ts": {
@@ -2006,7 +2011,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/uart/uart.ts": {
-        "version": "bf4cd62cc6df5799333d3fc3e5864d9bad840d353ff29253624aad3220526d70",
+        "version": "f1ba0999cd0241bba1fbb24f4b40812a86b439ab97443996f5fe4e3995461275",
         "signature": "791f4a55c6850051678d66020062927391fa8b01f8915068da8741e97fe67258",
         "affectsGlobalScope": false
       },
@@ -2091,7 +2096,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "44a43ff49fe558c4028f4fd3e2612776f79f30e2b75d13b82032bbb0b557dc99",
+        "version": "d05a87ebd8dff9f1d9d6b754f37c062e8c98d3eea58f2143ed148468dc52becb",
         "signature": "2254a80d1603316588f28f708704f4d1b3b293306753a55f6a0b8d87ce2d93d8",
         "affectsGlobalScope": false
       },
@@ -6381,6 +6386,12 @@
         "../src/sequence.ts",
         "../src/services/index.ts"
       ],
+      "../src/config.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../src/controllers/hub.controller.ts": [
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../node_modules/@loopback/repository/src/common-types.ts",
@@ -6568,6 +6579,7 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/crownstone-uart/dist/index.d.ts",
+        "../src/config.ts",
         "../src/crownstone/eventbus.ts",
         "../src/crownstone/uart/promisemanager.ts"
       ],
@@ -6768,7 +6780,8 @@
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
-        "../node_modules/@types/node/util.d.ts"
+        "../node_modules/@types/node/util.d.ts",
+        "../src/config.ts"
       ],
       "../src/sequence.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
@@ -11237,6 +11250,7 @@
       "../src/__tests__/acceptance/ping.controller.acceptance.ts",
       "../src/__tests__/acceptance/test-helper.ts",
       "../src/application.ts",
+      "../src/config.ts",
       "../src/controllers/hub.controller.ts",
       "../src/controllers/index.ts",
       "../src/controllers/localization.controller.ts",

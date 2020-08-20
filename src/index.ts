@@ -11,6 +11,8 @@ Error.stackTraceLimit = 100;
 export async function main(options: ApplicationConfig = {}) {
   let path = await verifyCertificate();
 
+  console.log("USING", path + '/key.pem', path + '/cert.pem')
+
   let httpsOptions = {
     rest: {
       ...options.rest,

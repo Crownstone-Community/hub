@@ -12,6 +12,7 @@ const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
     let path = await VerifyCertificates_1.verifyCertificate();
+    console.log("USING", path + '/key.pem', path + '/cert.pem');
     let httpsOptions = {
         rest: {
             ...options.rest,

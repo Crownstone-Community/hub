@@ -62,7 +62,7 @@
     "@loopback/service-proxy": "^2.3.1",
     "crownstone-cloud": "^0.4.1",
     "crownstone-sse": "^3.0.2",
-    "crownstone-uart": "^0.4.1",
+    "crownstone-uart": "^0.4.4",
     "debug": "^4.1.1",
     "debug-level": "^0.3.1",
     "loopback-connector-mongodb": "^5.2.3",

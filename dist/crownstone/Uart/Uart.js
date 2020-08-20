@@ -4,6 +4,7 @@ exports.Uart = void 0;
 const crownstone_uart_1 = require("crownstone-uart");
 const PromiseManager_1 = require("./PromiseManager");
 const EventBus_1 = require("../EventBus");
+const config_1 = require("../../config");
 const LOG = require('debug-level')('crownstone-uart-bridge');
 class Uart {
     constructor() {
@@ -28,7 +29,7 @@ class Uart {
     }
     async initialize() {
         try {
-            await this.uart.start();
+            await this.uart.start(config_1.CONFIG.uartPort);
             LOG.info("Uart is ready");
             this.ready = true;
         }

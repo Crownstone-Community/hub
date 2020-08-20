@@ -4,8 +4,9 @@ exports.verifyCertificate = void 0;
 const tslib_1 = require("tslib");
 const fs = tslib_1.__importStar(require("fs"));
 const child_process_1 = require("child_process");
+const config_1 = require("../config");
 async function verifyCertificate() {
-    let certificatePath = stripTrailingSlash(process.env.HTTPS_CERTIFICATE_PATH || stripTrailingSlash(__dirname) + "/https");
+    let certificatePath = stripTrailingSlash(config_1.CONFIG.httpsCertificatePath || stripTrailingSlash(__dirname) + "/https");
     let pathExists = fs.existsSync(certificatePath);
     if (!pathExists) {
         fs.mkdirSync(certificatePath);
@@ -24,16 +25,12 @@ function stripTrailingSlash(path) {
     return path;
 }
 async function generateSelfSignedCertificatePair(dir) {
-    console.log(process.cwd());
-    console.log(__dirname);
     console.log("Generating self-signed certificate pair...");
-    let confPath = process.env.DEFAULT_CONFIG_PATH || "config";
+    let confPath = config_1.CONFIG.sslConfigPath || "config";
     let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
-    //let input = ["NL", "Zuid-Holland", "Rotterdam", "Crownstone", "Hub v1", "", "ask@crownstone.rocks"];
-    let input = [];
     return new Promise((resolve, reject) => {
         // @ts-ignore
-        runOpenSSLCommand(command, input.reverse(), (something, other) => {
+        runOpenSSLCommand(command, (something, other) => {
             console.log("Generated self-signed certificate pair!", something, other);
             resolve();
         });
@@ -63,27 +60,18 @@ let normalizeCommand = function (command) {
     }
     return outcmd;
 };
-let runOpenSSLCommand = function (cmd, input, callback) {
+let runOpenSSLCommand = function (cmd, callback) {
     const stdoutbuff = [];
     const stderrbuff = [];
     let terminate = false;
     const shell = child_process_1.spawn('openssl', normalizeCommand(cmd));
-    let writeTimeout = null;
+    console.log("openssl", cmd);
     shell.stderr.on('data', function (data) {
-        clearTimeout(writeTimeout);
-        writeTimeout = setTimeout(function () {
-            if (input.length > 0) {
-                shell.stdin.write(input[input.length - 1] + "\n");
-                input.pop();
-            }
-            else {
-                shell.stdin.write("\n");
-            }
-        }, 300);
         stderrbuff.push(data.toString());
+        // console.log(data.toString())
     });
     shell.on('exit', function (code) {
-        clearTimeout(writeTimeout);
+        console.log("EXIT", code, 'openssl ' + cmd);
         if (terminate && code == null) {
             code = 0;
         }

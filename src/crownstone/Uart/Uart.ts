@@ -1,6 +1,7 @@
 import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
 import {eventBus} from '../EventBus';
+import {CONFIG} from '../../config';
 
 const LOG = require('debug-level')('crownstone-uart-bridge')
 
@@ -40,7 +41,7 @@ export class Uart {
 
   async initialize() {
     try {
-      await this.uart.start()
+      await this.uart.start(CONFIG.uartPort)
       LOG.info("Uart is ready")
       this.ready = true;
     }

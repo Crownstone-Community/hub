@@ -1,9 +1,10 @@
 import * as fs from "fs";
 import {spawn} from "child_process";
+import {CONFIG} from '../config';
 
 
 export async function verifyCertificate() : Promise<string> {
-  let certificatePath = stripTrailingSlash(process.env.HTTPS_CERTIFICATE_PATH || stripTrailingSlash(__dirname) + "/https");
+  let certificatePath = stripTrailingSlash(CONFIG.httpsCertificatePath || stripTrailingSlash(__dirname) + "/https");
 
   let pathExists = fs.existsSync(certificatePath)
   if (!pathExists) {
@@ -26,11 +27,11 @@ function stripTrailingSlash(path: string) : string {
 
 async function generateSelfSignedCertificatePair(dir: string) {
   console.log("Generating self-signed certificate pair...")
-  let command = "req -newkey rsa:2048 -nodes -keyout " + dir + "/key.pem -x509 -days 18500 -out " + dir + "/cert.pem";
-  let input = ["NL","Zuid-Holland","Rotterdam","Crownstone","Hub v1","","ask@crownstone.rocks"]
+  let confPath = CONFIG.sslConfigPath || "config";
+  let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
   return new Promise((resolve, reject) => {
     // @ts-ignore
-    runOpenSSLCommand(command, input.reverse(), (something, other) => {
+    runOpenSSLCommand(command,(something, other) => {
       console.log("Generated self-signed certificate pair!", something, other)
       resolve();
     })
@@ -61,29 +62,20 @@ let normalizeCommand = function(command : string) {
   return outcmd;
 }
 
-let runOpenSSLCommand = function(cmd : string, input: string[], callback : (err : false | any, result: any) => void) {
+let runOpenSSLCommand = function(cmd : string, callback : (err : false | any, result: any) => void) {
   const stdoutbuff: string[] = [];
   const stderrbuff: string[] = [];
   let terminate = false;
   const shell = spawn( 'openssl', normalizeCommand(cmd) );
 
-  let writeTimeout : any = null;
+  console.log("openssl",cmd)
   shell.stderr.on('data', function(data) {
-    clearTimeout(writeTimeout)
-    writeTimeout = setTimeout(function() {
-      if (input.length > 0) {
-        shell.stdin.write(input[input.length - 1] + "\n");
-        input.pop();
-      }
-      else {
-        shell.stdin.write("\n");
-      }
-    }, 300);
     stderrbuff.push(data.toString());
+    // console.log(data.toString())
   });
 
   shell.on('exit', function(code) {
-    clearTimeout(writeTimeout)
+    console.log("EXIT", code, 'openssl ' + cmd,)
     if(terminate && code==null) {
       code = 0;
     }
@@ -95,7 +87,8 @@ let runOpenSSLCommand = function(cmd : string, input: string[], callback : (err 
     }
     if (code != 0) {
       callback(stderrbuff.join(), out);
-    } else {
+    }
+    else {
       callback(false, out);
     }
   });
