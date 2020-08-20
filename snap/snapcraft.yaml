@@ -31,8 +31,19 @@ parts:
     source: .
     source-type: local
 
+#    build:
+#      - openssl-hub.conf
+    
+#    prime:
+#      - openssl-hub.conf
+
 #    build-packages:
 #    stage-packages:
+
+  content:
+    source: config
+    source-type: local
+    plugin: dump
 
 apps:
   crownstone-hub:
@@ -40,11 +51,10 @@ apps:
     environment:
       LANG: C.UTF-8
       HTTPS_CERTIFICATE_PATH: $SNAP_USER_COMMON
+      DEFAULT_CONFIG_PATH: $SNAP
     plugs:
       - network
       - network-bind
       - serial-port
 
-  mytest:
-    command: echo "bla" > $SNAP_COMMON/bla.txt
 
