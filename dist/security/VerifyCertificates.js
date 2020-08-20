@@ -24,8 +24,11 @@ function stripTrailingSlash(path) {
     return path;
 }
 async function generateSelfSignedCertificatePair(dir) {
+    console.log(process.cwd());
+    console.log(__dirname);
     console.log("Generating self-signed certificate pair...");
-    let command = "req -config openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
+    let confPath = process.env.DEFUALT_CONFIG_PATH || "config";
+    let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
     //let input = ["NL", "Zuid-Holland", "Rotterdam", "Crownstone", "Hub v1", "", "ask@crownstone.rocks"];
     let input = [];
     return new Promise((resolve, reject) => {
