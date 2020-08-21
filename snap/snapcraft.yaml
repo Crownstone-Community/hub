@@ -11,6 +11,7 @@ description: |
 
   Requires a Crownstone USB dongle to connect to your Crownstones via the mesh.
 
+#base: core20
 base: core18
 grade: stable
 confinement: strict
@@ -23,11 +24,16 @@ confinement: strict
 parts:
   crownstone-hub:
     # See 'snapcraft plugins'
+#    plugin: npm
+#    npm-node-version: "12.18.3"
+
     plugin: nodejs
     nodejs-version: "12.18.3"
     nodejs-package-manager: yarn
     nodejs-yarn-version: "v1.22.4"
+
 #    source: https://github.com/crownstone/hub.git
+
     source: .
     source-type: local
 
