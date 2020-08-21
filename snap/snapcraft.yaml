@@ -47,11 +47,17 @@ parts:
 
 apps:
   crownstone-hub:
-    command: runHub
+    command: runHub >> $SNAP_DATA/debug.log
+    daemon: simple
     environment:
       LANG: C.UTF-8
-      CS_HUB_HTTPS_CERTIFICATE_PATH: $SNAP_USER_COMMON
+      CS_HUB_HTTPS_CERTIFICATE_PATH: $SNAP_COMMON
       CS_HUB_DEFAULT_CONFIG_PATH: $SNAP
+      DEBUG: 'crownstone*'
+      DEBUG_HIDE_DATE: "false"
+      DEBUG_LEVEL: "DEBUG"
+      DEBUG_JSON: "false"
+      CS_HUB_UART_PORT: "/dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_014A641C-if00-port0"
     plugs:
       - network
       - network-bind
