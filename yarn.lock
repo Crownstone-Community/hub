@@ -1614,10 +1614,10 @@ crownstone-sse@^3.0.2:
     eventsource "^1.0.7"
     typescript "^3.7.5"
 
-crownstone-uart@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.4.tgz#4d2b243af6233e0ed57d87afec45db75ae295ed5"
-  integrity sha512-sHLefktQR90VBNIR1qCpIS4jdzA9jENh1fUrIlQCF4zknHFh6d1XwRo56b6YEwvOlNljXsC6Klr8Vae+9u/eQA==
+crownstone-uart@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.5.tgz#985b67e0aa776f28903df5a9d03c81b8f0251fc3"
+  integrity sha512-ADRwTLqh+PLr1fdBwnCWa2ulHtHYy8A885M7Dsm5o11u/LppoQyd9A/l0XwRTnH+WKlR36V1ex9sEpovNV834g==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.4.0"
