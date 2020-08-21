@@ -1604,6 +1604,13 @@ crownstone-core@^0.4.0:
   dependencies:
     aes-js "^3.1.1"
 
+crownstone-core@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.4.1.tgz#f56bbf13105a670ce3c57905eb4fd87045c1194e"
+  integrity sha512-qA3qhzeSzzd9j+xtPqx42hHLQg9LcOiVjvnZCqKec0HeOfLfVJZkNyPlYbkPsYchA/CQ/lmgKX5u4OwzgPSyIA==
+  dependencies:
+    aes-js "^3.1.1"
+
 crownstone-sse@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.2.tgz#5d5d1a199dc9fa0c7910f4c718b01f304f502e1e"
@@ -1614,13 +1621,13 @@ crownstone-sse@^3.0.2:
     eventsource "^1.0.7"
     typescript "^3.7.5"
 
-crownstone-uart@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.5.tgz#985b67e0aa776f28903df5a9d03c81b8f0251fc3"
-  integrity sha512-ADRwTLqh+PLr1fdBwnCWa2ulHtHYy8A885M7Dsm5o11u/LppoQyd9A/l0XwRTnH+WKlR36V1ex9sEpovNV834g==
+crownstone-uart@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.4.6.tgz#26b7b78fe292f5cd41cdec05ca095240228a73f5"
+  integrity sha512-78HUvw+Zz0RtWdKQPNNPq4UK/7vgvSWWg/63BNCYYF0ywUSxf1vFDkLfZ7+08nrkabzqNCYI+hvnr7Qs35rTNw==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "^0.4.0"
+    crownstone-core "^0.4.1"
     debug-level "^0.3.1"
     serialport "9.0.0"
 
