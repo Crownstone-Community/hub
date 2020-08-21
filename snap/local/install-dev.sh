@@ -6,9 +6,9 @@ ARCH=$( uname -m )
 echo "ARCH: $ARCH"
 
 if [ "$ARCH" = "aarch64" ]; then
-        snapcraft upload --release edge *_arm64.snap
+        sudo snap install --devmode *_arm64.snap
 fi
 
 if [ "$ARCH" = "x86_64" ]; then
-        snapcraft upload --release edge *_amd64.snap
+        sudo snap install --devmode *_amd64.snap
 fi
