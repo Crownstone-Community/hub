@@ -53,7 +53,7 @@ parts:
 
 apps:
   crownstone-hub:
-    command: runHub >> $SNAP_DATA/debug.log
+    command: runHub >> $SNAP_DATA/debug.log 2>&1
     daemon: simple
     environment:
       LANG: C.UTF-8
