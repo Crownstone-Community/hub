@@ -19,6 +19,8 @@ For now you will have to enable [hotplug](https://snapcraft.io/docs/hotplug-supp
 sudo snap set system experimental.hotplug=true
 ```
 
+Now insert the USB stick, or run `sudo systemctl restart snapd`.
+
 And until we are granted auto connect, you will have to connect manually:
 
 Find the name of the serial port:
@@ -31,6 +33,6 @@ Connect the port to the hub program:
 sudo snap connect crownstone-hub:serial-port snapd:cp2102cp2109uartbrid
 ```
 
-That's it!
+That's it! The program is started automatically, and the serial port connection will be remembered over reboots.
 
 You can check the logs at: `/var/snap/crownstone-hub/current/debug.log`
