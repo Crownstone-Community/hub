@@ -50,11 +50,10 @@ apps:
     command: runHub
     environment:
       LANG: C.UTF-8
-      HTTPS_CERTIFICATE_PATH: $SNAP_USER_COMMON
-      DEFAULT_CONFIG_PATH: $SNAP
+      CS_HUB_HTTPS_CERTIFICATE_PATH: $SNAP_USER_COMMON
+      CS_HUB_DEFAULT_CONFIG_PATH: $SNAP
     plugs:
       - network
       - network-bind
       - serial-port
-
 
