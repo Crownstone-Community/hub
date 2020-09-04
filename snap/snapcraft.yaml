@@ -31,9 +31,6 @@ parts:
     nodejs-version: "12.18.3"
     nodejs-package-manager: yarn
     nodejs-yarn-version: "v1.22.4"
-
-#    source: https://github.com/crownstone/hub.git
-
     source: .
     source-type: local
 
@@ -65,7 +62,9 @@ apps:
       DEBUG_JSON: "false"
       CS_HUB_UART_PORT: "/dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_014A641C-if00-port0"
     plugs:
+      - bluetooth-control
+      - bluez
       - network
       - network-bind
+      - removable-media
       - serial-port
-
