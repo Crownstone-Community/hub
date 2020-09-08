@@ -4,7 +4,6 @@ exports.CloudManager = void 0;
 const crownstone_cloud_1 = require("crownstone-cloud");
 const crownstone_sse_1 = require("crownstone-sse");
 const DbReference_1 = require("../Data/DbReference");
-const MemoryDb_1 = require("../Data/MemoryDb");
 const Util_1 = require("../../util/Util");
 const SseEventHandler_1 = require("./SseEventHandler");
 const EventBus_1 = require("../EventBus");
@@ -95,13 +94,11 @@ class CloudManager {
         let cloudLoggedIn = false;
         while (cloudLoggedIn === false && this.resetTriggered === false) {
             try {
-                await this.cloud.hubLogin(hub.cloudId, hub.token);
+                let loginData = await this.cloud.hubLogin(hub.cloudId, hub.token);
                 cloudLoggedIn = true;
-                hub.accessToken = this.cloud.accessToken;
-                hub.accessTokenExpiration = this.cloud.accessTokenExpiration;
+                hub.accessToken = loginData.accessToken;
+                hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + new Date().valueOf());
                 await DbReference_1.DbRef.hub.update(hub);
-                // STARTUP
-                crownstone_cloud_1.REST.setAccessToken(hub.accessToken);
             }
             catch (e) {
                 if (e && e.status && e.status === 401) {
@@ -123,32 +120,25 @@ class CloudManager {
         this.syncInProgress = true;
         // download stones from sphere, load in memory
         let stonesSynced = false;
-        while (stonesSynced === false && this.resetTriggered === false) {
-            try {
-                let stones = await crownstone_cloud_1.REST.forSphere(this.sphereId).getStonesInSphere();
-                if (stones) {
-                    MemoryDb_1.MemoryDb.loadCloudStoneData(stones);
-                }
-                stonesSynced = true;
-            }
-            catch (e) {
-                console.log("Error in sync", e);
-                await Util_1.Util.wait(RETRY_INTERVAL_MS);
-            }
-        }
-        let usersObtained = false;
-        while (usersObtained === false && this.resetTriggered === false) {
-            try {
-                let sphereUsers = await crownstone_cloud_1.REST.forSphere(this.sphereId).getUsers();
-                let tokenSets = await crownstone_cloud_1.REST.forSphere(this.sphereId).getSphereAuthorizationTokens();
-                usersObtained = true;
-                await DbReference_1.DbRef.user.merge(sphereUsers, tokenSets);
-            }
-            catch (e) {
-                LOG.warn("Error in sync user obtaining", e);
-                await Util_1.Util.wait(RETRY_INTERVAL_MS);
-            }
-        }
+        // while (stonesSynced === false && this.resetTriggered === false) {
+        //   try {
+        //     let stones : CloudStoneData[] = await this.cloud.sphereById(this.sphereId).crownstones().refresh().data();
+        //     if (stones) { MemoryDb.loadCloudStoneData(stones); }
+        //     stonesSynced = true;
+        //   }
+        //   catch(e) { console.log("Error in sync", e); await Util.wait(RETRY_INTERVAL_MS); }
+        // }
+        // let usersObtained = false;
+        //
+        // while (usersObtained === false && this.resetTriggered === false) {
+        //   try {
+        //     let sphereUsers : CloudSphereUsers = await REST.forSphere(this.sphereId).getUsers();
+        //     let tokenSets : CloudAuthorizationTokens = await REST.forSphere(this.sphereId).getSphereAuthorizationTokens();
+        //     usersObtained = true;
+        //     await DbRef.user.merge(sphereUsers, tokenSets);
+        //   }
+        //   catch(e) { LOG.warn("Error in sync user obtaining", e); await Util.wait(RETRY_INTERVAL_MS); }
+        // }
         LOG.info("Cloudmanager SYNC finished.");
         this.syncInProgress = false;
     }

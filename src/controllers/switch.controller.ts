@@ -50,7 +50,7 @@ export class SwitchController {
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
   ) : Promise<void> {
-    await CrownstoneHub.uart.switchCrownstones([{type:"TURN_ON", crownstoneId: crownstoneUID}])
+    await CrownstoneHub.uart.switchCrownstones([{type:"TURN_ON", stoneId: crownstoneUID}])
   }
   @post('/turnOff', EmptyReturnCode)
   @authenticate('csTokens')
@@ -58,7 +58,7 @@ export class SwitchController {
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
   ) : Promise<void> {
-    await CrownstoneHub.uart.switchCrownstones([{type:"TURN_OFF", crownstoneId: crownstoneUID}])
+    await CrownstoneHub.uart.switchCrownstones([{type:"TURN_OFF", stoneId: crownstoneUID}])
   }
 
   @post('/switch', EmptyReturnCode)
@@ -68,10 +68,10 @@ export class SwitchController {
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
     @param.query.number('switchState',   {required:true}) switchState:   number,
   ) : Promise<void> {
-    if (switchState < 0 || switchState > 1) {
-      throw new HttpErrors.UnprocessableEntity("Switch state must be between 0 and 1.")
+    if (switchState < 0 || switchState > 0 && switchState <= 1 || switchState > 100) {
+      throw new HttpErrors.UnprocessableEntity("Switch state must be between 0 and 100.")
     }
-    await CrownstoneHub.uart.switchCrownstones([{type:"DIMMING", crownstoneId: crownstoneUID, switchState: switchState}])
+    await CrownstoneHub.uart.switchCrownstones([{type:"PERCENTAGE", stoneId: crownstoneUID, percentage: switchState}])
   }
 
 

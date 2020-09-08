@@ -55,7 +55,7 @@ export class SseEventHandler {
     }
   }
 
-  handleCommandEvent(event: SwitchCrownstoneEvent) {
+  handleCommandEvent(event: SwitchCrownstoneEvent | MultiSwitchCrownstoneEvent) {
     switch (event.subType) {
       case 'switchCrownstone':
         // switch the crownstone!
@@ -63,12 +63,27 @@ export class SseEventHandler {
         let switchState = event.crownstone.switchState;
         if (switchState !== null) {
           let switchPairs: SwitchData[] = [];
-          if (switchState == 1) {
-            switchPairs.push({ type:"TURN_ON", crownstoneId: event.crownstone.uid });
+
+          if (switchState > 0 && switchState <= 1) {
+            switchState *= 100;
+          }
+
+          if (switchState == 100) {
+            switchPairs.push({ type:"TURN_ON", stoneId: event.crownstone.uid });
           }
           else {
-            switchPairs.push({ type:"DIMMING", crownstoneId: event.crownstone.uid, switchState: switchState });
+            switchPairs.push({ type:"PERCENTAGE", stoneId: event.crownstone.uid, percentage: switchState });
           }
+          CrownstoneHub.uart.switchCrownstones(switchPairs)
+        }
+        break;
+      case 'multiSwitch':
+        if (!Array.isArray(event.switchData)) { return; }
+        let switchPairs: SwitchData[] = [];
+        event.switchData.forEach((switchData) => {
+          switchPairs.push({type: switchData.type, percentage: switchData.switchState, stoneId: switchData.uid })
+        });
+        if (switchPairs.length > 0) {
           CrownstoneHub.uart.switchCrownstones(switchPairs)
         }
         break;

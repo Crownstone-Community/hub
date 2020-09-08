@@ -60,12 +60,27 @@ class SseEventHandler {
                 let switchState = event.crownstone.switchState;
                 if (switchState !== null) {
                     let switchPairs = [];
-                    if (switchState == 1) {
-                        switchPairs.push({ type: "TURN_ON", crownstoneId: event.crownstone.uid });
+                    if (switchState > 0 && switchState <= 1) {
+                        switchState *= 100;
+                    }
+                    if (switchState == 100) {
+                        switchPairs.push({ type: "TURN_ON", stoneId: event.crownstone.uid });
                     }
                     else {
-                        switchPairs.push({ type: "DIMMING", crownstoneId: event.crownstone.uid, switchState: switchState });
+                        switchPairs.push({ type: "PERCENTAGE", stoneId: event.crownstone.uid, percentage: switchState });
                     }
+                    CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones(switchPairs);
+                }
+                break;
+            case 'multiSwitch':
+                if (!Array.isArray(event.switchData)) {
+                    return;
+                }
+                let switchPairs = [];
+                event.switchData.forEach((switchData) => {
+                    switchPairs.push({ type: switchData.type, percentage: switchData.switchState, stoneId: switchData.uid });
+                });
+                if (switchPairs.length > 0) {
                     CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones(switchPairs);
                 }
                 break;
