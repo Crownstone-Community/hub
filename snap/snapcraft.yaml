@@ -48,9 +48,14 @@ parts:
     source-type: local
     plugin: dump
 
+  bin:
+    source: bin
+    source-type: local
+    plugin: dump
+
 apps:
   crownstone-hub:
-    command: runHub >> $SNAP_DATA/debug.log 2>&1
+    command: run.sh
     daemon: simple
     environment:
       LANG: C.UTF-8
