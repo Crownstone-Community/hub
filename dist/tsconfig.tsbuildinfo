@@ -1961,8 +1961,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/src/declarations/declarations.d.ts": {
-        "version": "66f018be16013966e5e3490e4b550fe00b83c17884f8aabbf45814317ab6c51c",
-        "signature": "66f018be16013966e5e3490e4b550fe00b83c17884f8aabbf45814317ab6c51c",
+        "version": "61ab161836611bc0a8720461edda18f5b5244f5cc7cd49235732f79ca485de4f",
+        "signature": "61ab161836611bc0a8720461edda18f5b5244f5cc7cd49235732f79ca485de4f",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartreadbuffer.d.ts": {
@@ -1971,8 +1971,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts": {
-        "version": "485d3d6b3a1b6177b56a2e0ecfa49b7e10cdbc7f66f74ba358046516f7ccf8c8",
-        "signature": "485d3d6b3a1b6177b56a2e0ecfa49b7e10cdbc7f66f74ba358046516f7ccf8c8",
+        "version": "ed64b883db491f4ff20f077973da8fafdf7f5c70ce878addb0a533e66b761fd3",
+        "signature": "ed64b883db491f4ff20f077973da8fafdf7f5c70ce878addb0a533e66b761fd3",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts": {
@@ -1986,8 +1986,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/crownstoneuart.d.ts": {
-        "version": "c411d2513e8af4e05f1c0e41a86c9f0e9106c741601a2b4dae60a5908cfdf205",
-        "signature": "c411d2513e8af4e05f1c0e41a86c9f0e9106c741601a2b4dae60a5908cfdf205",
+        "version": "c234009e87282569ee53c066b241bb6c85d6a73c9d4b5a2733fc75932b05dab4",
+        "signature": "c234009e87282569ee53c066b241bb6c85d6a73c9d4b5a2733fc75932b05dab4",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/index.d.ts": {
@@ -2020,19 +2020,99 @@
         "signature": "d58f87d7afc7a85a7826c26bfedce07fffc03b85ebe28e9921007383f3076a43",
         "affectsGlobalScope": false
       },
+      "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts": {
+        "version": "3d6f4769f550bff1d769e31a3eb37579f1b1ccd470e4f477d9d65ed93f957bc1",
+        "signature": "3d6f4769f550bff1d769e31a3eb37579f1b1ccd470e4f477d9d65ed93f957bc1",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/cache.d.ts": {
+        "version": "6a8b2c411acdae4d9c3915463b748b22829c3390cbf85ea288145092dfe6d611",
+        "signature": "6a8b2c411acdae4d9c3915463b748b22829c3390cbf85ea288145092dfe6d611",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts": {
+        "version": "0abdce02ae0a2d65ba4e61d26237c81c2251948f232680506ea6df976cfb93e9",
+        "signature": "0abdce02ae0a2d65ba4e61d26237c81c2251948f232680506ea6df976cfb93e9",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts": {
+        "version": "8a25491e10786798cd875783dcd50d327a47911bfa6e2aadecac10b8dcb9332b",
+        "signature": "8a25491e10786798cd875783dcd50d327a47911bfa6e2aadecac10b8dcb9332b",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts": {
+        "version": "85c288f24ae0ee2c85b89591848aa09efbe0d89df83ab83c4cc68cc593cde5a4",
+        "signature": "85c288f24ae0ee2c85b89591848aa09efbe0d89df83ab83c4cc68cc593cde5a4",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts": {
+        "version": "bd36a26ff46c5951a28c5928522f02c4e00c782ec8e6a225e9772277e4be3bc6",
+        "signature": "bd36a26ff46c5951a28c5928522f02c4e00c782ec8e6a225e9772277e4be3bc6",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts": {
+        "version": "8d3a0701b35efa23acb5df4177cb77216c188afdc8f3343fe56d28273af9a512",
+        "signature": "8d3a0701b35efa23acb5df4177cb77216c188afdc8f3343fe56d28273af9a512",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts": {
+        "version": "3c958d395d3a9959491c39b4bd38de6178bd24d147d639ed1b2bea8d8ff05e6e",
+        "signature": "3c958d395d3a9959491c39b4bd38de6178bd24d147d639ed1b2bea8d8ff05e6e",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts": {
+        "version": "e375bc4dbeca39f245a7176cd56f2fa229b9dad15e2d9dfca105d702eb681f85",
+        "signature": "e375bc4dbeca39f245a7176cd56f2fa229b9dad15e2d9dfca105d702eb681f85",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts": {
+        "version": "47673c2afee593cbaa4441430bc78156cf8fe0570c0686d4c9ff2a09a4e05d84",
+        "signature": "47673c2afee593cbaa4441430bc78156cf8fe0570c0686d4c9ff2a09a4e05d84",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts": {
+        "version": "4d6c58a18d37df30d885757154cce5b0813c4b5670801fbc33c4ef0715157a31",
+        "signature": "4d6c58a18d37df30d885757154cce5b0813c4b5670801fbc33c4ef0715157a31",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts": {
+        "version": "9f6975f8474a1d224fd0eb01bb8a28753c411a67213bff39f53064fc2b488ec2",
+        "signature": "9f6975f8474a1d224fd0eb01bb8a28753c411a67213bff39f53064fc2b488ec2",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts": {
+        "version": "3f9cedd075cd5ddf16e5dbcea65c0585deff97dfccd726d18a25859a7745e134",
+        "signature": "3f9cedd075cd5ddf16e5dbcea65c0585deff97dfccd726d18a25859a7745e134",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts": {
+        "version": "73040282c696d6417bf7f7b5ddfbcb7bb6e58c144a16f367a2748be475f4e325",
+        "signature": "73040282c696d6417bf7f7b5ddfbcb7bb6e58c144a16f367a2748be475f4e325",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts": {
+        "version": "d3f853f39cf74c6178cafa17ad4924872946df706c8de8a575f87bd80cc884dc",
+        "signature": "d3f853f39cf74c6178cafa17ad4924872946df706c8de8a575f87bd80cc884dc",
+        "affectsGlobalScope": false
+      },
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts": {
-        "version": "db9451a40195bed01dfef9cfa3288d5bcbaed4edf538c2f56a68b3bfca44a375",
-        "signature": "db9451a40195bed01dfef9cfa3288d5bcbaed4edf538c2f56a68b3bfca44a375",
+        "version": "22ca4604cce0e1594d7f68425c644ddd89efc939da65baa66254b3d3a8af17d7",
+        "signature": "22ca4604cce0e1594d7f68425c644ddd89efc939da65baa66254b3d3a8af17d7",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts": {
+        "version": "cdfda6eb47efa11fb71ab3df20a3e5d5e2177495490d47ede766aa13c2002a14",
+        "signature": "cdfda6eb47efa11fb71ab3df20a3e5d5e2177495490d47ede766aa13c2002a14",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/index.d.ts": {
-        "version": "d94d3d1a9c6f2f5ea165358ad5837ef6635a1ff1415b5082c266ff5c619775b4",
-        "signature": "d94d3d1a9c6f2f5ea165358ad5837ef6635a1ff1415b5082c266ff5c619775b4",
+        "version": "c8f8fbe17d1826b103b697e281040fe0b9ac83133bbab381cd890366b50dd30c",
+        "signature": "c8f8fbe17d1826b103b697e281040fe0b9ac83133bbab381cd890366b50dd30c",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-sse/src/declarations/declarations.d.ts": {
-        "version": "d9fadc7f7da2fcac3bab38cfd97a74f9ba3002f1f6bcf041bb937e2d2802549d",
-        "signature": "d9fadc7f7da2fcac3bab38cfd97a74f9ba3002f1f6bcf041bb937e2d2802549d",
+        "version": "b85854fe7ff23faef462b0e65fad7d2158377aacef7a172f27a6c208f9248c33",
+        "signature": "b85854fe7ff23faef462b0e65fad7d2158377aacef7a172f27a6c208f9248c33",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-sse/dist/crownstonesse.d.ts": {
@@ -2056,12 +2136,12 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/sseeventhandler.ts": {
-        "version": "c27ed66851ef27a0ef184e0c4e655456d8fbf525639b23772802e14af0f8dcdc",
-        "signature": "ddb82decff9c2e01137f32662bb3fd022b981e357cd547a32238a399c9c2cce8",
+        "version": "0598f5289a035ebbf795fcb80156d59c1294817a8e420489991dea636ce35b9d",
+        "signature": "9839177ae2a0e5be71b4592f05a94a43a11f15163d1023114ad2304c4607e7eb",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "dc8e7d4c9e4dee84ced53b3fa8b27990655d5dd7b43c66f5b9864a3f3c4c6a12",
+        "version": "822cd56e2b4a134444b77ba9c645876f78a48fb552e5e852cb2e8769c88c0550",
         "signature": "1f01d1354c3da41202d1aebc1cce5c2b1277b27064680ca0130a975c269ae7ba",
         "affectsGlobalScope": false
       },
@@ -2241,7 +2321,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/switch.controller.ts": {
-        "version": "f8dfae83a53ce6915cd9b92e6adf939a256680e590c260d070300eefd1e8e1c9",
+        "version": "c8b5204d5089f1d638198f161c0f37a3eeb050240da71fdfc9b101e65452f151",
         "signature": "801b0d3e8bdfd1ef6920f3aeefb32e726ae809c858dbda6c7e8f8aec41b3b2e1",
         "affectsGlobalScope": false
       },
@@ -2290,9 +2370,14 @@
         "signature": "5ec5f5abe18c3e9d5fb6c77c728d50b07774b8c61a872f43f1eadc606f84128a",
         "affectsGlobalScope": true
       },
+      "../node_modules/crownstone-cloud/src/declarations/cloudtypes.d.ts": {
+        "version": "3458af7f0380457a625b8a1143095c9244ed47054da9bbed001c8a8124ca4123",
+        "signature": "3458af7f0380457a625b8a1143095c9244ed47054da9bbed001c8a8124ca4123",
+        "affectsGlobalScope": true
+      },
       "../node_modules/crownstone-cloud/src/declarations/declarations.d.ts": {
-        "version": "409c373ac6cfa1e94c951cf7a33584ee0a4e56f1904027a6575543eb194e0529",
-        "signature": "409c373ac6cfa1e94c951cf7a33584ee0a4e56f1904027a6575543eb194e0529",
+        "version": "1eecefd7964e6c024d22f627c63b7684d648039b1b2a4d83b4e28e132ffae84d",
+        "signature": "1eecefd7964e6c024d22f627c63b7684d648039b1b2a4d83b4e28e132ffae84d",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/types.d.ts": {
@@ -2306,8 +2391,8 @@
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/modules/cloudapibase.d.ts": {
-        "version": "10d2b557debbfbd7e692408908909e0f0a270df5f697eaa2256a2bcbe18989be",
-        "signature": "10d2b557debbfbd7e692408908909e0f0a270df5f697eaa2256a2bcbe18989be",
+        "version": "90000454350a9dc49635f6e7d78bda2e3cf05374e64ceaa2f463165701bd5769",
+        "signature": "90000454350a9dc49635f6e7d78bda2e3cf05374e64ceaa2f463165701bd5769",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/modules/devices.d.ts": {
@@ -2335,6 +2420,11 @@
         "signature": "396174af83bd259ba3ddf8e619fe6d49fafa9a233eea8fa7eec8b3b92d6b99c2",
         "affectsGlobalScope": true
       },
+      "../node_modules/crownstone-cloud/src/declarations/modules/listeners.d.ts": {
+        "version": "295e03a4033ca28eda4cd604d92395c6b1769abdac11f16fdffacd797bf53479",
+        "signature": "295e03a4033ca28eda4cd604d92395c6b1769abdac11f16fdffacd797bf53479",
+        "affectsGlobalScope": true
+      },
       "../node_modules/crownstone-cloud/src/declarations/modules/locations.d.ts": {
         "version": "db271ef293431d7babe4ba821005bac365f7cdc097efd54b4d4efa45906fa045",
         "signature": "db271ef293431d7babe4ba821005bac365f7cdc097efd54b4d4efa45906fa045",
@@ -2356,8 +2446,8 @@
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/modules/stones.d.ts": {
-        "version": "67127da35460b6aa040f96f0d81d239ec0501709ed588e79b14ad5964af5ca20",
-        "signature": "67127da35460b6aa040f96f0d81d239ec0501709ed588e79b14ad5964af5ca20",
+        "version": "09315c1d8ec2f75140e01bebfc3cd93ac26c68fd087f0cba0af523c064fdc06a",
+        "signature": "09315c1d8ec2f75140e01bebfc3cd93ac26c68fd087f0cba0af523c064fdc06a",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/modules/stonesabilities.d.ts": {
@@ -2371,9 +2461,29 @@
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/modules/user.d.ts": {
-        "version": "584019b08c98385e2437d1d96490e569efb1a78afa62623e26ddff8b69bfdc52",
-        "signature": "584019b08c98385e2437d1d96490e569efb1a78afa62623e26ddff8b69bfdc52",
+        "version": "6d4b1e276e430a512160a01692e794787555a0f9ea3916305023caef21a6c029",
+        "signature": "6d4b1e276e430a512160a01692e794787555a0f9ea3916305023caef21a6c029",
         "affectsGlobalScope": true
+      },
+      "../node_modules/@types/keyv/index.d.ts": {
+        "version": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23",
+        "signature": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/http-cache-semantics/index.d.ts": {
+        "version": "0bf440ab914e79e890cb15e5ffacb5e18bec678338b3eab069a5829d3d5c96e3",
+        "signature": "0bf440ab914e79e890cb15e5ffacb5e18bec678338b3eab069a5829d3d5c96e3",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/responselike/index.d.ts": {
+        "version": "3cfb0cb51cc2c2e1b313d7c4df04dbf7e5bda0a133c6b309bf6af77cf614b971",
+        "signature": "3cfb0cb51cc2c2e1b313d7c4df04dbf7e5bda0a133c6b309bf6af77cf614b971",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/cacheable-request/index.d.ts": {
+        "version": "73c05cca1bb5aa8e93efd089af51643b7ff005e47064a0e624a74ee20480a2eb",
+        "signature": "73c05cca1bb5aa8e93efd089af51643b7ff005e47064a0e624a74ee20480a2eb",
+        "affectsGlobalScope": false
       },
       "../node_modules/@types/color-name/index.d.ts": {
         "version": "f0cb4b3ab88193e3e51e9e2622e4c375955003f1f81239d72c5b7a95415dad3e",
@@ -4860,6 +4970,19 @@
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/cacheable-request/index.d.ts": [
+        "../node_modules/@types/http-cache-semantics/index.d.ts",
+        "../node_modules/@types/keyv/index.d.ts",
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
+        "../node_modules/@types/node/url.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/responselike/index.d.ts"
+      ],
       "../node_modules/@types/color-name/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -4950,6 +5073,12 @@
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/http-cache-semantics/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../node_modules/@types/http-errors/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -4960,6 +5089,14 @@
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@types/keyv/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
       "../node_modules/@types/lodash/ts3.1/common/array.d.ts": [
@@ -5638,6 +5775,15 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/responselike/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../node_modules/@types/serve-static/index.d.ts": [
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/mime/index.d.ts",
@@ -5703,7 +5849,55 @@
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
-        "../node_modules/@types/node/util.d.ts"
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
@@ -5711,9 +5905,102 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts",
+        "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts",
         "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/cache.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/src/declarations/cloudtypes.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
@@ -5762,6 +6049,12 @@
         "../node_modules/@types/node/util.d.ts"
       ],
       "../node_modules/crownstone-cloud/src/declarations/modules/installations.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/src/declarations/modules/listeners.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
@@ -9167,6 +9460,19 @@
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/cacheable-request/index.d.ts": [
+        "../node_modules/@types/http-cache-semantics/index.d.ts",
+        "../node_modules/@types/keyv/index.d.ts",
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
+        "../node_modules/@types/node/url.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/responselike/index.d.ts"
+      ],
       "../node_modules/@types/color-name/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -9257,6 +9563,12 @@
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/http-cache-semantics/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../node_modules/@types/http-errors/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -9267,6 +9579,14 @@
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@types/keyv/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
       "../node_modules/@types/lodash/ts3.1/common/array.d.ts": [
@@ -9945,6 +10265,15 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@types/responselike/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/ts3.7/index.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../node_modules/@types/serve-static/index.d.ts": [
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/mime/index.d.ts",
@@ -10010,7 +10339,55 @@
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
-        "../node_modules/@types/node/util.d.ts"
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
@@ -10018,9 +10395,102 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts",
+        "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts",
         "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/cache.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/src/declarations/cloudtypes.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
@@ -10069,6 +10539,12 @@
         "../node_modules/@types/node/util.d.ts"
       ],
       "../node_modules/crownstone-cloud/src/declarations/modules/installations.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/src/declarations/modules/listeners.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
@@ -11059,6 +11535,7 @@
       "../node_modules/@loopback/testlab/dist/validate-api-spec.d.ts",
       "../node_modules/@loopback/testlab/should-as-function.d.ts",
       "../node_modules/@types/body-parser/index.d.ts",
+      "../node_modules/@types/cacheable-request/index.d.ts",
       "../node_modules/@types/color-name/index.d.ts",
       "../node_modules/@types/connect/index.d.ts",
       "../node_modules/@types/cookiejar/index.d.ts",
@@ -11071,8 +11548,10 @@
       "../node_modules/@types/express/index.d.ts",
       "../node_modules/@types/fs-extra/index.d.ts",
       "../node_modules/@types/glob/index.d.ts",
+      "../node_modules/@types/http-cache-semantics/index.d.ts",
       "../node_modules/@types/http-errors/index.d.ts",
       "../node_modules/@types/json-schema/index.d.ts",
+      "../node_modules/@types/keyv/index.d.ts",
       "../node_modules/@types/lodash/ts3.1/common/array.d.ts",
       "../node_modules/@types/lodash/ts3.1/common/collection.d.ts",
       "../node_modules/@types/lodash/ts3.1/common/common.d.ts",
@@ -11143,6 +11622,7 @@
       "../node_modules/@types/on-finished/index.d.ts",
       "../node_modules/@types/qs/index.d.ts",
       "../node_modules/@types/range-parser/index.d.ts",
+      "../node_modules/@types/responselike/index.d.ts",
       "../node_modules/@types/serve-static/index.d.ts",
       "../node_modules/@types/shot/index.d.ts",
       "../node_modules/@types/sinon/ts3.1/index.d.ts",
@@ -11152,8 +11632,25 @@
       "../node_modules/@types/type-is/index.d.ts",
       "../node_modules/ajv/lib/ajv.d.ts",
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts",
+      "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts",
+      "../node_modules/crownstone-cloud/dist/datacontainers/crownstones.d.ts",
+      "../node_modules/crownstone-cloud/dist/datacontainers/locations.d.ts",
+      "../node_modules/crownstone-cloud/dist/datacontainers/spheres.d.ts",
+      "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
       "../node_modules/crownstone-cloud/dist/index.d.ts",
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/cache.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requestorbase.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/userrequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/requests/webhookrequests.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/tokens.d.ts",
+      "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts",
+      "../node_modules/crownstone-cloud/src/declarations/cloudtypes.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/declarations.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/bootloader.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/cloudapibase.d.ts",
@@ -11162,6 +11659,7 @@
       "../node_modules/crownstone-cloud/src/declarations/modules/firmware.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/hub.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/installations.d.ts",
+      "../node_modules/crownstone-cloud/src/declarations/modules/listeners.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/locations.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/messages.d.ts",
       "../node_modules/crownstone-cloud/src/declarations/modules/preferences.d.ts",

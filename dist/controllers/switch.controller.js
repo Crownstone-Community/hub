@@ -43,16 +43,16 @@ const SwitchDataSchema = {
 class SwitchController {
     constructor() { }
     async turnOn(userProfile, crownstoneUID) {
-        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "TURN_ON", crownstoneId: crownstoneUID }]);
+        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "TURN_ON", stoneId: crownstoneUID }]);
     }
     async turnOff(userProfile, crownstoneUID) {
-        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "TURN_OFF", crownstoneId: crownstoneUID }]);
+        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "TURN_OFF", stoneId: crownstoneUID }]);
     }
     async dim(userProfile, crownstoneUID, switchState) {
-        if (switchState < 0 || switchState > 1) {
-            throw new dist_1.HttpErrors.UnprocessableEntity("Switch state must be between 0 and 1.");
+        if (switchState < 0 || switchState > 0 && switchState <= 1 || switchState > 100) {
+            throw new dist_1.HttpErrors.UnprocessableEntity("Switch state must be between 0 and 100.");
         }
-        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "DIMMING", crownstoneId: crownstoneUID, switchState: switchState }]);
+        await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones([{ type: "PERCENTAGE", stoneId: crownstoneUID, percentage: switchState }]);
     }
     async switchCrownstones(userProfile, switchData) {
         await CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones(switchData);
