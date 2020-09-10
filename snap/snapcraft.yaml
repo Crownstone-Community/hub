@@ -48,9 +48,14 @@ parts:
     source-type: local
     plugin: dump
 
+  bin:
+    source: bin
+    source-type: local
+    plugin: dump
+
 apps:
   crownstone-hub:
-    command: runHub >> $SNAP_DATA/debug.log 2>&1
+    command: run.sh
     daemon: simple
     environment:
       LANG: C.UTF-8
@@ -60,7 +65,10 @@ apps:
       DEBUG_HIDE_DATE: "false"
       DEBUG_LEVEL: "DEBUG"
       DEBUG_JSON: "false"
-      CS_HUB_UART_PORT: "/dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_014A641C-if00-port0"
+#      CS_HUB_UART_PORT: "/dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_014A641C-if00-port0"
+      CS_UART_SEARCH_BY_ID: "true"
+      CS_UART_SEARCH_BY_ID_PATH: '/dev/serial/by-id'
+      CS_UART_SEARCH_BY_ID_PATTERN: 'usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_.*'
     plugs:
       - bluetooth-control
       - bluez

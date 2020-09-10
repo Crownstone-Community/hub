@@ -32,6 +32,9 @@ Connect the port to the hub program:
 ```
 sudo snap connect crownstone-hub:serial-port snapd:cp2102cp2109uartbrid
 ```
+**Note: the connection is made for this specific crownstone USB stick, another one will get a different name.**
+
+**Note: on ubuntu server it shows up under a different name: cp210xuartbridge.**
 
 That's it! The program is started automatically, and the serial port connection will be remembered over reboots.
 
