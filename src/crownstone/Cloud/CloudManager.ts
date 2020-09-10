@@ -15,7 +15,6 @@ const LOG = require('debug-level')('crownstone-hub-cloud')
 const RETRY_INTERVAL_MS = 5000;
 
 
-
 export class CloudManager {
   cloud           : CrownstoneCloud;
   sse             : CrownstoneSSE | null = null;
@@ -42,8 +41,6 @@ export class CloudManager {
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();
-
-
   }
 
   setupEvents() {
@@ -81,6 +78,7 @@ export class CloudManager {
   }
 
 
+
   async initialize() {
     await this.updateLocalIp()
 
@@ -89,15 +87,34 @@ export class CloudManager {
     this.initializeInProgress = true;
     let hub = await DbRef.hub.get();
     if (hub) {
-      await this.login(hub);
-      await this.setupSSE(hub);
-      await this.sync();
-      await this.updateLocalIp();
+      try {
+        await this.login(hub);
+        await this.setupSSE(hub);
+        await this.sync();
+        await this.updateLocalIp();
 
-      if (this.intervalsRegistered === false) {
-        this.intervalsRegistered = true;
-        this.interval_ip   = setInterval(() => { this.updateLocalIp(); }, 15*60*1000); // every 15 minutes
-        this.interval_sync = setInterval(() => { this.sync();          }, 60*60*1000); // every 60 minutes
+        if (this.intervalsRegistered === false) {
+          this.intervalsRegistered = true;
+
+          if (this.interval_sync !== null && this.interval_ip !== null) {
+            clearInterval(this.interval_ip);
+            clearInterval(this.interval_sync);
+          }
+          this.interval_ip   = setInterval(() => { this.updateLocalIp(); }, 15*60*1000); // every 15 minutes
+          this.interval_sync = setInterval(() => { this.sync().catch(async (err) => {
+            if (err === 401) {
+              await this.cleanup();
+              while (this.initializeInProgress) {
+                await Util.wait(2000);
+              }
+              await this.initialize();
+            }
+          })}, 60*60*1000); // every 60 minutes
+        }
+      }
+      catch (err) {
+        LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
+        eventBus.emit(topics.CLOUD_AUTHENTICATION_PROBLEM_401);
       }
     }
     else {
@@ -128,8 +145,11 @@ export class CloudManager {
         await DbRef.hub.update(hub);
       }
       catch(e) {
-        if (e && e.status && e.status === 401) { eventBus.emit(topics.COULD_NOT_LOG_IN); break; }
-        LOG.warn("Error in login to cloud",e); await Util.wait(RETRY_INTERVAL_MS);
+        LOG.warn("Error in login to cloud",e);
+        // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
+        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
+        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
+        await Util.wait(RETRY_INTERVAL_MS);
       }
     }
     this.loginInProgress = false;
@@ -145,25 +165,37 @@ export class CloudManager {
     // download stones from sphere, load in memory
     let stonesSynced = false;
 
-    // while (stonesSynced === false && this.resetTriggered === false) {
-    //   try {
-    //     let stones : CloudStoneData[] = await this.cloud.sphereById(this.sphereId).crownstones().refresh().data();
-    //     if (stones) { MemoryDb.loadCloudStoneData(stones); }
-    //     stonesSynced = true;
-    //   }
-    //   catch(e) { console.log("Error in sync", e); await Util.wait(RETRY_INTERVAL_MS); }
-    // }
-    // let usersObtained = false;
-    //
-    // while (usersObtained === false && this.resetTriggered === false) {
-    //   try {
-    //     let sphereUsers : CloudSphereUsers = await REST.forSphere(this.sphereId).getUsers();
-    //     let tokenSets : CloudAuthorizationTokens = await REST.forSphere(this.sphereId).getSphereAuthorizationTokens();
-    //     usersObtained = true;
-    //     await DbRef.user.merge(sphereUsers, tokenSets);
-    //   }
-    //   catch(e) { LOG.warn("Error in sync user obtaining", e); await Util.wait(RETRY_INTERVAL_MS); }
-    // }
+    while (stonesSynced === false && this.resetTriggered === false) {
+      try {
+        let stones = await this.cloud.sphere(this.sphereId).crownstones();
+        if (stones) { MemoryDb.loadCloudStoneData(stones); }
+        stonesSynced = true;
+      }
+      catch(e) {
+        // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
+        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
+        LOG.warn("Error in sync", e);
+        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
+        await Util.wait(RETRY_INTERVAL_MS);
+      }
+    }
+    let usersObtained = false;
+
+    while (usersObtained === false && this.resetTriggered === false) {
+      try {
+        let sphereUsers = await this.cloud.sphere(this.sphereId).users();
+        let tokenSets = await this.cloud.sphere(this.sphereId).authorizationTokens();
+        usersObtained = true;
+        await DbRef.user.merge(sphereUsers, tokenSets);
+      }
+      catch(e) {
+        // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
+        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
+        LOG.warn("Error in sync user obtaining", e);
+        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
+        await Util.wait(RETRY_INTERVAL_MS);
+      }
+    }
 
     LOG.info("Cloudmanager SYNC finished.");
     this.syncInProgress = false;
@@ -183,8 +215,11 @@ export class CloudManager {
     while (sseLoggedIn == false && this.resetTriggered === false) {
       try      { await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true; }
       catch(e) {
-        if (e && e.status && e.status === 401) { eventBus.emit(topics.COULD_NOT_LOG_IN); break; }
-        LOG.warn("Error in SSE", e); await Util.wait(RETRY_INTERVAL_MS);
+        LOG.warn("Error in SSE", e);
+        // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
+        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
+        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
+        await Util.wait(RETRY_INTERVAL_MS);
       }
     }
 

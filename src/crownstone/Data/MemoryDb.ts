@@ -14,7 +14,7 @@ interface Crownstone {
 class MemoryDbClass {
   stones: {[key: string]: Crownstone} = {};
 
-  loadCloudStoneData( stoneData: CloudStoneData[] ) {
+  loadCloudStoneData( stoneData: cloud_Stone[] ) {
     let usedUIDs : map = {};
     Object.keys(this.stones).forEach((uid: string) => { usedUIDs[uid] = false; });
 
@@ -60,20 +60,22 @@ class MemoryDbClass {
   }
 }
 
-function getAbilityData(type: AbilityType, abilities: AbilityData[], stoneItem?: Crownstone) : boolean {
-  for (let i = 0; i < abilities.length; i++) {
-    let ability = abilities[i];
-    if (ability.type === type) {
-      if (stoneItem) {
-        if (stoneItem.updatedAt < new Date(ability.updatedAt).valueOf()) {
-           return ability.enabled;
+function getAbilityData(type: AbilityType, abilities?: cloud_Ability[], stoneItem?: Crownstone) : boolean {
+  if (abilities) {
+    for (let i = 0; i < abilities.length; i++) {
+      let ability = abilities[i];
+      if (ability.type === type) {
+        if (stoneItem) {
+          if (stoneItem.updatedAt < new Date(ability.updatedAt).valueOf()) {
+            return ability.enabled;
+          }
+          else {
+            return stoneItem[type];
+          }
         }
         else {
-          return stoneItem[type];
+          return ability.enabled;
         }
-      }
-      else {
-        return ability.enabled;
       }
     }
   }

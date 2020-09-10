@@ -48,19 +48,21 @@ class MemoryDbClass {
     }
 }
 function getAbilityData(type, abilities, stoneItem) {
-    for (let i = 0; i < abilities.length; i++) {
-        let ability = abilities[i];
-        if (ability.type === type) {
-            if (stoneItem) {
-                if (stoneItem.updatedAt < new Date(ability.updatedAt).valueOf()) {
-                    return ability.enabled;
+    if (abilities) {
+        for (let i = 0; i < abilities.length; i++) {
+            let ability = abilities[i];
+            if (ability.type === type) {
+                if (stoneItem) {
+                    if (stoneItem.updatedAt < new Date(ability.updatedAt).valueOf()) {
+                        return ability.enabled;
+                    }
+                    else {
+                        return stoneItem[type];
+                    }
                 }
                 else {
-                    return stoneItem[type];
+                    return ability.enabled;
                 }
-            }
-            else {
-                return ability.enabled;
             }
         }
     }

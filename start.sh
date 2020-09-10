@@ -1,7 +1,8 @@
 
-export DEBUG="crownstone*"
+#export DEBUG="INFO:crownstone* -crownstone-verbose*"
+export DEBUG="INFO:crownstone*"
 export DEBUG_HIDE_DATE="false"
 export DEBUG_LEVEL="INFO"
 export DEBUG_JSON="false"
 
-unbuffer nodemon -r source-map-support/register -i ./logs . > >(tee -a ./logs/log.log) 2> >(tee -a ./logs/log.log >&2)
+unbuffer node execute -i ./logs . > >(tee -a ./logs/log.log) 2> >(tee -a ./logs/log.log >&2)
