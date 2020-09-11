@@ -5,6 +5,7 @@ import {verifyCertificate} from './security/VerifyCertificates';
 import {EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
+import {MongoDbConnector} from './datasources/mongoDriver';
 
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
@@ -32,7 +33,19 @@ export async function main(options: ApplicationConfig = {}) {
   DbRef.user     = await app.getRepository(UserRepository)
   DbRef.switches = await app.getRepository(SwitchDataRepository)
 
+  const connector = new MongoDbConnector()
+  await connector.connect();
+  const energyCollection = connector.db.collection('EnergyData');
+  console.time('index')
+  energyCollection.createIndexes([
+    {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
+  ]);
+  console.timeEnd('index')
+
+
   await CrownstoneHub.initialize();
+
+
 
   console.log(`Server is running at ${url}`);
 

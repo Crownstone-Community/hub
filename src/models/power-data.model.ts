@@ -21,4 +21,10 @@ export class PowerData extends Entity {
 
   @property({type: 'date'})
   timestamp: Date
+
+  @property({ type:'boolean'})
+  significant: boolean
+
+  @property({ type:'boolean'})
+  uploaded: boolean
 }

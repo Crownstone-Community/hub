@@ -6,4 +6,6 @@ export declare class PowerData extends Entity {
     powerUsage: number;
     powerFactor: number;
     timestamp: Date;
+    significant: boolean;
+    uploaded: boolean;
 }

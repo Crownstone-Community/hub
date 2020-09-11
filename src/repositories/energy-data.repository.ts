@@ -9,6 +9,7 @@ export class EnergyDataRepository extends DefaultCrudRepository<EnergyData,typeo
     @inject('datasources.mongo') protected datasource: juggler.DataSource,
   ) {
     super(EnergyData, datasource);
+    this.datasource.autoupdate()
   }
 
 }

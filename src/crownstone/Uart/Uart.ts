@@ -2,15 +2,11 @@ import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
 import {eventBus} from '../EventBus';
 import {CONFIG} from '../../config';
+import {topics} from '../topics';
 
 const LOG = require('debug-level')('crownstone-uart-bridge')
 
-interface SwitchPair {
-  crownstoneId: number,
-  switchState: number
-}
-
-export class Uart {
+export class Uart implements UartInterface {
   uart     : CrownstoneUart;
   queue    : PromiseManager;
   ready : boolean = false
@@ -25,7 +21,7 @@ export class Uart {
   forwardEvents() {
     // generate a list of topics that can be remapped from uart to lib.
     let eventsToForward = [
-      {uartTopic: "MeshServiceData", moduleTopic: "MESH_SERVICE_DATA"},
+      {uartTopic: "MeshServiceData", moduleTopic: topics.MESH_SERVICE_DATA},
     ];
 
     // forward all required events to the module eventbus.
@@ -34,6 +30,7 @@ export class Uart {
       if (!event.moduleTopic) {
         moduleEvent = event.uartTopic;
       }
+
       this.uart.on(event.uartTopic, (data) => { eventBus.emit(moduleEvent, data); })
     });
   }

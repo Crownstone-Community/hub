@@ -5,6 +5,7 @@ const crownstone_uart_1 = require("crownstone-uart");
 const PromiseManager_1 = require("./PromiseManager");
 const EventBus_1 = require("../EventBus");
 const config_1 = require("../../config");
+const topics_1 = require("../topics");
 const LOG = require('debug-level')('crownstone-uart-bridge');
 class Uart {
     constructor() {
@@ -16,7 +17,7 @@ class Uart {
     forwardEvents() {
         // generate a list of topics that can be remapped from uart to lib.
         let eventsToForward = [
-            { uartTopic: "MeshServiceData", moduleTopic: "MESH_SERVICE_DATA" },
+            { uartTopic: "MeshServiceData", moduleTopic: topics_1.topics.MESH_SERVICE_DATA },
         ];
         // forward all required events to the module eventbus.
         eventsToForward.forEach((event) => {

@@ -13,7 +13,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], EnergyData.prototype, "id", void 0);
 tslib_1.__decorate([
-    repository_1.property({ type: 'number', required: true }),
+    repository_1.property({ type: 'number', required: true, index: true }),
     tslib_1.__metadata("design:type", Number)
 ], EnergyData.prototype, "stoneUID", void 0);
 tslib_1.__decorate([
@@ -21,9 +21,13 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], EnergyData.prototype, "energyUsage", void 0);
 tslib_1.__decorate([
-    repository_1.property({ type: 'date' }),
+    repository_1.property({ type: 'date', index: true }),
     tslib_1.__metadata("design:type", Date)
 ], EnergyData.prototype, "timestamp", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'boolean', index: true }),
+    tslib_1.__metadata("design:type", Boolean)
+], EnergyData.prototype, "uploaded", void 0);
 EnergyData = tslib_1.__decorate([
     repository_1.model(),
     tslib_1.__metadata("design:paramtypes", [Object])

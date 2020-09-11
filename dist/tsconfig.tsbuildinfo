@@ -2087,18 +2087,18 @@
         "affectsGlobalScope": false
       },
       "../src/models/energy-data.model.ts": {
-        "version": "3107d1dc8b5634d0b600a739dfa6abb61798529d0995b853ee63437adc654e28",
-        "signature": "9890feab680b953ebbb327578a3f6e86242bb0cfbe22cbc89ed404cf728c2b17",
+        "version": "1d48684f42d13b831d98023fea30994c5c75a76d98b1e59b8d4f284e1168eb0f",
+        "signature": "e61f53f8fc27a822fa20ea57c65e16542f49958c55dd6808034b74ca4b514c53",
         "affectsGlobalScope": false
       },
       "../src/repositories/energy-data.repository.ts": {
-        "version": "5e2c597866fa6140811ed6da5372d05970c2c548a742096963a637e6890633f3",
+        "version": "836d41d7c02033edacf9cda27973c4a010a075ec15f9fde2c7179eaf8ebfd62c",
         "signature": "2f05037aa3d81cbb0a10fdce99edf152cf854917983bcc77e42e8a8e1a3c82a5",
         "affectsGlobalScope": false
       },
       "../src/models/power-data.model.ts": {
-        "version": "032091f682c873d375236ea703a3f262e443bced6e21473e30176367c3ccf040",
-        "signature": "c6c1cdd81260360c0e993726bd0aa7af901e293ffc3117b63a290eecf5a3f602",
+        "version": "5d062d090e6706619f3b1d6e160ccba6700e6f9d40f48eb127e013bdbba53bab",
+        "signature": "a217db64a0591d6ddc78bc29d651abdf93956fb4c367cc2d53862599fe7ec1da",
         "affectsGlobalScope": false
       },
       "../src/repositories/power-data.repository.ts": {
@@ -2114,6 +2114,16 @@
       "../src/repositories/switch-data.repository.ts": {
         "version": "c11829b95f4dc2d52df4f2eb891463e894619ef0b9be6c725a76886828e02efd",
         "signature": "2db39101a4e1796eb4e41914f025a11480dc069a2ff0e0b3c1c30972e7d6c90a",
+        "affectsGlobalScope": false
+      },
+      "../src/models/sphere-feature.model.ts": {
+        "version": "1a1a28d67daa22a9ae78ffaffef1b7da22d0e393805d27652617a785e0dc8e1a",
+        "signature": "0ef105d4a93682c457eb4d9b325c43524210fa8ad823d93462b3ae1a05e67da8",
+        "affectsGlobalScope": false
+      },
+      "../src/repositories/sphere-feature.repository.ts": {
+        "version": "a8465a8e6a4f54ac08135c4be53eeb70e72214566ce6abd36b82376801ac55df",
+        "signature": "bfcbd2bd8f20e7e1419d43c0650ee578e35ac4b6459fe936a892222efe57765d",
         "affectsGlobalScope": false
       },
       "../src/models/hub.model.ts": {
@@ -2141,8 +2151,8 @@
         "affectsGlobalScope": false
       },
       "../src/models/index.ts": {
-        "version": "965c1edda6b822188e2cce2856912d02dd22f202dd017267b8705d67a094d82a",
-        "signature": "ff1c1be58b73e6d55fd86185f93141227dd5e5201fbcc04680f58f970f3705d0",
+        "version": "3b6676dd60f671be807c7cbf49b545b16075b078ef544b9f38d7b5108de183ab",
+        "signature": "26d13ac8dd8fc6c9b53684f4e227c39e8c347fdccbf1512ab2e32ddd57df0802",
         "affectsGlobalScope": false
       },
       "../src/repositories/user-permission.repository.ts": {
@@ -2156,13 +2166,13 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/index.ts": {
-        "version": "8b0f9cf8c67f20d684a004b12b71617d83aa378db8daefa094f81630d9817517",
-        "signature": "4ca406999c10da1ec6392d96839e44431b9c176351820946df77a7bd42540872",
+        "version": "bc3e6e9ebe61631997992bdc66d984a5ea56eb09c5c0334af7fca570b07f876c",
+        "signature": "3f0e2887b7782512d0b48e9a3c7b61bb4bfec7520b40806aa412378cac4fe9c6",
         "affectsGlobalScope": false
       },
       "../src/services/user.service.ts": {
-        "version": "c8dc9c4e3a5f8325aaddc16624edefd2eea9e037cac14b1f4e80021dc18142e4",
-        "signature": "63eb5e2c19b088831e4ea3e6a0fe37aa674fd6980813c78184f27828897a6fd3",
+        "version": "47006166ea264534233d5ccdec229bf64ee4dda0638325bd459d58dc93f01bd9",
+        "signature": "457c11c8342d8c65fc957a078b4d15dffb97d611ce44696b2b77b1b1f84f99cf",
         "affectsGlobalScope": false
       },
       "../src/services/index.ts": {
@@ -2245,9 +2255,14 @@
         "signature": "e2a74d9b760c0e9e6aecf9a1418fce8bfd6051e103579fd86e9549404909ac78",
         "affectsGlobalScope": false
       },
+      "../src/crownstone/topics.ts": {
+        "version": "c00c1d9b69d346005cdcdef96912e599233d00fd18f9f65899dcb62f58e00fd0",
+        "signature": "250e9a8a431f7b90da2dbc4e1511fe11d4411ee96ae59eced70501c3cfc381d5",
+        "affectsGlobalScope": false
+      },
       "../src/crownstone/uart/uart.ts": {
-        "version": "f1ba0999cd0241bba1fbb24f4b40812a86b439ab97443996f5fe4e3995461275",
-        "signature": "791f4a55c6850051678d66020062927391fa8b01f8915068da8741e97fe67258",
+        "version": "1918bcd1bed5ff51874cc4a20c461ecd35b07f2ed628068f2f66d255e690c268",
+        "signature": "2177caec4a870918b9affb4ea73d649e2e48b6687d4283e839f0a25c4fdac3aa",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts": {
@@ -2271,8 +2286,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/tools/requests/crownstonerequests.d.ts": {
-        "version": "38e89dd9b0b04a2dcf9966aceae7ad616fda19347f0499356b60f9bb57d31f00",
-        "signature": "38e89dd9b0b04a2dcf9966aceae7ad616fda19347f0499356b60f9bb57d31f00",
+        "version": "a45fde34651c16f3ecb722633d01521890ee3d81a15fae6a6c0521aabde5ee74",
+        "signature": "a45fde34651c16f3ecb722633d01521890ee3d81a15fae6a6c0521aabde5ee74",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/tools/requests/sphererequests.d.ts": {
@@ -2286,8 +2301,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/tools/requests/hubrequests.d.ts": {
-        "version": "8d3a0701b35efa23acb5df4177cb77216c188afdc8f3343fe56d28273af9a512",
-        "signature": "8d3a0701b35efa23acb5df4177cb77216c188afdc8f3343fe56d28273af9a512",
+        "version": "98963e46c21e516f6e0d52e7fea4c8aa1a7ad6f3ebff01af9e0308b3441cda3e",
+        "signature": "98963e46c21e516f6e0d52e7fea4c8aa1a7ad6f3ebff01af9e0308b3441cda3e",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/tools/requests/locationrequests.d.ts": {
@@ -2326,13 +2341,18 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts": {
-        "version": "7f01fa122b19acdd55dc142ea96c47af8a00685504bb50646e98ab52aebd446c",
-        "signature": "7f01fa122b19acdd55dc142ea96c47af8a00685504bb50646e98ab52aebd446c",
+        "version": "b266ed3081b00cc5b727318bae397b33cb101a056846b00da0885dc62829ab7a",
+        "signature": "b266ed3081b00cc5b727318bae397b33cb101a056846b00da0885dc62829ab7a",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts": {
+        "version": "53f4e9d5316bc214254c52581f72862bf3cb8f15a4951bc48defe3a1582f42ce",
+        "signature": "53f4e9d5316bc214254c52581f72862bf3cb8f15a4951bc48defe3a1582f42ce",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts": {
-        "version": "14cad1246a647ec1c9bf3981b33ff0dbe89b76b81065c6a159ffb2a84664958f",
-        "signature": "14cad1246a647ec1c9bf3981b33ff0dbe89b76b81065c6a159ffb2a84664958f",
+        "version": "824c4141bca729b6503ef5702e743c4c112e2dc03a5bc596afc5087e590cf490",
+        "signature": "824c4141bca729b6503ef5702e743c4c112e2dc03a5bc596afc5087e590cf490",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts": {
@@ -2365,53 +2385,68 @@
         "signature": "54f971c1e4bd97c8e840a08d9b91f69b7d93e886006e3ecec505f9fe3735bd57",
         "affectsGlobalScope": false
       },
-      "../src/crownstone/topics.ts": {
-        "version": "c00c1d9b69d346005cdcdef96912e599233d00fd18f9f65899dcb62f58e00fd0",
-        "signature": "250e9a8a431f7b90da2dbc4e1511fe11d4411ee96ae59eced70501c3cfc381d5",
-        "affectsGlobalScope": false
-      },
       "../src/crownstone/cloud/sseeventhandler.ts": {
         "version": "0598f5289a035ebbf795fcb80156d59c1294817a8e420489991dea636ce35b9d",
         "signature": "9839177ae2a0e5be71b4592f05a94a43a11f15163d1023114ad2304c4607e7eb",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "992444fcb3f55fd60a93d4a5c6f19bc3d17ff25ffca021b4c8790c32f53b51a6",
-        "signature": "1f01d1354c3da41202d1aebc1cce5c2b1277b27064680ca0130a975c269ae7ba",
+        "version": "8f12086566ed8caa719382f03481d79d1295ab1a7418e29a5427738a9b647bf3",
+        "signature": "4d61aff3d3a968a0abfbad44b570730ea543382676284fd9bd790820a49572d5",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/powermonitor.ts": {
-        "version": "ad837e9ebbaba724ee74775fdd6286be2928e6430b15de082b140d99bcef2425",
+        "version": "6d36b9cad4935d1aee9a5324970e627f729c5627766a7dc2e9ed5c461dab28a4",
         "signature": "271a69642272014220724db79836e57fa6d8cfc4994a89ab7a68d4d11b0d9847",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "2cfe44d730afe3dd67e16cd92ee83b29755097cab269aaaf6ec6d3c116d20cc9",
-        "signature": "b23f39a62e14370427e81d1c07ed04523632b66dd704692eb3907a05f3efca8e",
+        "version": "aecd78f8ea1fa524e0984768e04fb89001e9ad0b8cf03b1885a8c90361ae6cd8",
+        "signature": "a68e13dde030098cc2e03414e303c23b3d8597f923ef694df3b0fc5cf71297cf",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
-        "version": "52e4bd09d764a162641fb364d2602cd2097263291519171825ac678442c1eadf",
-        "signature": "adccf210fe178afbb26c4542fa24274b68dbf4c5103be361fb197e3b4abc2d99",
+        "version": "56ed688f9d46a14a45ee7a30ec9bf68d5c69154be0a2a90c9b6121b5a4cb84c6",
+        "signature": "bf14e59ab3340449d5ea7712012ddf9f5b6420ab608c0d5c487e68cd3c3605d5",
+        "affectsGlobalScope": false
+      },
+      "../src/crownstone/cloud/cloudcommandhandler.ts": {
+        "version": "a8cfc1775a69ac16c9d3100a5b3ccffe12faebf8e03d23bdc7726aa8de9521d9",
+        "signature": "545816800edc40c72a25d9503e7490686385e5dd11069943b6e1b1c1a9bc89ca",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/switchmonitor.ts": {
-        "version": "fe4753b415fc20245e8f48c00d0ea72e11441c0bfb96d99c0acbd2af572f1806",
-        "signature": "ba310ab317ad6c2f242cb9aa6350cced87f385265cdca3be3a59a8c4bf0a0be5",
+        "version": "4404bdc356f14f41e20fadefbf6a7578f7b88e8a517e90362eeb5a3f6fcc1167",
+        "signature": "484d42a584116719d2645ac1370938fd65c4f36dbe794ca7bf54fcd46ab0595c",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/meshmonitor.ts": {
-        "version": "61184885c6ec081c7c04652ba7f2fb9b69455ae50cad7665fd0268a9641b5aa2",
-        "signature": "7582417ab300819cc05030c53c4868f79d863d97c076abdab23735c5f8d4bc18",
+        "version": "60085207e6c507ff18d701d59dd6b2e01cd3a3d6d7afc8c72169fe621c3bccbf",
+        "signature": "3ba91b0d3ede986438011804ec2637ed8fb652840113574c5e783b83176d67a5",
+        "affectsGlobalScope": false
+      },
+      "../src/crownstone/actions/timekeeper.ts": {
+        "version": "ba1409a7ceb79ffbde067d357787094598f5d829db7779af2b595f778fc8cde8",
+        "signature": "fd80c65a27bb52753f29b39ef73b254d64cefcb222951c24a58a41dde8f79f5e",
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "66efe204fefe1240de3e75a1822a6379dd4d4764cc80b3b66924894d9d87db13",
-        "signature": "1c7a9d302ac90a6e11f8d291f86f65d2405e1bef002821a8fbc8e342845f6037",
+        "version": "0e5484ba11d0fbd23880c50e572fd6dbbc36c3d503a25242a1853f0b2f0c9a77",
+        "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
+        "affectsGlobalScope": false
+      },
+      "../src/datasources/mongo.datasource.config.ts": {
+        "version": "c2d12bd6c86693f86b6b4af7febc3427b16b558d22b8f13ed70195bed0402a4c",
+        "signature": "80d53a1efbe9c72601c4c04d9a11e196bb6d064daedb9571be9dc0e49ffbc979",
+        "affectsGlobalScope": false
+      },
+      "../src/datasources/mongodriver.ts": {
+        "version": "312c0ebb5e9406dc423e1756eeb866062df42fbe9cfc41e60622247ae470430b",
+        "signature": "b3fc55610a28388948083399129bce5a8e20f62f4fb350c659a7ce6eadf7a893",
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "44a43ff49fe558c4028f4fd3e2612776f79f30e2b75d13b82032bbb0b557dc99",
+        "version": "60655651f5f916a5599c2439d2e9555d7291961e3f558e8bdd4ede692c0b57c8",
         "signature": "2254a80d1603316588f28f708704f4d1b3b293306753a55f6a0b8d87ce2d93d8",
         "affectsGlobalScope": false
       },
@@ -2541,8 +2576,8 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/mesh.controller.ts": {
-        "version": "3b85d7aec64052e91da1fdf4a19fa544e8aae35bb9d8379a615cbfedabda6692",
-        "signature": "86d200a6924a65b04d2fb8651b05c4443ba11b7e6ee651e05d52edb36edd031f",
+        "version": "015706d42ac0c158f615818105f79994d3f80542869166c3b5b7dd61126c7dc3",
+        "signature": "1e5fbbf5b37701d0046343fa72aa3aeb67652f1ab2c8b7247f1de83993ca3b30",
         "affectsGlobalScope": false
       },
       "../src/controllers/power-usage.controller.ts": {
@@ -2575,11 +2610,6 @@
         "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "affectsGlobalScope": false
       },
-      "../src/datasources/mongo.datasource.config.ts": {
-        "version": "c2d12bd6c86693f86b6b4af7febc3427b16b558d22b8f13ed70195bed0402a4c",
-        "signature": "80d53a1efbe9c72601c4c04d9a11e196bb6d064daedb9571be9dc0e49ffbc979",
-        "affectsGlobalScope": false
-      },
       "../src/datasources/mongo.datasource.ts": {
         "version": "668acbd4ad8752ca17806fecc019bb1928da505031996f27ec0870ad70308e0f",
         "signature": "b151b167f64c581cc97edc5985d9b8470021f29e6f9dfee5893bcb7236cc4fa1",
@@ -2596,8 +2626,8 @@
         "affectsGlobalScope": true
       },
       "../src/declarations/declarations.d.ts": {
-        "version": "a1a3382d997e84d0ff33f8f81763e86116f904642b4e9c70f0dc91124500ed02",
-        "signature": "a1a3382d997e84d0ff33f8f81763e86116f904642b4e9c70f0dc91124500ed02",
+        "version": "9f6db073b3f7a88ca941a7098e1ce39336db8d0008bd30e84dd1710785b88f8a",
+        "signature": "9f6db073b3f7a88ca941a7098e1ce39336db8d0008bd30e84dd1710785b88f8a",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-core/src/declarations/declarations.d.ts": {
@@ -7362,6 +7392,7 @@
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/location.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/sphere.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
@@ -7379,6 +7410,15 @@
         "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts": [
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
         "../node_modules/@types/node/ts3.1/util.d.ts",
@@ -8453,12 +8493,14 @@
         "../node_modules/@types/node/ts3.4/util.d.ts"
       ],
       "../src/controllers/mesh.controller.ts": [
+        "../node_modules/@loopback/rest/dist/index.d.ts",
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
         "../node_modules/@types/node/ts3.1/util.d.ts",
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/process.d.ts",
-        "../node_modules/@types/node/ts3.4/util.d.ts"
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/crownstone/crownstonehub.ts"
       ],
       "../src/controllers/power-usage.controller.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
@@ -8507,6 +8549,24 @@
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts"
       ],
+      "../src/crownstone/actions/timekeeper.ts": [
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts"
+      ],
+      "../src/crownstone/cloud/cloudcommandhandler.ts": [
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/crownstone/cloud/cloudmanager.ts",
+        "../src/util/util.ts"
+      ],
       "../src/crownstone/cloud/cloudmanager.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
@@ -8542,6 +8602,8 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/crownstone/actions/timekeeper.ts",
+        "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/cloud/cloudmanager.ts",
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/meshmonitor/meshmonitor.ts",
@@ -8589,10 +8651,12 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/crownstone/eventbus.ts",
         "../src/crownstone/meshmonitor/energymonitor.ts",
         "../src/crownstone/meshmonitor/powermonitor.ts",
         "../src/crownstone/meshmonitor/switchmonitor.ts",
-        "../src/crownstone/meshmonitor/topologymonitor.ts"
+        "../src/crownstone/meshmonitor/topologymonitor.ts",
+        "../src/crownstone/topics.ts"
       ],
       "../src/crownstone/meshmonitor/powermonitor.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
@@ -8610,7 +8674,9 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
-        "../src/crownstone/data/dbreference.ts"
+        "../src/crownstone/cloud/cloudcommandhandler.ts",
+        "../src/crownstone/data/dbreference.ts",
+        "../src/crownstone/data/memorydb.ts"
       ],
       "../src/crownstone/meshmonitor/topologymonitor.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
@@ -8646,6 +8712,7 @@
         "../node_modules/crownstone-uart/dist/index.d.ts",
         "../src/config.ts",
         "../src/crownstone/eventbus.ts",
+        "../src/crownstone/topics.ts",
         "../src/crownstone/uart/promisemanager.ts"
       ],
       "../src/datasources/index.ts": [
@@ -8668,6 +8735,15 @@
       "../src/datasources/mongo.datasource.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts",
         "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/datasources/mongo.datasource.config.ts"
+      ],
+      "../src/datasources/mongodriver.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
         "../node_modules/@types/node/ts3.1/util.d.ts",
@@ -8703,6 +8779,7 @@
         "../src/application.ts",
         "../src/crownstone/crownstonehub.ts",
         "../src/crownstone/data/dbreference.ts",
+        "../src/datasources/mongodriver.ts",
         "../src/repositories/index.ts",
         "../src/security/verifycertificates.ts"
       ],
@@ -8743,11 +8820,21 @@
         "../src/models/energy-data.model.ts",
         "../src/models/hub.model.ts",
         "../src/models/power-data.model.ts",
+        "../src/models/sphere-feature.model.ts",
         "../src/models/switch-data.model.ts",
         "../src/models/user-permission.model.ts",
         "../src/models/user.model.ts"
       ],
       "../src/models/power-data.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts"
+      ],
+      "../src/models/sphere-feature.model.ts": [
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
@@ -8818,6 +8905,7 @@
         "../src/repositories/energy-data.repository.ts",
         "../src/repositories/hub.repository.ts",
         "../src/repositories/power-data.repository.ts",
+        "../src/repositories/sphere-feature.repository.ts",
         "../src/repositories/switch-data.repository.ts",
         "../src/repositories/user-permission.repository.ts",
         "../src/repositories/user.repository.ts"
@@ -8832,6 +8920,17 @@
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../src/models/power-data.model.ts"
+      ],
+      "../src/repositories/sphere-feature.repository.ts": [
+        "../node_modules/@loopback/core/dist/index.d.ts",
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/models/sphere-feature.model.ts"
       ],
       "../src/repositories/switch-data.repository.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts",
@@ -13441,6 +13540,7 @@
         "../node_modules/@types/node/ts3.4/process.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts",
+        "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/location.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/sphere.d.ts",
         "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
@@ -13458,6 +13558,15 @@
         "../node_modules/crownstone-cloud/dist/tools/toolchain.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts": [
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/process.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/process.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/crownstone-cloud/dist/tools/requestors.d.ts"
+      ],
+      "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts": [
         "../node_modules/@types/node/ts3.1/fs.d.ts",
         "../node_modules/@types/node/ts3.1/process.d.ts",
         "../node_modules/@types/node/ts3.1/util.d.ts",
@@ -14459,6 +14568,9 @@
       "../src/controllers/switch.controller.ts": [
         "../src/security/authentication-strategies/cstoken-strategy.ts"
       ],
+      "../src/crownstone/cloud/cloudcommandhandler.ts": [
+        "../src/crownstone/cloud/cloudmanager.ts"
+      ],
       "../src/crownstone/cloud/cloudmanager.ts": [
         "../node_modules/crownstone-cloud/dist/index.d.ts",
         "../node_modules/crownstone-sse/dist/index.d.ts",
@@ -14466,6 +14578,7 @@
         "../src/models/hub.model.ts"
       ],
       "../src/crownstone/crownstonehub.ts": [
+        "../src/crownstone/actions/timekeeper.ts",
         "../src/crownstone/cloud/cloudmanager.ts",
         "../src/crownstone/meshmonitor/meshmonitor.ts",
         "../src/crownstone/uart/uart.ts"
@@ -14520,11 +14633,15 @@
         "../src/models/energy-data.model.ts",
         "../src/models/hub.model.ts",
         "../src/models/power-data.model.ts",
+        "../src/models/sphere-feature.model.ts",
         "../src/models/switch-data.model.ts",
         "../src/models/user-permission.model.ts",
         "../src/models/user.model.ts"
       ],
       "../src/models/power-data.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/sphere-feature.model.ts": [
         "../node_modules/@loopback/repository/dist/index.d.ts"
       ],
       "../src/models/switch-data.model.ts": [
@@ -14550,6 +14667,7 @@
         "../src/repositories/energy-data.repository.ts",
         "../src/repositories/hub.repository.ts",
         "../src/repositories/power-data.repository.ts",
+        "../src/repositories/sphere-feature.repository.ts",
         "../src/repositories/switch-data.repository.ts",
         "../src/repositories/user-permission.repository.ts",
         "../src/repositories/user.repository.ts"
@@ -14557,6 +14675,10 @@
       "../src/repositories/power-data.repository.ts": [
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/power-data.model.ts"
+      ],
+      "../src/repositories/sphere-feature.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../src/models/sphere-feature.model.ts"
       ],
       "../src/repositories/switch-data.repository.ts": [
         "../node_modules/@loopback/repository/dist/index.d.ts",
@@ -14993,6 +15115,7 @@
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts",
       "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts",
       "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts",
+      "../node_modules/crownstone-cloud/dist/datacontainers/hub.d.ts",
       "../node_modules/crownstone-cloud/dist/datacontainers/location.d.ts",
       "../node_modules/crownstone-cloud/dist/datacontainers/sphere.d.ts",
       "../node_modules/crownstone-cloud/dist/datacontainers/user.d.ts",
@@ -15116,6 +15239,8 @@
       "../src/controllers/switch.controller.ts",
       "../src/controllers/system-state.controller.ts",
       "../src/controllers/user.controller.ts",
+      "../src/crownstone/actions/timekeeper.ts",
+      "../src/crownstone/cloud/cloudcommandhandler.ts",
       "../src/crownstone/cloud/cloudmanager.ts",
       "../src/crownstone/cloud/sseeventhandler.ts",
       "../src/crownstone/crownstonehub.ts",
@@ -15133,6 +15258,7 @@
       "../src/datasources/index.ts",
       "../src/datasources/mongo.datasource.config.ts",
       "../src/datasources/mongo.datasource.ts",
+      "../src/datasources/mongodriver.ts",
       "../src/declarations/cloudtypes.d.ts",
       "../src/declarations/declarations.d.ts",
       "../src/index.ts",
@@ -15141,6 +15267,7 @@
       "../src/models/hub.model.ts",
       "../src/models/index.ts",
       "../src/models/power-data.model.ts",
+      "../src/models/sphere-feature.model.ts",
       "../src/models/switch-data.model.ts",
       "../src/models/user-permission.model.ts",
       "../src/models/user.model.ts",
@@ -15148,6 +15275,7 @@
       "../src/repositories/hub.repository.ts",
       "../src/repositories/index.ts",
       "../src/repositories/power-data.repository.ts",
+      "../src/repositories/sphere-feature.repository.ts",
       "../src/repositories/switch-data.repository.ts",
       "../src/repositories/user-permission.repository.ts",
       "../src/repositories/user.repository.ts",

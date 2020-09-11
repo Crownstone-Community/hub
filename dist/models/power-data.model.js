@@ -28,6 +28,14 @@ tslib_1.__decorate([
     repository_1.property({ type: 'date' }),
     tslib_1.__metadata("design:type", Date)
 ], PowerData.prototype, "timestamp", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'boolean' }),
+    tslib_1.__metadata("design:type", Boolean)
+], PowerData.prototype, "significant", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'boolean' }),
+    tslib_1.__metadata("design:type", Boolean)
+], PowerData.prototype, "uploaded", void 0);
 PowerData = tslib_1.__decorate([
     repository_1.model(),
     tslib_1.__metadata("design:paramtypes", [Object])

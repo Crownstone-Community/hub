@@ -9,6 +9,7 @@ export declare class CloudManager {
     sse: CrownstoneSSE | null;
     sseEventHandler: SseEventHandler;
     initializeInProgress: boolean;
+    initialized: boolean;
     loginInProgress: boolean;
     syncInProgress: boolean;
     sseSetupInprogress: boolean;
@@ -24,6 +25,7 @@ export declare class CloudManager {
     setupEvents(): void;
     cleanup(): Promise<void>;
     initialize(): Promise<void>;
+    recover(delayMs?: number): Promise<void>;
     login(hub: Hub): Promise<void>;
     sync(): Promise<void>;
     setupSSE(hub: Hub): Promise<void>;

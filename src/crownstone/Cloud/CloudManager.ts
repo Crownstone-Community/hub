@@ -21,6 +21,7 @@ export class CloudManager {
   sseEventHandler : SseEventHandler;
 
   initializeInProgress = false;
+  initialized = false;
   loginInProgress = false;
   syncInProgress = false;
   sseSetupInprogress = false;
@@ -60,6 +61,7 @@ export class CloudManager {
       await Util.wait(100);
     }
 
+    this.initialized = false;
     this.resetTriggered = false;
     // @ts-ignore
     this.sphereId = null;
@@ -80,45 +82,52 @@ export class CloudManager {
 
 
   async initialize() {
-    await this.updateLocalIp()
-
     if (this.initializeInProgress === true) { return; }
-    LOG.info("Cloudmanager initialize started.");
+
+    // The hub can never be not trying to connect unless it has no database reference to the hub itself.
     this.initializeInProgress = true;
     let hub = await DbRef.hub.get();
     if (hub) {
-      try {
-        await this.login(hub);
-        await this.setupSSE(hub);
-        await this.sync();
-        await this.updateLocalIp();
 
-        if (this.intervalsRegistered === false) {
-          this.intervalsRegistered = true;
+      // we have a hub database entry. We will continue to retry to initialize until we either succeed or the hub
+      while (this.initialized === false) {
+        let hub = await DbRef.hub.get();
+        if (!hub) { break }
+        LOG.info("Cloudmanager initialize started.");
+        try {
 
-          if (this.interval_sync !== null && this.interval_ip !== null) {
-            clearInterval(this.interval_ip);
-            clearInterval(this.interval_sync);
-          }
-          this.interval_ip   = setInterval(() => { this.updateLocalIp(); }, 15*60*1000); // every 15 minutes
-          this.interval_sync = setInterval(() => { this.sync().catch(async (err) => {
-            if (err === 401) {
-              await this.cleanup();
-              while (this.initializeInProgress) {
-                await Util.wait(2000);
-              }
-              await this.initialize();
+          await this.login(hub);
+          await this.setupSSE(hub);
+          await this.sync();
+          await this.updateLocalIp();
+
+          if (this.intervalsRegistered === false) {
+            this.intervalsRegistered = true;
+
+            if (this.interval_sync !== null && this.interval_ip !== null) {
+              clearInterval(this.interval_ip);
+              clearInterval(this.interval_sync);
             }
-          })}, 60*60*1000); // every 60 minutes
+
+            this.interval_ip   = setInterval(() => { this.updateLocalIp(); }, 15*60*1000); // every 15 minutes
+            this.interval_sync = setInterval(() => { this.sync().catch(async (err) => {
+              if (err === 401) {
+                await (this.recover(2000));
+              }
+            })}, 60*60*1000); // every 60 minutes
+
+            this.initialized = true;
+          }
         }
-      }
-      catch (err) {
-        LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
-        eventBus.emit(topics.CLOUD_AUTHENTICATION_PROBLEM_401);
+        catch (err) {
+          LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
+          eventBus.emit(topics.CLOUD_AUTHENTICATION_PROBLEM_401);
+          this.initialized = false;
+        }
       }
     }
     else {
-      console.log("No hub data yet")
+      LOG.info("No hub data yet")
     }
     LOG.info("Cloudmanager initialize finished.");
 
@@ -126,6 +135,14 @@ export class CloudManager {
   }
 
 
+  async recover(delayMs = 500) {
+    await this.cleanup();
+    await Util.wait(delayMs)
+    while (this.initializeInProgress) {
+      await Util.wait(2000);
+    }
+    await this.initialize();
+  }
 
   async login(hub: Hub) {
     if (this.loginInProgress === true) { return; }
@@ -141,7 +158,7 @@ export class CloudManager {
         let loginData = await this.cloud.hubLogin(hub.cloudId, hub.token);
         cloudLoggedIn = true;
         hub.accessToken = loginData.accessToken;
-        hub.accessTokenExpiration = new Date((loginData.ttl*1000) + new Date().valueOf());
+        hub.accessTokenExpiration = new Date((loginData.ttl*1000) + Date.now());
         await DbRef.hub.update(hub);
       }
       catch(e) {
@@ -264,7 +281,7 @@ export class CloudManager {
       let ipUpdated = false;
       while (ipUpdated == false && this.resetTriggered === false) {
         try {
-          await REST.updateHubIP(ips);
+          await this.cloud.hub().setLocalIpAddress(ips);
           this.storedIpAddress = ips;
           ipUpdated = true;
         } catch (e) {

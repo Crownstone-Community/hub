@@ -1,6 +1,6 @@
 
 #export DEBUG="INFO:crownstone* -crownstone-verbose*"
-export DEBUG="INFO:crownstone*"
+export DEBUG="INFO:crownstone* mongo*"
 export DEBUG_HIDE_DATE="false"
 export DEBUG_LEVEL="INFO"
 export DEBUG_JSON="false"

@@ -6,7 +6,7 @@ class TopologyMonitor {
         this.crownstonesInMesh = {};
     }
     collect(crownstoneId) {
-        this.crownstonesInMesh[crownstoneId] = true;
+        this.crownstonesInMesh[crownstoneId] = Date.now();
     }
 }
 exports.TopologyMonitor = TopologyMonitor;

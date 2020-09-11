@@ -2,10 +2,10 @@
 
 export class TopologyMonitor {
 
-  crownstonesInMesh : { [stoneUid : number] : boolean } = {};
+  crownstonesInMesh : { [stoneUid : number] : number } = {};
 
   collect(crownstoneId: number) {
-    this.crownstonesInMesh[crownstoneId] = true
+    this.crownstonesInMesh[crownstoneId] = Date.now();
   }
 
 }

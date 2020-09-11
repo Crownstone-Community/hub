@@ -5,7 +5,12 @@ export class PowerMonitor {
 
   collect(crownstoneId: number, powerUsageReal: number, powerFactor: number) {
     DbRef.power.create({
-      stoneUID: crownstoneId, powerUsage: powerUsageReal, powerFactor: powerFactor, timestamp: new Date()
+      stoneUID:    crownstoneId,
+      powerUsage:  powerUsageReal,
+      powerFactor: powerFactor,
+      timestamp:   new Date(),
+      significant: false,
+      uploaded:    false
     })
   }
 

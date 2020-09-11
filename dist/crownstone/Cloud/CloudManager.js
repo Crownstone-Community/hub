@@ -16,6 +16,7 @@ class CloudManager {
     constructor() {
         this.sse = null;
         this.initializeInProgress = false;
+        this.initialized = false;
         this.loginInProgress = false;
         this.syncInProgress = false;
         this.sseSetupInprogress = false;
@@ -45,6 +46,7 @@ class CloudManager {
         while (this.initializeInProgress || this.loginInProgress || this.sseSetupInprogress || this.syncInProgress) {
             await Util_1.Util.wait(100);
         }
+        this.initialized = false;
         this.resetTriggered = false;
         // @ts-ignore
         this.sphereId = null;
@@ -60,49 +62,62 @@ class CloudManager {
         LOG.debug("Cloudmanager cleanup finished.");
     }
     async initialize() {
-        await this.updateLocalIp();
         if (this.initializeInProgress === true) {
             return;
         }
-        LOG.info("Cloudmanager initialize started.");
+        // The hub can never be not trying to connect unless it has no database reference to the hub itself.
         this.initializeInProgress = true;
         let hub = await DbReference_1.DbRef.hub.get();
         if (hub) {
-            try {
-                await this.login(hub);
-                await this.setupSSE(hub);
-                await this.sync();
-                await this.updateLocalIp();
-                if (this.intervalsRegistered === false) {
-                    this.intervalsRegistered = true;
-                    if (this.interval_sync !== null && this.interval_ip !== null) {
-                        clearInterval(this.interval_ip);
-                        clearInterval(this.interval_sync);
-                    }
-                    this.interval_ip = setInterval(() => { this.updateLocalIp(); }, 15 * 60 * 1000); // every 15 minutes
-                    this.interval_sync = setInterval(() => {
-                        this.sync().catch(async (err) => {
-                            if (err === 401) {
-                                await this.cleanup();
-                                while (this.initializeInProgress) {
-                                    await Util_1.Util.wait(2000);
-                                }
-                                await this.initialize();
-                            }
-                        });
-                    }, 60 * 60 * 1000); // every 60 minutes
+            // we have a hub database entry. We will continue to retry to initialize until we either succeed or the hub
+            while (this.initialized === false) {
+                let hub = await DbReference_1.DbRef.hub.get();
+                if (!hub) {
+                    break;
                 }
-            }
-            catch (err) {
-                LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
-                EventBus_1.eventBus.emit(topics_1.topics.CLOUD_AUTHENTICATION_PROBLEM_401);
+                LOG.info("Cloudmanager initialize started.");
+                try {
+                    await this.login(hub);
+                    await this.setupSSE(hub);
+                    await this.sync();
+                    await this.updateLocalIp();
+                    if (this.intervalsRegistered === false) {
+                        this.intervalsRegistered = true;
+                        if (this.interval_sync !== null && this.interval_ip !== null) {
+                            clearInterval(this.interval_ip);
+                            clearInterval(this.interval_sync);
+                        }
+                        this.interval_ip = setInterval(() => { this.updateLocalIp(); }, 15 * 60 * 1000); // every 15 minutes
+                        this.interval_sync = setInterval(() => {
+                            this.sync().catch(async (err) => {
+                                if (err === 401) {
+                                    await (this.recover(2000));
+                                }
+                            });
+                        }, 60 * 60 * 1000); // every 60 minutes
+                        this.initialized = true;
+                    }
+                }
+                catch (err) {
+                    LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
+                    EventBus_1.eventBus.emit(topics_1.topics.CLOUD_AUTHENTICATION_PROBLEM_401);
+                    this.initialized = false;
+                }
             }
         }
         else {
-            console.log("No hub data yet");
+            LOG.info("No hub data yet");
         }
         LOG.info("Cloudmanager initialize finished.");
         this.initializeInProgress = false;
+    }
+    async recover(delayMs = 500) {
+        await this.cleanup();
+        await Util_1.Util.wait(delayMs);
+        while (this.initializeInProgress) {
+            await Util_1.Util.wait(2000);
+        }
+        await this.initialize();
     }
     async login(hub) {
         if (this.loginInProgress === true) {
@@ -118,7 +133,7 @@ class CloudManager {
                 let loginData = await this.cloud.hubLogin(hub.cloudId, hub.token);
                 cloudLoggedIn = true;
                 hub.accessToken = loginData.accessToken;
-                hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + new Date().valueOf());
+                hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + Date.now());
                 await DbReference_1.DbRef.hub.update(hub);
             }
             catch (e) {
@@ -240,7 +255,7 @@ class CloudManager {
             let ipUpdated = false;
             while (ipUpdated == false && this.resetTriggered === false) {
                 try {
-                    await crownstone_cloud_1.REST.updateHubIP(ips);
+                    await this.cloud.hub().setLocalIpAddress(ips);
                     this.storedIpAddress = ips;
                     ipUpdated = true;
                 }

@@ -5,7 +5,12 @@ const DbReference_1 = require("../Data/DbReference");
 class PowerMonitor {
     collect(crownstoneId, powerUsageReal, powerFactor) {
         DbReference_1.DbRef.power.create({
-            stoneUID: crownstoneId, powerUsage: powerUsageReal, powerFactor: powerFactor, timestamp: new Date()
+            stoneUID: crownstoneId,
+            powerUsage: powerUsageReal,
+            powerFactor: powerFactor,
+            timestamp: new Date(),
+            significant: false,
+            uploaded: false
         });
     }
 }

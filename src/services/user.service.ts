@@ -19,11 +19,6 @@ export class UserService {
     return foundUser;
   }
 
-
-  async mock() {
-    return this.userRepository.create({userId:"tetst", userToken:"666"})
-  }
-
   async getAll() {
     return this.userRepository.find()
   }

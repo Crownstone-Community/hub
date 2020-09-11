@@ -9,6 +9,7 @@ let EnergyDataRepository = class EnergyDataRepository extends repository_1.Defau
     constructor(datasource) {
         super(energy_data_model_1.EnergyData, datasource);
         this.datasource = datasource;
+        this.datasource.autoupdate();
     }
 };
 EnergyDataRepository = tslib_1.__decorate([

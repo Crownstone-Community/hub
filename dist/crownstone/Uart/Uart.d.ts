@@ -1,6 +1,6 @@
 import { CrownstoneUart } from 'crownstone-uart';
 import { PromiseManager } from './PromiseManager';
-export declare class Uart {
+export declare class Uart implements UartInterface {
     uart: CrownstoneUart;
     queue: PromiseManager;
     ready: boolean;

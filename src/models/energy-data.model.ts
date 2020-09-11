@@ -9,12 +9,15 @@ export class EnergyData extends Entity {
   @property({type: 'string', id: true})
   id: string;
 
-  @property({type: 'number', required: true})
+  @property({type: 'number', required: true, index: true})
   stoneUID: number;
 
   @property({type: 'number'})
   energyUsage: number;
 
-  @property({type: 'date'})
+  @property({type: 'date', index: true})
   timestamp: Date
+
+  @property({ type:'boolean', index: true })
+  uploaded: boolean
 }

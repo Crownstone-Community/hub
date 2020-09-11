@@ -1,1 +1,1 @@
-{"version":3,"file":"topics.js","sourceRoot":"","sources":["../../src/crownstone/topics.ts"],"names":[],"mappings":";;;AAEa,QAAA,MAAM,GAAG;IACpB,mBAAmB,EAAG,qBAAqB;IAC3C,aAAa,EAAS,eAAe;IACrC,gBAAgB,EAAM,kBAAkB;IAExC,WAAW,EAAW,aAAa;IACnC,WAAW,EAAW,aAAa;IAEnC,iBAAiB,EAAK,mBAAmB;CAC1C,CAAA"}
+{"version":3,"file":"topics.js","sourceRoot":"","sources":["../../src/crownstone/topics.ts"],"names":[],"mappings":";;;AAEa,QAAA,MAAM,GAAG;IACpB,mBAAmB,EAAG,qBAAqB;IAC3C,aAAa,EAAS,eAAe;IAErC,gCAAgC,EAAM,kCAAkC;IAExE,WAAW,EAAW,aAAa;IACnC,WAAW,EAAW,aAAa;IAEnC,iBAAiB,EAAK,mBAAmB;CAC1C,CAAA"}
