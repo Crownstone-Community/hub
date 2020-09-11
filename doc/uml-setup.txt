@@ -1,0 +1,32 @@
+@startuml
+participant hub
+participant dongle
+participant app
+participant cloud
+
+dongle --> app : Advertise dongle in setup mode
+hub -> dongle : ping
+dongle -> hub : ping
+hub -> dongle : set hub mode (hub_mode=setup)
+dongle --> app : Advertise (hub_dongle_mode=setup, hub_mode=setup)
+app -> cloud : Create stone hub dongle
+cloud -> cloud : Generate UART key
+cloud -> app : Dongle keys
+app -> dongle : Perform setup
+dongle -> app : Setup complete
+dongle --> app: Advertise (hub_dongle_mode=normal, hub_mode=setup)
+app -> dongle : Set UART key
+app -> cloud : Create hub (sphere X, token Y)
+cloud -> app: Hub created
+app -> dongle : Set hub token (sphere X, token Y)
+dongle -> hub : Set hub token (sphere X, token Y)
+hub -> cloud : Get user tokens, and sphere data, UART key
+cloud -> hub : User tokens, and sphere data, UART key
+hub -> cloud : My local IP is 10.0.0.134
+hub -> dongle : Setup success
+dongle --> app : Advertise (hub_dongle_mode=normal, hub_mode=normal)
+app -> cloud : Get hub IP 
+cloud -> app: Hub IP 10.0.0.134
+app -> hub : hello world (with user token)
+@enduml
+
