@@ -13,7 +13,7 @@ declare class MemoryDbClass {
     stones: {
         [key: string]: Crownstone;
     };
-    loadCloudStoneData(stoneData: CloudStoneData[]): void;
+    loadCloudStoneData(stoneData: cloud_Stone[]): void;
 }
 export declare const MemoryDb: MemoryDbClass;
 export {};

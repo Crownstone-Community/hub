@@ -5,16 +5,16 @@ import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 const LOG = require('debug-level')('crownstone-hub-base')
 
 class CrownstoneHubClass {
-  uart     : Uart;
-  cloud    : CloudManager;
-  mesh     : MeshMonitor;
+  uart  : Uart;
+  cloud : CloudManager;
+  mesh  : MeshMonitor;
 
   launched = false
 
   constructor() {
-    this.uart     = new Uart();
-    this.cloud    = new CloudManager()
-    this.mesh     = new MeshMonitor()
+    this.uart  = new Uart();
+    this.cloud = new CloudManager()
+    this.mesh  = new MeshMonitor()
   }
 
 

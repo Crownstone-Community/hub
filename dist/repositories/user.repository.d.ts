@@ -10,5 +10,5 @@ export declare class UserRepository extends DefaultCrudRepository<User, typeof U
     constructor(userPermissionRepository: UserPermissionRepository, datasource: juggler.DataSource);
     create(entity: DataObject<User>, options?: Options): Promise<User>;
     checkUniqueness(entity: DataObject<User>): Promise<void>;
-    merge(cloudUserData: CloudSphereUsers, tokenData: CloudAuthorizationTokens): Promise<void>;
+    merge(cloudUserData: cloud_sphereUserDataSet, tokenData: cloud_SphereAuthorizationTokens): Promise<void>;
 }

@@ -38,13 +38,13 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
     }
   }
 
-  async merge(cloudUserData : CloudSphereUsers, tokenData: CloudAuthorizationTokens) {
+  async merge(cloudUserData : cloud_sphereUserDataSet, tokenData: cloud_SphereAuthorizationTokens) {
     let userData : { [key:string] : DataObject<User>} = {};
     let matchingCloudIdMap : map = {};
 
     let currentUsers = await this.find();
 
-    function prepareUser(sphereUser: SphereUser) : DataObject<User> {
+    function prepareUser(sphereUser: cloud_UserData) : DataObject<User> {
       return {
         userId: sphereUser.id,
         userToken: tokenData[sphereUser.id],

@@ -12,11 +12,13 @@ let CsTokenStrategy = class CsTokenStrategy {
         this.name = 'csTokens';
     }
     async authenticate(request) {
-        if (!request.query.access_token) {
+        let access_token = String(request.header('access_token') ||
+            request.header('Authorization') ||
+            request.query.access_token);
+        if (!access_token) {
             throw new rest_1.HttpErrors.Unauthorized(`Access token not found.`);
         }
-        let token = request.query.access_token;
-        let user = await this.userService.checkAccessToken(token);
+        let user = await this.userService.checkAccessToken(access_token);
         let userProfile = {
             [security_1.securityId]: user.id,
             permissions: {

@@ -1,9 +1,7 @@
-import {eventBus} from '../EventBus';
-import {topics} from '../topics';
-import {PowerMonitor} from './PowerMonitor';
-import {EnergyMonitor} from './EnergyMonitor';
-import {TopologyMonitor} from './TopologyMonitor';
-import {SwitchMonitor} from './SwitchMonitor';
+import { PowerMonitor }    from './PowerMonitor';
+import { EnergyMonitor }   from './EnergyMonitor';
+import { TopologyMonitor } from './TopologyMonitor';
+import { SwitchMonitor }   from './SwitchMonitor';
 const LOG = require('debug-level')('crownstone-hub-mesh-monitor')
 
 export class MeshMonitor {
@@ -13,8 +11,6 @@ export class MeshMonitor {
   energy:   EnergyMonitor;
   switch:   SwitchMonitor;
   topology: TopologyMonitor;
-
-
 
 
   constructor() {
@@ -35,11 +31,11 @@ export class MeshMonitor {
   }
 
   gather(data: ServiceDataJson) {
-    let crownstoneId = data.crownstoneId;
-    LOG.debug("Received data from", crownstoneId)
-    this.power.collect(crownstoneId, data.powerUsageReal, data.powerFactor);
-    this.energy.collect(crownstoneId, data.accumulatedEnergy);
-    this.switch.collect(crownstoneId, data.switchState);
-    this.topology.collect(crownstoneId);
+    let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
+    LOG.debug("Received data from", crownstoneUid)
+    this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
+    this.energy.collect(crownstoneUid, data.accumulatedEnergy);
+    this.switch.collect(crownstoneUid, data.switchState);
+    this.topology.collect(crownstoneUid);
   }
 } 

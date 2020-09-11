@@ -22,11 +22,16 @@ export class CsTokenStrategy implements AuthenticationStrategy {
   ) {}
 
   async authenticate(request: Request): Promise<UserProfile | undefined> {
-    if (!request.query.access_token) {
+    let access_token : string = String(
+      request.header('access_token')     ||
+      request.header('Authorization')    ||
+      request.query.access_token
+    );
+
+    if (!access_token) {
       throw new HttpErrors.Unauthorized(`Access token not found.`);
     }
-    let token = request.query.access_token;
-    let user = await this.userService.checkAccessToken(token)
+    let user = await this.userService.checkAccessToken(access_token)
 
     let userProfile : UserProfileDescription = {
       [securityId]: user.id,
