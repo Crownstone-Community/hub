@@ -1680,9 +1680,9 @@ crownstone-sse@^3.0.3:
     typescript "^3.7.5"
 
 crownstone-uart@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.6.2.tgz#4007a584828697fa18a72c86e0c54da3a6550d54"
-  integrity sha512-4Fh4YJJi3xkzNzQ8OUx71M7MEeGQLqxGpv7R+gE7mZEGNW96SbrEf5DHe2Z00xdNCQ4MTumXDpesKZeDMD8fAg==
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.6.3.tgz#dfe2ec3a15c50047287798e50d34d03d594d270a"
+  integrity sha512-pd5yTO4CVBKpi2aRdOIj+6EHe8W/crhvfRfNLjaKb/5RfE8kyp7yBdiSg4IVFss/aeSFxNAVXm3UqLLVjGmibg==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.4.1"
