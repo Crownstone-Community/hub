@@ -2,10 +2,10 @@ import {CrownstoneHubApplication} from './application';
 import {ApplicationConfig} from '@loopback/core';
 import * as fs from 'fs';
 import {verifyCertificate} from './security/VerifyCertificates';
-import {EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
+import {EnergyDataProcessedRepository, EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
-import {MongoDbConnector} from './datasources/mongoDriver';
+// import {MongoDbConnector} from './datasources/mongoDriver';
 
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
@@ -27,20 +27,21 @@ export async function main(options: ApplicationConfig = {}) {
 
   const url = app.restServer.url;
 
-  DbRef.hub      = await app.getRepository(HubRepository)
-  DbRef.power    = await app.getRepository(PowerDataRepository)
-  DbRef.energy   = await app.getRepository(EnergyDataRepository)
-  DbRef.user     = await app.getRepository(UserRepository)
-  DbRef.switches = await app.getRepository(SwitchDataRepository)
+  DbRef.hub             = await app.getRepository(HubRepository)
+  DbRef.power           = await app.getRepository(PowerDataRepository)
+  DbRef.energy          = await app.getRepository(EnergyDataRepository)
+  DbRef.energyProcessed = await app.getRepository(EnergyDataProcessedRepository)
+  DbRef.user            = await app.getRepository(UserRepository)
+  DbRef.switches        = await app.getRepository(SwitchDataRepository)
 
-  const connector = new MongoDbConnector()
-  await connector.connect();
-  const energyCollection = connector.db.collection('EnergyData');
-  console.time('index')
-  energyCollection.createIndexes([
-    {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
-  ]);
-  console.timeEnd('index')
+  // const connector = new MongoDbConnector()
+  // await connector.connect();
+  // const energyCollection = connector.db.collection('EnergyData');
+  // console.time('index')
+  // energyCollection.createIndexes([
+  //   {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
+  // ]);
+  // console.timeEnd('index')
 
 
   await CrownstoneHub.initialize();

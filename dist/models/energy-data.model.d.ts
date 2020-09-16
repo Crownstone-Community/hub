@@ -4,6 +4,7 @@ export declare class EnergyData extends Entity {
     id: string;
     stoneUID: number;
     energyUsage: number;
+    pointPowerUsage: number;
     timestamp: Date;
-    uploaded: boolean;
+    processed: boolean;
 }

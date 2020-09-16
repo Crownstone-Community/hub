@@ -12,6 +12,7 @@ interface Crownstone {
 }
 
 class MemoryDbClass {
+  // the key of the stones is the UID, the short-uint8 id.
   stones: {[key: string]: Crownstone} = {};
 
   loadCloudStoneData( stoneData: cloud_Stone[] ) {

@@ -46,7 +46,7 @@ export class MeshMonitor {
     LOG.debug("Received data from", crownstoneUid)
 
     this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
-    this.energy.collect(crownstoneUid, data.accumulatedEnergy);
+    this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal);
     this.switch.collect(crownstoneUid, data.switchState);
     this.topology.collect(crownstoneUid);
   }

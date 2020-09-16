@@ -4,6 +4,7 @@
 // License text available at https://opensource.org/licenses/MIT
 
 export * from './energy-data.repository';
+export * from './energy-data-processed.repository';
 export * from './power-data.repository';
 export * from './switch-data.repository';
 export * from './sphere-feature.repository';

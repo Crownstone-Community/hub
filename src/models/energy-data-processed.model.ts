@@ -1,8 +1,8 @@
 import { Entity, model, property } from '@loopback/repository';
 
 @model()
-export class EnergyData extends Entity {
-  constructor(data?: Partial<EnergyData>) {
+export class EnergyDataProcessed extends Entity {
+  constructor(data?: Partial<EnergyDataProcessed>) {
     super(data);
   }
 
@@ -15,12 +15,9 @@ export class EnergyData extends Entity {
   @property({type: 'number'})
   energyUsage: number;
 
-  @property({type: 'number'})
-  pointPowerUsage: number;
-
   @property({type: 'date', index: true})
   timestamp: Date
 
   @property({ type:'boolean', index: true })
-  processed: boolean
+  uploaded: boolean
 }

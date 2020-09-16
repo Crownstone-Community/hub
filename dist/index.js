@@ -9,7 +9,6 @@ const VerifyCertificates_1 = require("./security/VerifyCertificates");
 const repositories_1 = require("./repositories");
 const DbReference_1 = require("./crownstone/Data/DbReference");
 const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
-const mongoDriver_1 = require("./datasources/mongoDriver");
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
     let path = await VerifyCertificates_1.verifyCertificate();
@@ -28,16 +27,17 @@ async function main(options = {}) {
     DbReference_1.DbRef.hub = await app.getRepository(repositories_1.HubRepository);
     DbReference_1.DbRef.power = await app.getRepository(repositories_1.PowerDataRepository);
     DbReference_1.DbRef.energy = await app.getRepository(repositories_1.EnergyDataRepository);
+    DbReference_1.DbRef.energyProcessed = await app.getRepository(repositories_1.EnergyDataProcessedRepository);
     DbReference_1.DbRef.user = await app.getRepository(repositories_1.UserRepository);
     DbReference_1.DbRef.switches = await app.getRepository(repositories_1.SwitchDataRepository);
-    const connector = new mongoDriver_1.MongoDbConnector();
-    await connector.connect();
-    const energyCollection = connector.db.collection('EnergyData');
-    console.time('index');
-    energyCollection.createIndexes([
-        { key: { uploaded: 1, stoneUID: 1, timestamp: 1 } },
-    ]);
-    console.timeEnd('index');
+    // const connector = new MongoDbConnector()
+    // await connector.connect();
+    // const energyCollection = connector.db.collection('EnergyData');
+    // console.time('index')
+    // energyCollection.createIndexes([
+    //   {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
+    // ]);
+    // console.timeEnd('index')
     await CrownstoneHub_1.CrownstoneHub.initialize();
     console.log(`Server is running at ${url}`);
     return app;

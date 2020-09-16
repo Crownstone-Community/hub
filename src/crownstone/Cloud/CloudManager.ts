@@ -99,6 +99,7 @@ export class CloudManager {
           await this.login(hub);
           await this.setupSSE(hub);
           await this.sync();
+          // TODO: download last known datapoints to get an offset for energy samples
           await this.updateLocalIp();
 
           if (this.intervalsRegistered === false) {
