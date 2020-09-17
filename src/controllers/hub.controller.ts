@@ -12,6 +12,7 @@ import {eventBus} from '../crownstone/EventBus';
 import {topics} from '../crownstone/topics';
 import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
+import {authenticate} from '@loopback/authentication';
 
 /**
  * This controller will echo the state of the hub.
@@ -44,7 +45,30 @@ export class HubController {
   }
 
   // returns a list of our objects
+  @post('/uartKey')
+  @authenticate('csTokens')
+  async setUartKey(
+    @param.query.string('uartKey', {required:true}) uartKey: string,
+  ): Promise<void> {
+    let currentHub = await this.hubRepo.get()
+    if (currentHub === null) {
+      throw new HttpErrors.Forbidden("No hub created.");
+    }
+    else {
+      if (uartKey.length !== 32) {
+        throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
+      }
+      currentHub.uartKey = uartKey;
+      return this.hubRepo.update(currentHub)
+        .then(() => {
+          eventBus.emit(topics.HUB_UART_KEY_UPDATED);
+        })
+    }
+  }
+
+  // returns a list of our objects
   @patch('/hub')
+  @authenticate('csTokens')
   async updateHub(
     @requestBody({
       content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
@@ -72,13 +96,14 @@ export class HubController {
 
 
   @del('/hub')
+  @authenticate('csTokens')
   async delete(): Promise<void> {
-    if (await this.hubRepo.isSet() === false) {
+    if (await this.hubRepo.isSet() === true) {
       eventBus.emit(topics.HUB_DELETED);
       await CrownstoneHub.cleanupAndDestroy();
     }
     else {
-      throw new HttpErrors.Forbidden("Hub already created and initialized.");
+      throw new HttpErrors.Forbidden("No Hub to delete..");
     }
   }
 }

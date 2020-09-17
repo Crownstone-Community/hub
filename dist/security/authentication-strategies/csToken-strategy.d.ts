@@ -7,10 +7,13 @@ export interface UserProfileDescription {
     permissions: {
         switch: boolean;
     };
+    sphereRole: sphereRole;
 }
+declare type sphereRole = "admin" | "member" | "guest" | "hub";
 export declare class CsTokenStrategy implements AuthenticationStrategy {
     userService: UserService;
     name: string;
     constructor(userService: UserService);
     authenticate(request: Request): Promise<UserProfile | undefined>;
 }
+export {};

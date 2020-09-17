@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MemoryDb = void 0;
 class MemoryDbClass {
     constructor() {
+        // the key of the stones is the UID, the short-uint8 id.
         this.stones = {};
     }
     loadCloudStoneData(stoneData) {

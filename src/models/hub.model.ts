@@ -31,6 +31,7 @@ export class Hub extends Entity {
 
 
 
+
   @property({type: 'string', required: true})
   cloudId: string;
 

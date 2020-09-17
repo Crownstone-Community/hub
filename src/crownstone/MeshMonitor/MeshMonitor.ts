@@ -8,6 +8,7 @@ const LOG = require('debug-level')('crownstone-hub-mesh-monitor')
 
 export class MeshMonitor {
   eventsRegistered = false;
+  unsubscribeEventListener : () => void;
 
   power:    PowerMonitor;
   energy:   EnergyMonitor;
@@ -18,6 +19,7 @@ export class MeshMonitor {
 
   constructor(hub : CrownstoneHub) {
     this.hubReference = hub;
+
     this.power    = new PowerMonitor();
     this.energy   = new EnergyMonitor(this.hubReference);
     this.switch   = new SwitchMonitor();
@@ -31,12 +33,13 @@ export class MeshMonitor {
   }
 
   cleanup() {
+    this.unsubscribeEventListener();
     this.energy.stop();
   }
 
   setupEvents() {
     if (this.eventsRegistered === false) {
-      eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); });
+      this.unsubscribeEventListener = eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); });
       this.eventsRegistered = true;
     }
   }

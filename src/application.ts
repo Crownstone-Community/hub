@@ -23,7 +23,7 @@ const pkg: PackageInfo = require('../package.json');
 
 export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
-    super({...options, rest: { ...options.rest, port:5050 }});
+    super({...options, rest: { ...options.rest, port: 5050 }});
 
     this.api({
       openapi: '3.0.0',

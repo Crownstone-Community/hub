@@ -49,10 +49,12 @@ export class CrownstoneHubClass implements CrownstoneHub {
     await this.timeKeeper.stop();
 
     await CrownstoneHub.cloud.cleanup();
+
     await DbRef.hub.deleteAll();
     await DbRef.user.deleteAll();
     await DbRef.power.deleteAll();
     await DbRef.energy.deleteAll();
+    await DbRef.energyProcessed.deleteAll();
   }
 
 }

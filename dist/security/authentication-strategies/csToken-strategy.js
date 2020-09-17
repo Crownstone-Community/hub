@@ -23,7 +23,8 @@ let CsTokenStrategy = class CsTokenStrategy {
             [security_1.securityId]: user.id,
             permissions: {
                 switch: true
-            }
+            },
+            sphereRole: user.sphereRole
         };
         return userProfile;
     }

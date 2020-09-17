@@ -11,8 +11,10 @@ export interface UserProfileDescription {
   [securityId] : string,
   permissions: {
     switch: boolean
-  }
+  },
+  sphereRole: sphereRole
 }
+type sphereRole = "admin" | "member" | "guest" | "hub"
 
 export class CsTokenStrategy implements AuthenticationStrategy {
   name = 'csTokens';
@@ -37,7 +39,8 @@ export class CsTokenStrategy implements AuthenticationStrategy {
       [securityId]: user.id,
       permissions: {
         switch: true
-      }
+      },
+      sphereRole: user.sphereRole as sphereRole
     }
     return userProfile;
   }

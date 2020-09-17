@@ -23,6 +23,9 @@ export class User extends Entity {
   @property({type: 'string'})
   lastName?: string;
 
+  @property({type: 'string'})
+  sphereRole?: string;
+
   @hasMany(() => UserPermission)
   permissions: UserPermission[];
 }

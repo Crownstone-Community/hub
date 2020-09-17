@@ -30,6 +30,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'string' }),
+    tslib_1.__metadata("design:type", String)
+], User.prototype, "sphereRole", void 0);
+tslib_1.__decorate([
     repository_1.hasMany(() => user_permission_model_1.UserPermission),
     tslib_1.__metadata("design:type", Array)
 ], User.prototype, "permissions", void 0);

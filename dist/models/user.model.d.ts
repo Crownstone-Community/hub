@@ -7,5 +7,6 @@ export declare class User extends Entity {
     userToken: string;
     firstName?: string;
     lastName?: string;
+    sphereRole?: string;
     permissions: UserPermission[];
 }

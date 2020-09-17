@@ -47,11 +47,13 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
     function prepareUser(sphereUser: cloud_UserData) : DataObject<User> {
       return {
         userId: sphereUser.id,
-        userToken: tokenData[sphereUser.id],
+        userToken: tokenData[sphereUser.id].token,
         firstName: sphereUser.firstName,
-        lastName: sphereUser.lastName
+        lastName: sphereUser.lastName,
+        sphereRole: tokenData[sphereUser.id].role
       }
     }
+
     cloudUserData.admins.forEach((user)  => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
     cloudUserData.members.forEach((user) => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
     cloudUserData.guests.forEach((user)  => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
@@ -61,11 +63,11 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
       let data : DataObject<User> = userData[user.userId]
       if (data !== undefined) {
         matchingCloudIdMap[user.userId] = true;
-        if (data.userToken) {
-          user.userToken = data.userToken;
-        }
+        if (data.userToken)  { user.userToken  = data.userToken;  }
+        if (data.sphereRole) { user.sphereRole = data.sphereRole; }
         user.firstName = data.firstName;
         user.lastName  = data.lastName;
+
         await this.update(user);
       }
       else {

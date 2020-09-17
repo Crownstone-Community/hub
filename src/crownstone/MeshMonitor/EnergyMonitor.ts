@@ -78,6 +78,7 @@ export class EnergyMonitor {
       let dataUploaded : EnergyDataProcessed[] = [];
       for (let i = 0; i < processedData.length; i++) {
         let energy = processedData[i];
+        // console.log(energy.stoneUID, MemoryDb.stones[energy.stoneUID]?.cloudId)
         let cloudId = MemoryDb.stones[energy.stoneUID]?.cloudId;
         if (cloudId) {
           if (measurementData[cloudId] === undefined) {
@@ -91,12 +92,13 @@ export class EnergyMonitor {
       }
 
       if (hasData) {
-        // CloudCommandHandler.addToQueue(async (CM) => {
-        //   await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
-        //   for (let i = 0; i < dataUploaded.length; i++) {
-        //     await DbRef.energyProcessed.update(dataUploaded[i])
-        //   }
-        // })
+        // console.log("I HAVE DATA TO UPLOAD", measurementData)
+        CloudCommandHandler.addToQueue(async (CM) => {
+          await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
+          for (let i = 0; i < dataUploaded.length; i++) {
+            await DbRef.energyProcessed.update(dataUploaded[i])
+          }
+        })
       }
     }
   }
@@ -108,7 +110,6 @@ export class EnergyMonitor {
 
 
     let lastDatapoint = await DbRef.energy.findOne({where: {timestamp: {lt: prev.timestamp}}});
-
     // we will try to have an ever-incrementing energy usage
     // if there is no previous point to depend on, we will try
     let offsetValue : number;
@@ -131,7 +132,7 @@ export class EnergyMonitor {
       //   - the previous point is before the minute, and the current is equal or after the minute
       let nextSamplePoint = datapoint.timestamp.setSeconds(0,0);
       let previousSamplePoint  = prev.timestamp.setSeconds(0,0);
-      if (previousTimestamp < nextSamplePoint) {
+      if (previousTimestamp > nextSamplePoint) {
         prev = datapoint;
         continue;
       }
@@ -165,7 +166,7 @@ export class EnergyMonitor {
       // If more than 5 points have elapsed, we do not do anything and mark the prev as processed.
       if (elapsedSamplePoints > 5) {
         prev.processed = true;
-        DbRef.energy.update(prev).catch() // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+        DbRef.energy.update(prev).catch((e) => { console.log("ERROR PERSISTING", e)}) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
         continue;
       }
       // if less than 5 have elapsed, we do a linear interpolation, one for each point
@@ -198,7 +199,7 @@ export class EnergyMonitor {
       }
       else {
         datapoint.processed = true;
-        DbRef.energy.update(datapoint).catch() // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+        DbRef.energy.update(datapoint).catch((e) => {console.log("ERROR PERSISTING 2", e)}) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
       }
 
       prev = datapoint;
@@ -206,7 +207,6 @@ export class EnergyMonitor {
 
     // we now have an array called samples, which should be loaded into the uploadable database.
     if (samples.length > 0) {
-      console.log(samples)
       await DbRef.energyProcessed.createAll(samples);
     }
   }

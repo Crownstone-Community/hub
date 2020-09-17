@@ -4,6 +4,7 @@ import { TopologyMonitor } from './TopologyMonitor';
 import { SwitchMonitor } from './SwitchMonitor';
 export declare class MeshMonitor {
     eventsRegistered: boolean;
+    unsubscribeEventListener: () => void;
     power: PowerMonitor;
     energy: EnergyMonitor;
     switch: SwitchMonitor;

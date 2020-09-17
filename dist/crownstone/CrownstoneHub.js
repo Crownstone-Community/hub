@@ -38,6 +38,7 @@ class CrownstoneHubClass {
         await DbReference_1.DbRef.user.deleteAll();
         await DbReference_1.DbRef.power.deleteAll();
         await DbReference_1.DbRef.energy.deleteAll();
+        await DbReference_1.DbRef.energyProcessed.deleteAll();
     }
 }
 exports.CrownstoneHubClass = CrownstoneHubClass;

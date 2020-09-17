@@ -22,11 +22,12 @@ class MeshMonitor {
         this.energy.init();
     }
     cleanup() {
+        this.unsubscribeEventListener();
         this.energy.stop();
     }
     setupEvents() {
         if (this.eventsRegistered === false) {
-            EventBus_1.eventBus.on(topics_1.topics.MESH_SERVICE_DATA, (data) => { this.gather(data); });
+            this.unsubscribeEventListener = EventBus_1.eventBus.on(topics_1.topics.MESH_SERVICE_DATA, (data) => { this.gather(data); });
             this.eventsRegistered = true;
         }
     }
@@ -34,7 +35,7 @@ class MeshMonitor {
         let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
         LOG.debug("Received data from", crownstoneUid);
         this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
-        this.energy.collect(crownstoneUid, data.accumulatedEnergy);
+        this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal);
         this.switch.collect(crownstoneUid, data.switchState);
         this.topology.collect(crownstoneUid);
     }

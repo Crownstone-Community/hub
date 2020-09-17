@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EnergyMonitor = void 0;
 const DbReference_1 = require("../Data/DbReference");
 const MemoryDb_1 = require("../Data/MemoryDb");
+const CloudCommandHandler_1 = require("../Cloud/CloudCommandHandler");
 const LOG = require('debug-level')('crownstone-hub-EnergyMonitor');
 const SAMPLE_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
@@ -62,6 +63,7 @@ class EnergyMonitor {
             let dataUploaded = [];
             for (let i = 0; i < processedData.length; i++) {
                 let energy = processedData[i];
+                // console.log(energy.stoneUID, MemoryDb.stones[energy.stoneUID]?.cloudId)
                 let cloudId = (_a = MemoryDb_1.MemoryDb.stones[energy.stoneUID]) === null || _a === void 0 ? void 0 : _a.cloudId;
                 if (cloudId) {
                     if (measurementData[cloudId] === undefined) {
@@ -74,12 +76,13 @@ class EnergyMonitor {
                 }
             }
             if (hasData) {
-                // CloudCommandHandler.addToQueue(async (CM) => {
-                //   await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
-                //   for (let i = 0; i < dataUploaded.length; i++) {
-                //     await DbRef.energyProcessed.update(dataUploaded[i])
-                //   }
-                // })
+                // console.log("I HAVE DATA TO UPLOAD", measurementData)
+                CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
+                    await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
+                    for (let i = 0; i < dataUploaded.length; i++) {
+                        await DbReference_1.DbRef.energyProcessed.update(dataUploaded[i]);
+                    }
+                });
             }
         }
     }
@@ -108,7 +111,7 @@ class EnergyMonitor {
             //   - the previous point is before the minute, and the current is equal or after the minute
             let nextSamplePoint = datapoint.timestamp.setSeconds(0, 0);
             let previousSamplePoint = prev.timestamp.setSeconds(0, 0);
-            if (previousTimestamp < nextSamplePoint) {
+            if (previousTimestamp > nextSamplePoint) {
                 prev = datapoint;
                 continue;
             }
@@ -137,7 +140,7 @@ class EnergyMonitor {
             // If more than 5 points have elapsed, we do not do anything and mark the prev as processed.
             if (elapsedSamplePoints > 5) {
                 prev.processed = true;
-                DbReference_1.DbRef.energy.update(prev).catch(); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+                DbReference_1.DbRef.energy.update(prev).catch((e) => { console.log("ERROR PERSISTING", e); }); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
                 continue;
             }
             // if less than 5 have elapsed, we do a linear interpolation, one for each point
@@ -166,13 +169,12 @@ class EnergyMonitor {
             }
             else {
                 datapoint.processed = true;
-                DbReference_1.DbRef.energy.update(datapoint).catch(); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+                DbReference_1.DbRef.energy.update(datapoint).catch((e) => { console.log("ERROR PERSISTING 2", e); }); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
             }
             prev = datapoint;
         }
         // we now have an array called samples, which should be loaded into the uploadable database.
         if (samples.length > 0) {
-            console.log(samples);
             await DbReference_1.DbRef.energyProcessed.createAll(samples);
         }
     }

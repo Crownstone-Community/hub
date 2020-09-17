@@ -799,14 +799,14 @@
   integrity sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
 
 "@types/node@*", "@types/node@^14.0.13":
-  version "14.10.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.10.2.tgz#9b47a2c8e4dabd4db73b57e750b24af689600514"
-  integrity sha512-IzMhbDYCpv26pC2wboJ4MMOa9GKtjplXfcAqrMeNJpUUwpM/2ATt2w1JPUXwS6spu856TvKZL2AOmeU2rAxskw==
+  version "14.10.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.10.3.tgz#5ae1f119c96643fc9b19b2d1a83bfa2ec3dbb7ea"
+  integrity sha512-zdN0hor7TLkjAdKTnYW+Y22oIhUUpil5ZD1V1OFq0CR0CLKw+NdR6dkziTfkWRLo6sKzisayoj/GNpNbe4LY9Q==
 
 "@types/node@^10.17.26":
-  version "10.17.34"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.34.tgz#8f5ee42d5e816d551450f5729022828d3f3c7293"
-  integrity sha512-DlT8xondSSUixRxkdXQ3+dIZmCWkM6PX8kqIx1Zqp+FA/GmHJwqPixMeF89OirKVCFBh7U1m1I1Oj4gSrUW5oQ==
+  version "10.17.35"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.35.tgz#58058f29b870e6ae57b20e4f6e928f02b7129f56"
+  integrity sha512-gXx7jAWpMddu0f7a+L+txMplp3FnHl53OhQIF9puXKq3hDGY/GjH+MF04oWnV/adPSCrbtHumDCFwzq2VhltWA==
 
 "@types/on-finished@^2.3.1":
   version "2.3.1"
@@ -816,9 +816,9 @@
     "@types/node" "*"
 
 "@types/qs@*":
-  version "6.9.4"
-  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.4.tgz#a59e851c1ba16c0513ea123830dd639a0a15cb6a"
-  integrity sha512-+wYo+L6ZF6BMoEjtf8zB2esQsqdV6WsjRK/GP9WOgLPrq87PbNWgIxS76dS5uvl/QXtHGakZmwTznIfcPXcKlQ==
+  version "6.9.5"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
+  integrity sha512-/JHkVHtx/REVG0VVToGRGH2+23hsYLHdyG+GrvoUGlGAd0ErauXDyvHtRI/7H7mzLm+tBCKA7pfcpkQ1lf58iQ==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -1605,10 +1605,10 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crownstone-cloud@^0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.1.tgz#fe4b809485b0e0dfed712817d17cb4d7ab096981"
-  integrity sha512-hB076sBB0zUo/7yzesRfcBR3zuS1qGd8l2GAR4a1BB+ro2LuCGEjZ3Apff3EW881DWIemBZ0gwHK/8GKqU+z5A==
+crownstone-cloud@^0.17.2:
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.2.tgz#cdd596201d6d4b00f1c4f2213cc20b05896a6afc"
+  integrity sha512-h+OshKcJAIr1LnfDmdpSjvEosiHICsPqphsFy89rq86lS4z/L+pWVLH97KUTxQv6cCIZMI2lpQ25E9gRQ0e8dA==
   dependencies:
     cross-fetch "^3.0.4"
     crownstone-core "^0.4.0"
@@ -3088,9 +3088,9 @@ keyv@^3.0.0:
     json-buffer "3.0.0"
 
 keyv@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.0.2.tgz#586777fc38c28badebd4d9cb5e000c09a2bc2777"
-  integrity sha512-EApxc1YZC/Uf+8dsrGqDqUK3cW8oPLgyeATzELkyAFE9OTf2jpFbi2qLtlrONy+SMmupkR3p5jGWeMEd0Z/ZHg==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.0.3.tgz#4f3aa98de254803cafcd2896734108daa35e4254"
+  integrity sha512-zdGa2TOpSZPq5mU6iowDARnMBZgtCqJ11dJROFi6tg6kTn4nuUdU09lFyLFSaHrWqpIJ+EBq4E8/Dc0Vx5vLdA==
   dependencies:
     json-buffer "3.0.1"
 

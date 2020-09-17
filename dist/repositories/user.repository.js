@@ -35,9 +35,10 @@ let UserRepository = class UserRepository extends repository_1.DefaultCrudReposi
         function prepareUser(sphereUser) {
             return {
                 userId: sphereUser.id,
-                userToken: tokenData[sphereUser.id],
+                userToken: tokenData[sphereUser.id].token,
                 firstName: sphereUser.firstName,
-                lastName: sphereUser.lastName
+                lastName: sphereUser.lastName,
+                sphereRole: tokenData[sphereUser.id].role
             };
         }
         cloudUserData.admins.forEach((user) => { userData[user.id] = prepareUser(user); matchingCloudIdMap[user.id] = false; });
@@ -50,6 +51,9 @@ let UserRepository = class UserRepository extends repository_1.DefaultCrudReposi
                 matchingCloudIdMap[user.userId] = true;
                 if (data.userToken) {
                     user.userToken = data.userToken;
+                }
+                if (data.sphereRole) {
+                    user.sphereRole = data.sphereRole;
                 }
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
