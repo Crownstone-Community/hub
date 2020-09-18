@@ -1,7 +1,7 @@
 {
   "name": "crownstone-hub",
   "version": "1.0.0",
-  "description": "Source for the hub platform of Crownstone",
+  "description": "Hub platform of Crownstone",
   "keywords": [
     "loopback-application",
     "loopback"
@@ -62,7 +62,7 @@
     "@loopback/service-proxy": "^2.3.1",
     "crownstone-cloud": "^0.17.2",
     "crownstone-sse": "^3.0.3",
-    "crownstone-uart": "^0.6.2",
+    "crownstone-uart": "^0.7.0",
     "debug": "^4.1.1",
     "debug-level": "^0.3.1",
     "loopback-connector-mongodb": "^5.2.3",

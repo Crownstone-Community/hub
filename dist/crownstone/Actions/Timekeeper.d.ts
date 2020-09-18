@@ -5,6 +5,6 @@ export declare class Timekeeper {
     hubReference: CrownstoneHub;
     constructor(hub: CrownstoneHub);
     init(): void;
-    action(): void;
+    setTime(): Promise<void>;
     stop(): void;
 }

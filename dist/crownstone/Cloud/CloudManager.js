@@ -261,7 +261,7 @@ class CloudManager {
                     ipUpdated = true;
                 }
                 catch (e) {
-                    LOG.warn("Error updating localI IP address", e);
+                    LOG.warn("Error updating local IP address", e);
                 }
             }
         }

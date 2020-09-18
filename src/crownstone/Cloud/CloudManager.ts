@@ -286,7 +286,7 @@ export class CloudManager {
           this.storedIpAddress = ips;
           ipUpdated = true;
         } catch (e) {
-          LOG.warn("Error updating localI IP address", e);
+          LOG.warn("Error updating local IP address", e);
         }
       }
     }

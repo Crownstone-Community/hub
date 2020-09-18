@@ -25,8 +25,8 @@ export class CsTokenStrategy implements AuthenticationStrategy {
 
   async authenticate(request: Request): Promise<UserProfile | undefined> {
     let access_token : string = String(
-      request.header('access_token')     ||
-      request.header('Authorization')    ||
+      request.header('access_token') ||
+      request.header('Authorization') ||
       request.query.access_token
     );
 
