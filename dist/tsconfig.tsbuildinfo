@@ -191,6 +191,16 @@
         "signature": "9eb0ae9fa333acfc2dcbe6a7eaa2ab8be46b97ca259982c797c39167823235d5",
         "affectsGlobalScope": false
       },
+      "../src/util/logger.ts": {
+        "version": "fb0c4f3a2bcbe1c15c1b2a8c47a6fa79d02b4cf8b431dd3030f931ba0a783e41",
+        "signature": "d1eb88bd7d96c9bc3aa6e2c3c7bfad17ca57d31e4b1cb8a7e7812dbbbcc7d352",
+        "affectsGlobalScope": false
+      },
+      "../src/log.ts": {
+        "version": "d2eb360f66afe05f738e29789caa9af093ef79a66384b2d01d507530a9233b9a",
+        "signature": "c6a36b747e2f04007d6485328dd9613fee03a795dda37843598038b9421f9287",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@loopback/metadata/dist/types.d.ts": {
         "version": "796871d58d2d477ecb2cc1a9dda7a67773fec26ecfa8277470ce60d18a6c0edd",
         "signature": "796871d58d2d477ecb2cc1a9dda7a67773fec26ecfa8277470ce60d18a6c0edd",
@@ -1716,11 +1726,6 @@
         "signature": "cc6b0bb8a9bcef9e4ea2ad21af259393935fe6bf0e50f22719b3e57877a3ad2c",
         "affectsGlobalScope": false
       },
-      "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "814f4d16f7e7c47feaba5979673dcc60b6d5f7e87b247ea5da1dbc83a6da9387",
-        "signature": "814f4d16f7e7c47feaba5979673dcc60b6d5f7e87b247ea5da1dbc83a6da9387",
-        "affectsGlobalScope": true
-      },
       "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts": {
         "version": "5b56da2c458a9522dbfec8ee94287abe037f52fc9dea766d87bd9aaf100cf14f",
         "signature": "5b56da2c458a9522dbfec8ee94287abe037f52fc9dea766d87bd9aaf100cf14f",
@@ -2226,7 +2231,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/uart/promisemanager.ts": {
-        "version": "a211a8c0f5e88341a1a05123d0a85c11f171fc081bd44da8b2ea341300b21e04",
+        "version": "88dc1597eeabb1beb5d6d3d4e2f6d06ad3d8a6b34734ae94b6a773bb5fc6ae85",
         "signature": "6b12e00263c81a304d6ae56bb060297e4193889b12507a42adf954fab1c8be60",
         "affectsGlobalScope": false
       },
@@ -2376,7 +2381,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "37f1f93d1932ca33aaad6b48a1867f70f897c563765ea0449a8d2774e9d34313",
+        "version": "68dc37d62549913e56b81eada40265968944bd4a4ebfd3c0cb1c7b9704020d88",
         "signature": "4d61aff3d3a968a0abfbad44b570730ea543382676284fd9bd790820a49572d5",
         "affectsGlobalScope": false
       },
@@ -2541,7 +2546,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "b9b18ad8c9e1e9206f5f53a17997a50ac6229e087f33447f01ae7b172d743f0b",
+        "version": "1acea3ae48c1da80b8b95d26c442b78e8e5d9cd0236c5bbc640a9ba9b43a5f4e",
         "signature": "ee8e4a0080d5501c8dc8723351d6f1051bc17e921e192fffed0c8d6e0930e6bb",
         "affectsGlobalScope": false
       },
@@ -2861,7 +2866,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -4226,8 +4230,8 @@
         "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/router/router-spec.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts"
+        "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/rest.component.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts",
@@ -4244,9 +4248,9 @@
         "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
         "../node_modules/@types/cors/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
@@ -4268,8 +4272,8 @@
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
         "../node_modules/@loopback/rest/dist/router/route-entry.d.ts",
         "../node_modules/@loopback/rest/dist/router/router-spec.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express/index.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/router/handler-route.d.ts": [
@@ -4367,15 +4371,7 @@
       "../node_modules/@loopback/rest/dist/writer.d.ts": [
         "../node_modules/@loopback/rest/dist/types.d.ts"
       ],
-      "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts": [
-        "../node_modules/@types/node/events.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/qs/index.d.ts",
-        "../node_modules/@types/range-parser/index.d.ts"
-      ],
       "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts": [
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/mime/index.d.ts"
       ],
@@ -5110,7 +5106,6 @@
         "../src/crownstone/eventbus.ts",
         "../src/crownstone/topics.ts",
         "../src/models/hub.model.ts",
-        "../src/models/index.ts",
         "../src/repositories/hub.repository.ts",
         "../src/repositories/index.ts"
       ],
@@ -5218,6 +5213,9 @@
         "../src/crownstone/data/dbreference.ts",
         "../src/repositories/index.ts",
         "../src/security/verifycertificates.ts"
+      ],
+      "../src/log.ts": [
+        "../src/util/logger.ts"
       ],
       "../src/migrate.ts": [
         "../src/application.ts"
@@ -6706,8 +6704,8 @@
         "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/router/router-spec.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts"
+        "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/rest.component.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts",
@@ -6724,9 +6722,9 @@
         "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
         "../node_modules/@types/cors/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
@@ -6748,8 +6746,8 @@
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
         "../node_modules/@loopback/rest/dist/router/route-entry.d.ts",
         "../node_modules/@loopback/rest/dist/router/router-spec.d.ts",
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express/index.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/router/handler-route.d.ts": [
@@ -6847,15 +6845,7 @@
       "../node_modules/@loopback/rest/dist/writer.d.ts": [
         "../node_modules/@loopback/rest/dist/types.d.ts"
       ],
-      "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts": [
-        "../node_modules/@types/node/events.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/qs/index.d.ts",
-        "../node_modules/@types/range-parser/index.d.ts"
-      ],
       "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts": [
-        "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/mime/index.d.ts"
       ],
@@ -8001,7 +7991,6 @@
       "../node_modules/@loopback/rest/dist/types.d.ts",
       "../node_modules/@loopback/rest/dist/validation/request-body.validator.d.ts",
       "../node_modules/@loopback/rest/dist/writer.d.ts",
-      "../node_modules/@loopback/rest/node_modules/@types/express-serve-static-core/index.d.ts",
       "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
       "../node_modules/@loopback/security/dist/index.d.ts",
       "../node_modules/@loopback/security/dist/keys.d.ts",
@@ -8265,6 +8254,7 @@
       "../src/declarations/cloudtypes.d.ts",
       "../src/declarations/declarations.d.ts",
       "../src/index.ts",
+      "../src/log.ts",
       "../src/migrate.ts",
       "../src/models/energy-data-processed.model.ts",
       "../src/models/energy-data.model.ts",
@@ -8289,6 +8279,7 @@
       "../src/sequence.ts",
       "../src/services/index.ts",
       "../src/services/user.service.ts",
+      "../src/util/logger.ts",
       "../src/util/util.ts"
     ]
   },

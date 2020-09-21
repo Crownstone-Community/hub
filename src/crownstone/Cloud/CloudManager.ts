@@ -248,7 +248,7 @@ export class CloudManager {
 
 
   async updateLocalIp() {
-    if (this.ipUpdateInprogress === false) { return; }
+    if (this.ipUpdateInprogress === true) { return; }
 
     LOG.info("Cloudmanager IP update started.");
     this.ipUpdateInprogress = true;
@@ -287,6 +287,7 @@ export class CloudManager {
           ipUpdated = true;
         } catch (e) {
           LOG.warn("Error updating local IP address", e);
+          await Util.wait(RETRY_INTERVAL_MS);
         }
       }
     }

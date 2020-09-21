@@ -17,7 +17,7 @@ class PromiseManager {
         return this._register(promise, message, true, customTimeoutMs);
     }
     _register(promise, message = "", priorityCommand = false, timeout = PROMISE_MANAGER_FALLBACK_TIMEOUT) {
-        LOG("HubPromiseManager: registered promise in manager");
+        LOG.info("HubPromiseManager: registered promise in manager");
         return new Promise((resolve, reject) => {
             let container = { promise: promise, resolve: resolve, reject: reject, message: message, completed: false, timeout: timeout };
             if (this.promiseInProgress === undefined) {
@@ -25,23 +25,23 @@ class PromiseManager {
             }
             else {
                 if (priorityCommand === true) {
-                    LOG('HubPromiseManager: adding to top of stack: ', message, ' currentlyPending:', this.promiseInProgress.message);
+                    LOG.info('HubPromiseManager: adding to top of stack: ', message, ' currentlyPending:', this.promiseInProgress.message);
                     this.pendingPromises.unshift(container);
                 }
                 else {
-                    LOG('HubPromiseManager: adding to stack: ', message, ' currentlyPending:', this.promiseInProgress.message);
+                    LOG.info('HubPromiseManager: adding to stack: ', message, ' currentlyPending:', this.promiseInProgress.message);
                     this.pendingPromises.push(container);
                 }
             }
         });
     }
     executePromise(promiseContainer) {
-        LOG('HubPromiseManager: executing promise: ', promiseContainer.message);
+        LOG.info('HubPromiseManager: executing promise: ', promiseContainer.message);
         this.promiseInProgress = promiseContainer;
         // This timeout is a fallback to ensure the promise manager will not get jammed with a single promise.
         // It guarantees uniqueness
         this.clearPendingPromiseTimeout = setTimeout(() => {
-            LOG('HubPromiseManager: Forced timeout after', PROMISE_MANAGER_FALLBACK_TIMEOUT * 0.001, 'seconds for', promiseContainer.message);
+            LOG.warn('HubPromiseManager: Forced timeout after', PROMISE_MANAGER_FALLBACK_TIMEOUT * 0.001, 'seconds for', promiseContainer.message);
             this.clearPendingPromiseTimeout = null;
             this.finalize(promiseContainer, () => {
                 promiseContainer.reject('Forced timeout after ' + PROMISE_MANAGER_FALLBACK_TIMEOUT * 0.001 + ' seconds.');
@@ -49,11 +49,11 @@ class PromiseManager {
         }, promiseContainer.timeout);
         promiseContainer.promise()
             .then((data) => {
-            LOG("HubPromiseManager: resolved: ", promiseContainer.message);
+            LOG.info("HubPromiseManager: resolved: ", promiseContainer.message);
             this.finalize(promiseContainer, () => { promiseContainer.resolve(data); });
         })
             .catch((err) => {
-            LOG("HubPromiseManager: rejected: ", promiseContainer.message);
+            LOG.warn("HubPromiseManager: rejected: ", promiseContainer.message);
             this.finalize(promiseContainer, () => { promiseContainer.reject(err); });
         });
     }
@@ -79,7 +79,7 @@ class PromiseManager {
         this.getNextPromise();
     }
     getNextPromise() {
-        LOG('HubPromiseManager: get next');
+        LOG.debug('HubPromiseManager: get next');
         if (this.pendingPromises.length > 0) {
             let nextPromise = this.pendingPromises[0];
             this.executePromise(nextPromise);

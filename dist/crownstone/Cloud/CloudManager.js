@@ -227,7 +227,7 @@ class CloudManager {
         this.sseSetupInprogress = false;
     }
     async updateLocalIp() {
-        if (this.ipUpdateInprogress === false) {
+        if (this.ipUpdateInprogress === true) {
             return;
         }
         LOG.info("Cloudmanager IP update started.");
@@ -262,6 +262,7 @@ class CloudManager {
                 }
                 catch (e) {
                     LOG.warn("Error updating local IP address", e);
+                    await Util_1.Util.wait(RETRY_INTERVAL_MS);
                 }
             }
         }

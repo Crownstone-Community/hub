@@ -4,7 +4,6 @@
 
 import {repository} from '@loopback/repository';
 import {del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
-import {User} from '../models';
 import {HubRepository} from '../repositories/hub.repository';
 import {Hub} from '../models/hub.model';
 import {DataObject} from '@loopback/repository/src/common-types';
