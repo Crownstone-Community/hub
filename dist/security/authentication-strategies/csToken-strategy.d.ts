@@ -16,4 +16,5 @@ export declare class CsTokenStrategy implements AuthenticationStrategy {
     constructor(userService: UserService);
     authenticate(request: Request): Promise<UserProfile | undefined>;
 }
+export declare function extractToken(request: Request): string;
 export {};

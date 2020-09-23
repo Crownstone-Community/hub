@@ -1,39 +1,30 @@
 import {CrownstoneHubApplication} from './application';
-import {ApplicationConfig} from '@loopback/core';
 import * as fs from 'fs';
 import {verifyCertificate} from './security/VerifyCertificates';
 import {EnergyDataProcessedRepository, EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
-import {getHubConfig, storeHubConfig} from './util/ConfigUtil';
 // import {MongoDbConnector} from './datasources/mongoDriver';
+
+import {ApplicationConfig, ExpressServer} from './server';
 
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
+
 export async function main(options: ApplicationConfig = {}) {
-  let path = await verifyCertificate();
+  const server = new ExpressServer();
+  await server.boot();
+  await server.start();
 
-  let httpsOptions = {
-    rest: {
-      ...options.rest,
-      protocol: 'https',
-      key:  fs.readFileSync(path + '/key.pem'),
-      cert: fs.readFileSync(path + '/cert.pem'),
-    },
-  };
+  const port = server.lbApp.restServer.config.port ?? 3000;
+  const host = server.lbApp.restServer.config.host ?? 'NO-HOST';
 
-  const app = new CrownstoneHubApplication(httpsOptions);
-  await app.boot();
-  await app.start();
-
-  const url = app.restServer.url;
-
-  DbRef.hub             = await app.getRepository(HubRepository)
-  DbRef.power           = await app.getRepository(PowerDataRepository)
-  DbRef.energy          = await app.getRepository(EnergyDataRepository)
-  DbRef.energyProcessed = await app.getRepository(EnergyDataProcessedRepository)
-  DbRef.user            = await app.getRepository(UserRepository)
-  DbRef.switches        = await app.getRepository(SwitchDataRepository)
+  DbRef.hub             = await server.lbApp.getRepository(HubRepository)
+  DbRef.power           = await server.lbApp.getRepository(PowerDataRepository)
+  DbRef.energy          = await server.lbApp.getRepository(EnergyDataRepository)
+  DbRef.energyProcessed = await server.lbApp.getRepository(EnergyDataProcessedRepository)
+  DbRef.user            = await server.lbApp.getRepository(UserRepository)
+  DbRef.switches        = await server.lbApp.getRepository(SwitchDataRepository)
 
   // const connector = new MongoDbConnector()
   // await connector.connect();
@@ -46,9 +37,9 @@ export async function main(options: ApplicationConfig = {}) {
 
   await CrownstoneHub.initialize();
 
+  console.log(`Server is running at ${host}:${port}`);
 
 
-  console.log(`Server is running at ${url}`);
-
-  return app;
+  // setTimeout(() => { app.controller(MeshController)}, 10000)
+  return server.lbApp;;
 }

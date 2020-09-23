@@ -1674,10 +1674,10 @@ crownstone-sse@^3.0.4:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.8.1.tgz#447da83ac40455a3772fc336092c3400f5dd0eda"
-  integrity sha512-5labiHaAG59cvZINhunFlr7B3G8tJgN50SK1vSjJnufTPXKtT1LqtI+yO3aa8M079bnFvyTnDjljC5M5vuhRvQ==
+crownstone-uart@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.8.2.tgz#bdd59f624da630ed7bfbd6fa76d055a440ad8c1b"
+  integrity sha512-C9UsupKXCALkSA51iZTX39l1UAxvWd0biAka3ddsILaMfr1kcvpNCoIOjvLBsIByKkKZwv4HYUFBArvK4jwxOQ==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.7.7"
@@ -2604,6 +2604,11 @@ header-case@^2.0.3:
   dependencies:
     capital-case "^1.0.3"
     tslib "^1.10.0"
+
+helmet@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/helmet/-/helmet-4.1.1.tgz#751f0e273d809ace9c172073e0003bed27d27a4a"
+  integrity sha512-Avg4XxSBrehD94mkRwEljnO+6RZx7AGfk8Wa6K1nxaU+hbXlFOhlOIMgPfFqOYQB/dBCsTpootTGuiOG+CHiQA==
 
 html-escaper@^2.0.0:
   version "2.0.2"

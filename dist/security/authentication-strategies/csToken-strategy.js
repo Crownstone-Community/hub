@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CsTokenStrategy = void 0;
+exports.extractToken = exports.CsTokenStrategy = void 0;
 const tslib_1 = require("tslib");
 const rest_1 = require("@loopback/rest");
 const security_1 = require("@loopback/security");
@@ -12,12 +12,7 @@ let CsTokenStrategy = class CsTokenStrategy {
         this.name = 'csTokens';
     }
     async authenticate(request) {
-        let access_token = String(request.header('access_token') ||
-            request.header('Authorization') ||
-            request.query.access_token);
-        if (!access_token) {
-            throw new rest_1.HttpErrors.Unauthorized(`Access token not found.`);
-        }
+        let access_token = extractToken(request);
         let user = await this.userService.checkAccessToken(access_token);
         let userProfile = {
             [security_1.securityId]: user.id,
@@ -34,4 +29,14 @@ CsTokenStrategy = tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [services_1.UserService])
 ], CsTokenStrategy);
 exports.CsTokenStrategy = CsTokenStrategy;
+function extractToken(request) {
+    let access_token = String(request.header('access_token') ||
+        request.header('Authorization') ||
+        request.query.access_token);
+    if (!access_token) {
+        throw new rest_1.HttpErrors.Unauthorized(`Access token not found.`);
+    }
+    return access_token;
+}
+exports.extractToken = extractToken;
 //# sourceMappingURL=csToken-strategy.js.map

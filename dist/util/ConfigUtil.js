@@ -14,7 +14,7 @@ function getHubConfig() {
     let configPath = getConfigPath();
     let dataObject = {};
     if (fs_1.default.existsSync(configPath)) {
-        let data = fs_1.default.readFileSync(configPath);
+        let data = fs_1.default.readFileSync(configPath, 'utf-8');
         if (data && typeof data === 'string') {
             dataObject = JSON.parse(data);
         }

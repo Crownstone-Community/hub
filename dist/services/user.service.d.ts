@@ -6,3 +6,4 @@ export declare class UserService {
     checkAccessToken(token: string): Promise<User>;
     getAll(): Promise<User[]>;
 }
+export declare function checkAccessToken(token: string, userRepo: UserRepository): Promise<User>;

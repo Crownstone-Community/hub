@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CrownstoneHubApplication = void 0;
+exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = void 0;
 const tslib_1 = require("tslib");
 const boot_1 = require("@loopback/boot");
 const rest_explorer_1 = require("@loopback/rest-explorer");
@@ -14,10 +14,23 @@ const authorization_1 = require("@loopback/authorization");
 const csToken_strategy_1 = require("./security/authentication-strategies/csToken-strategy");
 const services_1 = require("./services");
 const ConfigUtil_1 = require("./util/ConfigUtil");
+const log_controller_1 = require("./controllers/logging/log.controller");
 const pkg = require('../package.json');
 class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
     constructor(options = {}) {
-        super({ ...options, rest: { ...options.rest, port: 5050 } });
+        let executionPath = __dirname;
+        if (options.customPath !== undefined) {
+            executionPath = options.customPath;
+        }
+        let customPort = process.env.PORT || 5050;
+        if (options.rest && options.rest.port !== undefined) {
+            customPort = options.rest.port;
+        }
+        let customHost = process.env.HOST || '127.0.0.1';
+        if (options.rest && options.rest.host !== undefined) {
+            customHost = options.rest.host;
+        }
+        super({ ...options, rest: { ...options.rest, port: customPort, host: customHost } });
         this.api({
             openapi: '3.0.0',
             info: { title: pkg.name, version: pkg.version },
@@ -27,7 +40,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
                         in: 'query',
                         name: 'access_token'
                     } } },
-            servers: [{ url: '/' }],
+            servers: [{ url: '/api' }],
             security: [{ csTokens: [] }],
         });
         this.setUpBindings();
@@ -39,26 +52,18 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         // Set up the custom sequence
         this.sequence(sequence_1.CrownstoneSequence);
         // Set up default home page
-        this.static('/', path_1.default.join(__dirname, '../public'));
+        this.static('/', path_1.default.join(executionPath, '../public'));
         // Customize @loopback/rest-explorer configuration here
         this.configure(rest_explorer_1.RestExplorerBindings.COMPONENT).to({ path: '/explorer' });
         this.component(rest_explorer_1.RestExplorerComponent);
-        this.projectRoot = __dirname;
-        let controllerExtensions = ['.controller.js'];
-        let hubConfig = ConfigUtil_1.getHubConfig();
-        if (hubConfig.useDevControllers) {
-            controllerExtensions.push('.controller.dev.js');
-        }
-        if (hubConfig.useLogControllers) {
-            controllerExtensions.push('.controller.log.js');
-        }
+        this.projectRoot = executionPath;
         // Customize @loopback/boot Booter Conventions here
         this.bootOptions = {
             controllers: {
                 // Customize ControllerBooter Conventions here
                 dirs: ['controllers'],
-                extensions: controllerExtensions,
-                nested: true,
+                extensions: ['.controller.js'],
+                nested: false,
             },
         };
     }
@@ -67,4 +72,12 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
     }
 }
 exports.CrownstoneHubApplication = CrownstoneHubApplication;
+function updateControllersBasedOnConfig(app) {
+    let hubConfig = ConfigUtil_1.getHubConfig();
+    console.log("HERE", hubConfig);
+    if (hubConfig.useLogControllers) {
+        app.controller(log_controller_1.LogController);
+    }
+}
+exports.updateControllersBasedOnConfig = updateControllersBasedOnConfig;
 //# sourceMappingURL=application.js.map

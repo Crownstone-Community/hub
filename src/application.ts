@@ -14,6 +14,7 @@ import {AuthorizationComponent} from '@loopback/authorization';
 import {CsTokenStrategy} from './security/authentication-strategies/csToken-strategy';
 import {UserService} from './services';
 import {getHubConfig} from './util/ConfigUtil';
+import {LogController} from './controllers/logging/log.controller';
 
 export interface PackageInfo {
   name: string;
@@ -22,9 +23,22 @@ export interface PackageInfo {
 }
 const pkg: PackageInfo = require('../package.json');
 
+
 export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
-    super({...options, rest: { ...options.rest, port: 5050 }});
+    let executionPath = __dirname;
+    if (options.customPath !== undefined) { executionPath = options.customPath; }
+    let customPort = process.env.PORT || 5050;
+    if (options.rest && options.rest.port !== undefined) {
+      customPort = options.rest.port;
+    }
+
+    let customHost = process.env.HOST || '127.0.0.1';
+    if (options.rest && options.rest.host !== undefined) {
+      customHost = options.rest.host;
+    }
+
+    super({...options, rest: { ...options.rest, port: customPort, host: customHost }})
 
     this.api({
       openapi: '3.0.0',
@@ -35,7 +49,7 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
         in: 'query',
         name:'access_token'
       }}},
-      servers:  [{url: '/'}],
+      servers:  [{url: '/api'}],
       security: [{csTokens: []}],
     });
 
@@ -52,31 +66,35 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
     this.sequence(CrownstoneSequence);
 
     // Set up default home page
-    this.static('/', path.join(__dirname, '../public'));
+    this.static('/', path.join(executionPath, '../public'));
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({ path: '/explorer' });
     this.component(RestExplorerComponent);
 
-    this.projectRoot = __dirname;
-
-    let controllerExtensions = ['.controller.js'];
-    let hubConfig = getHubConfig();
-    if (hubConfig.useDevControllers) { controllerExtensions.push('.controller.dev.js'); }
-    if (hubConfig.useLogControllers) { controllerExtensions.push('.controller.log.js'); }
+    this.projectRoot = executionPath;
 
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
         dirs: ['controllers'],
-        extensions: controllerExtensions,
-        nested: true,
+        extensions: ['.controller.js'],
+        nested: false,
       },
     };
   }
 
   setUpBindings(): void {
     this.bind("UserService").toClass(UserService);
+  }
+}
+
+
+export function updateControllersBasedOnConfig(app : CrownstoneHubApplication) {
+  let hubConfig = getHubConfig();
+  console.log("HERE", hubConfig)
+  if (hubConfig.useLogControllers) {
+    app.controller(LogController)
   }
 }

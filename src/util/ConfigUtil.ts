@@ -18,11 +18,10 @@ export function getHubConfig() : HubConfig {
   let configPath = getConfigPath();
   let dataObject: any = {};
   if (fs.existsSync(configPath)) {
-    let data = fs.readFileSync(configPath);
+    let data = fs.readFileSync(configPath, 'utf-8');
     if (data && typeof data === 'string') {
       dataObject = JSON.parse(data);
     }
-
     let keys = Object.keys(defaultConfig);
     for (let i = 0; i < keys.length; i++) {
       if (dataObject[keys[i]] === undefined) {
