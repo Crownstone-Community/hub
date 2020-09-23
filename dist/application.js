@@ -15,6 +15,7 @@ const csToken_strategy_1 = require("./security/authentication-strategies/csToken
 const services_1 = require("./services");
 const ConfigUtil_1 = require("./util/ConfigUtil");
 const log_controller_1 = require("./controllers/logging/log.controller");
+const csAdminToken_strategy_1 = require("./security/authentication-strategies/csAdminToken-strategy");
 const pkg = require('../package.json');
 class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
     constructor(options = {}) {
@@ -37,11 +38,11 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
             paths: {},
             components: { securitySchemes: { csTokens: {
                         type: 'apiKey',
-                        in: 'query',
+                        in: 'header',
                         name: 'access_token'
                     } } },
             servers: [{ url: '/api' }],
-            security: [{ csTokens: [] }],
+            security: [{ csTokens: [] }]
         });
         this.setUpBindings();
         // Bind authentication component related elements
@@ -49,6 +50,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         this.component(authorization_1.AuthorizationComponent);
         // authentication
         authentication_1.registerAuthenticationStrategy(this, csToken_strategy_1.CsTokenStrategy);
+        authentication_1.registerAuthenticationStrategy(this, csAdminToken_strategy_1.CsAdminTokenStrategy);
         // Set up the custom sequence
         this.sequence(sequence_1.CrownstoneSequence);
         // Set up default home page

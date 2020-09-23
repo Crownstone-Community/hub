@@ -45,7 +45,7 @@ export class HubController {
 
   // returns a list of our objects
   @post('/uartKey')
-  @authenticate('csTokens')
+  @authenticate('csAdminToken')
   async setUartKey(
     @param.query.string('uartKey', {required:true}) uartKey: string,
   ): Promise<void> {
@@ -67,7 +67,7 @@ export class HubController {
 
   // returns a list of our objects
   @patch('/hub')
-  @authenticate('csTokens')
+  @authenticate('csAdminToken')
   async updateHub(
     @requestBody({
       content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
@@ -95,7 +95,7 @@ export class HubController {
 
 
   @del('/hub')
-  @authenticate('csTokens')
+  @authenticate('csAdminToken')
   async delete(): Promise<void> {
     if (await this.hubRepo.isSet() === true) {
       eventBus.emit(topics.HUB_DELETED);

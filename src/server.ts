@@ -56,7 +56,6 @@ export class ExpressServer {
         }
       }
       catch(e) {
-        console.log("HERE")
         res.end(JSON.stringify(new HttpErrors.Unauthorized()))
       }
     });
@@ -75,7 +74,6 @@ export class ExpressServer {
         }
       }
       catch(e) {
-        console.log("ERROR", e);
         res.end(JSON.stringify(new HttpErrors.Unauthorized()))
       }
     });

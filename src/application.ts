@@ -15,6 +15,7 @@ import {CsTokenStrategy} from './security/authentication-strategies/csToken-stra
 import {UserService} from './services';
 import {getHubConfig} from './util/ConfigUtil';
 import {LogController} from './controllers/logging/log.controller';
+import {CsAdminTokenStrategy} from './security/authentication-strategies/csAdminToken-strategy';
 
 export interface PackageInfo {
   name: string;
@@ -46,11 +47,11 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
       paths: {},
       components: {securitySchemes: {csTokens: {
         type: 'apiKey',
-        in: 'query',
+        in: 'header',
         name:'access_token'
       }}},
       servers:  [{url: '/api'}],
-      security: [{csTokens: []}],
+      security: [{csTokens: []}]
     });
 
 
@@ -61,6 +62,7 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
     // authentication
     registerAuthenticationStrategy(this, CsTokenStrategy);
+    registerAuthenticationStrategy(this, CsAdminTokenStrategy);
 
     // Set up the custom sequence
     this.sequence(CrownstoneSequence);

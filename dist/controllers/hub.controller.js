@@ -96,7 +96,7 @@ tslib_1.__decorate([
 ], HubController.prototype, "createHub", null);
 tslib_1.__decorate([
     rest_1.post('/uartKey'),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate('csAdminToken'),
     tslib_1.__param(0, rest_1.param.query.string('uartKey', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
@@ -104,7 +104,7 @@ tslib_1.__decorate([
 ], HubController.prototype, "setUartKey", null);
 tslib_1.__decorate([
     rest_1.patch('/hub'),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate('csAdminToken'),
     tslib_1.__param(0, rest_1.requestBody({
         content: { 'application/json': { schema: rest_1.getModelSchemaRef(hub_model_1.Hub, { title: 'newHub', exclude: ['id', 'uartKey', 'accessToken', 'accessTokenExpiration'] }) } },
     })),
@@ -114,7 +114,7 @@ tslib_1.__decorate([
 ], HubController.prototype, "updateHub", null);
 tslib_1.__decorate([
     rest_1.del('/hub'),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate('csAdminToken'),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)

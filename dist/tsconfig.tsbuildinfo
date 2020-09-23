@@ -2350,24 +2350,9 @@
         "signature": "5aaf471cdd1b44cec66ab83e57a264a69effaf18ab8a09f9f26f3f5f0aae54a6",
         "affectsGlobalScope": false
       },
-      "../src/controllers/logging/log.controller.ts": {
-        "version": "e65bb62438a53b00c43b58e6e6e329aa01e6c1e451b20b4b197d3b0d9ee2dd17",
-        "signature": "e1de81136b96710c59200d36ccf5e5e41168e7b0ba545f123275e826c9edd645",
-        "affectsGlobalScope": false
-      },
-      "../src/application.ts": {
-        "version": "a445a5c8a6bd66be35eae4de951c17f2bf37a04a24acc81045df2f79697b9516",
-        "signature": "63c082a84039b4b7b067c2c2262eabd3690b16ebe9dc8e5097bb83736317bc01",
-        "affectsGlobalScope": false
-      },
-      "../src/security/verifycertificates.ts": {
-        "version": "b7b10f9b89fc118337d70ad3472d6c42af2d0c4fdbc908b30256323c6b687a20",
-        "signature": "e458d8a7091c64deea3087d9c7c76f36220a4d7baa40b5bf987f41bd8cd12667",
-        "affectsGlobalScope": false
-      },
-      "../src/crownstone/data/dbreference.ts": {
-        "version": "66c7cd1142b878130c9255fc4c1a55673c1d411b544cffd1082ea0e732570c01",
-        "signature": "3f486e4bec9f2ca720dd6a6e1314c75fd94729bde4f776b346062b97c7932121",
+      "../src/controllers/returncodes/returncodes.ts": {
+        "version": "004790552bf7347e312ac3cd737365c2e647cf95a8eff6f0d5cbd3b6dd9cfef3",
+        "signature": "f6854ed0ff96924cf54e2422c276c3f245b7aa98f2ad180e82c39e8dec24b2d7",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/src/declarations/declarations.d.ts": {
@@ -2555,6 +2540,11 @@
         "signature": "877f1b8a76fb074b3946d037e9d28e99a73820ddea70f150a29c143af9c7d90a",
         "affectsGlobalScope": false
       },
+      "../src/crownstone/data/dbreference.ts": {
+        "version": "66c7cd1142b878130c9255fc4c1a55673c1d411b544cffd1082ea0e732570c01",
+        "signature": "3f486e4bec9f2ca720dd6a6e1314c75fd94729bde4f776b346062b97c7932121",
+        "affectsGlobalScope": false
+      },
       "../src/crownstone/data/memorydb.ts": {
         "version": "97357b8c715baf8a49518a714d1ce0311ca5c4c00078213a404ca02b5fd02f91",
         "signature": "54f971c1e4bd97c8e840a08d9b91f69b7d93e886006e3ecec505f9fe3735bd57",
@@ -2610,8 +2600,28 @@
         "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
         "affectsGlobalScope": false
       },
+      "../src/controllers/logging/log.controller.ts": {
+        "version": "24f5d9aa6c7e63b9e34a18706e3b156aa1adb912355a8f2a248d379e688b5aa6",
+        "signature": "8b3921ef8a8d91034be24fbc6882084da005fbe886cbb54758c3c4d5d0e1dd5a",
+        "affectsGlobalScope": false
+      },
+      "../src/security/authentication-strategies/csadmintoken-strategy.ts": {
+        "version": "aae637dd5d953a9f793ae2dbbc246e4b098635b0ef5c5b97572cb45b93dd85ef",
+        "signature": "9cb978e4acb430cbb0c0f997b0684ba3cd46b466f25e3e10c85188e70344e783",
+        "affectsGlobalScope": false
+      },
+      "../src/application.ts": {
+        "version": "352c2822a709f548abb26324943a161926b65da4cdea5629b765569d2de4875c",
+        "signature": "63c082a84039b4b7b067c2c2262eabd3690b16ebe9dc8e5097bb83736317bc01",
+        "affectsGlobalScope": false
+      },
+      "../src/security/verifycertificates.ts": {
+        "version": "b7b10f9b89fc118337d70ad3472d6c42af2d0c4fdbc908b30256323c6b687a20",
+        "signature": "e458d8a7091c64deea3087d9c7c76f36220a4d7baa40b5bf987f41bd8cd12667",
+        "affectsGlobalScope": false
+      },
       "../src/server.ts": {
-        "version": "6a49933cb32f2118956d24bcb25c46cd483dcc9dc7b0656f19bff3d5ef7fa1a1",
+        "version": "546200d386c9aa3b935d63dcb1185278ce326d7aa228eb9f4d685da4110d81c3",
         "signature": "33b593d08525387ca21eb86a391cf44b3481eeef54b0f1ecb8c9d78f4ba3c1ef",
         "affectsGlobalScope": false
       },
@@ -2736,7 +2746,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "60a3a6d05681a50b0d342af5fac41b432dbadb747b323cdf5b7cd503bb2a55df",
+        "version": "dd66066145d415ebbbe2dbd43cf0609143ca185b149dc7da8f5484cee295f248",
         "signature": "ee8e4a0080d5501c8dc8723351d6f1051bc17e921e192fffed0c8d6e0930e6bb",
         "affectsGlobalScope": false
       },
@@ -2753,11 +2763,6 @@
       "../src/controllers/power-usage.controller.ts": {
         "version": "7d64f4790375981d2af67379f3421c7e2d1603aba455922221710d4d6af3977e",
         "signature": "cc01a67dcd96a51c9fb18caf8e3bb6e871ad648f6fb0982f255002daf2d3daf0",
-        "affectsGlobalScope": false
-      },
-      "../src/controllers/returncodes/returncodes.ts": {
-        "version": "004790552bf7347e312ac3cd737365c2e647cf95a8eff6f0d5cbd3b6dd9cfef3",
-        "signature": "f6854ed0ff96924cf54e2422c276c3f245b7aa98f2ad180e82c39e8dec24b2d7",
         "affectsGlobalScope": false
       },
       "../src/controllers/switch.controller.ts": {
@@ -5397,6 +5402,7 @@
         "../node_modules/@loopback/service-proxy/dist/index.d.ts",
         "../node_modules/@types/node/path.d.ts",
         "../src/controllers/logging/log.controller.ts",
+        "../src/security/authentication-strategies/csadmintoken-strategy.ts",
         "../src/security/authentication-strategies/cstoken-strategy.ts",
         "../src/sequence.ts",
         "../src/services/index.ts",
@@ -5423,8 +5429,13 @@
       ],
       "../src/controllers/logging/log.controller.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/rest/dist/index.d.ts",
-        "../src/logger.ts"
+        "../node_modules/@loopback/security/dist/index.d.ts",
+        "../src/controllers/returncodes/returncodes.ts",
+        "../src/crownstone/crownstonehub.ts",
+        "../src/logger.ts",
+        "../src/security/authentication-strategies/cstoken-strategy.ts"
       ],
       "../src/controllers/mesh.controller.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
@@ -5632,6 +5643,15 @@
         "../src/models/index.ts",
         "../src/models/user.model.ts",
         "../src/repositories/user-permission.repository.ts"
+      ],
+      "../src/security/authentication-strategies/csadmintoken-strategy.ts": [
+        "../node_modules/@loopback/authentication/dist/index.d.ts",
+        "../node_modules/@loopback/context/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/index.d.ts",
+        "../node_modules/@loopback/security/dist/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
+        "../src/security/authentication-strategies/cstoken-strategy.ts",
+        "../src/services/index.ts"
       ],
       "../src/security/authentication-strategies/cstoken-strategy.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
@@ -8029,6 +8049,9 @@
         "../src/controllers/power-usage.controller.ts",
         "../src/controllers/switch.controller.ts"
       ],
+      "../src/controllers/logging/log.controller.ts": [
+        "../src/security/authentication-strategies/cstoken-strategy.ts"
+      ],
       "../src/controllers/switch.controller.ts": [
         "../src/security/authentication-strategies/cstoken-strategy.ts"
       ],
@@ -8157,6 +8180,12 @@
         "../src/models/index.ts",
         "../src/models/user.model.ts",
         "../src/repositories/user-permission.repository.ts"
+      ],
+      "../src/security/authentication-strategies/csadmintoken-strategy.ts": [
+        "../node_modules/@loopback/authentication/dist/index.d.ts",
+        "../node_modules/@loopback/security/dist/index.d.ts",
+        "../node_modules/@types/express-serve-static-core/index.d.ts",
+        "../src/services/index.ts"
       ],
       "../src/security/authentication-strategies/cstoken-strategy.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
@@ -8780,6 +8809,7 @@
       "../src/repositories/switch-data.repository.ts",
       "../src/repositories/user-permission.repository.ts",
       "../src/repositories/user.repository.ts",
+      "../src/security/authentication-strategies/csadmintoken-strategy.ts",
       "../src/security/authentication-strategies/cstoken-strategy.ts",
       "../src/security/verifycertificates.ts",
       "../src/sequence.ts",
