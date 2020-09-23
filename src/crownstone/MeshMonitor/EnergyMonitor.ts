@@ -4,7 +4,9 @@ import {EnergyData, EnergyDataProcessed} from '../../models';
 import {DataObject} from '@loopback/repository/src/common-types';
 import {MemoryDb} from '../Data/MemoryDb';
 import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
-const LOG = require('debug-level')('crownstone-hub-EnergyMonitor')
+import {Logger} from '../../Logger';
+const log = Logger(__filename);
+
 
 const SAMPLE_INTERVAL = 60000; // 1 minute;
 
@@ -57,7 +59,7 @@ export class EnergyMonitor {
       }
     }
     catch (e) {
-      LOG.info("processMeasurements: Error in _processStoneEnergy", e);
+      log.info("processMeasurements: Error in _processStoneEnergy", e);
     }
 
     let processedData = await DbRef.energyProcessed.find({where: {uploaded: false}} )
@@ -66,7 +68,7 @@ export class EnergyMonitor {
       await this._uploadStoneEnergy(processedData)
     }
     catch (e) {
-      LOG.info("processMeasurements: Error in _uploadStoneEnergy", e);
+      log.info("processMeasurements: Error in _uploadStoneEnergy", e);
     }
   }
 

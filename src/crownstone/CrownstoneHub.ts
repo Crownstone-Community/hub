@@ -4,7 +4,9 @@ import {DbRef} from './Data/DbReference';
 import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
 import {Timekeeper} from './Actions/Timekeeper';
-const LOG = require('debug-level')('crownstone-hub-base')
+import {Logger} from '../Logger';
+const log = Logger(__filename);
+
 
 export class CrownstoneHubClass implements CrownstoneHub {
   uart        : Uart;
@@ -27,13 +29,13 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
 
   async initialize() {
-    LOG.info("Launching Modules");
+    log.info("Launching Modules");
     if (this.launched === false) {
       // execute modules
       await this.uart.initialize();
-      LOG.info("Uart initialized")
+      log.info("Uart initialized")
       await this.cloud.initialize();
-      LOG.info("Cloud initialized")
+      log.info("Cloud initialized")
 
       this.mesh.init()
       this.timeKeeper.init()

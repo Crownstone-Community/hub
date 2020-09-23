@@ -5,6 +5,7 @@ import {verifyCertificate} from './security/VerifyCertificates';
 import {EnergyDataProcessedRepository, EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
+import {getHubConfig, storeHubConfig} from './util/ConfigUtil';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
 export {CrownstoneHubApplication};
@@ -42,7 +43,6 @@ export async function main(options: ApplicationConfig = {}) {
   //   {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
   // ]);
   // console.timeEnd('index')
-
 
   await CrownstoneHub.initialize();
 

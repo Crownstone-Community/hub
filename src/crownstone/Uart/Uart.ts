@@ -1,10 +1,12 @@
 import { CrownstoneUart } from 'crownstone-uart'
 import { PromiseManager } from './PromiseManager';
-import {eventBus} from '../EventBus';
+import {eventBus} from '../HubEventBus';
 import {CONFIG} from '../../config';
 import {topics} from '../topics';
 
-const LOG = require('debug-level')('crownstone-uart-bridge')
+import {Logger} from '../../Logger';
+const log = Logger(__filename);
+
 
 export class Uart implements UartInterface {
   uart     : CrownstoneUart;
@@ -39,7 +41,7 @@ export class Uart implements UartInterface {
   async initialize() {
     try {
       await this.uart.start(CONFIG.uartPort)
-      LOG.info("Uart is ready")
+      log.info("Uart is ready")
       this.ready = true;
     }
     catch (err) {
@@ -53,7 +55,7 @@ export class Uart implements UartInterface {
     if (!this.ready) { throw "NOT_READY"; }
 
     return this.queue.register(() => {
-      LOG.info("Dispatching switchAction", switchPairs);
+      log.info("Dispatching switchAction", switchPairs);
       return this.uart.switchCrownstones(switchPairs);
     });
   }

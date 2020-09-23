@@ -1,5 +1,6 @@
 import Timeout = NodeJS.Timeout;
-const LOG = require('debug-level')('crownstone-hub-cloud-timekeeper')
+import {Logger} from '../../Logger';
+const log = Logger(__filename);
 
 
 export class Timekeeper {
@@ -26,7 +27,7 @@ export class Timekeeper {
       await this.hubReference.uart.uart.setTime();
     }
     catch (e) {
-      LOG.warn("Error when trying to set time", e);
+      log.warn("Error when trying to set time", e);
     }
   }
 

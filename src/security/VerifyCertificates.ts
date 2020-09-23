@@ -1,10 +1,11 @@
 import * as fs from "fs";
 import {spawn} from "child_process";
 import {CONFIG} from '../config';
+import {Util} from '../util/Util';
 
 
 export async function verifyCertificate() : Promise<string> {
-  let certificatePath = stripTrailingSlash(CONFIG.httpsCertificatePath || stripTrailingSlash(__dirname) + "/https");
+  let certificatePath = Util.stripTrailingSlash(CONFIG.httpsCertificatePath || Util.stripTrailingSlash(__dirname) + "/https");
 
   let pathExists = fs.existsSync(certificatePath)
   if (!pathExists) {
@@ -18,16 +19,11 @@ export async function verifyCertificate() : Promise<string> {
   return certificatePath;
 }
 
-function stripTrailingSlash(path: string) : string {
-  if (path[path.length-1] === '/') {
-    return path.substr(0,path.length-1);
-  }
-  return path;
-}
+
 
 async function generateSelfSignedCertificatePair(dir: string) {
   console.log("Generating self-signed certificate pair...")
-  let confPath = CONFIG.sslConfigPath || "config";
+  let confPath = CONFIG.sslConfigPath;
   let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
   return new Promise((resolve, reject) => {
     // @ts-ignore

@@ -2,9 +2,10 @@ import { PowerMonitor }    from './PowerMonitor';
 import { EnergyMonitor }   from './EnergyMonitor';
 import { TopologyMonitor } from './TopologyMonitor';
 import { SwitchMonitor }   from './SwitchMonitor';
-import {eventBus} from '../EventBus';
+import {eventBus} from '../HubEventBus';
 import {topics} from '../topics';
-const LOG = require('debug-level')('crownstone-hub-mesh-monitor')
+import {Logger} from '../../Logger';
+const log = Logger(__filename);
 
 export class MeshMonitor {
   eventsRegistered = false;
@@ -46,7 +47,7 @@ export class MeshMonitor {
 
   gather(data: ServiceDataJson) {
     let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
-    LOG.debug("Received data from", crownstoneUid)
+    log.debug("Received data from", crownstoneUid)
 
     this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
     this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal);

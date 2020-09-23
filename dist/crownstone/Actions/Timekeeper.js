@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Timekeeper = void 0;
-const LOG = require('debug-level')('crownstone-hub-cloud-timekeeper');
+const Logger_1 = require("../../Logger");
+const log = Logger_1.Logger(__filename);
 class Timekeeper {
     constructor(hub) {
         this.hubReference = hub;
@@ -19,7 +20,7 @@ class Timekeeper {
             await this.hubReference.uart.uart.setTime();
         }
         catch (e) {
-            LOG.warn("Error when trying to set time", e);
+            log.warn("Error when trying to set time", e);
         }
     }
     stop() {

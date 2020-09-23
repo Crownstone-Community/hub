@@ -8,7 +8,7 @@ const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const hub_repository_1 = require("../repositories/hub.repository");
 const hub_model_1 = require("../models/hub.model");
-const EventBus_1 = require("../crownstone/EventBus");
+const HubEventBus_1 = require("../crownstone/HubEventBus");
 const topics_1 = require("../crownstone/topics");
 const repositories_1 = require("../repositories");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
@@ -26,7 +26,7 @@ let HubController = class HubController {
         if (await this.hubRepo.isSet() === false) {
             return this.hubRepo.create(newHub)
                 .then(() => {
-                EventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
+                HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
             });
         }
         else {
@@ -46,7 +46,7 @@ let HubController = class HubController {
             currentHub.uartKey = uartKey;
             return this.hubRepo.update(currentHub)
                 .then(() => {
-                EventBus_1.eventBus.emit(topics_1.topics.HUB_UART_KEY_UPDATED);
+                HubEventBus_1.eventBus.emit(topics_1.topics.HUB_UART_KEY_UPDATED);
             });
         }
     }
@@ -56,7 +56,7 @@ let HubController = class HubController {
         if (currentHub === null) {
             return this.hubRepo.create(editedHub)
                 .then(() => {
-                EventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
+                HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
             });
         }
         else {
@@ -71,13 +71,13 @@ let HubController = class HubController {
             }
             return this.hubRepo.update(currentHub)
                 .then(() => {
-                EventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
+                HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
             });
         }
     }
     async delete() {
         if (await this.hubRepo.isSet() === true) {
-            EventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
+            HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
             await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
         }
         else {

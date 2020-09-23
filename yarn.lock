@@ -1643,50 +1643,44 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crownstone-cloud@^0.17.2:
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.2.tgz#cdd596201d6d4b00f1c4f2213cc20b05896a6afc"
-  integrity sha512-h+OshKcJAIr1LnfDmdpSjvEosiHICsPqphsFy89rq86lS4z/L+pWVLH97KUTxQv6cCIZMI2lpQ25E9gRQ0e8dA==
+crownstone-cloud@^0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.5.tgz#a6170f4e1b13ae4fb6fc235ae008cf090d46716c"
+  integrity sha512-sWTBNIit7x1M1MEvW4U7f7b4HDs6QaeXy9boiLtZSmfIfh5kZNcREzpJIm73PM0fg70BO4nCV3aJv8hoFGLSUg==
   dependencies:
     cross-fetch "^3.0.4"
-    crownstone-core "^0.4.0"
-    debug-level "^0.3.1"
+    crownstone-core "^0.7.5"
     got "^11.5.2"
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-crownstone-core@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.4.1.tgz#f56bbf13105a670ce3c57905eb4fd87045c1194e"
-  integrity sha512-qA3qhzeSzzd9j+xtPqx42hHLQg9LcOiVjvnZCqKec0HeOfLfVJZkNyPlYbkPsYchA/CQ/lmgKX5u4OwzgPSyIA==
+crownstone-core@^0.7.5, crownstone-core@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.7.7.tgz#ef879f3db499f349e8b68d1b71c57b4a06e8ec48"
+  integrity sha512-JqlCxJ5Z0f2ebVzclVucZxH/VhVdWsonrSo3WCW2WSXmMpyz3G3rJ21avvaSpszSt+LIxnNN8T3fhHhLM1i5Sw==
   dependencies:
     aes-js "^3.1.1"
+    winston "^3.3.3"
+    winston-daily-rotate-file "^4.5.0"
 
-crownstone-core@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.6.0.tgz#c762eb60ae79979444527245ebca02f7188ffeb6"
-  integrity sha512-0920LmB8onDGHsgI8ratU81kxpKUtydFaBnNMp61x+j67qBUML+kUD6Wmt1S/1ornW0MEoTqIcPFUJwBvv8LkQ==
-  dependencies:
-    aes-js "^3.1.1"
-
-crownstone-sse@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.3.tgz#1e6e14457ff77c02058230f0b2cbd155dbba2db5"
-  integrity sha512-CyzuUrs6NKwOVb6wv0os/BPgEtiveH7ttE3w892TQrCnb+kBY1r4B3XMMoPU/txGhwvPhl116cDJpYeyQb/ogA==
+crownstone-sse@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-3.0.4.tgz#aeb1ed08af38930b96be5a1d47372a009f4b2663"
+  integrity sha512-F7Y0qhmNikIR7mJf9L21EBjCY6J+cv1GYYQVwagAQZcPwtO7+YnhbfQX4Zg5/VP4vg5HXEWOuIcPmHl41jGHag==
   dependencies:
     cross-fetch "^3.0.4"
-    debug-level "^0.3.1"
+    crownstone-core "^0.7.5"
     eventsource "^1.0.7"
+    rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.7.2.tgz#9e87d49b1a46b6c9ae97fdcfa5b915c0506beae5"
-  integrity sha512-brZsQJeGfmmwGLFijR3MnZ5M4NngU0it+C/mnSOwCNZw5rO8BLUpi9z4qik9f0NpUGpocx6X4nc8RV0vKSvo0w==
+crownstone-uart@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.8.1.tgz#447da83ac40455a3772fc336092c3400f5dd0eda"
+  integrity sha512-5labiHaAG59cvZINhunFlr7B3G8tJgN50SK1vSjJnufTPXKtT1LqtI+yO3aa8M079bnFvyTnDjljC5M5vuhRvQ==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "^0.6.0"
-    debug-level "^0.3.1"
+    crownstone-core "^0.7.7"
     serialport "9.0.0"
 
 crypt@0.0.2:
@@ -2241,6 +2235,13 @@ file-entry-cache@^5.0.1:
   integrity sha512-bCg29ictuBaKUwwArK4ouCaqDgLZcysCFLmM/Yn/FDoqndh/9vNuQfXRDvTuXKLxfD/JtZQGKFT8MGcJBK644g==
   dependencies:
     flat-cache "^2.0.1"
+
+file-stream-rotator@^0.5.7:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/file-stream-rotator/-/file-stream-rotator-0.5.7.tgz#868a2e5966f7640a17dd86eda0e4467c089f6286"
+  integrity sha512-VYb3HZ/GiAGUCrfeakO8Mp54YGswNUHvL7P09WQcXAJNSj3iQ5QraYSp3cIn1MUyw6uzfgN/EFOarCNa4JvUHQ==
+  dependencies:
+    moment "^2.11.2"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -3472,6 +3473,11 @@ mocha@^8.0.1:
     yargs-parser "13.1.2"
     yargs-unparser "1.6.1"
 
+moment@^2.11.2:
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.0.tgz#fcbef955844d91deb55438613ddcec56e86a3425"
+  integrity sha512-z6IJ5HXYiuxvFTI6eiQ9dm77uE0gyy1yXNApVHqTcnIKfY9tIwEjlzsZ6u1LQXvVgKeTnv9Xm7NDvJ7lso3MtA==
+
 mongodb@^3.2.4, mongodb@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.2.tgz#1154a4ac107bf1375112d83a29c5cf97704e96b6"
@@ -3723,6 +3729,11 @@ object-assign@^4, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
+
+object-hash@^2.0.1:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-2.0.3.tgz#d12db044e03cd2ca3d77c0570d87225b02e1e6ea"
+  integrity sha512-JPKn0GMu+Fa3zt3Bmr66JhokJU5BaNBIh4ZeTlaCBzrBsOeXzwcKKAK1tbLiPKgvwmPXsDvvLHoWh5Bm7ofIYg==
 
 object-inspect@^1.7.0, object-inspect@^1.8.0:
   version "1.8.0"
@@ -5196,7 +5207,17 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
-winston-transport@^4.4.0:
+winston-daily-rotate-file@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/winston-daily-rotate-file/-/winston-daily-rotate-file-4.5.0.tgz#3914ac57c4bdae1138170bec85af0c2217b253b1"
+  integrity sha512-/HqeWiU48dzGqcrABRlxYWVMdL6l3uKCtFSJyrqK+E2rLnSFNsgYpvwx15EgTitBLNzH69lQd/+z2ASryV2aqw==
+  dependencies:
+    file-stream-rotator "^0.5.7"
+    object-hash "^2.0.1"
+    triple-beam "^1.3.0"
+    winston-transport "^4.2.0"
+
+winston-transport@^4.2.0, winston-transport@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.4.0.tgz#17af518daa690d5b2ecccaa7acf7b20ca7925e59"
   integrity sha512-Lc7/p3GtqtqPBYYtS6KCN3c77/2QCev51DvcJKbkFPQNoj1sinkGwLGFDxkXY9J6p9+EPnYs+D90uwbnaiURTw==

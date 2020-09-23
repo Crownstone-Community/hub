@@ -67,3 +67,4 @@ typings/
 
 key.pem
 cert.pem
+hub_config.json

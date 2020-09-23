@@ -5,12 +5,13 @@ import {Hub} from '../../models/hub.model';
 import {MemoryDb} from '../Data/MemoryDb';
 import {Util} from '../../util/Util';
 import {SseEventHandler} from './SseEventHandler';
-import {eventBus} from '../EventBus';
+import {eventBus} from '../HubEventBus';
 import {topics} from '../topics';
 import Timeout = NodeJS.Timeout;
+import {Logger} from '../../Logger';
 
 const os = require('os');
-const LOG = require('debug-level')('crownstone-hub-cloud')
+const log = Logger(__filename);
 
 const RETRY_INTERVAL_MS = 5000;
 
@@ -54,7 +55,7 @@ export class CloudManager {
   }
 
   async cleanup() {
-    LOG.debug("Cloudmanager cleanup started.");
+    log.debug("Cloudmanager cleanup started.");
     this.resetTriggered = true;
     // wait for everything to clean up.
     while (this.initializeInProgress || this.loginInProgress || this.sseSetupInprogress || this.syncInProgress) {
@@ -76,7 +77,7 @@ export class CloudManager {
     }
     this.intervalsRegistered = false;
 
-    LOG.debug("Cloudmanager cleanup finished.");
+    log.debug("Cloudmanager cleanup finished.");
   }
 
 
@@ -93,7 +94,7 @@ export class CloudManager {
       while (this.initialized === false) {
         let hub = await DbRef.hub.get();
         if (!hub) { break }
-        LOG.info("Cloudmanager initialize started.");
+        log.info("Cloudmanager initialize started.");
         try {
 
           await this.login(hub);
@@ -121,16 +122,16 @@ export class CloudManager {
           }
         }
         catch (err) {
-          LOG.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
+          log.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
           eventBus.emit(topics.CLOUD_AUTHENTICATION_PROBLEM_401);
           this.initialized = false;
         }
       }
     }
     else {
-      LOG.info("No hub data yet")
+      log.info("No hub data yet")
     }
-    LOG.info("Cloudmanager initialize finished.");
+    log.info("Cloudmanager initialize finished.");
 
     this.initializeInProgress = false;
   }
@@ -147,12 +148,12 @@ export class CloudManager {
 
   async login(hub: Hub) {
     if (this.loginInProgress === true) { return; }
-    LOG.info("Cloudmanager LOGIN started.");
+    log.info("Cloudmanager logIN started.");
     this.loginInProgress = true;
 
     this.sphereId = hub.sphereId;
 
-    // LOGIN:
+    // logIN:
     let cloudLoggedIn = false;
     while (cloudLoggedIn === false && this.resetTriggered === false) {
       try      {
@@ -163,7 +164,7 @@ export class CloudManager {
         await DbRef.hub.update(hub);
       }
       catch(e) {
-        LOG.warn("Error in login to cloud",e);
+        log.warn("Error in login to cloud",e);
         // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
         if (e && e.statusCode && e.statusCode === 401) { throw 401; }
@@ -171,14 +172,14 @@ export class CloudManager {
       }
     }
     this.loginInProgress = false;
-    LOG.info("Cloudmanager LOGIN finished.");
+    log.info("Cloudmanager logIN finished.");
   }
 
 
 
   async sync() {
     if (this.syncInProgress === true) { return; }
-    LOG.info("Cloudmanager SYNC started.");
+    log.info("Cloudmanager SYNC started.");
     this.syncInProgress = true;
     // download stones from sphere, load in memory
     let stonesSynced = false;
@@ -192,7 +193,7 @@ export class CloudManager {
       catch(e) {
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
-        LOG.warn("Error in sync", e);
+        log.warn("Error in sync", e);
         if (e && e.statusCode && e.statusCode === 401) { throw 401; }
         await Util.wait(RETRY_INTERVAL_MS);
       }
@@ -209,13 +210,13 @@ export class CloudManager {
       catch(e) {
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
-        LOG.warn("Error in sync user obtaining", e);
+        log.warn("Error in sync user obtaining", e);
         if (e && e.statusCode && e.statusCode === 401) { throw 401; }
         await Util.wait(RETRY_INTERVAL_MS);
       }
     }
 
-    LOG.info("Cloudmanager SYNC finished.");
+    log.info("Cloudmanager SYNC finished.");
     this.syncInProgress = false;
   }
 
@@ -224,7 +225,7 @@ export class CloudManager {
   async setupSSE(hub: Hub) {
     if (this.sseSetupInprogress === true) { return; }
     this.sseSetupInprogress = true;
-    LOG.info("Cloudmanager SSE setup started.");
+    log.info("Cloudmanager SSE setup started.");
     if (this.sse === null) {
       this.sse = new CrownstoneSSE({hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false});
     }
@@ -233,7 +234,7 @@ export class CloudManager {
     while (sseLoggedIn == false && this.resetTriggered === false) {
       try      { await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true; }
       catch(e) {
-        LOG.warn("Error in SSE", e);
+        log.warn("Error in SSE", e);
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
         if (e && e.statusCode && e.statusCode === 401) { throw 401; }
@@ -242,7 +243,7 @@ export class CloudManager {
     }
 
     this.sse.start(this.sseEventHandler.handleSseEvent)
-    LOG.info("Cloudmanager SSE setup finished.");
+    log.info("Cloudmanager SSE setup finished.");
     this.sseSetupInprogress = false;
   }
 
@@ -250,7 +251,7 @@ export class CloudManager {
   async updateLocalIp() {
     if (this.ipUpdateInprogress === true) { return; }
 
-    LOG.info("Cloudmanager IP update started.");
+    log.info("Cloudmanager IP update started.");
     this.ipUpdateInprogress = true;
 
     let ifaces = os.networkInterfaces();
@@ -286,12 +287,12 @@ export class CloudManager {
           this.storedIpAddress = ips;
           ipUpdated = true;
         } catch (e) {
-          LOG.warn("Error updating local IP address", e);
+          log.warn("Error updating local IP address", e);
           await Util.wait(RETRY_INTERVAL_MS);
         }
       }
     }
-    LOG.info("Cloudmanager IP update finished.");
+    log.info("Cloudmanager IP update finished.");
     this.ipUpdateInprogress = false;
   }
 }

@@ -5,8 +5,9 @@ const tslib_1 = require("tslib");
 const fs = tslib_1.__importStar(require("fs"));
 const child_process_1 = require("child_process");
 const config_1 = require("../config");
+const Util_1 = require("../util/Util");
 async function verifyCertificate() {
-    let certificatePath = stripTrailingSlash(config_1.CONFIG.httpsCertificatePath || stripTrailingSlash(__dirname) + "/https");
+    let certificatePath = Util_1.Util.stripTrailingSlash(config_1.CONFIG.httpsCertificatePath || Util_1.Util.stripTrailingSlash(__dirname) + "/https");
     let pathExists = fs.existsSync(certificatePath);
     if (!pathExists) {
         fs.mkdirSync(certificatePath);
@@ -18,15 +19,9 @@ async function verifyCertificate() {
     return certificatePath;
 }
 exports.verifyCertificate = verifyCertificate;
-function stripTrailingSlash(path) {
-    if (path[path.length - 1] === '/') {
-        return path.substr(0, path.length - 1);
-    }
-    return path;
-}
 async function generateSelfSignedCertificatePair(dir) {
     console.log("Generating self-signed certificate pair...");
-    let confPath = config_1.CONFIG.sslConfigPath || "config";
+    let confPath = config_1.CONFIG.sslConfigPath;
     let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
     return new Promise((resolve, reject) => {
         // @ts-ignore

@@ -367,9 +367,14 @@ export const Util = {
       })
     })
     return localIps;
+  },
+
+  stripTrailingSlash: function(path: string) : string {
+    if (path[path.length-1] === '/') {
+      return path.substr(0,path.length-1);
+    }
+    return path;
   }
-
-
 };
 
 

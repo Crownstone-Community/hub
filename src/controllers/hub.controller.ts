@@ -3,11 +3,11 @@
 // import {inject} from '@loopback/context';
 
 import {repository} from '@loopback/repository';
-import {del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
+import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
 import {HubRepository} from '../repositories/hub.repository';
 import {Hub} from '../models/hub.model';
 import {DataObject} from '@loopback/repository/src/common-types';
-import {eventBus} from '../crownstone/EventBus';
+import {eventBus} from '../crownstone/HubEventBus';
 import {topics} from '../crownstone/topics';
 import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
@@ -16,8 +16,8 @@ import {authenticate} from '@loopback/authentication';
 /**
  * This controller will echo the state of the hub.
  */
-
 export class HubController {
+
   constructor(
     @repository(HubRepository) protected hubRepo: HubRepository,
     @repository(UserRepository) protected userRepo: UserRepository,

@@ -13,6 +13,7 @@ import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback
 import {AuthorizationComponent} from '@loopback/authorization';
 import {CsTokenStrategy} from './security/authentication-strategies/csToken-strategy';
 import {UserService} from './services';
+import {getHubConfig} from './util/ConfigUtil';
 
 export interface PackageInfo {
   name: string;
@@ -59,12 +60,17 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
     this.projectRoot = __dirname;
 
+    let controllerExtensions = ['.controller.js'];
+    let hubConfig = getHubConfig();
+    if (hubConfig.useDevControllers) { controllerExtensions.push('.controller.dev.js'); }
+    if (hubConfig.useLogControllers) { controllerExtensions.push('.controller.log.js'); }
+
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
         dirs: ['controllers'],
-        extensions: ['.controller.js'],
+        extensions: controllerExtensions,
         nested: true,
       },
     };

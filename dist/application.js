@@ -13,6 +13,7 @@ const authentication_1 = require("@loopback/authentication");
 const authorization_1 = require("@loopback/authorization");
 const csToken_strategy_1 = require("./security/authentication-strategies/csToken-strategy");
 const services_1 = require("./services");
+const ConfigUtil_1 = require("./util/ConfigUtil");
 const pkg = require('../package.json');
 class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
     constructor(options = {}) {
@@ -43,12 +44,20 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         this.configure(rest_explorer_1.RestExplorerBindings.COMPONENT).to({ path: '/explorer' });
         this.component(rest_explorer_1.RestExplorerComponent);
         this.projectRoot = __dirname;
+        let controllerExtensions = ['.controller.js'];
+        let hubConfig = ConfigUtil_1.getHubConfig();
+        if (hubConfig.useDevControllers) {
+            controllerExtensions.push('.controller.dev.js');
+        }
+        if (hubConfig.useLogControllers) {
+            controllerExtensions.push('.controller.log.js');
+        }
         // Customize @loopback/boot Booter Conventions here
         this.bootOptions = {
             controllers: {
                 // Customize ControllerBooter Conventions here
                 dirs: ['controllers'],
-                extensions: ['.controller.js'],
+                extensions: controllerExtensions,
                 nested: true,
             },
         };

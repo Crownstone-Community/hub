@@ -28,4 +28,5 @@ export declare const Util: {
     _promiseBatchPerformer: (arr: any[], index: number, method: PromiseCallback) => Promise<unknown>;
     capitalize: (inputStr: string) => string;
     getLocalIps: () => string[];
+    stripTrailingSlash: (path: string) => string;
 };

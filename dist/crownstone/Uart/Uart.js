@@ -3,10 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Uart = void 0;
 const crownstone_uart_1 = require("crownstone-uart");
 const PromiseManager_1 = require("./PromiseManager");
-const EventBus_1 = require("../EventBus");
+const HubEventBus_1 = require("../HubEventBus");
 const config_1 = require("../../config");
 const topics_1 = require("../topics");
-const LOG = require('debug-level')('crownstone-uart-bridge');
+const Logger_1 = require("../../Logger");
+const log = Logger_1.Logger(__filename);
 class Uart {
     constructor() {
         this.ready = false;
@@ -25,13 +26,13 @@ class Uart {
             if (!event.moduleTopic) {
                 moduleEvent = event.uartTopic;
             }
-            this.uart.on(event.uartTopic, (data) => { EventBus_1.eventBus.emit(moduleEvent, data); });
+            this.uart.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
         });
     }
     async initialize() {
         try {
             await this.uart.start(config_1.CONFIG.uartPort);
-            LOG.info("Uart is ready");
+            log.info("Uart is ready");
             this.ready = true;
         }
         catch (err) {
@@ -44,7 +45,7 @@ class Uart {
             throw "NOT_READY";
         }
         return this.queue.register(() => {
-            LOG.info("Dispatching switchAction", switchPairs);
+            log.info("Dispatching switchAction", switchPairs);
             return this.uart.switchCrownstones(switchPairs);
         });
     }

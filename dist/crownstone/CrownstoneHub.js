@@ -7,7 +7,8 @@ const DbReference_1 = require("./Data/DbReference");
 const MeshMonitor_1 = require("./MeshMonitor/MeshMonitor");
 const CloudCommandHandler_1 = require("./Cloud/CloudCommandHandler");
 const Timekeeper_1 = require("./Actions/Timekeeper");
-const LOG = require('debug-level')('crownstone-hub-base');
+const Logger_1 = require("../Logger");
+const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
         this.launched = false;
@@ -18,13 +19,13 @@ class CrownstoneHubClass {
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
     }
     async initialize() {
-        LOG.info("Launching Modules");
+        log.info("Launching Modules");
         if (this.launched === false) {
             // execute modules
             await this.uart.initialize();
-            LOG.info("Uart initialized");
+            log.info("Uart initialized");
             await this.cloud.initialize();
-            LOG.info("Cloud initialized");
+            log.info("Cloud initialized");
             this.mesh.init();
             this.timeKeeper.init();
             this.launched = true;
