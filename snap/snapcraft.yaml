@@ -66,7 +66,7 @@ apps:
       CS_HUB_CONFIG_PATH: $SNAP_COMMON/config
       CS_FILE_LOGGING_DIRNAME: $SNAP_COMMON/logs
 #      CS_FILE_LOGGING_BASENAME: 
-      CS_ENABLE_FILE_LOGGING: `1`
+      CS_ENABLE_FILE_LOGGING: '1'
       CS_FILE_LOGGING_LEVEL: 'debug'
       CS_CONSOLE_LOGGING_LEVEL: 'none'
 #      CS_HUB_UART_PORT: "/dev/serial/by-id/usb-Silicon_Labs_CP2104_USB_to_UART_Bridge_Controller_014A641C-if00-port0"
