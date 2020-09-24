@@ -5,6 +5,7 @@ import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
 import {Timekeeper} from './Actions/Timekeeper';
 import {Logger} from '../Logger';
+
 const log = Logger(__filename);
 
 
@@ -21,27 +22,33 @@ export class CrownstoneHubClass implements CrownstoneHub {
     this.uart  = new Uart();
     this.mesh  = new MeshMonitor(this);
 
-
     this.timeKeeper = new Timekeeper(this);
     CloudCommandHandler.loadManager(this.cloud);
   }
 
 
-
   async initialize() {
-    log.info("Launching Modules");
-    if (this.launched === false) {
-      // execute modules
-      await this.uart.initialize();
-      log.info("Uart initialized")
-      await this.cloud.initialize();
-      log.info("Cloud initialized")
+    let hub = await DbRef.hub.get();
+    if (hub) {
+      log.info("Launching Modules");
 
-      this.mesh.init()
-      this.timeKeeper.init()
+      if (this.launched === false) {
+        // execute modules
+        await this.cloud.initialize();
+        log.info("Cloud initialized")
+
+        await this.uart.initialize();
+        log.info("Uart initialized")
+
+        this.mesh.init()
+        this.timeKeeper.init()
 
 
-      this.launched = true;
+        this.launched = true;
+      }
+    }
+    else {
+      log.info("Hub not configured yet.")
     }
   }
 

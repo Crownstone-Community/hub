@@ -5,6 +5,7 @@
 
 import {once} from 'events';
 import express, {Request, Response} from 'express';
+import http from 'http';
 import https from 'https';
 import path from 'path';
 import {CrownstoneHubApplication, updateControllersBasedOnConfig} from './application';
@@ -99,7 +100,6 @@ export class ExpressServer {
       key:  fs.readFileSync(path + '/key.pem'),
       cert: fs.readFileSync(path + '/cert.pem'),
     };
-
 
     this.server = https.createServer(httpsOptions, this.app).listen(port, host);
     await once(this.server, 'listening');

@@ -19,16 +19,22 @@ class CrownstoneHubClass {
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
     }
     async initialize() {
-        log.info("Launching Modules");
-        if (this.launched === false) {
-            // execute modules
-            await this.uart.initialize();
-            log.info("Uart initialized");
-            await this.cloud.initialize();
-            log.info("Cloud initialized");
-            this.mesh.init();
-            this.timeKeeper.init();
-            this.launched = true;
+        let hub = await DbReference_1.DbRef.hub.get();
+        if (hub) {
+            log.info("Launching Modules");
+            if (this.launched === false) {
+                // execute modules
+                await this.cloud.initialize();
+                log.info("Cloud initialized");
+                await this.uart.initialize();
+                log.info("Uart initialized");
+                this.mesh.init();
+                this.timeKeeper.init();
+                this.launched = true;
+            }
+        }
+        else {
+            log.info("Hub not configured yet.");
         }
     }
     async cleanupAndDestroy() {

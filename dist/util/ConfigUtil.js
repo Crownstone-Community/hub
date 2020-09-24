@@ -6,10 +6,35 @@ const config_1 = require("../config");
 const fs_1 = tslib_1.__importDefault(require("fs"));
 const Util_1 = require("./Util");
 const path_1 = tslib_1.__importDefault(require("path"));
+const Logger_1 = require("../Logger");
+const log = Logger_1.Logger(__filename);
 const defaultConfig = {
     useDevControllers: false,
     useLogControllers: false,
+    logging: {
+        consoleLevel: (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info'),
+        fileLevel: (process.env.CS_FILE_LOGGING_LEVEL || 'info'),
+        fileLoggingEnabled: process.env.CS_ENABLE_FILE_LOGGING === 'true'
+    }
 };
+function checkObject(candidate, example) {
+    let keys = Object.keys(example);
+    for (let i = 0; i < keys.length; i++) {
+        if (typeof example[keys[i]] === 'object') {
+            if (candidate[keys[i]] === undefined || typeof candidate[keys[i]] !== 'object') {
+                // @ts-ignore
+                candidate[keys[i]] = { ...example[keys[i]] };
+            }
+            else {
+                checkObject(candidate[keys[i]], example[keys[i]]);
+            }
+        }
+        else if (candidate[keys[i]] === undefined) {
+            // @ts-ignore
+            candidate[keys[i]] = example[keys[i]];
+        }
+    }
+}
 function getHubConfig() {
     let configPath = getConfigPath();
     let dataObject = {};
@@ -18,17 +43,8 @@ function getHubConfig() {
         if (data && typeof data === 'string') {
             dataObject = JSON.parse(data);
         }
-        let keys = Object.keys(defaultConfig);
-        for (let i = 0; i < keys.length; i++) {
-            if (dataObject[keys[i]] === undefined) {
-                // @ts-ignore
-                dataObject[keys[i]] = defaultConfig[keys[i]];
-            }
-        }
     }
-    else {
-        dataObject = { ...defaultConfig };
-    }
+    checkObject(dataObject, defaultConfig);
     return dataObject;
 }
 exports.getHubConfig = getHubConfig;
@@ -42,6 +58,7 @@ function getConfigPath() {
 }
 function storeHubConfig(config) {
     let configPath = getConfigPath();
+    log.info("Storing", config, 'at', configPath);
     let str = JSON.stringify(config);
     fs_1.default.writeFileSync(configPath, str);
 }

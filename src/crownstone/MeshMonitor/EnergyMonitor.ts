@@ -37,7 +37,6 @@ export class EnergyMonitor {
 
   async processMeasurements() {
     let energyData = await DbRef.energy.find({where: {processed: false}, order:['timestamp ASC']} )
-
     // -------------------------------------------------------
     // sort in separate lists per stone.
     let stoneEnergy : {[stoneUID : string]: EnergyData[] } = {};
@@ -108,8 +107,8 @@ export class EnergyMonitor {
 
   async _processStoneEnergy(stoneUID: string, energyData: EnergyData[]) {
     if (energyData.length === 0) { return }
+    let initial = energyData[0];
     let prev = energyData[0];
-
 
     let lastDatapoint = await DbRef.energy.findOne({where: {timestamp: {lt: prev.timestamp}}});
     // we will try to have an ever-incrementing energy usage
@@ -136,6 +135,7 @@ export class EnergyMonitor {
       let previousSamplePoint  = prev.timestamp.setSeconds(0,0);
       if (previousTimestamp > nextSamplePoint) {
         prev = datapoint;
+        log.debug("Gap is too large. Mark as processed.")
         continue;
       }
 
@@ -168,7 +168,7 @@ export class EnergyMonitor {
       // If more than 5 points have elapsed, we do not do anything and mark the prev as processed.
       if (elapsedSamplePoints > 5) {
         prev.processed = true;
-        DbRef.energy.update(prev).catch((e) => { console.log("ERROR PERSISTING", e)}) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+        DbRef.energy.update(prev).catch((e) => {  log.error("Error persisting processed boolean on datapoint",1,e); }) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
         continue;
       }
       // if less than 5 have elapsed, we do a linear interpolation, one for each point
@@ -201,7 +201,8 @@ export class EnergyMonitor {
       }
       else {
         datapoint.processed = true;
-        DbRef.energy.update(datapoint).catch((e) => {console.log("ERROR PERSISTING 2", e)}) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+        console.log(stoneUID, datapoint)
+        DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint",2,e); }) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
       }
 
       prev = datapoint;
@@ -209,6 +210,12 @@ export class EnergyMonitor {
 
     // we now have an array called samples, which should be loaded into the uploadable database.
     if (samples.length > 0) {
+      // all processed datapoints have been marked, except the last one, and possible the very first one. If we have samples, then the very first one has been used.
+      // we mark it processed because of that.
+      if (initial.processed !== true) {
+        initial.processed = true;
+        await DbRef.energy.update(initial).catch((e) => { log.error("Error persisting processed boolean on datapoint",3,e); })
+      }
       await DbRef.energyProcessed.createAll(samples);
     }
   }

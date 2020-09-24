@@ -1,6 +1,4 @@
-import {CrownstoneHubApplication} from './application';
-import * as fs from 'fs';
-import {verifyCertificate} from './security/VerifyCertificates';
+import {CrownstoneHubApplication, updateLoggingBasedOnConfig} from './application';
 import {EnergyDataProcessedRepository, EnergyDataRepository, HubRepository, PowerDataRepository, SwitchDataRepository, UserRepository} from './repositories';
 import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
@@ -12,6 +10,8 @@ export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
 
 export async function main(options: ApplicationConfig = {}) {
+  updateLoggingBasedOnConfig()
+
   const server = new ExpressServer();
   await server.boot();
   await server.start();

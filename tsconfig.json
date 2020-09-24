@@ -11,6 +11,7 @@
     "src",
     "node_modules/crownstone-core/src/declarations/declarations.d.ts",
     "node_modules/crownstone-cloud/src/declarations/**/*",
-    "node_modules/crownstone-sse/src/declarations/**/*"
+    "node_modules/crownstone-sse/src/declarations/**/*",
+    "node_modules/crownstone-logger/src/declarations/logger_types.d.ts"
   ]
 }

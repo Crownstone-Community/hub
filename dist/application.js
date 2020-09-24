@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = void 0;
+exports.updateLoggingBasedOnConfig = exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = void 0;
 const tslib_1 = require("tslib");
 const boot_1 = require("@loopback/boot");
 const rest_explorer_1 = require("@loopback/rest-explorer");
@@ -16,7 +16,9 @@ const services_1 = require("./services");
 const ConfigUtil_1 = require("./util/ConfigUtil");
 const log_controller_1 = require("./controllers/logging/log.controller");
 const csAdminToken_strategy_1 = require("./security/authentication-strategies/csAdminToken-strategy");
+const Logger_1 = require("./Logger");
 const pkg = require('../package.json');
+const log = Logger_1.Logger(__filename);
 class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
     constructor(options = {}) {
         let executionPath = __dirname;
@@ -76,10 +78,16 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
 exports.CrownstoneHubApplication = CrownstoneHubApplication;
 function updateControllersBasedOnConfig(app) {
     let hubConfig = ConfigUtil_1.getHubConfig();
-    console.log("HERE", hubConfig);
     if (hubConfig.useLogControllers) {
         app.controller(log_controller_1.LogController);
     }
 }
 exports.updateControllersBasedOnConfig = updateControllersBasedOnConfig;
+function updateLoggingBasedOnConfig() {
+    let hubConfig = ConfigUtil_1.getHubConfig();
+    log.config.setConsoleLevel(hubConfig.logging.consoleLevel);
+    log.config.setFileLevel(hubConfig.logging.fileLevel);
+    log.config.setFileLogging(hubConfig.logging.fileLoggingEnabled);
+}
+exports.updateLoggingBasedOnConfig = updateLoggingBasedOnConfig;
 //# sourceMappingURL=application.js.map

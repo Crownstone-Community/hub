@@ -252,4 +252,5 @@ export declare class CrownstoneHubApplication extends CrownstoneHubApplication_b
     setUpBindings(): void;
 }
 export declare function updateControllersBasedOnConfig(app: CrownstoneHubApplication): void;
+export declare function updateLoggingBasedOnConfig(): void;
 export {};

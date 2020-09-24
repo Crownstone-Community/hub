@@ -39,7 +39,7 @@ export class CloudManager {
   interval_ip   : Timeout | null = null;
 
   constructor() {
-    this.cloud = new CrownstoneCloud("https://cloud.crownstone.rocks/api/")
+    this.cloud = new CrownstoneCloud("https://cloud.crownstone.rocks/api/");
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();
@@ -96,7 +96,6 @@ export class CloudManager {
         if (!hub) { break }
         log.info("Cloudmanager initialize started.");
         try {
-
           await this.login(hub);
           await this.setupSSE(hub);
           await this.sync();
@@ -148,31 +147,41 @@ export class CloudManager {
 
   async login(hub: Hub) {
     if (this.loginInProgress === true) { return; }
-    log.info("Cloudmanager logIN started.");
+    log.info("Cloudmanager login started.");
     this.loginInProgress = true;
 
     this.sphereId = hub.sphereId;
 
-    // logIN:
-    let cloudLoggedIn = false;
-    while (cloudLoggedIn === false && this.resetTriggered === false) {
-      try      {
-        let loginData = await this.cloud.hubLogin(hub.cloudId, hub.token);
-        cloudLoggedIn = true;
-        hub.accessToken = loginData.accessToken;
-        hub.accessTokenExpiration = new Date((loginData.ttl*1000) + Date.now());
-        await DbRef.hub.update(hub);
+    // login:
+    try {
+      let cloudLoggedIn = false;
+      while (cloudLoggedIn === false && this.resetTriggered === false) {
+        try {
+          let loginData = await this.cloud.hubLogin(hub.cloudId, hub.token);
+          cloudLoggedIn = true;
+          hub.accessToken = loginData.accessToken;
+          hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + Date.now());
+          await DbRef.hub.update(hub);
+        } catch (e) {
+          log.warn("Error in login to cloud", e);
+          // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
+          // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
+          if (e && e.statusCode && e.statusCode === 401) {
+            throw 401;
+          }
+          await Util.wait(RETRY_INTERVAL_MS);
+        }
       }
-      catch(e) {
-        log.warn("Error in login to cloud",e);
-        // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
-        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
-        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
-        await Util.wait(RETRY_INTERVAL_MS);
-      }
+
+      log.info("Cloudmanager login finished.");
+      this.loginInProgress = false;
     }
-    this.loginInProgress = false;
-    log.info("Cloudmanager logIN finished.");
+    catch (e) {
+      log.warn("Login failed...");
+      this.loginInProgress = false;
+      await Util.wait(RETRY_INTERVAL_MS);
+      throw e;
+    }
   }
 
 

@@ -11,6 +11,7 @@ const server_1 = require("./server");
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
     var _a, _b;
+    application_1.updateLoggingBasedOnConfig();
     const server = new server_1.ExpressServer();
     await server.boot();
     await server.start();

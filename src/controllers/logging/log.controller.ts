@@ -3,18 +3,25 @@
 // import {inject} from '@loopback/context';
 
 
-import {get, HttpErrors, param, post, requestBody} from '@loopback/rest';
+import {get, HttpErrors, oas, param, post, Response, RestBindings} from '@loopback/rest';
 import {authenticate} from '@loopback/authentication';
 import {Logger} from '../../Logger';
 import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../../security/authentication-strategies/csToken-strategy';
 import {EmptyReturnCode} from '../returnCodes/ReturnCodes';
-import {CrownstoneHub} from '../../crownstone/CrownstoneHub';
+import * as fs from 'fs';
+import {getHubConfig, storeHubConfig} from '../../util/ConfigUtil';
+import path from 'path';
 
 const log = Logger(__filename);
 
 let AVAILABLE_LEVELS = ["none" , "critical" , "error" , "warn" , "notice" , "info" , "debug" , "verbose" , "silly"];
+
+interface LogFileDetails {
+  filename: string,
+  sizeMB: number
+}
 
 export class LogController {
   constructor() {}
@@ -24,14 +31,25 @@ export class LogController {
   @authenticate('csAdminToken')
   async setLogLevel(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @param.query.string('level', {required:true}) level: string,
+    @param.query.string('consoleLevel', {required:false}) consoleLevel: string,
+    @param.query.string('fileLevel', {required:false}) fileLevel: string,
   ) : Promise<void> {
-    if (AVAILABLE_LEVELS.indexOf(level) !== -1) {
-      log.config.setLevel(level as TransportLevel);
+    if (consoleLevel && AVAILABLE_LEVELS.indexOf(consoleLevel) === -1) {
+      throw new HttpErrors.BadRequest("consoleLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
     }
-    else {
-      throw new HttpErrors.BadRequest("Level must be one of these: " + AVAILABLE_LEVELS.join(", "));
+    if (fileLevel && AVAILABLE_LEVELS.indexOf(fileLevel) === -1) {
+      throw new HttpErrors.BadRequest("fileLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
     }
+    let hubConfig = getHubConfig();
+    if (consoleLevel) {
+      hubConfig.logging.consoleLevel = consoleLevel as TransportLevel;
+      log.config.setConsoleLevel(consoleLevel as TransportLevel);
+    };
+    if (fileLevel)    {
+      hubConfig.logging.fileLevel = fileLevel as TransportLevel;
+      log.config.setFileLevel(fileLevel as TransportLevel);
+    };
+    storeHubConfig(hubConfig);
   }
 
   @post('/setFileLogging', EmptyReturnCode)
@@ -40,24 +58,56 @@ export class LogController {
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.boolean('enabled', {required:true}) enabled: boolean,
   ) : Promise<void> {
+    let hubConfig = getHubConfig();
+    hubConfig.logging.fileLoggingEnabled = enabled;
     log.config.setFileLogging(enabled);
+    storeHubConfig(hubConfig);
   }
 
   @get('/availableLogFiles', EmptyReturnCode)
   @authenticate('csAdminToken')
   async availableLogFiles(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-  ) : Promise<string[]> {
-    return []
+  ) : Promise<LogFileDetails[]> {
+    let logPath = process.env.CS_FILE_LOGGING_DIRNAME;
+    if (!logPath || logPath === undefined)  { return []; }
+    if (!fs.existsSync(logPath))            { return []; }
+
+    let items = fs.readdirSync(logPath);
+
+    let logItems : LogFileDetails[] = [];
+    let expectedFileBase = process.env.CS_FILE_LOGGING_BASENAME || 'crownstone-log';
+    items.forEach((item) => {
+      if (item.indexOf(expectedFileBase + "-2") !== -1) {
+        let stats = fs.statSync(path.join(logPath as string, item));
+        var fileSizeInBytes = stats["size"]
+        logItems.push({filename: item, sizeMB: fileSizeInBytes/Math.pow(1024,2)});
+      }
+    })
+
+    return logItems
   }
 
-  @get('/downloadLogFile', EmptyReturnCode)
+  @get('/downloadLogFile')
   @authenticate('csAdminToken')
+  @oas.response.file()
   async downloadLogFile(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.string('filename', {required:true}) filename: string,
-  ) : Promise<string[]> {
-    return []
+    @inject(RestBindings.Http.RESPONSE) response: Response,
+  ) {
+    if (!filename)  { throw new HttpErrors.notFound(); }
+
+    const fileBasename = path.basename(filename);
+    let logPath = process.env.CS_FILE_LOGGING_DIRNAME;
+
+    if (!fileBasename)                                              { throw new HttpErrors.notFound(); }
+    if (!logPath || logPath === undefined)                          { throw new HttpErrors.notFound(); }
+    if (!fs.existsSync(path.join(logPath as string, fileBasename))) { throw new HttpErrors.NotFound(); }
+
+    // @ts-ignore
+    response.download(path.join(logPath as string, fileBasename));
+    return response;
   }
 
   @get('/deleteAllLogs', EmptyReturnCode)
@@ -65,6 +115,16 @@ export class LogController {
   async deleteAllLogs(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<void> {
-    return;
+    let logPath = process.env.CS_FILE_LOGGING_DIRNAME;
+    if (!logPath || logPath === undefined)  { return; }
+    if (!fs.existsSync(logPath))            { return; }
+
+    let items = fs.readdirSync(logPath);
+    let expectedFileBase = process.env.CS_FILE_LOGGING_BASENAME || 'crownstone-log';
+    items.forEach((item) => {
+      if (item.indexOf(expectedFileBase + "-2") !== -1) {
+        fs.unlinkSync(path.join(logPath as string, item))
+      }
+    });
   }
 }

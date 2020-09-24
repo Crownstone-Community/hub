@@ -16,6 +16,7 @@ import {UserService} from './services';
 import {getHubConfig} from './util/ConfigUtil';
 import {LogController} from './controllers/logging/log.controller';
 import {CsAdminTokenStrategy} from './security/authentication-strategies/csAdminToken-strategy';
+import {Logger} from './Logger';
 
 export interface PackageInfo {
   name: string;
@@ -23,7 +24,7 @@ export interface PackageInfo {
   description: string;
 }
 const pkg: PackageInfo = require('../package.json');
-
+const log = Logger(__filename);
 
 export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
@@ -95,8 +96,14 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
 export function updateControllersBasedOnConfig(app : CrownstoneHubApplication) {
   let hubConfig = getHubConfig();
-  console.log("HERE", hubConfig)
   if (hubConfig.useLogControllers) {
     app.controller(LogController)
   }
+}
+
+export function updateLoggingBasedOnConfig() {
+  let hubConfig = getHubConfig();
+  log.config.setConsoleLevel(hubConfig.logging.consoleLevel)
+  log.config.setFileLevel(hubConfig.logging.fileLevel)
+  log.config.setFileLogging(hubConfig.logging.fileLoggingEnabled)
 }
