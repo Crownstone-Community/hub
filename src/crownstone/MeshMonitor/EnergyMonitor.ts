@@ -191,7 +191,7 @@ export class EnergyMonitor {
             energyAtPoint += offsetValue;
           }
 
-          samples.push({stoneUID: Number(stoneUID), energyUsage: energyAtPoint, timestamp: new Date(samplePoint), uploaded: false});
+          samples.push({stoneUID: Number(stoneUID), energyUsage: Math.round(energyAtPoint), timestamp: new Date(samplePoint), uploaded: false});
         }
       }
 
@@ -201,7 +201,6 @@ export class EnergyMonitor {
       }
       else {
         datapoint.processed = true;
-        console.log(stoneUID, datapoint)
         DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint",2,e); }) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
       }
 

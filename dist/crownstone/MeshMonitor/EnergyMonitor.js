@@ -163,7 +163,7 @@ class EnergyMonitor {
                     if (offsetValue && energyAtPoint < offsetValue * 0.9) {
                         energyAtPoint += offsetValue;
                     }
-                    samples.push({ stoneUID: Number(stoneUID), energyUsage: energyAtPoint, timestamp: new Date(samplePoint), uploaded: false });
+                    samples.push({ stoneUID: Number(stoneUID), energyUsage: Math.round(energyAtPoint), timestamp: new Date(samplePoint), uploaded: false });
                 }
             }
             // the last datapoint in this set will not be marked as processed, we need it in the next cycle.
@@ -172,7 +172,6 @@ class EnergyMonitor {
             }
             else {
                 datapoint.processed = true;
-                console.log(stoneUID, datapoint);
                 DbReference_1.DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", 2, e); }); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
             }
             prev = datapoint;

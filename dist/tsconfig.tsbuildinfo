@@ -202,8 +202,8 @@
         "affectsGlobalScope": false
       },
       "../src/logger.ts": {
-        "version": "3f7f9fc03d2beab84528a961909fcdc0834db479181036a8ea8491f8b49fb027",
-        "signature": "ec6ffc8c81e80122b7483f0b89356ac760e145f5e926ed27c13066043a5fe49a",
+        "version": "f721d655cf397495b9ca4c4532c9df96362c36d36596ace7dff3815e92106f47",
+        "signature": "d246b6aed18d9119ed20af30783c8c401769634ec92cfb064a9142570ce5e083",
         "affectsGlobalScope": false
       },
       "../node_modules/@loopback/metadata/dist/types.d.ts": {
@@ -2037,8 +2037,8 @@
         "affectsGlobalScope": false
       },
       "../src/sequence.ts": {
-        "version": "31aa4bf77de9153f102836542b3c6599346821aa1493640efded1c393e659a2b",
-        "signature": "863532dda18a751e4d7455f4c2223b795d59f44b941792ab664638c8e98d105a",
+        "version": "8104e01bc7b570a1bd224558dbdb7a8d3627069034808259f34c50cafdc2eed8",
+        "signature": "f53195f3bcfd927214ce9d1c27d277a17327b4fba68b6dec7eb3ca359f31bd54",
         "affectsGlobalScope": false
       },
       "../node_modules/@loopback/authorization/dist/authorization-component.d.ts": {
@@ -2073,72 +2073,72 @@
       },
       "../src/models/energy-data.model.ts": {
         "version": "31d290d48ff3337ec717cb989fc1490f7f6f78d20a65d7dffe07846cd9c8719e",
-        "signature": "579ba5cd3a888f87e1f66f12b5fee280f552defb7808e08218210f97b92859e5",
+        "signature": "8cb0f93a662647d6cd11b33bac3b90bc1c433ba3da16d149a23c5e371c3fd634",
         "affectsGlobalScope": false
       },
       "../src/repositories/energy-data.repository.ts": {
         "version": "836d41d7c02033edacf9cda27973c4a010a075ec15f9fde2c7179eaf8ebfd62c",
-        "signature": "eeb380c899233d772d30e2892ada0910492da1373a82c8dd31c81820b5fcb1ec",
+        "signature": "2f05037aa3d81cbb0a10fdce99edf152cf854917983bcc77e42e8a8e1a3c82a5",
         "affectsGlobalScope": false
       },
       "../src/models/energy-data-processed.model.ts": {
         "version": "ec69e1ea403a8cbae82fe6b8d106f7680908ffe74757f6e2a0af2a5c207a33b8",
-        "signature": "a6de52c57431bb3c82a2888a44404801e66fe26c6eab25bf0545e4815478df0e",
+        "signature": "93894ff8be9230a32683154ad3f192ba73dad8158458d82aea496d718947500d",
         "affectsGlobalScope": false
       },
       "../src/models/power-data.model.ts": {
         "version": "5d062d090e6706619f3b1d6e160ccba6700e6f9d40f48eb127e013bdbba53bab",
-        "signature": "4759e8282d16ca9e87e25176c69a2f2a9c06fe1f5a246d5ea8f04086daf05e01",
+        "signature": "a217db64a0591d6ddc78bc29d651abdf93956fb4c367cc2d53862599fe7ec1da",
         "affectsGlobalScope": false
       },
       "../src/models/switch-data.model.ts": {
         "version": "93f11523ef45e17c24add199bbe853bada889610a8009dd8e89ab14ea0054601",
-        "signature": "1e348366e4aa3e0cf921623d1907c2fcba7fdcfb84cc218bf884ef1b4f864363",
+        "signature": "883485bd993cf14d699c34921d6c5d012e52de0df138b7d798b63819d063738e",
         "affectsGlobalScope": false
       },
       "../src/models/sphere-feature.model.ts": {
         "version": "1a1a28d67daa22a9ae78ffaffef1b7da22d0e393805d27652617a785e0dc8e1a",
-        "signature": "6f9663eb267547cf3ad73aae0cdb2303f013e0a5203fa4febadd2993cf7fa40d",
+        "signature": "0ef105d4a93682c457eb4d9b325c43524210fa8ad823d93462b3ae1a05e67da8",
         "affectsGlobalScope": false
       },
       "../src/models/hub.model.ts": {
         "version": "fe40b00dbc433cc02a3cbb6ab6bb5ebbc2acdf857a19011f2450b4563aa90ec1",
-        "signature": "acbb7b14f344ef83d9b1ba422206c717936e042f4dd4b0bf83bc3f870e30abe7",
+        "signature": "1517009ce541951c433da814fa087f6f3df2740077ecf236d4da2afcdd411484",
         "affectsGlobalScope": false
       },
       "../src/models/user-permission.model.ts": {
         "version": "7cd0489870e3c7dd8df9557d93ad7048915777b8a102af47dda23e7420c3aa35",
-        "signature": "2339ecaa047cc847f09da5e24f14f928123625338cc78c5945aee959b65a9b0d",
+        "signature": "ff672073ed760c59babd87bc48d8dd1851e1e0d2be8af6565bce1d15e00f30b8",
         "affectsGlobalScope": false
       },
       "../src/models/user.model.ts": {
         "version": "94639d6c4c8aeb4f1abebaf4700f090c389d32d596a378617f112165c6e1b176",
-        "signature": "d086a8ad043d09babe4b029e17d25e9da6a6e05f483989f7cc19e64d0785add6",
+        "signature": "832898e9bf24d5a9c60fa2aec802a2e80857ef20f1e6940825d8b6ba55227885",
         "affectsGlobalScope": false
       },
       "../src/models/index.ts": {
-        "version": "2d5ea9ee8448adc8045c1fe0b7ee0bd519d2e69366a54b105e597d70df65feaf",
-        "signature": "fe4af68aef26bb137c9ed0f8a2cd69ec199071a38d59bf8b632e58fa65cb3f15",
+        "version": "3f908a8e1fdf441b855cef9b2475173777c3c6a572d6e26064d04ec7aa6725bd",
+        "signature": "6d39240c3ce08a726501061a7ec0b2f8b34ffafef751ea2e59b1d1e9411baf92",
         "affectsGlobalScope": false
       },
       "../src/repositories/energy-data-processed.repository.ts": {
         "version": "092fe2997b6466483d028e79aed31066287a24cd9be2f7c6db5432e75a50f967",
-        "signature": "fb434c50cfd01e3e8a4b43b42e923fcab57f211b2bcb5ad7a05f0fcaa66bf3cb",
+        "signature": "5c0c0379eb6e79a45815fe3f625ce006b5db86ba40c49ce99f27cf7e5826ffeb",
         "affectsGlobalScope": false
       },
       "../src/repositories/power-data.repository.ts": {
         "version": "023edfd8add16044107bd6734980f2c01ac81ed7eae0a504da93714d1434057c",
-        "signature": "a2c2a22e70c7bbac530c80f0624abc5e45a5d4d7003eb6ffbb5bce0a3f43c505",
+        "signature": "c6d4eddd79a24040a3fe5d26bf978fa8f82423f2692213900c8ec0b2cf1f620e",
         "affectsGlobalScope": false
       },
       "../src/repositories/switch-data.repository.ts": {
         "version": "c11829b95f4dc2d52df4f2eb891463e894619ef0b9be6c725a76886828e02efd",
-        "signature": "59b84503cca449c70527079d4949a1dd1bedfc96b38979123c56633fc9ee2605",
+        "signature": "2db39101a4e1796eb4e41914f025a11480dc069a2ff0e0b3c1c30972e7d6c90a",
         "affectsGlobalScope": false
       },
       "../src/repositories/sphere-feature.repository.ts": {
         "version": "a8465a8e6a4f54ac08135c4be53eeb70e72214566ce6abd36b82376801ac55df",
-        "signature": "3744c3d037c7e7561bfc0674d0357c38564a54f7875ba829d39f8fa7661b4723",
+        "signature": "bfcbd2bd8f20e7e1419d43c0650ee578e35ac4b6459fe936a892222efe57765d",
         "affectsGlobalScope": false
       },
       "../node_modules/@loopback/repository/src/common-types.ts": {
@@ -2147,82 +2147,82 @@
       },
       "../src/repositories/hub.repository.ts": {
         "version": "a2af450deab0394be578d31b7384c23bf18406706a28ec789bf5d48f4aafeb80",
-        "signature": "c793ac2f112ec57ee6a79a16fa4b0e7684a19701b9d402cecc28e3a75cf9e094",
+        "signature": "bd7821fdbc94afc0067e5338ee0dda2c362aea60edb4e9bc4824680d0cf9f158",
         "affectsGlobalScope": false
       },
       "../src/repositories/user-permission.repository.ts": {
         "version": "94ffd426768b87f2694edaeafecaee0f85570db5f7e27d41e5ae6a56273b4ece",
-        "signature": "f66cd5b8e37f20a6a8b107122ca9afd0adaebb12bb257da3546350948bc7a1cb",
+        "signature": "0de64ea2e35023e19c83cfc3889062ee1ec6036b3c82df4d8a09c023f901786d",
         "affectsGlobalScope": false
       },
       "../src/repositories/user.repository.ts": {
         "version": "88740fd20e88f929402045923af55e05adba0c69ce40ecd4a22bad658fd62226",
-        "signature": "660f3e976e8047a68234b17642ddd25ea163f3d5776fc6e3982d570e7cbead5c",
+        "signature": "db364f7eec3bf05e51120853ee3f09763cfbb94531998b2c882167c65eae5bbe",
         "affectsGlobalScope": false
       },
       "../src/repositories/index.ts": {
-        "version": "628a999213d312b331f83e52999dbd82379dfb910a7b4d4a1862e0f324dfba10",
-        "signature": "3bb68237606adc30d709c12c36da46b53a97c7805344a7df9f4979dc69205a98",
+        "version": "9be9803172d7777e2599bc31dfb27749e799677da1cb5824476826fff6acab3d",
+        "signature": "0609e7aef27e4665753608ce62b3e911897072d86690d46a37116a859ab88320",
         "affectsGlobalScope": false
       },
       "../src/services/user.service.ts": {
-        "version": "523dddb9e6b4e775086e37e670bbed4d595ca1f5b9a0b1a5ece85044ae37bb37",
-        "signature": "d763665dea96d0c2ab65c692ffb72c485d5a6408cf8ea36a088655dd4e2b089f",
+        "version": "f91eaadc12ed913c968acbb3c5f08eac0530ea83d7e86e34dcdb0d792b575710",
+        "signature": "5fdcfdd9f6b657032b5f1a7098391038154d68498f7f216c3effc7c185e1d510",
         "affectsGlobalScope": false
       },
       "../src/services/index.ts": {
-        "version": "95c6376a5faeb82171c73e92385974039be2b6e733f25348d26c42f5234f320f",
-        "signature": "95c6376a5faeb82171c73e92385974039be2b6e733f25348d26c42f5234f320f",
+        "version": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
+        "signature": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
         "affectsGlobalScope": false
       },
       "../src/security/authentication-strategies/cstoken-strategy.ts": {
         "version": "00fd1b93b567572da49627ee008c01431b3a076e16339b0ef2eea924006632ea",
-        "signature": "54998172d99f8b068f7ab0110499dba9e009584f23ba08e7392620da0edbf792",
+        "signature": "b8d85dce6c8a74df30b33f6473a9f259ce8eac42e145b478be4868c3057c5a66",
         "affectsGlobalScope": false
       },
       "../src/config.ts": {
-        "version": "37d72fd8d1d88351359b63dc56f6ef7a6f13ae7da3906c87e8152483f0f6fdc1",
-        "signature": "31bac58757098a9876722717ed0871ad9c8073978b4c75410713555b400e7cca",
+        "version": "bcb04ea12bba777a541ee3372d6625de869ddc751995fac80a0c5750b484e444",
+        "signature": "d58605f2dfd4210d714446acbd883935e64efbfff331dc56c26c5662edda0ca9",
         "affectsGlobalScope": false
       },
       "../src/util/util.ts": {
-        "version": "6e7da63ad4e7495393d5412ca3d8e1d9a3d64219472fa0ea5f5eb5a0cc5bf75e",
-        "signature": "c8363c0548866ff8ca5b96e41d4a84744743c612921c46808390e32009ae1971",
+        "version": "c469020784b2e036188152c6f7a36d0c79dfad9c597aadfe55544d8cca186130",
+        "signature": "cf760d5908451aa3f443aeece82a4719539dfe3dae1dd5c6a666e64397bca38b",
         "affectsGlobalScope": false
       },
       "../src/util/configutil.ts": {
-        "version": "f8457f9dcbeaf90a70c92162de5224c99bb2bacdeba3f28e78215849b120104d",
-        "signature": "7f59965f566674a02a6ed2b497770c04157e37289767bf820b64dd1daf596745",
+        "version": "5d6f55e23b9bd05ddc208baa5a3fc9588aa93a81c4d6ee46351110718388738a",
+        "signature": "37487d0086208692a79b68a9224a4053c55f96ccf84ca7308ce91c51a21f3cd6",
         "affectsGlobalScope": false
       },
       "../src/controllers/returncodes/returncodes.ts": {
-        "version": "cfcda331366a8f4f7f39a844687153d1346ef380d432d161267ea0ac13c840b6",
-        "signature": "e5f0a841b216b2ba4c83743ce331cd3e4993a0655465131aeff59ec041911599",
+        "version": "004790552bf7347e312ac3cd737365c2e647cf95a8eff6f0d5cbd3b6dd9cfef3",
+        "signature": "f6854ed0ff96924cf54e2422c276c3f245b7aa98f2ad180e82c39e8dec24b2d7",
         "affectsGlobalScope": false
       },
       "../src/controllers/logging/log.controller.ts": {
-        "version": "4d763e965a8253ee66451e22b87902b39b9f38df9b7ba508a5246589bc348c39",
-        "signature": "6e254721d6f1094f507092b39df3ea20ff3fa9be6fd41b1b37ec99088656e2c6",
+        "version": "0a399576ac4d28075f26787ea962b79e42e57ad9de4e8657f9143eb7db498cff",
+        "signature": "0698682fca857fcdd4d69227ba4a740ae841ac503d59d780ad2d0f7cf1092aa3",
         "affectsGlobalScope": false
       },
       "../src/security/authentication-strategies/csadmintoken-strategy.ts": {
         "version": "aae637dd5d953a9f793ae2dbbc246e4b098635b0ef5c5b97572cb45b93dd85ef",
-        "signature": "2d2c8b9b2481f6713ce5028f8c7a5c573c0a1030b8237f12ae3d450b2118b13e",
+        "signature": "9cb978e4acb430cbb0c0f997b0684ba3cd46b466f25e3e10c85188e70344e783",
         "affectsGlobalScope": false
       },
       "../src/application.ts": {
-        "version": "69a6792c68a80289c76e86aee491c568f95e158dc7517e5e542a7fd30c29f7b8",
-        "signature": "192bdfb3cd40c0883f717bd3c8d4788100e8373e12c58075d7718ee6ad4528bc",
+        "version": "66d7e44a7f540b7dd25673d6100f852d66ce95d01e0af0c7dadf751a69fd444c",
+        "signature": "d43fe1d350edf1cc6162480ccb65cbc63296f85eed050753a5b24bc49d9ec321",
         "affectsGlobalScope": false
       },
       "../src/crownstone/data/dbreference.ts": {
-        "version": "752bb8d489121aee5e2025072e783f4e7aaaa66f36188319d3957f72c885c9d4",
-        "signature": "a76d0e364a1ecb4aac2bb9d4a6c8b7ec337f3aa2b8e58a562239c237a2b9e7a0",
+        "version": "66c7cd1142b878130c9255fc4c1a55673c1d411b544cffd1082ea0e732570c01",
+        "signature": "3f486e4bec9f2ca720dd6a6e1314c75fd94729bde4f776b346062b97c7932121",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/src/declarations/declarations.d.ts": {
-        "version": "b24ea63f8a51bb0f66e267f4dd049642d5e438d6a0a00884ddcd795cf8d4d591",
-        "signature": "b24ea63f8a51bb0f66e267f4dd049642d5e438d6a0a00884ddcd795cf8d4d591",
+        "version": "61ab161836611bc0a8720461edda18f5b5244f5cc7cd49235732f79ca485de4f",
+        "signature": "61ab161836611bc0a8720461edda18f5b5244f5cc7cd49235732f79ca485de4f",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-core/src/declarations/declarations.d.ts": {
@@ -2381,68 +2381,73 @@
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uartencryptioncontainer.d.ts": {
-        "version": "eccffc2ade37dffeed446ea340106424f5f8990d0094aa7e988bba0e19683367",
-        "signature": "eccffc2ade37dffeed446ea340106424f5f8990d0094aa7e988bba0e19683367",
+        "version": "e0a5c5df868f6f9c2be343edb4e57d216d6b4a8db4fee78174a2a71c2c273e9d",
+        "signature": "e0a5c5df868f6f9c2be343edb4e57d216d6b4a8db4fee78174a2a71c2c273e9d",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts": {
-        "version": "9a3a5a7f02fd7a2f638d655661cc48a5ca0e5822d53606be26957da94dd4aeed",
-        "signature": "9a3a5a7f02fd7a2f638d655661cc48a5ca0e5822d53606be26957da94dd4aeed",
+        "version": "2ed374464df750f1d29ac8d9bfadfa9e3e4c3ed37d92213567125ddbbaff594c",
+        "signature": "2ed374464df750f1d29ac8d9bfadfa9e3e4c3ed37d92213567125ddbbaff594c",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartreadbuffer.d.ts": {
-        "version": "89d91d18fbe416eea78ebda5338897cd8f19fdcf46e7515340334026a1b8f2e9",
-        "signature": "89d91d18fbe416eea78ebda5338897cd8f19fdcf46e7515340334026a1b8f2e9",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts": {
-        "version": "e2bfa0a1b23f65313b133d7269ebaf170558697405d9291237f77b4ad8c8f411",
-        "signature": "e2bfa0a1b23f65313b133d7269ebaf170558697405d9291237f77b4ad8c8f411",
+        "version": "f33efdbb0e2deb74005d795244672203cf03ce99851491fea52f0a8220b16f80",
+        "signature": "f33efdbb0e2deb74005d795244672203cf03ce99851491fea52f0a8220b16f80",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartpackets/uartwrapperv2.d.ts": {
-        "version": "e5e9d7d2117b4c46106a4816e79ead1f0e66b03263a1fef8853f139ca2c21a14",
-        "signature": "e5e9d7d2117b4c46106a4816e79ead1f0e66b03263a1fef8853f139ca2c21a14",
+        "version": "c4b900bce843779e0291a4dc3c43c03b421fae67b36b33b3fdfff80a00c429da",
+        "signature": "c4b900bce843779e0291a4dc3c43c03b421fae67b36b33b3fdfff80a00c429da",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts": {
+        "version": "bd20dcfbe1f5a02c71da48323c893690013481e1a40c00ac0656c7556ca8f7b8",
+        "signature": "bd20dcfbe1f5a02c71da48323c893690013481e1a40c00ac0656c7556ca8f7b8",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts": {
+        "version": "9e0e5934b8554bb539e75c58fa299e24c43882efb53f5a798a8d2af1fa9531ea",
+        "signature": "9e0e5934b8554bb539e75c58fa299e24c43882efb53f5a798a8d2af1fa9531ea",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts": {
-        "version": "89ed87c34e295783c8e294ccc682611be2f19289e9ef1371536bdac753f7cc19",
-        "signature": "89ed87c34e295783c8e294ccc682611be2f19289e9ef1371536bdac753f7cc19",
+        "version": "65530d3f0ef3dca13047d3a34b99b644408bea201fd260dd191b557a1025c7dd",
+        "signature": "65530d3f0ef3dca13047d3a34b99b644408bea201fd260dd191b557a1025c7dd",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/uarthandling/uartmanager.d.ts": {
-        "version": "cba873a423f17cfa04f5c51d4dc173fce1f9195e58c3f50a7db67ccfd3335443",
-        "signature": "cba873a423f17cfa04f5c51d4dc173fce1f9195e58c3f50a7db67ccfd3335443",
+        "version": "d9212855caa7e7e57be8a67de5a5847758705bff258474855fe43b58fefe3561",
+        "signature": "d9212855caa7e7e57be8a67de5a5847758705bff258474855fe43b58fefe3561",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/crownstoneuart.d.ts": {
-        "version": "40151de4d57a07d8335fe511b08334bf345cebb82979899cb1abf9e3506e0d6a",
-        "signature": "40151de4d57a07d8335fe511b08334bf345cebb82979899cb1abf9e3506e0d6a",
+        "version": "6bbca8f8e2f5b9ac9e17a21f3b135adafe43ead94018cea2f822d11058c913d9",
+        "signature": "6bbca8f8e2f5b9ac9e17a21f3b135adafe43ead94018cea2f822d11058c913d9",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/dist/index.d.ts": {
-        "version": "9a180ad9554a59d49d202ad3b53ebb7a99281a30c5fdb8fe88876bffc924ffd3",
-        "signature": "9a180ad9554a59d49d202ad3b53ebb7a99281a30c5fdb8fe88876bffc924ffd3",
+        "version": "851b9810cd401d9be2bdf3cf113524a074e813849c39e38728b17210a3c8bcce",
+        "signature": "851b9810cd401d9be2bdf3cf113524a074e813849c39e38728b17210a3c8bcce",
         "affectsGlobalScope": false
       },
       "../src/crownstone/uart/promisemanager.ts": {
-        "version": "ef6b286b203d74b6c73d2eda8b403fd4c808078fed0d2a05d88940e2e4a693e1",
-        "signature": "381319e732e2efe71f61f6b9d868c13726de42cbd124b1a163629a26b5578a52",
+        "version": "6a94bd982dc47b5d8b641fb1b00296520fb487eecc1060a1c0a3f9a7ba47a9d8",
+        "signature": "6b12e00263c81a304d6ae56bb060297e4193889b12507a42adf954fab1c8be60",
         "affectsGlobalScope": false
       },
       "../src/crownstone/hubeventbus.ts": {
-        "version": "58cd6b9ccf601581f208ec25dbcb2ffe14ddda00faa9e3087424103ad2110dee",
-        "signature": "402c0bd23d81b57e195cd8c4c37ef568a94bc58354a4b68c7ccecfeb693118d6",
+        "version": "5742950b4b5a709a1a483fa95b78656dcf83344a485da01faf762e522ef1abfb",
+        "signature": "a7c61fa5c03a6d15f78596b6d21b1aee4303bdc00f5ca71e062332ccca9b2154",
         "affectsGlobalScope": false
       },
       "../src/crownstone/topics.ts": {
-        "version": "36769412067737fc3a82fefea7d5d61e520612369e98f15ae069c94c51620faa",
-        "signature": "b13ce60b588df52bb37f30d5f8be3b063b0c585b135613b0beb418366af8fdc3",
+        "version": "80beafb04128bbef155e8c93f7517eabc188f04982862c034c092b15fe0a1ee5",
+        "signature": "9fb28a4c95ac552718958e25a9260057269fefa3847f57dd681ef845b4c4a4d7",
         "affectsGlobalScope": false
       },
       "../src/crownstone/uart/uart.ts": {
-        "version": "cece16c6592b00dab720a6a081c5777dbd4026178b9e447c7af76e030303b1ea",
-        "signature": "1c99ca482707b6b75a2bb3eb0cb5f1f4c67bbb020b56f67bf4ef3dd896d5e30c",
+        "version": "4f2e08de0a59917af71abd8e1663bd9ac50da4048d96cb3abd978f6b92d9ad06",
+        "signature": "2177caec4a870918b9affb4ea73d649e2e48b6687d4283e839f0a25c4fdac3aa",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-cloud/dist/rest/cloudapi.d.ts": {
@@ -2561,78 +2566,78 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/data/memorydb.ts": {
-        "version": "6d5ca4a0abff446a5c5e1c20d84d7fbe250554ed8df3df34ae63f627f3ef85d1",
-        "signature": "2158c618df919f7d5c208abc9832f47d659bcd5408b694ff192c668e456001b4",
+        "version": "97357b8c715baf8a49518a714d1ce0311ca5c4c00078213a404ca02b5fd02f91",
+        "signature": "54f971c1e4bd97c8e840a08d9b91f69b7d93e886006e3ecec505f9fe3735bd57",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/sseeventhandler.ts": {
-        "version": "597b8bffdb8841d499da5bad366806786a03f30fca36ec9afe077a242a9f5b82",
-        "signature": "52ce048e5c8b26de82c403ce6b587c57737d197a8a42453b04c3f5b4b5140753",
+        "version": "e2bbd9db7124f2ad98225952384e4d851d34e66460e599ce549eb516b5031231",
+        "signature": "9839177ae2a0e5be71b4592f05a94a43a11f15163d1023114ad2304c4607e7eb",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "de13e04b381e5be67edcbba2114ad34cbefe4cfb2abeac2266bd18a18b27e5a9",
-        "signature": "4fbb17d365e38929bef5819486c7522a9af88adc2d18aa682da0bd21e6351141",
+        "version": "142e5e40b6f21ad1b173c0f61581b616ee6c655b5a9419c97c73ff504fdd3fe0",
+        "signature": "4d61aff3d3a968a0abfbad44b570730ea543382676284fd9bd790820a49572d5",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/powermonitor.ts": {
-        "version": "2a62a7aa35847a643c2df82258c0215d666f08777a23796a93e171a8fd76a7fc",
-        "signature": "40ee9313781627f0af645b71c801ec22dd4ee0c7ff120bdc2252baf914237bb3",
+        "version": "6d36b9cad4935d1aee9a5324970e627f729c5627766a7dc2e9ed5c461dab28a4",
+        "signature": "271a69642272014220724db79836e57fa6d8cfc4994a89ab7a68d4d11b0d9847",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudcommandhandler.ts": {
-        "version": "957c547640dd47cac9c44b4c476431f3dfb0f8df02520c254796962ccff20239",
-        "signature": "2ef2fc34c53fc1f562290df3dcf87827ed09c35d3c15eaa3e7893ab0f7fa2f59",
+        "version": "a8cfc1775a69ac16c9d3100a5b3ccffe12faebf8e03d23bdc7726aa8de9521d9",
+        "signature": "545816800edc40c72a25d9503e7490686385e5dd11069943b6e1b1c1a9bc89ca",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "e4b917199892685d9c93a4c408b2d93fd5c6d7df81c34dfc2ebacfaccf925586",
-        "signature": "ce2023e8989c3b3c16fc98b0a90d9872b6706d4a08241308e5d23ce6645ee3ef",
+        "version": "0edda59a72718a36b0bc519ea9b11cf567639651fa9bd80e7b662dfe5cff96fe",
+        "signature": "d8f33523ac34951c360271f2d3ba7a4e119b2c915ebba9b350b4509b35e75e79",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
-        "version": "697e10b90b9292056275dd6b26dc57baaf853d9aef92637c58c17f7b6e5ab530",
-        "signature": "9c1018b8a0a9b344a2e8be994c4380c3e62901dfe0996833aa6692f5010d9b3f",
+        "version": "56ed688f9d46a14a45ee7a30ec9bf68d5c69154be0a2a90c9b6121b5a4cb84c6",
+        "signature": "bf14e59ab3340449d5ea7712012ddf9f5b6420ab608c0d5c487e68cd3c3605d5",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/switchmonitor.ts": {
-        "version": "9e6f6d4527daf028ac3fc91b219998e5179b7db8919f0699b4ac48deb4c5f85f",
-        "signature": "5c3a4c8bb3da44480b109992670e4d8878a87a89beb69df7f7b5396663fef9c9",
+        "version": "4404bdc356f14f41e20fadefbf6a7578f7b88e8a517e90362eeb5a3f6fcc1167",
+        "signature": "484d42a584116719d2645ac1370938fd65c4f36dbe794ca7bf54fcd46ab0595c",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/meshmonitor.ts": {
-        "version": "f568ae7523b71ee130016d41918eccee3fc5a06fd6fff25be24318bddc73dff6",
-        "signature": "2647dfe71250001ba8d6d409a187afee92beb8fdc68e18674638ff98878b07ba",
+        "version": "8ca8b042e83e6114af0d67e03b7fe320af957a75b97ed628b5d8bebeb196c4b4",
+        "signature": "16bd73e97565b805f66e1273dfcaa784f0f636e5fac72240342f1b09c5e8b91e",
         "affectsGlobalScope": false
       },
       "../src/crownstone/actions/timekeeper.ts": {
-        "version": "e2dfaf0c77e09eb610286a4cf9ef3cc77c94e304b135b78f4e8f642c8b235e57",
-        "signature": "a24aaf9c45f6445a2db5e6a0ec2b56cd5429f1a09399be479093af2257baaf07",
+        "version": "0fa56edcf364da550b3be26ad27e8aab396b76c97e3e285e26a2d915c72a9d1b",
+        "signature": "5b27bf2225e4fc48ed40ae1965f68482f89ccacfc25d75ea72d9d0e48c49a939",
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "f5e598cc71ef71dd065b4b6c74a31461e144a779810f482973ff34ecd5c36a5b",
-        "signature": "059e93358bfccf6789d5633f4838c4095e00f30f2035d715dc93301579a54895",
+        "version": "42a0cd862de3b73a47a8d54c294eab8da42b211457a693388a292c15d5058d29",
+        "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
         "affectsGlobalScope": false
       },
       "../src/security/verifycertificates.ts": {
-        "version": "0379956eb7c417893a2943ffc3d9300cc4f8f5c2e27a6bacfde7bb4b0383897f",
-        "signature": "a7a98514388a2eb62b49337d05b1d172a7d7c344ccfc1f328b658921e389f93f",
+        "version": "b7b10f9b89fc118337d70ad3472d6c42af2d0c4fdbc908b30256323c6b687a20",
+        "signature": "e458d8a7091c64deea3087d9c7c76f36220a4d7baa40b5bf987f41bd8cd12667",
         "affectsGlobalScope": false
       },
       "../src/server.ts": {
-        "version": "0fd677263e733f18cfc970392957caa0e37d5c669f12500bcf13940bfe073c06",
-        "signature": "ff37509c0bfa68745e9fa01b0742b77595d00d1219b4da9d419b7d72a1cda6da",
+        "version": "65bba657bb3c30ecf84ab40ca6dfb816baa3454e284fb81361889394ab95bf27",
+        "signature": "33b593d08525387ca21eb86a391cf44b3481eeef54b0f1ecb8c9d78f4ba3c1ef",
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "4a76040a2082fc19979ec2e84acc25a6b593513f613065fccf8e9cce209da94d",
-        "signature": "e7abfecd34a42f5193593dac0bed9bc0e6860416fd989d7f3c5ea4257cac9934",
+        "version": "adb128c5f4dd98f748baaf709b5e3c876bde670d7d5b9f8ee30f684d34ffc9ec",
+        "signature": "9c4af631ae06937e8e55b0e1fcea32aa0802711846037774adabf0355bb87153",
         "affectsGlobalScope": false
       },
       "../src/migrate.ts": {
-        "version": "19042c53bd68ca81ce7426b7ca6f58d66fbc860a6e2751c7a6c3386464ff1a80",
-        "signature": "e9b8dbbcc0cb738d2836845996cec05b75916fe8314d6d515028b0cab71df9c9",
+        "version": "65f408a4742f8a02ea4d8f6414d744d9fb2a3bc1280feb7f1fbf029eda8c9db3",
+        "signature": "d289609b56df6411204c89f5197dc2d4d19910336a10c86cd9b3af21b22e344d",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/cookiejar/index.d.ts": {
@@ -2731,83 +2736,83 @@
         "affectsGlobalScope": false
       },
       "../src/__tests__/acceptance/test-helper.ts": {
-        "version": "c8773083f5c212f1dbd784c3e85e2b3d0be4763ca18aef40aacea9de50f05176",
-        "signature": "6e2d9a6723a7a29bb3b4c81cd71803fd64122c3ebc46228dbbe37400f9c3727d",
+        "version": "3b1fa524637eaed1fa22262ebb4a4daa9a660f3d83c92af8876abc04a0d82e04",
+        "signature": "107c505c0f855ecaf94980de77cfd7b3a6a0ee917856d6cd314ee50daaadadce",
         "affectsGlobalScope": false
       },
       "../src/__tests__/acceptance/home-page.acceptance.ts": {
-        "version": "13e136ba4490ace6cd47bf9901e0618688f159c9df9f6796b25edce7c686bc83",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
+        "version": "bffbc8a38e1e9fc3e44257abd8b3299c17ca1f3632b398bdef9a9a6aef253e17",
+        "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
       "../src/__tests__/acceptance/ping.controller.acceptance.ts": {
-        "version": "6db868a307c873de5bb3ada02f526e5fc4b6faeafd2fa8dfb9aaf661052421a0",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
+        "version": "c6bd4605239bcc2561840791877988d54748ecfa9036eadd2593c46c992f24db",
+        "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "ab836e1cd678fcba8f0354f5a52d3a72938b590a668c02d025a0937b2e2ffa40",
-        "signature": "ffe7ff615592c6a96d00d4c40b88b437ba0057d5ae8db2514a8e5d659dd45786",
+        "version": "dd66066145d415ebbbe2dbd43cf0609143ca185b149dc7da8f5484cee295f248",
+        "signature": "ee8e4a0080d5501c8dc8723351d6f1051bc17e921e192fffed0c8d6e0930e6bb",
         "affectsGlobalScope": false
       },
       "../src/controllers/localization.controller.ts": {
-        "version": "8f8fa45858c6817b87613f3f3f7ca4ac43df87e927368d752f56a5212620c8d1",
-        "signature": "e001adc9af53594657e105a20e60c6e1c5d2967d8bd24a5d0a64ddc79ac81128",
+        "version": "823f406670131111499bf03bf8aeaaaa61f8e4813c16c806811c3b3002fcffdf",
+        "signature": "8bfee83dcee77a03f50690401c3b4037ce3c5564b59b936c9bd091063befe350",
         "affectsGlobalScope": false
       },
       "../src/controllers/mesh.controller.ts": {
-        "version": "39775b0f73ffd16f61e71b9d49fbbdc21a51dd28f82740697476662605643bc1",
-        "signature": "aeeedf871d9f62156eb48b2264e1f1f3827ae22805feb6bf0abf01c1e3ecd39f",
+        "version": "f73397135c5bf63c6f411d5f9a11fecf54d92ee7cbe647285b123c472ea4b344",
+        "signature": "1e5fbbf5b37701d0046343fa72aa3aeb67652f1ab2c8b7247f1de83993ca3b30",
         "affectsGlobalScope": false
       },
       "../src/controllers/power-usage.controller.ts": {
-        "version": "a38abe6a62ec994330833f57d924dbd2e46a0a03f888d57fa3fcf21fa3f44f25",
-        "signature": "f0bc1fe81cf38c0a5a7b6272e0ea6a2add414327d34e9ead252a4aea4dba5826",
+        "version": "7d64f4790375981d2af67379f3421c7e2d1603aba455922221710d4d6af3977e",
+        "signature": "cc01a67dcd96a51c9fb18caf8e3bb6e871ad648f6fb0982f255002daf2d3daf0",
         "affectsGlobalScope": false
       },
       "../src/controllers/switch.controller.ts": {
-        "version": "cb779876cb2332fa024877b21418d751def26034770f6f36b2ad5407254cace6",
-        "signature": "8c65a79072da95d849da9788bea5c2815472546dace8f458baa7c2318c378980",
+        "version": "c8b5204d5089f1d638198f161c0f37a3eeb050240da71fdfc9b101e65452f151",
+        "signature": "801b0d3e8bdfd1ef6920f3aeefb32e726ae809c858dbda6c7e8f8aec41b3b2e1",
         "affectsGlobalScope": false
       },
       "../src/controllers/index.ts": {
-        "version": "cdb23bef3652128d0282a4a2206726ada451ed63fdc1ddc8559d7ce6f1fb1d13",
-        "signature": "90d928c7345ab25915d4cb08c719565ff64939b2ed5215589796b07222416927",
+        "version": "3dacb5cffa285013a71449d2144368e18cbe1f66f94e77bc7919ce78bf43c2b7",
+        "signature": "576c41913a08b6431af67ff5bbaa15f158bd786d9f16ef3a2cb3ee5adff907bf",
         "affectsGlobalScope": false
       },
       "../src/controllers/system-state.controller.ts": {
-        "version": "2e139b2961a7c97e1e4c41fc865ea54be5936266bb43973be9e00b6344346a50",
-        "signature": "9df542b4b49546a28faab4df4bd6cd28c64ec748ff5458e1e85b3afca7b515be",
+        "version": "3f5f4631896ffba52e2f3734e3fa41a99c2d48ee3b2489825b144e6d79eff90a",
+        "signature": "bd327f99d1f671c9f9ad7feef4c1799cf96f4063fbe465ef8ff276c2a0a5cff7",
         "affectsGlobalScope": false
       },
       "../src/controllers/user.controller.ts": {
-        "version": "4c908695761c28c53eb88b3472b5aad7391f80c4072675525a5f29cd9028252a",
+        "version": "233e974dcebfce50cb629a70bf95b14043b0eab7727e8fafab20d6daf54c06a5",
         "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "affectsGlobalScope": false
       },
       "../src/datasources/mongo.datasource.config.ts": {
         "version": "c2d12bd6c86693f86b6b4af7febc3427b16b558d22b8f13ed70195bed0402a4c",
-        "signature": "2cb899854b75d4604e656639aa0fd6b116bde7d77aa8372a196e488d6cc1e2df",
+        "signature": "80d53a1efbe9c72601c4c04d9a11e196bb6d064daedb9571be9dc0e49ffbc979",
         "affectsGlobalScope": false
       },
       "../src/datasources/mongo.datasource.ts": {
         "version": "668acbd4ad8752ca17806fecc019bb1928da505031996f27ec0870ad70308e0f",
-        "signature": "ab60b4010810dc5b50d0e839060b150f8a9fe37e338cec89bdcd00e7efdd12b6",
+        "signature": "b151b167f64c581cc97edc5985d9b8470021f29e6f9dfee5893bcb7236cc4fa1",
         "affectsGlobalScope": false
       },
       "../src/datasources/index.ts": {
-        "version": "f5102425f5b07801e5165af4e0df4e20d5dc8235289db1919c6f0906fd013638",
-        "signature": "93b08dcadc7a705c1310a99d2e60199e3e9117952be081112ebc0c5f76f63fc8",
+        "version": "610f2ede557944cb854e0db4213976db15bc5f37b6c605819a13f66ebc87c587",
+        "signature": "970dfe29ef8492849da07c92af8ddedda93540d88c81faab88ef81159af49eed",
         "affectsGlobalScope": false
       },
       "../src/datasources/mongodriver.ts": {
-        "version": "652ce0eab397a796a6a7a62d0cb4737f147d057945009ad1589d535ab3a8451e",
-        "signature": "3cb71b9bb99a21db41db2d06bdb7fe3e09a58f09a113c3ed204da5bf10dddc09",
+        "version": "312c0ebb5e9406dc423e1756eeb866062df42fbe9cfc41e60622247ae470430b",
+        "signature": "b3fc55610a28388948083399129bce5a8e20f62f4fb350c659a7ce6eadf7a893",
         "affectsGlobalScope": false
       },
       "../src/declarations/cloudtypes.d.ts": {
-        "version": "d23e1d38acbaad303b518e77e1ca88a5db3d6dda6861bff7be304186dc368fa1",
-        "signature": "d23e1d38acbaad303b518e77e1ca88a5db3d6dda6861bff7be304186dc368fa1",
+        "version": "abd7acbcd9c1522176dc28082175611032708cc18886c8ca5e320c91a0b09b1a",
+        "signature": "abd7acbcd9c1522176dc28082175611032708cc18886c8ca5e320c91a0b09b1a",
         "affectsGlobalScope": true
       },
       "../src/declarations/declarations.d.ts": {
@@ -5259,13 +5264,17 @@
         "../node_modules/@types/node/index.d.ts",
         "../node_modules/crownstone-core/dist/index.d.ts"
       ],
+      "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts": [
+        "../node_modules/@types/node/index.d.ts"
+      ],
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts": [
         "../node_modules/@types/node/index.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/containers/uartencryptioncontainer.d.ts"
       ],
       "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts": [
-        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts",
+        "../node_modules/crownstone-uart/dist/uarthandling/uartpackets/uartwrapperv2.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/uartreadbuffer.d.ts"
       ],
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts": [
@@ -6085,6 +6094,7 @@
         "../node_modules/@loopback/context/dist/value-promise.d.ts"
       ],
       "../node_modules/@loopback/core/dist/application.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/component.d.ts",
         "../node_modules/@loopback/core/dist/lifecycle.d.ts",
         "../node_modules/@loopback/core/dist/server.d.ts",
@@ -6092,11 +6102,16 @@
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@loopback/core/dist/component.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/application.d.ts",
         "../node_modules/@loopback/core/dist/lifecycle.d.ts",
         "../node_modules/@loopback/core/dist/server.d.ts"
       ],
+      "../node_modules/@loopback/core/dist/extension-point.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts"
+      ],
       "../node_modules/@loopback/core/dist/index.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/application.d.ts",
         "../node_modules/@loopback/core/dist/component.d.ts",
         "../node_modules/@loopback/core/dist/extension-point.d.ts",
@@ -6108,16 +6123,25 @@
         "../node_modules/@loopback/core/dist/service.d.ts"
       ],
       "../node_modules/@loopback/core/dist/keys.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/application.d.ts",
         "../node_modules/@loopback/core/dist/lifecycle-registry.d.ts"
       ],
       "../node_modules/@loopback/core/dist/lifecycle-registry.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/lifecycle.d.ts"
+      ],
+      "../node_modules/@loopback/core/dist/lifecycle.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts"
+      ],
+      "../node_modules/@loopback/core/dist/mixin-target.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts"
       ],
       "../node_modules/@loopback/core/dist/server.d.ts": [
         "../node_modules/@loopback/core/dist/lifecycle.d.ts"
       ],
       "../node_modules/@loopback/core/dist/service.d.ts": [
+        "../node_modules/@loopback/context/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/application.d.ts"
       ],
       "../node_modules/@loopback/express/dist/express.application.d.ts": [
@@ -6139,6 +6163,8 @@
         "../node_modules/@loopback/express/dist/middleware-interceptor.d.ts",
         "../node_modules/@loopback/express/dist/middleware-registry.d.ts",
         "../node_modules/@loopback/express/dist/middleware.d.ts",
+        "../node_modules/@loopback/express/dist/mixins/middleware.mixin.d.ts",
+        "../node_modules/@loopback/express/dist/providers/invoke-middleware.provider.d.ts",
         "../node_modules/@loopback/express/dist/types.d.ts"
       ],
       "../node_modules/@loopback/express/dist/keys.d.ts": [
@@ -6261,6 +6287,8 @@
       ],
       "../node_modules/@loopback/openapi-v3/dist/index.d.ts": [
         "../node_modules/@loopback/openapi-v3/dist/controller-spec.d.ts",
+        "../node_modules/@loopback/openapi-v3/dist/decorators/index.d.ts",
+        "../node_modules/@loopback/openapi-v3/dist/enhancers/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/filter-schema.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/json-to-schema.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/types.d.ts",
@@ -6271,7 +6299,8 @@
         "../node_modules/@loopback/repository-json-schema/dist/index.d.ts"
       ],
       "../node_modules/@loopback/openapi-v3/dist/types.d.ts": [
-        "../node_modules/@loopback/repository/dist/index.d.ts"
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/openapi3-ts/dist/index.d.ts"
       ],
       "../node_modules/@loopback/repository-json-schema/dist/build-schema.d.ts": [
         "../node_modules/@loopback/repository-json-schema/dist/index.d.ts",
@@ -6313,7 +6342,8 @@
         "../node_modules/@loopback/repository/dist/query.d.ts"
       ],
       "../node_modules/@loopback/repository/dist/datasource.d.ts": [
-        "../node_modules/@loopback/repository/dist/common-types.d.ts"
+        "../node_modules/@loopback/repository/dist/common-types.d.ts",
+        "../node_modules/@loopback/repository/dist/connectors/index.d.ts"
       ],
       "../node_modules/@loopback/repository/dist/decorators/index.d.ts": [
         "../node_modules/@loopback/repository/dist/decorators/metadata.d.ts",
@@ -6341,7 +6371,8 @@
       ],
       "../node_modules/@loopback/repository/dist/define-repository-class.d.ts": [
         "../node_modules/@loopback/repository/dist/common-types.d.ts",
-        "../node_modules/@loopback/repository/dist/model.d.ts"
+        "../node_modules/@loopback/repository/dist/model.d.ts",
+        "../node_modules/@loopback/repository/dist/repositories/index.d.ts"
       ],
       "../node_modules/@loopback/repository/dist/errors/entity-not-found.error.d.ts": [
         "../node_modules/@loopback/repository/dist/model.d.ts"
@@ -6355,14 +6386,21 @@
       ],
       "../node_modules/@loopback/repository/dist/index.d.ts": [
         "../node_modules/@loopback/repository/dist/common-types.d.ts",
+        "../node_modules/@loopback/repository/dist/connectors/index.d.ts",
         "../node_modules/@loopback/repository/dist/datasource.d.ts",
+        "../node_modules/@loopback/repository/dist/decorators/index.d.ts",
         "../node_modules/@loopback/repository/dist/define-model-class.d.ts",
         "../node_modules/@loopback/repository/dist/define-repository-class.d.ts",
+        "../node_modules/@loopback/repository/dist/errors/index.d.ts",
         "../node_modules/@loopback/repository/dist/keys.d.ts",
+        "../node_modules/@loopback/repository/dist/mixins/index.d.ts",
         "../node_modules/@loopback/repository/dist/model.d.ts",
         "../node_modules/@loopback/repository/dist/query.d.ts",
+        "../node_modules/@loopback/repository/dist/relations/index.d.ts",
+        "../node_modules/@loopback/repository/dist/repositories/index.d.ts",
         "../node_modules/@loopback/repository/dist/transaction.d.ts",
         "../node_modules/@loopback/repository/dist/type-resolver.d.ts",
+        "../node_modules/@loopback/repository/dist/types/index.d.ts",
         "../node_modules/@types/json-schema/index.d.ts"
       ],
       "../node_modules/@loopback/repository/dist/mixins/index.d.ts": [
@@ -6378,7 +6416,8 @@
       "../node_modules/@loopback/repository/dist/model.d.ts": [
         "../node_modules/@loopback/repository/dist/common-types.d.ts",
         "../node_modules/@loopback/repository/dist/index.d.ts",
-        "../node_modules/@loopback/repository/dist/type-resolver.d.ts"
+        "../node_modules/@loopback/repository/dist/type-resolver.d.ts",
+        "../node_modules/@loopback/repository/dist/types/index.d.ts"
       ],
       "../node_modules/@loopback/repository/dist/query.d.ts": [
         "../node_modules/@loopback/repository/dist/common-types.d.ts"
@@ -6948,21 +6987,27 @@
         "../node_modules/@loopback/core/dist/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
         "../node_modules/@loopback/rest/dist/rest.server.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/index.d.ts": [
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/body-parsers/index.d.ts",
         "../node_modules/@loopback/rest/dist/http-handler.d.ts",
         "../node_modules/@loopback/rest/dist/keys.d.ts",
         "../node_modules/@loopback/rest/dist/parse-json.d.ts",
         "../node_modules/@loopback/rest/dist/parser.d.ts",
+        "../node_modules/@loopback/rest/dist/providers/index.d.ts",
         "../node_modules/@loopback/rest/dist/request-context.d.ts",
         "../node_modules/@loopback/rest/dist/rest-http-error.d.ts",
         "../node_modules/@loopback/rest/dist/rest.application.d.ts",
         "../node_modules/@loopback/rest/dist/rest.component.d.ts",
         "../node_modules/@loopback/rest/dist/rest.server.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
+        "../node_modules/@loopback/rest/dist/spec-enhancers/info.spec-enhancer.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts",
+        "../node_modules/@loopback/rest/dist/validation/request-body.validator.d.ts",
         "../node_modules/@loopback/rest/dist/writer.d.ts",
         "../node_modules/@types/http-errors/index.d.ts",
         "../node_modules/strong-error-handler/index.d.ts"
@@ -6972,8 +7017,10 @@
         "../node_modules/@loopback/express/dist/index.d.ts",
         "../node_modules/@loopback/http-server/dist/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/body-parsers/index.d.ts",
         "../node_modules/@loopback/rest/dist/http-handler.d.ts",
         "../node_modules/@loopback/rest/dist/rest.server.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts",
         "../node_modules/@types/node/https.d.ts",
@@ -6981,6 +7028,8 @@
         "../node_modules/strong-error-handler/index.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/parser.d.ts": [
+        "../node_modules/@loopback/rest/dist/body-parsers/index.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts"
       ],
       "../node_modules/@loopback/rest/dist/providers/find-route.provider.d.ts": [
@@ -7032,8 +7081,11 @@
         "../node_modules/@loopback/core/dist/index.d.ts",
         "../node_modules/@loopback/express/dist/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/body-parsers/index.d.ts",
         "../node_modules/@loopback/rest/dist/keys.d.ts",
         "../node_modules/@loopback/rest/dist/rest.server.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
+        "../node_modules/@loopback/rest/dist/router/router-spec.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
         "../node_modules/@types/express-serve-static-core/index.d.ts"
@@ -7047,8 +7099,10 @@
         "../node_modules/@loopback/express/dist/index.d.ts",
         "../node_modules/@loopback/http-server/dist/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/body-parsers/index.d.ts",
         "../node_modules/@loopback/rest/dist/http-handler.d.ts",
         "../node_modules/@loopback/rest/dist/request-context.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@loopback/rest/dist/sequence.d.ts",
         "../node_modules/@loopback/rest/dist/types.d.ts",
         "../node_modules/@loopback/rest/node_modules/@types/serve-static/index.d.ts",
@@ -7162,6 +7216,7 @@
       "../node_modules/@loopback/rest/dist/types.d.ts": [
         "../node_modules/@loopback/express/dist/index.d.ts",
         "../node_modules/@loopback/openapi-v3/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/router/index.d.ts",
         "../node_modules/@types/body-parser/index.d.ts",
         "../node_modules/ajv/lib/ajv.d.ts"
       ],
@@ -7248,6 +7303,7 @@
       ],
       "../node_modules/@types/body-parser/index.d.ts": [
         "../node_modules/@types/connect/index.d.ts",
+        "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@types/cacheable-request/index.d.ts": [
@@ -7260,12 +7316,15 @@
         "../node_modules/@types/responselike/index.d.ts"
       ],
       "../node_modules/@types/connect/index.d.ts": [
+        "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@types/cors/index.d.ts": [
         "../node_modules/@types/express/index.d.ts"
       ],
       "../node_modules/@types/express-serve-static-core/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts",
         "../node_modules/@types/qs/index.d.ts",
         "../node_modules/@types/range-parser/index.d.ts"
@@ -7277,10 +7336,12 @@
         "../node_modules/@types/serve-static/index.d.ts"
       ],
       "../node_modules/@types/fs-extra/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@types/glob/index.d.ts": [
         "../node_modules/@types/minimatch/index.d.ts",
+        "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@types/keyv/index.d.ts": [
@@ -7640,26 +7701,34 @@
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/@types/responselike/index.d.ts": [
-        "../node_modules/@types/node/index.d.ts"
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/@types/node/stream.d.ts"
       ],
       "../node_modules/@types/serve-static/index.d.ts": [
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/mime/index.d.ts"
       ],
       "../node_modules/@types/shot/index.d.ts": [
-        "../node_modules/@types/node/index.d.ts"
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/@types/node/stream.d.ts"
       ],
       "../node_modules/@types/sinon/index.d.ts": [
         "../node_modules/@types/sinonjs__fake-timers/index.d.ts"
       ],
       "../node_modules/@types/superagent/index.d.ts": [
         "../node_modules/@types/cookiejar/index.d.ts",
-        "../node_modules/@types/node/index.d.ts"
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/@types/node/stream.d.ts"
       ],
       "../node_modules/@types/supertest/index.d.ts": [
         "../node_modules/@types/superagent/index.d.ts"
       ],
       "../node_modules/@types/type-is/index.d.ts": [
+        "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts": [
@@ -7851,13 +7920,17 @@
         "../node_modules/@types/node/index.d.ts",
         "../node_modules/crownstone-core/dist/index.d.ts"
       ],
+      "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts": [
+        "../node_modules/@types/node/index.d.ts"
+      ],
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts": [
         "../node_modules/@types/node/index.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/containers/uartencryptioncontainer.d.ts"
       ],
       "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts": [
-        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts",
+        "../node_modules/crownstone-uart/dist/uarthandling/uartpackets/uartwrapperv2.d.ts",
         "../node_modules/crownstone-uart/dist/uarthandling/uartreadbuffer.d.ts"
       ],
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts": [
@@ -8044,9 +8117,22 @@
       "../src/datasources/index.ts": [
         "../src/datasources/mongo.datasource.ts"
       ],
+      "../src/datasources/mongo.datasource.ts": [
+        "../node_modules/@loopback/core/dist/index.d.ts",
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
       "../src/index.ts": [
         "../src/application.ts",
         "../src/server.ts"
+      ],
+      "../src/models/energy-data-processed.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/energy-data.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/hub.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
       ],
       "../src/models/index.ts": [
         "../src/models/energy-data-processed.model.ts",
@@ -8058,7 +8144,20 @@
         "../src/models/user-permission.model.ts",
         "../src/models/user.model.ts"
       ],
+      "../src/models/power-data.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/sphere-feature.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/switch-data.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
+      "../src/models/user-permission.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts"
+      ],
       "../src/models/user.model.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/user-permission.model.ts"
       ],
       "../src/repositories/energy-data-processed.repository.ts": [
@@ -8066,9 +8165,12 @@
         "../src/models/index.ts"
       ],
       "../src/repositories/energy-data.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/energy-data.model.ts"
       ],
       "../src/repositories/hub.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@loopback/repository/src/common-types.ts",
         "../src/models/hub.model.ts"
       ],
       "../src/repositories/index.ts": [
@@ -8082,18 +8184,24 @@
         "../src/repositories/user.repository.ts"
       ],
       "../src/repositories/power-data.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/power-data.model.ts"
       ],
       "../src/repositories/sphere-feature.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/sphere-feature.model.ts"
       ],
       "../src/repositories/switch-data.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/switch-data.model.ts"
       ],
       "../src/repositories/user-permission.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
         "../src/models/user-permission.model.ts"
       ],
       "../src/repositories/user.repository.ts": [
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@loopback/repository/src/common-types.ts",
         "../src/models/index.ts",
         "../src/models/user.model.ts",
         "../src/repositories/user-permission.repository.ts"
@@ -8599,6 +8707,7 @@
       "../node_modules/crownstone-uart/dist/crownstoneuart.d.ts",
       "../node_modules/crownstone-uart/dist/index.d.ts",
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uartencryptioncontainer.d.ts",
+      "../node_modules/crownstone-uart/dist/uarthandling/containers/uartmessagequeue.d.ts",
       "../node_modules/crownstone-uart/dist/uarthandling/containers/uarttransferoverhead.d.ts",
       "../node_modules/crownstone-uart/dist/uarthandling/uartlink.d.ts",
       "../node_modules/crownstone-uart/dist/uarthandling/uartlinkmanager.d.ts",

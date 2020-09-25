@@ -61,7 +61,7 @@
     "@loopback/service-proxy": "^2.3.1",
     "crownstone-cloud": "^0.17.8",
     "crownstone-sse": "^3.0.7",
-    "crownstone-uart": "^0.8.6",
+    "crownstone-uart": "^0.8.7",
     "crownstone-core": "^0.8.2",
     "crownstone-logger": "^0.1.2",
     "helmet": "^4.1.1",
