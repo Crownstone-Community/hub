@@ -12,5 +12,7 @@ export class EnergyDataProcessedRepository extends DefaultCrudRepository<EnergyD
     this.datasource.autoupdate()
   }
 
+
+
 }
 

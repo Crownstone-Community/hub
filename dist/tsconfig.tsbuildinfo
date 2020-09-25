@@ -2122,7 +2122,7 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/energy-data-processed.repository.ts": {
-        "version": "092fe2997b6466483d028e79aed31066287a24cd9be2f7c6db5432e75a50f967",
+        "version": "539b1f34eaf7500cb2d9efa42ae719a6dc15d6ae561ea457bd239d5a66d51e74",
         "signature": "5c0c0379eb6e79a45815fe3f625ce006b5db86ba40c49ce99f27cf7e5826ffeb",
         "affectsGlobalScope": false
       },
@@ -2626,7 +2626,7 @@
         "affectsGlobalScope": false
       },
       "../src/server.ts": {
-        "version": "65bba657bb3c30ecf84ab40ca6dfb816baa3454e284fb81361889394ab95bf27",
+        "version": "1d81731bbd6f458ed9759879354292fc3d9e36f83f94978c4d14a46f776c7e5c",
         "signature": "33b593d08525387ca21eb86a391cf44b3481eeef54b0f1ecb8c9d78f4ba3c1ef",
         "affectsGlobalScope": false
       },
@@ -2750,6 +2750,11 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
+      "../src/controllers/energy.controller.ts": {
+        "version": "9601b76e7563e26caf37623364fd6e07f83e254ca8ef52a8f6ed645e99e0d349",
+        "signature": "5588ed6c6963d554e22025690ecd634b4780ec3cd93f2ccb343b33dfae4345fc",
+        "affectsGlobalScope": false
+      },
       "../src/controllers/hub.controller.ts": {
         "version": "dd66066145d415ebbbe2dbd43cf0609143ca185b149dc7da8f5484cee295f248",
         "signature": "ee8e4a0080d5501c8dc8723351d6f1051bc17e921e192fffed0c8d6e0930e6bb",
@@ -2776,8 +2781,8 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/index.ts": {
-        "version": "3dacb5cffa285013a71449d2144368e18cbe1f66f94e77bc7919ce78bf43c2b7",
-        "signature": "576c41913a08b6431af67ff5bbaa15f158bd786d9f16ef3a2cb3ee5adff907bf",
+        "version": "f54d0d8239e85686f3da24035aa430d1ef8e6e23a3aef93d9d7a6f1f7c2118df",
+        "signature": "4b2663141d56ec99ad8bcd1533f05a5cfe9a5468cb1d09cf0eb21a65bc57df31",
         "affectsGlobalScope": false
       },
       "../src/controllers/system-state.controller.ts": {
@@ -3066,7 +3071,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -5425,6 +5429,12 @@
         "../src/services/index.ts",
         "../src/util/configutil.ts"
       ],
+      "../src/controllers/energy.controller.ts": [
+        "../node_modules/@loopback/authentication/dist/index.d.ts",
+        "../node_modules/@loopback/repository/dist/index.d.ts",
+        "../node_modules/@loopback/rest/dist/index.d.ts",
+        "../src/repositories/index.ts"
+      ],
       "../src/controllers/hub.controller.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
         "../node_modules/@loopback/repository/dist/index.d.ts",
@@ -5438,6 +5448,7 @@
         "../src/repositories/index.ts"
       ],
       "../src/controllers/index.ts": [
+        "../src/controllers/energy.controller.ts",
         "../src/controllers/hub.controller.ts",
         "../src/controllers/localization.controller.ts",
         "../src/controllers/mesh.controller.ts",
@@ -8060,6 +8071,10 @@
         "../node_modules/@loopback/rest/dist/index.d.ts",
         "../node_modules/loopback-datasource-juggler/index.d.ts"
       ],
+      "../src/controllers/energy.controller.ts": [
+        "../src/models/index.ts",
+        "../src/repositories/index.ts"
+      ],
       "../src/controllers/hub.controller.ts": [
         "../node_modules/@loopback/repository/src/common-types.ts",
         "../src/models/hub.model.ts",
@@ -8067,6 +8082,7 @@
         "../src/repositories/index.ts"
       ],
       "../src/controllers/index.ts": [
+        "../src/controllers/energy.controller.ts",
         "../src/controllers/hub.controller.ts",
         "../src/controllers/localization.controller.ts",
         "../src/controllers/mesh.controller.ts",
@@ -8783,6 +8799,7 @@
       "../src/__tests__/acceptance/test-helper.ts",
       "../src/application.ts",
       "../src/config.ts",
+      "../src/controllers/energy.controller.ts",
       "../src/controllers/hub.controller.ts",
       "../src/controllers/index.ts",
       "../src/controllers/localization.controller.ts",

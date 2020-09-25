@@ -68,6 +68,18 @@ class ExpressServer {
                 res.end(JSON.stringify(new rest_1.HttpErrors.Unauthorized()));
             }
         });
+        this.app.get('/vis', async (req, res) => {
+            try {
+                res.sendFile(path_1.default.join(__dirname, '../public/energyViewer/index.html'));
+                // let access_token = extractToken(req);
+                // let userData = await checkAccessToken(access_token, DbRef.user);
+                // if (userData) {
+                // }
+            }
+            catch (e) {
+                res.end(JSON.stringify(new rest_1.HttpErrors.Unauthorized()));
+            }
+        });
         // Serve static files in the public folder
         this.app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
     }
