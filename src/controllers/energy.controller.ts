@@ -2,10 +2,13 @@
 
 // import {inject} from '@loopback/context';
 
-import {repository} from '@loopback/repository';
+import {Count, repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
 import {EnergyDataProcessedRepository, UserRepository} from '../repositories';
 import {authenticate} from '@loopback/authentication';
+import {inject} from '@loopback/context';
+import {SecurityBindings} from '@loopback/security';
+import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 
 /**
  * This controller will echo the state of the hub.
@@ -20,7 +23,7 @@ export class EnergyController {
   @get('/energyRange')
   @authenticate('csToken')
   async getEnergyData(
-    // @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
     @param.query.dateTime('from', {required:false}) from: Date,
     @param.query.dateTime('until', {required:false}) until: Date,
@@ -39,7 +42,7 @@ export class EnergyController {
   @get('/energyAvailability')
   @authenticate('csToken')
   async getEnergyAvailability(
-    // @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<{crownstoneUID: number, count: number}[]> {
     let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
     if (collection) {
@@ -53,5 +56,23 @@ export class EnergyController {
     }
     throw new HttpErrors.InternalServerError("Could not get distinct list");
   }
+
+  @del('/energyFromCrownstone')
+  @authenticate('csAdminToken')
+  async deleteStoneEnergy(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
+  ) : Promise<Count> {
+   return this.energyDataProcessedRepo.deleteAll({stoneUID: crownstoneUID})
+  }
+
+  @del('/energyData')
+  @authenticate('csAdminToken')
+  async deleteAllEnergyData(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<Count> {
+    return this.energyDataProcessedRepo.deleteAll({})
+  }
+
 
 }
