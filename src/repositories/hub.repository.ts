@@ -41,7 +41,7 @@ export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototyp
 
   async isSet() : Promise<boolean> {
     let hub = await this.get();
-    if (hub && hub.id) {
+    if (hub && hub.id !== 'null') {
       return true;
     }
     return false;

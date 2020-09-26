@@ -38,7 +38,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
         log.info("Cloud initialized")
 
         hub = await DbRef.hub.get();
-        if (hub && hub.id) {
+        if (hub && hub.id !== 'null') {
           await this.uart.initialize();
           log.info("Uart initialized")
 

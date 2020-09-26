@@ -76,7 +76,7 @@ class CloudManager {
                 if (!hub) {
                     break;
                 }
-                if (hub.id === '') {
+                if (hub.id === 'null') {
                     break;
                 }
                 log.info("Cloudmanager initialize started.");
@@ -86,8 +86,8 @@ class CloudManager {
                     }
                     catch (e) {
                         if (e === 401) {
-                            hub.id = '';
-                            hub.token = '';
+                            hub.id = 'null';
+                            hub.token = 'null';
                             await DbReference_1.DbRef.hub.save(hub);
                         }
                     }

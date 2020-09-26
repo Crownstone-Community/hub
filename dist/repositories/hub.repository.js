@@ -40,7 +40,7 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
     }
     async isSet() {
         let hub = await this.get();
-        if (hub && hub.id) {
+        if (hub && hub.id !== 'null') {
             return true;
         }
         return false;

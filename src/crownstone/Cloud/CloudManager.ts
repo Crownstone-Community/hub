@@ -94,7 +94,7 @@ export class CloudManager {
       while (this.initialized === false) {
         let hub = await DbRef.hub.get();
         if (!hub) { break }
-        if (hub.id === '') { break; }
+        if (hub.id === 'null') { break; }
         log.info("Cloudmanager initialize started.");
         try {
           try {
@@ -102,8 +102,8 @@ export class CloudManager {
           }
           catch (e) {
             if (e === 401) {
-              hub.id = '';
-              hub.token = '';
+              hub.id = 'null';
+              hub.token = 'null';
               await DbRef.hub.save(hub);
             }
           }

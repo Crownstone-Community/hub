@@ -27,7 +27,7 @@ class CrownstoneHubClass {
                 await this.cloud.initialize();
                 log.info("Cloud initialized");
                 hub = await DbReference_1.DbRef.hub.get();
-                if (hub && hub.id) {
+                if (hub && hub.id !== 'null') {
                     await this.uart.initialize();
                     log.info("Uart initialized");
                     this.mesh.init();

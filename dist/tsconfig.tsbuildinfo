@@ -2151,7 +2151,7 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/hub.repository.ts": {
-        "version": "03c3b577e6dbd75b184f0bb58cce2edaebe85e60aa708ff8db2c1dd8412f8f23",
+        "version": "2b98edbf46b3ef1ae0e3d891508a72d93087bdc37b706f3f9aa6ed1b8f9556b0",
         "signature": "80868d3eea2f14d8ac2e9a3836c6cc7b34ee0fff4967bdc0dc649f4365fb565e",
         "affectsGlobalScope": false
       },
@@ -2576,7 +2576,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "f0ba0cb36813704bf2eb851534ffc793c4aca7077fa7243ec35c43dda2e2bd54",
+        "version": "4aa2b7778c2bb22e793ca7b4625e6539330c4140e8eced7fde0a7b68eaafe3e4",
         "signature": "4fbb17d365e38929bef5819486c7522a9af88adc2d18aa682da0bd21e6351141",
         "affectsGlobalScope": false
       },
@@ -2616,7 +2616,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "f794957839fb180e8df6d844dacdd9d60fe9a7455115aedea79b36a765e91886",
+        "version": "69076449f580b7350b5dff2f79bec510991a8d311835720dcd50ad62fd9627db",
         "signature": "059e93358bfccf6789d5633f4838c4095e00f30f2035d715dc93301579a54895",
         "affectsGlobalScope": false
       },
@@ -2991,7 +2991,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
