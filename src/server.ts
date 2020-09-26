@@ -5,7 +5,6 @@
 
 import {once} from 'events';
 import express, {Request, Response} from 'express';
-import http from 'http';
 import https from 'https';
 import path from 'path';
 import {CrownstoneHubApplication, updateControllersBasedOnConfig} from './application';
@@ -17,8 +16,11 @@ import {HttpErrors} from '@loopback/rest';
 import {checkAccessToken} from './services';
 import {DbRef} from './crownstone/Data/DbReference';
 import {getHubConfig, storeHubConfig} from './util/ConfigUtil';
+import {Logger} from './Logger';
 
 export {ApplicationConfig};
+
+const log = Logger(__filename);
 
 const config = {
   rest: {
@@ -81,11 +83,11 @@ export class ExpressServer {
 
     this.app.get('/vis',async (req: Request, res: Response) => {
       try {
-        res.sendFile(path.join(__dirname, '../public/energyViewer/index.html'));
-        // let access_token = extractToken(req);
-        // let userData = await checkAccessToken(access_token, DbRef.user);
-        // if (userData) {
-        // }
+        let access_token = extractToken(req);
+        let userData = await checkAccessToken(access_token, DbRef.user);
+        if (userData) {
+          res.sendFile(path.join(__dirname, '../public/energyViewer/index.html'));
+        }
       }
       catch(e) {
         res.end(JSON.stringify(new HttpErrors.Unauthorized()))
@@ -104,7 +106,6 @@ export class ExpressServer {
     await this.lbApp.start();
     updateControllersBasedOnConfig(this.lbApp);
     const port = this.lbApp.restServer.config.port ?? 3000;
-    const host = this.lbApp.restServer.config.host ?? 'NO-HOST';
 
     let path = await verifyCertificate();
 
@@ -114,7 +115,9 @@ export class ExpressServer {
       cert: fs.readFileSync(path + '/cert.pem'),
     };
 
-    this.server = https.createServer(httpsOptions, this.app).listen(port, host);
+    this.server = https.createServer(httpsOptions, this.app).listen(port, () => {
+      log.info("Hub is available at https://<hub-ip-address>:5050")
+    });
     await once(this.server, 'listening');
   }
 

@@ -1,6 +1,6 @@
 import {Uart} from './Uart/Uart';
 import {CloudManager} from './Cloud/CloudManager';
-import {DbRef} from './Data/DbReference';
+import {DbRef, EMPTY_DATABASE} from './Data/DbReference';
 import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
 import {Timekeeper} from './Actions/Timekeeper';
@@ -29,7 +29,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
   async initialize() {
     let hub = await DbRef.hub.get();
-    if (hub) {
+    if (hub && hub.id) {
       log.info("Launching Modules");
 
       if (this.launched === false) {
@@ -37,14 +37,19 @@ export class CrownstoneHubClass implements CrownstoneHub {
         await this.cloud.initialize();
         log.info("Cloud initialized")
 
-        await this.uart.initialize();
-        log.info("Uart initialized")
+        hub = await DbRef.hub.get();
+        if (hub && hub.id) {
+          await this.uart.initialize();
+          log.info("Uart initialized")
 
-        this.mesh.init()
-        this.timeKeeper.init()
+          this.mesh.init()
+          this.timeKeeper.init()
 
-
-        this.launched = true;
+          this.launched = true;
+        }
+        else {
+          log.info("Hub could not log into cloud. 401.");
+        }
       }
     }
     else {
@@ -59,11 +64,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
     await CrownstoneHub.cloud.cleanup();
 
-    await DbRef.hub.deleteAll();
-    await DbRef.user.deleteAll();
-    await DbRef.power.deleteAll();
-    await DbRef.energy.deleteAll();
-    await DbRef.energyProcessed.deleteAll();
+    await EMPTY_DATABASE();
   }
 
 }

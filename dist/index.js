@@ -12,19 +12,26 @@ const Logger_1 = require("./Logger");
 const log = Logger_1.Logger(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
-    var _a, _b;
+    var _a;
     application_1.updateLoggingBasedOnConfig();
+    log.info(`Creating Server...`);
     const server = new server_1.ExpressServer();
+    log.info(`Server Booting...`);
     await server.boot();
+    log.info(`Server starting...`);
     await server.start();
+    log.info(`Server started.`);
     const port = (_a = server.lbApp.restServer.config.port) !== null && _a !== void 0 ? _a : 3000;
-    const host = (_b = server.lbApp.restServer.config.host) !== null && _b !== void 0 ? _b : 'NO-HOST';
+    // const host = server.lbApp.restServer.config.host ?? 'NO-HOST';
+    log.info(`Creating Database References...`);
     DbReference_1.DbRef.hub = await server.lbApp.getRepository(repositories_1.HubRepository);
     DbReference_1.DbRef.power = await server.lbApp.getRepository(repositories_1.PowerDataRepository);
     DbReference_1.DbRef.energy = await server.lbApp.getRepository(repositories_1.EnergyDataRepository);
     DbReference_1.DbRef.energyProcessed = await server.lbApp.getRepository(repositories_1.EnergyDataProcessedRepository);
     DbReference_1.DbRef.user = await server.lbApp.getRepository(repositories_1.UserRepository);
+    DbReference_1.DbRef.userPermission = await server.lbApp.getRepository(repositories_1.UserPermissionRepository);
     DbReference_1.DbRef.switches = await server.lbApp.getRepository(repositories_1.SwitchDataRepository);
+    DbReference_1.DbRef.sphereFeatures = await server.lbApp.getRepository(repositories_1.SphereFeatureRepository);
     // const connector = new MongoDbConnector()
     // await connector.connect();
     // const energyCollection = connector.db.collection('EnergyData');
@@ -33,9 +40,11 @@ async function main(options = {}) {
     //   {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
     // ]);
     // console.timeEnd('index')
-    CrownstoneHub_1.CrownstoneHub.initialize();
-    console.log(`Server is running at ${host}:${port}`);
-    log.info(`Server is running at ${host}:${port}`);
+    log.info(`Initializing CrownstoneHub...`);
+    await CrownstoneHub_1.CrownstoneHub.initialize();
+    //
+    // console.log(`Server is running at ${host}:${port}`);
+    log.info(`Server initialized!`);
     // setTimeout(() => { app.controller(MeshController)}, 10000)
     return server.lbApp;
     ;

@@ -4,7 +4,7 @@
 
 import {Count, repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
-import {EnergyDataProcessedRepository, UserRepository} from '../repositories';
+import {EnergyDataProcessedRepository, EnergyDataRepository, UserRepository} from '../repositories';
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
@@ -17,6 +17,7 @@ export class EnergyController {
 
   constructor(
     @repository(EnergyDataProcessedRepository) protected energyDataProcessedRepo: EnergyDataProcessedRepository,
+    @repository(EnergyDataRepository) protected energyDataRepo: EnergyDataRepository,
   ) {}
 
 
@@ -71,8 +72,11 @@ export class EnergyController {
   async deleteAllEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<Count> {
-    return this.energyDataProcessedRepo.deleteAll({})
+    let count = await this.energyDataProcessedRepo.deleteAll()
+    await this.energyDataRepo.deleteAll()
+    return count;
   }
+
 
 
 }

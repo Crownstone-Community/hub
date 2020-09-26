@@ -29,11 +29,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         if (options.rest && options.rest.port !== undefined) {
             customPort = options.rest.port;
         }
-        let customHost = process.env.HOST || '127.0.0.1';
-        if (options.rest && options.rest.host !== undefined) {
-            customHost = options.rest.host;
-        }
-        super({ ...options, rest: { ...options.rest, port: customPort, host: customHost } });
+        super({ ...options, rest: { ...options.rest, port: customPort } });
         this.api({
             openapi: '3.0.0',
             info: { title: pkg.name, version: pkg.version },

@@ -18,6 +18,8 @@ const rest_1 = require("@loopback/rest");
 const services_1 = require("./services");
 const DbReference_1 = require("./crownstone/Data/DbReference");
 const ConfigUtil_1 = require("./util/ConfigUtil");
+const Logger_1 = require("./Logger");
+const log = Logger_1.Logger(__filename);
 const config = {
     rest: {
         // Use the LB4 application as a route. It should not be listening.
@@ -70,11 +72,11 @@ class ExpressServer {
         });
         this.app.get('/vis', async (req, res) => {
             try {
-                res.sendFile(path_1.default.join(__dirname, '../public/energyViewer/index.html'));
-                // let access_token = extractToken(req);
-                // let userData = await checkAccessToken(access_token, DbRef.user);
-                // if (userData) {
-                // }
+                let access_token = csToken_strategy_1.extractToken(req);
+                let userData = await services_1.checkAccessToken(access_token, DbReference_1.DbRef.user);
+                if (userData) {
+                    res.sendFile(path_1.default.join(__dirname, '../public/energyViewer/index.html'));
+                }
             }
             catch (e) {
                 res.end(JSON.stringify(new rest_1.HttpErrors.Unauthorized()));
@@ -87,18 +89,19 @@ class ExpressServer {
         await this.lbApp.boot();
     }
     async start() {
-        var _a, _b;
+        var _a;
         await this.lbApp.start();
         application_1.updateControllersBasedOnConfig(this.lbApp);
         const port = (_a = this.lbApp.restServer.config.port) !== null && _a !== void 0 ? _a : 3000;
-        const host = (_b = this.lbApp.restServer.config.host) !== null && _b !== void 0 ? _b : 'NO-HOST';
         let path = await VerifyCertificates_1.verifyCertificate();
         let httpsOptions = {
             protocol: 'https',
             key: fs_1.default.readFileSync(path + '/key.pem'),
             cert: fs_1.default.readFileSync(path + '/cert.pem'),
         };
-        this.server = https_1.default.createServer(httpsOptions, this.app).listen(port, host);
+        this.server = https_1.default.createServer(httpsOptions, this.app).listen(port, () => {
+            log.info("Hub is available at https://<hub-ip-address>:5050");
+        });
         await events_1.once(this.server, 'listening');
     }
     // For testing purposes

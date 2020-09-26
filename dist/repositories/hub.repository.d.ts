@@ -5,6 +5,7 @@ export declare class HubRepository extends DefaultCrudRepository<Hub, typeof Hub
     protected datasource: juggler.DataSource;
     constructor(datasource: juggler.DataSource);
     create(entity: DataObject<Hub>, options?: Options): Promise<Hub>;
+    isSphereSet(): Promise<boolean>;
     isSet(): Promise<boolean>;
     get(): Promise<Hub | null>;
 }

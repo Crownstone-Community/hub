@@ -2082,8 +2082,8 @@
         "affectsGlobalScope": false
       },
       "../src/models/energy-data-processed.model.ts": {
-        "version": "ec69e1ea403a8cbae82fe6b8d106f7680908ffe74757f6e2a0af2a5c207a33b8",
-        "signature": "a6de52c57431bb3c82a2888a44404801e66fe26c6eab25bf0545e4815478df0e",
+        "version": "f26a131e1b01791cc48b2873872444c2e793f71a5ea11e4254a1ad4b36163130",
+        "signature": "16c80d313b73b48192b65d8242b9c57f335128512b7c2b4b444ff57889486177",
         "affectsGlobalScope": false
       },
       "../src/models/power-data.model.ts": {
@@ -2145,9 +2145,14 @@
         "version": "e5f52792f989d1dd83eed0e7628f7fe4b65367185e86417a108b2ec792b1f268",
         "affectsGlobalScope": false
       },
+      "../src/crownstone/data/dbreference.ts": {
+        "version": "3cd4943ada7119f9e72d93211076f9d42a0299c23e051d023eb78f3f65709350",
+        "signature": "c53ff3d7fcbbfc64d91d6f92ab0af2910c2a1f8b51b94fbf577dc71bb4f804c4",
+        "affectsGlobalScope": false
+      },
       "../src/repositories/hub.repository.ts": {
-        "version": "a2af450deab0394be578d31b7384c23bf18406706a28ec789bf5d48f4aafeb80",
-        "signature": "c793ac2f112ec57ee6a79a16fa4b0e7684a19701b9d402cecc28e3a75cf9e094",
+        "version": "03c3b577e6dbd75b184f0bb58cce2edaebe85e60aa708ff8db2c1dd8412f8f23",
+        "signature": "80868d3eea2f14d8ac2e9a3836c6cc7b34ee0fff4967bdc0dc649f4365fb565e",
         "affectsGlobalScope": false
       },
       "../src/repositories/user-permission.repository.ts": {
@@ -2211,13 +2216,8 @@
         "affectsGlobalScope": false
       },
       "../src/application.ts": {
-        "version": "69a6792c68a80289c76e86aee491c568f95e158dc7517e5e542a7fd30c29f7b8",
+        "version": "27edcbc841e54289fa799ad36ad4d0abbdc314f7577334b202f3832b56b86ac6",
         "signature": "192bdfb3cd40c0883f717bd3c8d4788100e8373e12c58075d7718ee6ad4528bc",
-        "affectsGlobalScope": false
-      },
-      "../src/crownstone/data/dbreference.ts": {
-        "version": "752bb8d489121aee5e2025072e783f4e7aaaa66f36188319d3957f72c885c9d4",
-        "signature": "a76d0e364a1ecb4aac2bb9d4a6c8b7ec337f3aa2b8e58a562239c237a2b9e7a0",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/src/declarations/declarations.d.ts": {
@@ -2576,7 +2576,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "de13e04b381e5be67edcbba2114ad34cbefe4cfb2abeac2266bd18a18b27e5a9",
+        "version": "f0ba0cb36813704bf2eb851534ffc793c4aca7077fa7243ec35c43dda2e2bd54",
         "signature": "4fbb17d365e38929bef5819486c7522a9af88adc2d18aa682da0bd21e6351141",
         "affectsGlobalScope": false
       },
@@ -2616,7 +2616,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "f5e598cc71ef71dd065b4b6c74a31461e144a779810f482973ff34ecd5c36a5b",
+        "version": "f794957839fb180e8df6d844dacdd9d60fe9a7455115aedea79b36a765e91886",
         "signature": "059e93358bfccf6789d5633f4838c4095e00f30f2035d715dc93301579a54895",
         "affectsGlobalScope": false
       },
@@ -2626,12 +2626,12 @@
         "affectsGlobalScope": false
       },
       "../src/server.ts": {
-        "version": "2222be21f0b0c9dbd7fab9530d74e11d67f2162a8df6fb045c399579bf0265a7",
+        "version": "cd9ef2ba594b52647f50a0a1a124dc92122d6cd194a5d803c529112aab3b7a4b",
         "signature": "ff37509c0bfa68745e9fa01b0742b77595d00d1219b4da9d419b7d72a1cda6da",
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "0530f38feb853c55552f8e6b238fa181b9064cfaea0053d8c1c9043c6470516f",
+        "version": "8078c537aa43a6ebd7d708db20b7a46081fcf8ae4619325579c6d798d4962aa2",
         "signature": "e7abfecd34a42f5193593dac0bed9bc0e6860416fd989d7f3c5ea4257cac9934",
         "affectsGlobalScope": false
       },
@@ -2640,119 +2640,9 @@
         "signature": "e9b8dbbcc0cb738d2836845996cec05b75916fe8314d6d515028b0cab71df9c9",
         "affectsGlobalScope": false
       },
-      "../node_modules/@types/cookiejar/index.d.ts": {
-        "version": "16b7fb094ffaa5d270f934e7406e8baee2f8245cfabf6dcc20f693389f005f56",
-        "signature": "16b7fb094ffaa5d270f934e7406e8baee2f8245cfabf6dcc20f693389f005f56",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/superagent/index.d.ts": {
-        "version": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
-        "signature": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/supertest/index.d.ts": {
-        "version": "e6540dcaa31aadbd070bea91d31c387c3e03baf78ea56420e706ae77660ae45a",
-        "signature": "e6540dcaa31aadbd070bea91d31c387c3e03baf78ea56420e706ae77660ae45a",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/client.d.ts": {
-        "version": "d33fe7df13cb34fa58fcd9fc11c052dd905c05172185a3a5a31b736501c2a629",
-        "signature": "d33fe7df13cb34fa58fcd9fc11c052dd905c05172185a3a5a31b736501c2a629",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/should-as-function.d.ts": {
-        "version": "e0bcc7ecaf53e76bf21f3660a85db7eedeb36ceeb58969801858095658d1428d",
-        "signature": "e0bcc7ecaf53e76bf21f3660a85db7eedeb36ceeb58969801858095658d1428d",
-        "affectsGlobalScope": true
-      },
-      "../node_modules/@loopback/testlab/dist/expect.d.ts": {
-        "version": "5791b63ac312a792f888401243acd5084f27c2c76792d436fa68e9581a74bd6d",
-        "signature": "5791b63ac312a792f888401243acd5084f27c2c76792d436fa68e9581a74bd6d",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts": {
-        "version": "1d965675096492c8b8634e95d2ba80df0937100c1ca1a4be0aa521f2fcf4e679",
-        "signature": "1d965675096492c8b8634e95d2ba80df0937100c1ca1a4be0aa521f2fcf4e679",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/http-server-config.d.ts": {
-        "version": "915ad988fcef8653bc578f63739303346d761aa6d462d4bc4ef8579ad7df6766",
-        "signature": "915ad988fcef8653bc578f63739303346d761aa6d462d4bc4ef8579ad7df6766",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/request.d.ts": {
-        "version": "87c409fe1f923e4449a75e4c07dd939436e9c8f76b834fb44a6937147867813d",
-        "signature": "87c409fe1f923e4449a75e4c07dd939436e9c8f76b834fb44a6937147867813d",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/shot/index.d.ts": {
-        "version": "1858582b6b5b66476d2885696bd490e58d7a2eb0d48f505e214967ca00acd0ea",
-        "signature": "1858582b6b5b66476d2885696bd490e58d7a2eb0d48f505e214967ca00acd0ea",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/shot.d.ts": {
-        "version": "c35b3b6ef644c4144c767d0ef2573b32b79cd989d84e266a73f0c8966dc0ef97",
-        "signature": "c35b3b6ef644c4144c767d0ef2573b32b79cd989d84e266a73f0c8966dc0ef97",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/sinonjs__fake-timers/index.d.ts": {
-        "version": "558a9770503071d5a6fc6c596f7230bb79f2d034ced4a205bd1ebcad3b5879ec",
-        "signature": "558a9770503071d5a6fc6c596f7230bb79f2d034ced4a205bd1ebcad3b5879ec",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/sinon/index.d.ts": {
-        "version": "a586d90634d2ad27c7f2022b5c42ccec5a83996e41e78376d3e145fe6bf35d8a",
-        "signature": "a586d90634d2ad27c7f2022b5c42ccec5a83996e41e78376d3e145fe6bf35d8a",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/sinon.d.ts": {
-        "version": "451d3238632a48b1d487785be7ad51904238a63a593884d1b9cb4cefd51c31d0",
-        "signature": "451d3238632a48b1d487785be7ad51904238a63a593884d1b9cb4cefd51c31d0",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/skip.d.ts": {
-        "version": "049893f64a1b25accec1fdb7d40dc8d8d8c08d6db07d321092c4124373c9e381",
-        "signature": "049893f64a1b25accec1fdb7d40dc8d8d8c08d6db07d321092c4124373c9e381",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/test-sandbox.d.ts": {
-        "version": "c09d3d8964ff66481d085b2702fb5295a94756dce4739beda789b11b89c3aaca",
-        "signature": "c09d3d8964ff66481d085b2702fb5295a94756dce4739beda789b11b89c3aaca",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/to-json.d.ts": {
-        "version": "d22280c29a0d4d6acba8968091ed9b772946c78e36d4b0cb7eca1803b8b8c2f0",
-        "signature": "d22280c29a0d4d6acba8968091ed9b772946c78e36d4b0cb7eca1803b8b8c2f0",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/validate-api-spec.d.ts": {
-        "version": "8730131999f563de6b559e35f6253007cd311e676e9d17999c9287dd3e11e618",
-        "signature": "8730131999f563de6b559e35f6253007cd311e676e9d17999c9287dd3e11e618",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@loopback/testlab/dist/index.d.ts": {
-        "version": "38992be86825669bca9d84dfa17319e89c30969e05ba85d9c7f99dbc9c2eb83f",
-        "signature": "38992be86825669bca9d84dfa17319e89c30969e05ba85d9c7f99dbc9c2eb83f",
-        "affectsGlobalScope": false
-      },
-      "../src/__tests__/acceptance/test-helper.ts": {
-        "version": "c8773083f5c212f1dbd784c3e85e2b3d0be4763ca18aef40aacea9de50f05176",
-        "signature": "6e2d9a6723a7a29bb3b4c81cd71803fd64122c3ebc46228dbbe37400f9c3727d",
-        "affectsGlobalScope": false
-      },
-      "../src/__tests__/acceptance/home-page.acceptance.ts": {
-        "version": "13e136ba4490ace6cd47bf9901e0618688f159c9df9f6796b25edce7c686bc83",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
-        "affectsGlobalScope": false
-      },
-      "../src/__tests__/acceptance/ping.controller.acceptance.ts": {
-        "version": "6db868a307c873de5bb3ada02f526e5fc4b6faeafd2fa8dfb9aaf661052421a0",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
-        "affectsGlobalScope": false
-      },
       "../src/controllers/energy.controller.ts": {
-        "version": "b4b352e3a8a80df4dc82cecf98596111730664b9ef83e20b499654a9c03ee271",
-        "signature": "aa40cbbd1a559cfecd20f61ecfca99fca964e864567fb6a59ec201509fdb7867",
+        "version": "cde1fe152e9af9971f36faf6185d5421a0f1dcc8e3ab4d2ae308125158a2588f",
+        "signature": "d05d95bf3b17018054741bf9b05a9762127d51ca423babe33aba327e4f80be5b",
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
@@ -2950,6 +2840,11 @@
         "signature": "f0cb4b3ab88193e3e51e9e2622e4c375955003f1f81239d72c5b7a95415dad3e",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/cookiejar/index.d.ts": {
+        "version": "16b7fb094ffaa5d270f934e7406e8baee2f8245cfabf6dcc20f693389f005f56",
+        "signature": "16b7fb094ffaa5d270f934e7406e8baee2f8245cfabf6dcc20f693389f005f56",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@types/eslint-visitor-keys/index.d.ts": {
         "version": "725d9be2fd48440256f4deb00649adffdbc5ecd282b09e89d4e200663792c34c",
         "signature": "725d9be2fd48440256f4deb00649adffdbc5ecd282b09e89d4e200663792c34c",
@@ -3043,6 +2938,31 @@
       "../node_modules/@types/on-finished/index.d.ts": {
         "version": "c69767317aec528b574762b18727db85eef7cf66f33617cc0ee905cbe5a43d97",
         "signature": "c69767317aec528b574762b18727db85eef7cf66f33617cc0ee905cbe5a43d97",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/shot/index.d.ts": {
+        "version": "1858582b6b5b66476d2885696bd490e58d7a2eb0d48f505e214967ca00acd0ea",
+        "signature": "1858582b6b5b66476d2885696bd490e58d7a2eb0d48f505e214967ca00acd0ea",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/sinonjs__fake-timers/index.d.ts": {
+        "version": "558a9770503071d5a6fc6c596f7230bb79f2d034ced4a205bd1ebcad3b5879ec",
+        "signature": "558a9770503071d5a6fc6c596f7230bb79f2d034ced4a205bd1ebcad3b5879ec",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/sinon/index.d.ts": {
+        "version": "a586d90634d2ad27c7f2022b5c42ccec5a83996e41e78376d3e145fe6bf35d8a",
+        "signature": "a586d90634d2ad27c7f2022b5c42ccec5a83996e41e78376d3e145fe6bf35d8a",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/superagent/index.d.ts": {
+        "version": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
+        "signature": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/supertest/index.d.ts": {
+        "version": "e6540dcaa31aadbd070bea91d31c387c3e03baf78ea56420e706ae77660ae45a",
+        "signature": "e6540dcaa31aadbd070bea91d31c387c3e03baf78ea56420e706ae77660ae45a",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/type-is/index.d.ts": {
@@ -4607,49 +4527,6 @@
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
-      "../node_modules/@loopback/testlab/dist/client.d.ts": [
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/supertest/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/expect.d.ts": [
-        "../node_modules/@loopback/testlab/should-as-function.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts": [
-        "../node_modules/@types/express/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/http-server-config.d.ts": [
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/node/net.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/index.d.ts": [
-        "../node_modules/@loopback/testlab/dist/client.d.ts",
-        "../node_modules/@loopback/testlab/dist/expect.d.ts",
-        "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts",
-        "../node_modules/@loopback/testlab/dist/http-server-config.d.ts",
-        "../node_modules/@loopback/testlab/dist/request.d.ts",
-        "../node_modules/@loopback/testlab/dist/shot.d.ts",
-        "../node_modules/@loopback/testlab/dist/sinon.d.ts",
-        "../node_modules/@loopback/testlab/dist/skip.d.ts",
-        "../node_modules/@loopback/testlab/dist/test-sandbox.d.ts",
-        "../node_modules/@loopback/testlab/dist/to-json.d.ts",
-        "../node_modules/@loopback/testlab/dist/validate-api-spec.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/request.d.ts": [
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/shot.d.ts": [
-        "../node_modules/@types/express/index.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/shot/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/sinon.d.ts": [
-        "../node_modules/@types/sinon/index.d.ts"
-      ],
       "../node_modules/@types/body-parser/index.d.ts": [
         "../node_modules/@types/connect/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
@@ -5398,20 +5275,6 @@
       "../node_modules/strong-error-handler/index.d.ts": [
         "../node_modules/@types/express/index.d.ts"
       ],
-      "../src/__tests__/acceptance/home-page.acceptance.ts": [
-        "../node_modules/@loopback/testlab/dist/index.d.ts",
-        "../src/__tests__/acceptance/test-helper.ts",
-        "../src/index.ts"
-      ],
-      "../src/__tests__/acceptance/ping.controller.acceptance.ts": [
-        "../node_modules/@loopback/testlab/dist/index.d.ts",
-        "../src/__tests__/acceptance/test-helper.ts",
-        "../src/index.ts"
-      ],
-      "../src/__tests__/acceptance/test-helper.ts": [
-        "../node_modules/@loopback/testlab/dist/index.d.ts",
-        "../src/index.ts"
-      ],
       "../src/application.ts": [
         "../node_modules/@loopback/authentication/dist/index.d.ts",
         "../node_modules/@loopback/authorization/dist/index.d.ts",
@@ -5636,6 +5499,7 @@
         "../node_modules/@loopback/core/dist/index.d.ts",
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../node_modules/@loopback/repository/src/common-types.ts",
+        "../src/crownstone/data/dbreference.ts",
         "../src/models/hub.model.ts"
       ],
       "../src/repositories/index.ts": [
@@ -5711,11 +5575,11 @@
         "../node_modules/@types/express/index.d.ts",
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/fs.d.ts",
-        "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/https.d.ts",
         "../node_modules/@types/node/path.d.ts",
         "../src/application.ts",
         "../src/crownstone/data/dbreference.ts",
+        "../src/logger.ts",
         "../src/security/authentication-strategies/cstoken-strategy.ts",
         "../src/security/verifycertificates.ts",
         "../src/services/index.ts",
@@ -7274,49 +7138,6 @@
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
-      "../node_modules/@loopback/testlab/dist/client.d.ts": [
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/supertest/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/expect.d.ts": [
-        "../node_modules/@loopback/testlab/should-as-function.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts": [
-        "../node_modules/@types/express/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/http-server-config.d.ts": [
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/node/net.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/index.d.ts": [
-        "../node_modules/@loopback/testlab/dist/client.d.ts",
-        "../node_modules/@loopback/testlab/dist/expect.d.ts",
-        "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts",
-        "../node_modules/@loopback/testlab/dist/http-server-config.d.ts",
-        "../node_modules/@loopback/testlab/dist/request.d.ts",
-        "../node_modules/@loopback/testlab/dist/shot.d.ts",
-        "../node_modules/@loopback/testlab/dist/sinon.d.ts",
-        "../node_modules/@loopback/testlab/dist/skip.d.ts",
-        "../node_modules/@loopback/testlab/dist/test-sandbox.d.ts",
-        "../node_modules/@loopback/testlab/dist/to-json.d.ts",
-        "../node_modules/@loopback/testlab/dist/validate-api-spec.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/request.d.ts": [
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/shot.d.ts": [
-        "../node_modules/@types/express/index.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/shot/index.d.ts"
-      ],
-      "../node_modules/@loopback/testlab/dist/sinon.d.ts": [
-        "../node_modules/@types/sinon/index.d.ts"
-      ],
       "../node_modules/@types/body-parser/index.d.ts": [
         "../node_modules/@types/connect/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
@@ -8065,10 +7886,6 @@
       "../node_modules/strong-error-handler/index.d.ts": [
         "../node_modules/@types/express/index.d.ts"
       ],
-      "../src/__tests__/acceptance/test-helper.ts": [
-        "../node_modules/@loopback/testlab/dist/index.d.ts",
-        "../src/index.ts"
-      ],
       "../src/application.ts": [
         "../node_modules/@loopback/boot/dist/index.d.ts",
         "../node_modules/@loopback/core/dist/index.d.ts",
@@ -8547,19 +8364,6 @@
       "../node_modules/@loopback/service-proxy/dist/legacy-juggler-bridge.d.ts",
       "../node_modules/@loopback/service-proxy/dist/mixins/index.d.ts",
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts",
-      "../node_modules/@loopback/testlab/dist/client.d.ts",
-      "../node_modules/@loopback/testlab/dist/expect.d.ts",
-      "../node_modules/@loopback/testlab/dist/http-error-logger.d.ts",
-      "../node_modules/@loopback/testlab/dist/http-server-config.d.ts",
-      "../node_modules/@loopback/testlab/dist/index.d.ts",
-      "../node_modules/@loopback/testlab/dist/request.d.ts",
-      "../node_modules/@loopback/testlab/dist/shot.d.ts",
-      "../node_modules/@loopback/testlab/dist/sinon.d.ts",
-      "../node_modules/@loopback/testlab/dist/skip.d.ts",
-      "../node_modules/@loopback/testlab/dist/test-sandbox.d.ts",
-      "../node_modules/@loopback/testlab/dist/to-json.d.ts",
-      "../node_modules/@loopback/testlab/dist/validate-api-spec.d.ts",
-      "../node_modules/@loopback/testlab/should-as-function.d.ts",
       "../node_modules/@types/body-parser/index.d.ts",
       "../node_modules/@types/cacheable-request/index.d.ts",
       "../node_modules/@types/color-name/index.d.ts",
@@ -8801,9 +8605,6 @@
       "../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "../node_modules/typescript/lib/lib.es5.d.ts",
       "../node_modules/typescript/lib/lib.esnext.intl.d.ts",
-      "../src/__tests__/acceptance/home-page.acceptance.ts",
-      "../src/__tests__/acceptance/ping.controller.acceptance.ts",
-      "../src/__tests__/acceptance/test-helper.ts",
       "../src/application.ts",
       "../src/config.ts",
       "../src/controllers/energy.controller.ts",

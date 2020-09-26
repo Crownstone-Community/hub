@@ -76,9 +76,21 @@ class CloudManager {
                 if (!hub) {
                     break;
                 }
+                if (hub.id === '') {
+                    break;
+                }
                 log.info("Cloudmanager initialize started.");
                 try {
-                    await this.login(hub);
+                    try {
+                        await this.login(hub);
+                    }
+                    catch (e) {
+                        if (e === 401) {
+                            hub.id = '';
+                            hub.token = '';
+                            await DbReference_1.DbRef.hub.save(hub);
+                        }
+                    }
                     await this.setupSSE(hub);
                     await this.sync();
                     // TODO: download last known datapoints to get an offset for energy samples

@@ -14,8 +14,9 @@ const security_1 = require("@loopback/security");
  * This controller will echo the state of the hub.
  */
 let EnergyController = class EnergyController {
-    constructor(energyDataProcessedRepo) {
+    constructor(energyDataProcessedRepo, energyDataRepo) {
         this.energyDataProcessedRepo = energyDataProcessedRepo;
+        this.energyDataRepo = energyDataRepo;
     }
     async getEnergyData(userProfile, crownstoneUID, from, until, limit) {
         let filters = [{ stoneUID: crownstoneUID }];
@@ -47,7 +48,9 @@ let EnergyController = class EnergyController {
         return this.energyDataProcessedRepo.deleteAll({ stoneUID: crownstoneUID });
     }
     async deleteAllEnergyData(userProfile) {
-        return this.energyDataProcessedRepo.deleteAll({});
+        let count = await this.energyDataProcessedRepo.deleteAll();
+        await this.energyDataRepo.deleteAll();
+        return count;
     }
 };
 tslib_1.__decorate([
@@ -90,7 +93,9 @@ tslib_1.__decorate([
 ], EnergyController.prototype, "deleteAllEnergyData", null);
 EnergyController = tslib_1.__decorate([
     tslib_1.__param(0, repository_1.repository(repositories_1.EnergyDataProcessedRepository)),
-    tslib_1.__metadata("design:paramtypes", [repositories_1.EnergyDataProcessedRepository])
+    tslib_1.__param(1, repository_1.repository(repositories_1.EnergyDataRepository)),
+    tslib_1.__metadata("design:paramtypes", [repositories_1.EnergyDataProcessedRepository,
+        repositories_1.EnergyDataRepository])
 ], EnergyController);
 exports.EnergyController = EnergyController;
 //# sourceMappingURL=energy.controller.js.map

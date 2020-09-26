@@ -20,17 +20,23 @@ class CrownstoneHubClass {
     }
     async initialize() {
         let hub = await DbReference_1.DbRef.hub.get();
-        if (hub) {
+        if (hub && hub.id) {
             log.info("Launching Modules");
             if (this.launched === false) {
                 // execute modules
                 await this.cloud.initialize();
                 log.info("Cloud initialized");
-                await this.uart.initialize();
-                log.info("Uart initialized");
-                this.mesh.init();
-                this.timeKeeper.init();
-                this.launched = true;
+                hub = await DbReference_1.DbRef.hub.get();
+                if (hub && hub.id) {
+                    await this.uart.initialize();
+                    log.info("Uart initialized");
+                    this.mesh.init();
+                    this.timeKeeper.init();
+                    this.launched = true;
+                }
+                else {
+                    log.info("Hub could not log into cloud. 401.");
+                }
             }
         }
         else {
@@ -41,11 +47,7 @@ class CrownstoneHubClass {
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
-        await DbReference_1.DbRef.hub.deleteAll();
-        await DbReference_1.DbRef.user.deleteAll();
-        await DbReference_1.DbRef.power.deleteAll();
-        await DbReference_1.DbRef.energy.deleteAll();
-        await DbReference_1.DbRef.energyProcessed.deleteAll();
+        await DbReference_1.EMPTY_DATABASE();
     }
 }
 exports.CrownstoneHubClass = CrownstoneHubClass;

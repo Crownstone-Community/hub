@@ -15,6 +15,9 @@ export class EnergyDataProcessed extends Entity {
   @property({type: 'number'})
   energyUsage: number;
 
+  @property({type: 'number'})
+  mod: number;
+
   @property({type: 'date', index: true})
   timestamp: Date
 
