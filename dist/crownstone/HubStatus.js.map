@@ -1,0 +1,1 @@
+{"version":3,"file":"HubStatus.js","sourceRoot":"","sources":["../../src/crownstone/HubStatus.ts"],"names":[],"mappings":";;;AAAA,aAAa;AACF,QAAA,SAAS,GAAe,EAAE,CAAA;AACrC,cAAc,EAAE,CAAC;AAEjB,SAAgB,cAAc;IAC5B,iBAAS,GAAG;QACV,WAAW,EAAE,KAAK;QAClB,eAAe,EAAE,KAAK;QACtB,aAAa,EAAE,KAAK;QACpB,eAAe,EAAE,KAAK;QACtB,SAAS,EAAE,KAAK;QAChB,eAAe,EAAE,KAAK;KACvB,CAAA;AACH,CAAC;AATD,wCASC"}
