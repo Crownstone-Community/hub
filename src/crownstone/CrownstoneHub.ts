@@ -5,6 +5,9 @@ import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
 import {Timekeeper} from './Actions/Timekeeper';
 import {Logger} from '../Logger';
+import {HubStatus, resetHubStatus} from './HubStatus';
+import {eventBus} from './HubEventBus';
+import {topics} from './topics';
 
 const log = Logger(__filename);
 
@@ -24,37 +27,47 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
     this.timeKeeper = new Timekeeper(this);
     CloudCommandHandler.loadManager(this.cloud);
+
+    eventBus.on(topics.HUB_CREATED,() => { this.initialize(); });
   }
 
-
   async initialize() {
+    resetHubStatus();
     let hub = await DbRef.hub.get();
     if (hub && hub.id) {
       log.info("Launching Modules");
 
       if (this.launched === false) {
         // execute modules
-        await this.cloud.initialize();
-        log.info("Cloud initialized")
+        try {
+          await this.cloud.initialize();
+          log.info("Cloud initialized")
 
-        hub = await DbRef.hub.get();
-        if (hub && hub.id !== 'null') {
           await this.uart.initialize();
           log.info("Uart initialized")
+          HubStatus.uartReady = true;
 
           this.mesh.init()
           this.timeKeeper.init()
 
           this.launched = true;
+          HubStatus.initialized = true;
         }
-        else {
-          log.info("Hub could not log into cloud. 401.");
+        catch (e) {
+          if (e === 401) {
+            log.info("Initialization failed. Cloud could not authenticate hub.");
+          }
+          else {
+            log.info("Initialization failed", e);
+          }
         }
       }
     }
     else {
       log.info("Hub not configured yet.")
     }
+
+    HubStatus.hasSphereCached = await DbRef.hub.isSphereSet();
   }
 
   async cleanupAndDestroy() {

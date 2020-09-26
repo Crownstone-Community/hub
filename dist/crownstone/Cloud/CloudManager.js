@@ -10,6 +10,7 @@ const SseEventHandler_1 = require("./SseEventHandler");
 const HubEventBus_1 = require("../HubEventBus");
 const topics_1 = require("../topics");
 const Logger_1 = require("../../Logger");
+const HubStatus_1 = require("../HubStatus");
 const os = require('os');
 const log = Logger_1.Logger(__filename);
 const RETRY_INTERVAL_MS = 5000;
@@ -34,7 +35,6 @@ class CloudManager {
     }
     setupEvents() {
         if (this.eventsRegistered === false) {
-            HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
             HubEventBus_1.eventBus.on(topics_1.topics.TOKEN_EXPIRED, () => { this.initialize(); });
             HubEventBus_1.eventBus.on(topics_1.topics.CLOUD_SYNC_REQUIRED, () => { this.sync(); });
             this.eventsRegistered = true;
@@ -66,6 +66,9 @@ class CloudManager {
         if (this.initializeInProgress === true) {
             return;
         }
+        HubStatus_1.HubStatus.loggedIntoCloud = false;
+        HubStatus_1.HubStatus.loggedIntoSSE = false;
+        HubStatus_1.HubStatus.syncedWithCloud = false;
         // The hub can never be not trying to connect unless it has no database reference to the hub itself.
         this.initializeInProgress = true;
         let hub = await DbReference_1.DbRef.hub.get();
@@ -76,8 +79,8 @@ class CloudManager {
                 if (!hub) {
                     break;
                 }
-                if (hub.id === 'null') {
-                    break;
+                if (hub.cloudId === 'null') {
+                    throw 401;
                 }
                 log.info("Cloudmanager initialize started.");
                 try {
@@ -86,9 +89,10 @@ class CloudManager {
                     }
                     catch (e) {
                         if (e === 401) {
-                            hub.id = 'null';
+                            hub.cloudId = 'null';
                             hub.token = 'null';
                             await DbReference_1.DbRef.hub.save(hub);
+                            throw e;
                         }
                     }
                     await this.setupSSE(hub);
@@ -116,6 +120,9 @@ class CloudManager {
                     log.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
                     HubEventBus_1.eventBus.emit(topics_1.topics.CLOUD_AUTHENTICATION_PROBLEM_401);
                     this.initialized = false;
+                    if (err == 401) {
+                        throw err;
+                    }
                 }
             }
         }
@@ -153,6 +160,7 @@ class CloudManager {
                 }
                 catch (e) {
                     log.warn("Error in login to cloud", e);
+                    HubStatus_1.HubStatus.loggedIntoCloud = false;
                     // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
                     // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
                     if (e && e.statusCode && e.statusCode === 401) {
@@ -161,6 +169,7 @@ class CloudManager {
                     await Util_1.Util.wait(RETRY_INTERVAL_MS);
                 }
             }
+            HubStatus_1.HubStatus.loggedIntoCloud = true;
             log.info("Cloudmanager login finished.");
             this.loginInProgress = false;
         }
@@ -188,6 +197,7 @@ class CloudManager {
                 stonesSynced = true;
             }
             catch (e) {
+                HubStatus_1.HubStatus.syncedWithCloud = false;
                 // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
                 // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
                 log.warn("Error in sync", e);
@@ -206,6 +216,7 @@ class CloudManager {
                 await DbReference_1.DbRef.user.merge(sphereUsers, tokenSets);
             }
             catch (e) {
+                HubStatus_1.HubStatus.syncedWithCloud = false;
                 // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
                 // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
                 log.warn("Error in sync user obtaining", e);
@@ -215,6 +226,7 @@ class CloudManager {
                 await Util_1.Util.wait(RETRY_INTERVAL_MS);
             }
         }
+        HubStatus_1.HubStatus.syncedWithCloud = true;
         log.info("Cloudmanager SYNC finished.");
         this.syncInProgress = false;
     }
@@ -235,6 +247,7 @@ class CloudManager {
             }
             catch (e) {
                 log.warn("Error in SSE", e);
+                HubStatus_1.HubStatus.loggedIntoSSE = false;
                 // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
                 // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
                 if (e && e.statusCode && e.statusCode === 401) {
@@ -245,6 +258,7 @@ class CloudManager {
         }
         this.sse.start(this.sseEventHandler.handleSseEvent);
         log.info("Cloudmanager SSE setup finished.");
+        HubStatus_1.HubStatus.loggedIntoSSE = true;
         this.sseSetupInprogress = false;
     }
     async updateLocalIp() {

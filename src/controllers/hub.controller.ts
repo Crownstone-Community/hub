@@ -12,6 +12,7 @@ import {topics} from '../crownstone/topics';
 import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {authenticate} from '@loopback/authentication';
+import {HubStatus} from '../crownstone/HubStatus';
 
 /**
  * This controller will echo the state of the hub.
@@ -51,7 +52,7 @@ export class HubController {
   ): Promise<void> {
     let currentHub = await this.hubRepo.get()
     if (currentHub === null) {
-      throw new HttpErrors.Forbidden("No hub created.");
+      throw new HttpErrors.NotFound("No hub configured.");
     }
     else {
       if (uartKey.length !== 32) {
@@ -65,7 +66,6 @@ export class HubController {
     }
   }
 
-  // returns a list of our objects
   @patch('/hub')
   @authenticate('csAdminToken')
   async updateHub(
@@ -102,7 +102,17 @@ export class HubController {
       await CrownstoneHub.cleanupAndDestroy();
     }
     else {
-      throw new HttpErrors.Forbidden("No Hub to delete..");
+      throw new HttpErrors.NotFound("No Hub to delete..");
     }
+  }
+
+  @get('/hubStatus')
+  @authenticate('csAdminToken')
+  async getHubSatus(): Promise<HubStatus> {
+    let currentHub = await this.hubRepo.get()
+    if (currentHub === null) {
+      throw new HttpErrors.NotFound("No hub configured.");
+    }
+    return HubStatus;
   }
 }

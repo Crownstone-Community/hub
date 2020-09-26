@@ -19,3 +19,12 @@ interface SwitchPair {
   crownstoneId: number,
   switchState: number
 }
+
+interface HubStatus {
+  initialized: boolean,
+  loggedIntoCloud: boolean,
+  loggedIntoSSE: boolean,
+  syncedWithCloud: boolean,
+  uartReady: boolean,
+  hasSphereCached: boolean,
+}

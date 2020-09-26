@@ -13,6 +13,7 @@ const topics_1 = require("../crownstone/topics");
 const repositories_1 = require("../repositories");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const authentication_1 = require("@loopback/authentication");
+const HubStatus_1 = require("../crownstone/HubStatus");
 /**
  * This controller will echo the state of the hub.
  */
@@ -37,7 +38,7 @@ let HubController = class HubController {
     async setUartKey(uartKey) {
         let currentHub = await this.hubRepo.get();
         if (currentHub === null) {
-            throw new rest_1.HttpErrors.Forbidden("No hub created.");
+            throw new rest_1.HttpErrors.NotFound("No hub configured.");
         }
         else {
             if (uartKey.length !== 32) {
@@ -50,7 +51,6 @@ let HubController = class HubController {
             });
         }
     }
-    // returns a list of our objects
     async updateHub(editedHub) {
         let currentHub = await this.hubRepo.get();
         if (currentHub === null) {
@@ -81,8 +81,15 @@ let HubController = class HubController {
             await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
         }
         else {
-            throw new rest_1.HttpErrors.Forbidden("No Hub to delete..");
+            throw new rest_1.HttpErrors.NotFound("No Hub to delete..");
         }
+    }
+    async getHubSatus() {
+        let currentHub = await this.hubRepo.get();
+        if (currentHub === null) {
+            throw new rest_1.HttpErrors.NotFound("No hub configured.");
+        }
+        return HubStatus_1.HubStatus;
     }
 };
 tslib_1.__decorate([
@@ -119,6 +126,13 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "delete", null);
+tslib_1.__decorate([
+    rest_1.get('/hubStatus'),
+    authentication_1.authenticate('csAdminToken'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], HubController.prototype, "getHubSatus", null);
 HubController = tslib_1.__decorate([
     tslib_1.__param(0, repository_1.repository(hub_repository_1.HubRepository)),
     tslib_1.__param(1, repository_1.repository(repositories_1.UserRepository)),

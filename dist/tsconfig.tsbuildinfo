@@ -2151,7 +2151,7 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/hub.repository.ts": {
-        "version": "2b98edbf46b3ef1ae0e3d891508a72d93087bdc37b706f3f9aa6ed1b8f9556b0",
+        "version": "1634ed941dffe1f422060925b573bbb80e7587f43cab20b7636add5177436c7a",
         "signature": "80868d3eea2f14d8ac2e9a3836c6cc7b34ee0fff4967bdc0dc649f4365fb565e",
         "affectsGlobalScope": false
       },
@@ -2575,8 +2575,13 @@
         "signature": "52ce048e5c8b26de82c403ce6b587c57737d197a8a42453b04c3f5b4b5140753",
         "affectsGlobalScope": false
       },
+      "../src/crownstone/hubstatus.ts": {
+        "version": "15d0e83303a083d22712e6d431e73156b4405815d57f552bcf0384b52ab12058",
+        "signature": "4b801c2ee0511bac7202621ac1ed318350d656ab7a387c89a6d7a8fb12badab8",
+        "affectsGlobalScope": false
+      },
       "../src/crownstone/cloud/cloudmanager.ts": {
-        "version": "4aa2b7778c2bb22e793ca7b4625e6539330c4140e8eced7fde0a7b68eaafe3e4",
+        "version": "d6c35f0351a1c90cba3185aebdb42aa534a260b2669a7ccfc5d3526922af4e18",
         "signature": "4fbb17d365e38929bef5819486c7522a9af88adc2d18aa682da0bd21e6351141",
         "affectsGlobalScope": false
       },
@@ -2616,7 +2621,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "69076449f580b7350b5dff2f79bec510991a8d311835720dcd50ad62fd9627db",
+        "version": "b11835871f8461baf591f448491cbfa3f7d8ce8a004587e1232af609e3eec635",
         "signature": "059e93358bfccf6789d5633f4838c4095e00f30f2035d715dc93301579a54895",
         "affectsGlobalScope": false
       },
@@ -2646,8 +2651,8 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "ab836e1cd678fcba8f0354f5a52d3a72938b590a668c02d025a0937b2e2ffa40",
-        "signature": "ffe7ff615592c6a96d00d4c40b88b437ba0057d5ae8db2514a8e5d659dd45786",
+        "version": "793594d1b6b9c85c7a12614bf0e3d55ac6a7a31346fd46f7215341bbbd3e8641",
+        "signature": "0bef3ebab1f7163957477e7b6251dd508d01e7d1f2cdd1fd07cc1eb428dc23a3",
         "affectsGlobalScope": false
       },
       "../src/controllers/localization.controller.ts": {
@@ -2711,8 +2716,8 @@
         "affectsGlobalScope": true
       },
       "../src/declarations/declarations.d.ts": {
-        "version": "9f6db073b3f7a88ca941a7098e1ce39336db8d0008bd30e84dd1710785b88f8a",
-        "signature": "9f6db073b3f7a88ca941a7098e1ce39336db8d0008bd30e84dd1710785b88f8a",
+        "version": "3b57a4cab038bf5a84cc688db1a1cb0965e6a74f162c40913118d2d25491364d",
+        "signature": "3b57a4cab038bf5a84cc688db1a1cb0965e6a74f162c40913118d2d25491364d",
         "affectsGlobalScope": true
       },
       "../node_modules/crownstone-cloud/src/declarations/cloudtypes.d.ts": {
@@ -2991,6 +2996,7 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
+      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -5308,6 +5314,7 @@
         "../node_modules/@loopback/rest/dist/index.d.ts",
         "../src/crownstone/crownstonehub.ts",
         "../src/crownstone/hubeventbus.ts",
+        "../src/crownstone/hubstatus.ts",
         "../src/crownstone/topics.ts",
         "../src/models/hub.model.ts",
         "../src/repositories/hub.repository.ts",
@@ -5361,6 +5368,7 @@
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/data/memorydb.ts",
         "../src/crownstone/hubeventbus.ts",
+        "../src/crownstone/hubstatus.ts",
         "../src/crownstone/topics.ts",
         "../src/logger.ts",
         "../src/models/hub.model.ts",
@@ -5377,7 +5385,10 @@
         "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/cloud/cloudmanager.ts",
         "../src/crownstone/data/dbreference.ts",
+        "../src/crownstone/hubeventbus.ts",
+        "../src/crownstone/hubstatus.ts",
         "../src/crownstone/meshmonitor/meshmonitor.ts",
+        "../src/crownstone/topics.ts",
         "../src/crownstone/uart/uart.ts",
         "../src/logger.ts"
       ],
@@ -8625,6 +8636,7 @@
       "../src/crownstone/data/dbreference.ts",
       "../src/crownstone/data/memorydb.ts",
       "../src/crownstone/hubeventbus.ts",
+      "../src/crownstone/hubstatus.ts",
       "../src/crownstone/meshmonitor/energymonitor.ts",
       "../src/crownstone/meshmonitor/meshmonitor.ts",
       "../src/crownstone/meshmonitor/powermonitor.ts",
