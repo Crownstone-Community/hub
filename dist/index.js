@@ -7,9 +7,9 @@ const repositories_1 = require("./repositories");
 const DbReference_1 = require("./crownstone/Data/DbReference");
 const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 // import {MongoDbConnector} from './datasources/mongoDriver';
-const log = Logger_1.Logger(__filename);
 const server_1 = require("./server");
 const Logger_1 = require("./Logger");
+const log = Logger_1.Logger(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
     var _a, _b;

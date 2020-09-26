@@ -4,9 +4,10 @@ import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
-const log = Logger(__filename);
 import {ApplicationConfig, ExpressServer} from './server';
 import {Logger} from './Logger';
+
+const log = Logger(__filename);
 
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
