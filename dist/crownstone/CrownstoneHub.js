@@ -53,7 +53,8 @@ class CrownstoneHubClass {
         else {
             log.info("Hub not configured yet.");
         }
-        HubStatus_1.HubStatus.hasSphereCached = await DbReference_1.DbRef.hub.isSphereSet();
+        hub = await DbReference_1.DbRef.hub.get();
+        HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
     }
     async cleanupAndDestroy() {
         await this.mesh.cleanup();

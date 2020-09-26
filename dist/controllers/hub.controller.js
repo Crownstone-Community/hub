@@ -75,10 +75,15 @@ let HubController = class HubController {
             });
         }
     }
-    async delete() {
+    // @authenticate('csAdminToken')
+    async delete(YesImSure) {
+        if (YesImSure !== 'YesImSure') {
+            throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
+        }
         if (await this.hubRepo.isSet() === true) {
             HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
             await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
+            return "Success.";
         }
         else {
             throw new rest_1.HttpErrors.NotFound("No Hub to delete..");
@@ -121,14 +126,13 @@ tslib_1.__decorate([
 ], HubController.prototype, "updateHub", null);
 tslib_1.__decorate([
     rest_1.del('/hub'),
-    authentication_1.authenticate('csAdminToken'),
+    tslib_1.__param(0, rest_1.param.query.string('YesImSure', { required: true })),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "delete", null);
 tslib_1.__decorate([
     rest_1.get('/hubStatus'),
-    authentication_1.authenticate('csAdminToken'),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)

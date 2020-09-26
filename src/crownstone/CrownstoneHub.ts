@@ -67,7 +67,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
       log.info("Hub not configured yet.")
     }
 
-    HubStatus.hasSphereCached = await DbRef.hub.isSphereSet();
+    hub = await DbRef.hub.get();
+    HubStatus.belongsToSphere = hub?.sphereId || "none";
   }
 
   async cleanupAndDestroy() {

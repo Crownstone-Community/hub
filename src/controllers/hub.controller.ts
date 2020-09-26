@@ -95,11 +95,17 @@ export class HubController {
 
 
   @del('/hub')
-  @authenticate('csAdminToken')
-  async delete(): Promise<void> {
+  // @authenticate('csAdminToken')
+  async delete(
+    @param.query.string('YesImSure', {required:true}) YesImSure: string,
+  ): Promise<string> {
+    if (YesImSure !== 'YesImSure') {
+      throw new HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
+    }
     if (await this.hubRepo.isSet() === true) {
       eventBus.emit(topics.HUB_DELETED);
       await CrownstoneHub.cleanupAndDestroy();
+      return "Success."
     }
     else {
       throw new HttpErrors.NotFound("No Hub to delete..");
@@ -107,7 +113,6 @@ export class HubController {
   }
 
   @get('/hubStatus')
-  @authenticate('csAdminToken')
   async getHubSatus(): Promise<HubStatus> {
     let currentHub = await this.hubRepo.get()
     if (currentHub === null) {

@@ -1643,10 +1643,10 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crownstone-cloud@^0.17.8:
-  version "0.17.8"
-  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.8.tgz#a0efb2b7b85a355c993f0ec4dd59316ef9158964"
-  integrity sha512-YrUfjjhUMHz0oAmcOo7u5BQPzypeuKl9kfDhBuvCxcIn5CpNXA8A1Prf2TPzOCPN2sKDjP+i0Jg8EKcRBPng/g==
+crownstone-cloud@^0.17.9:
+  version "0.17.9"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.9.tgz#0c0f20ac79e7fcfa7726a05dee5baf51a509d963"
+  integrity sha512-MRHBTsB9QHlOdARkrWH4fVobLMH/LU+HVETHhXx9I+eo+ai6GhGW2X3nJcO2wWmQLc7mcUJPH47jA0E8QoZo1A==
   dependencies:
     cross-fetch "^3.0.4"
     crownstone-core "^0.8.2"

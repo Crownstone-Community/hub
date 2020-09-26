@@ -12,6 +12,6 @@ export declare class HubController {
     createHub(newHub: DataObject<Hub>): Promise<void>;
     setUartKey(uartKey: string): Promise<void>;
     updateHub(editedHub: DataObject<Hub>): Promise<void>;
-    delete(): Promise<void>;
+    delete(YesImSure: string): Promise<string>;
     getHubSatus(): Promise<HubStatus>;
 }

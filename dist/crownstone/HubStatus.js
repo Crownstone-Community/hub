@@ -11,7 +11,7 @@ function resetHubStatus() {
         loggedIntoSSE: false,
         syncedWithCloud: false,
         uartReady: false,
-        hasSphereCached: false
+        belongsToSphere: 'none',
     };
 }
 exports.resetHubStatus = resetHubStatus;
