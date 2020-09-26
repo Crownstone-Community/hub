@@ -7,7 +7,9 @@ const repositories_1 = require("./repositories");
 const DbReference_1 = require("./crownstone/Data/DbReference");
 const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 // import {MongoDbConnector} from './datasources/mongoDriver';
+const log = Logger_1.Logger(__filename);
 const server_1 = require("./server");
+const Logger_1 = require("./Logger");
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
     var _a, _b;
@@ -31,8 +33,9 @@ async function main(options = {}) {
     //   {key:{uploaded:1, stoneUID: 1, timestamp: 1}},
     // ]);
     // console.timeEnd('index')
-    await CrownstoneHub_1.CrownstoneHub.initialize();
+    CrownstoneHub_1.CrownstoneHub.initialize();
     console.log(`Server is running at ${host}:${port}`);
+    log.info(`Server is running at ${host}:${port}`);
     // setTimeout(() => { app.controller(MeshController)}, 10000)
     return server.lbApp;
     ;

@@ -4,7 +4,9 @@ import {DbRef} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
+const log = Logger(__filename);
 import {ApplicationConfig, ExpressServer} from './server';
+import {Logger} from './Logger';
 
 export {CrownstoneHubApplication};
 Error.stackTraceLimit = 100;
@@ -35,9 +37,10 @@ export async function main(options: ApplicationConfig = {}) {
   // ]);
   // console.timeEnd('index')
 
-  await CrownstoneHub.initialize();
+  CrownstoneHub.initialize();
 
   console.log(`Server is running at ${host}:${port}`);
+  log.info(`Server is running at ${host}:${port}`);
 
 
   // setTimeout(() => { app.controller(MeshController)}, 10000)

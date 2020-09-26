@@ -2631,7 +2631,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "4a76040a2082fc19979ec2e84acc25a6b593513f613065fccf8e9cce209da94d",
+        "version": "495895e5e7a2a68f8c4e272481808ecc8919add38bd34814c854621efeb887da",
         "signature": "e7abfecd34a42f5193593dac0bed9bc0e6860416fd989d7f3c5ea4257cac9934",
         "affectsGlobalScope": false
       },
@@ -3071,6 +3071,7 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
+      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -5575,6 +5576,7 @@
         "../src/application.ts",
         "../src/crownstone/crownstonehub.ts",
         "../src/crownstone/data/dbreference.ts",
+        "../src/logger.ts",
         "../src/repositories/index.ts",
         "../src/server.ts"
       ],
