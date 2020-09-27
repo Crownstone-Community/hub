@@ -5,9 +5,9 @@ const tslib_1 = require("tslib");
 const fs = tslib_1.__importStar(require("fs"));
 const child_process_1 = require("child_process");
 const config_1 = require("../config");
-const Util_1 = require("../util/Util");
+const path_1 = tslib_1.__importDefault(require("path"));
 async function verifyCertificate() {
-    let certificatePath = Util_1.Util.stripTrailingSlash(config_1.CONFIG.httpsCertificatePath || Util_1.Util.stripTrailingSlash(__dirname) + "/https");
+    let certificatePath = (config_1.CONFIG.httpsCertificatePath && path_1.default.join(config_1.CONFIG.httpsCertificatePath, 'https')) || path_1.default.join(__dirname, '../../config/https');
     let pathExists = fs.existsSync(certificatePath);
     if (!pathExists) {
         fs.mkdirSync(certificatePath);

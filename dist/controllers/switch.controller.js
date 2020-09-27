@@ -9,6 +9,7 @@ const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");
 const security_1 = require("@loopback/security");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
+const Constants_1 = require("../constants/Constants");
 const SwitchDataSchema = {
     oneOf: [
         {
@@ -60,7 +61,7 @@ class SwitchController {
 }
 tslib_1.__decorate([
     rest_1.post('/turnOn', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__metadata("design:type", Function),
@@ -69,7 +70,7 @@ tslib_1.__decorate([
 ], SwitchController.prototype, "turnOn", null);
 tslib_1.__decorate([
     rest_1.post('/turnOff', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__metadata("design:type", Function),
@@ -78,7 +79,7 @@ tslib_1.__decorate([
 ], SwitchController.prototype, "turnOff", null);
 tslib_1.__decorate([
     rest_1.post('/switch', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.number('switchState', { required: true })),
@@ -88,7 +89,7 @@ tslib_1.__decorate([
 ], SwitchController.prototype, "dim", null);
 tslib_1.__decorate([
     rest_1.post('/switchMultiple', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csTokens'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.requestBody({
         content: { 'application/json': { schema: SwitchDataSchema } },

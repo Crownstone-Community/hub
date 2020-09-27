@@ -10,6 +10,7 @@ const repositories_1 = require("../repositories");
 const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");
 const security_1 = require("@loopback/security");
+const Constants_1 = require("../constants/Constants");
 /**
  * This controller will echo the state of the hub.
  */
@@ -55,7 +56,7 @@ let EnergyController = class EnergyController {
 };
 tslib_1.__decorate([
     rest_1.get('/energyRange'),
-    authentication_1.authenticate('csToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
@@ -68,7 +69,7 @@ tslib_1.__decorate([
 ], EnergyController.prototype, "getEnergyData", null);
 tslib_1.__decorate([
     rest_1.get('/energyAvailability'),
-    authentication_1.authenticate('csToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
@@ -76,7 +77,7 @@ tslib_1.__decorate([
 ], EnergyController.prototype, "getEnergyAvailability", null);
 tslib_1.__decorate([
     rest_1.del('/energyFromCrownstone'),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__metadata("design:type", Function),
@@ -85,7 +86,7 @@ tslib_1.__decorate([
 ], EnergyController.prototype, "deleteStoneEnergy", null);
 tslib_1.__decorate([
     rest_1.del('/energyData'),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),

@@ -13,6 +13,7 @@ const ReturnCodes_1 = require("../returnCodes/ReturnCodes");
 const fs = tslib_1.__importStar(require("fs"));
 const ConfigUtil_1 = require("../../util/ConfigUtil");
 const path_1 = tslib_1.__importDefault(require("path"));
+const Constants_1 = require("../../constants/Constants");
 const log = Logger_1.Logger(__filename);
 let AVAILABLE_LEVELS = ["none", "critical", "error", "warn", "notice", "info", "debug", "verbose", "silly"];
 class LogController {
@@ -101,7 +102,7 @@ class LogController {
 }
 tslib_1.__decorate([
     rest_1.post('/setLogLevel', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.string('consoleLevel', { required: false })),
     tslib_1.__param(2, rest_1.param.query.string('fileLevel', { required: false })),
@@ -111,7 +112,7 @@ tslib_1.__decorate([
 ], LogController.prototype, "setLogLevel", null);
 tslib_1.__decorate([
     rest_1.post('/setFileLogging', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.boolean('enabled', { required: true })),
     tslib_1.__metadata("design:type", Function),
@@ -120,7 +121,7 @@ tslib_1.__decorate([
 ], LogController.prototype, "setFileLogging", null);
 tslib_1.__decorate([
     rest_1.get('/availableLogFiles', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
@@ -128,7 +129,7 @@ tslib_1.__decorate([
 ], LogController.prototype, "availableLogFiles", null);
 tslib_1.__decorate([
     rest_1.get('/downloadLogFile'),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     rest_1.oas.response.file(),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.string('filename', { required: true })),
@@ -139,7 +140,7 @@ tslib_1.__decorate([
 ], LogController.prototype, "downloadLogFile", null);
 tslib_1.__decorate([
     rest_1.get('/deleteAllLogs', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),

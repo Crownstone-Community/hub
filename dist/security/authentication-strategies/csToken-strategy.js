@@ -6,10 +6,11 @@ const rest_1 = require("@loopback/rest");
 const security_1 = require("@loopback/security");
 const services_1 = require("../../services");
 const context_1 = require("@loopback/context");
+const Constants_1 = require("../../constants/Constants");
 let CsTokenStrategy = class CsTokenStrategy {
     constructor(userService) {
         this.userService = userService;
-        this.name = 'csTokens';
+        this.name = Constants_1.SecurityTypes.sphere;
     }
     async authenticate(request) {
         let access_token = extractToken(request);

@@ -7,10 +7,11 @@ const security_1 = require("@loopback/security");
 const services_1 = require("../../services");
 const context_1 = require("@loopback/context");
 const csToken_strategy_1 = require("./csToken-strategy");
+const Constants_1 = require("../../constants/Constants");
 let CsAdminTokenStrategy = class CsAdminTokenStrategy {
     constructor(userService) {
         this.userService = userService;
-        this.name = 'csAdminToken';
+        this.name = Constants_1.SecurityTypes.admin;
     }
     async authenticate(request) {
         let access_token = csToken_strategy_1.extractToken(request);

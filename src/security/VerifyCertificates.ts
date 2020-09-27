@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import {spawn} from "child_process";
 import {CONFIG} from '../config';
-import {Util} from '../util/Util';
+import path from 'path';
 
 
 export async function verifyCertificate() : Promise<string> {
-  let certificatePath = Util.stripTrailingSlash(CONFIG.httpsCertificatePath || Util.stripTrailingSlash(__dirname) + "/https");
+  let certificatePath = (CONFIG.httpsCertificatePath && path.join(CONFIG.httpsCertificatePath,'https')) || path.join(__dirname,'../../config/https');
 
   let pathExists = fs.existsSync(certificatePath)
   if (!pathExists) {

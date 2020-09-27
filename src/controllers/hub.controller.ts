@@ -13,6 +13,7 @@ import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {authenticate} from '@loopback/authentication';
 import {HubStatus} from '../crownstone/HubStatus';
+import {SecurityTypes} from '../constants/Constants';
 
 /**
  * This controller will echo the state of the hub.
@@ -46,7 +47,7 @@ export class HubController {
 
   // returns a list of our objects
   @post('/uartKey')
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async setUartKey(
     @param.query.string('uartKey', {required:true}) uartKey: string,
   ): Promise<void> {
@@ -67,7 +68,7 @@ export class HubController {
   }
 
   @patch('/hub')
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async updateHub(
     @requestBody({
       content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
@@ -95,7 +96,7 @@ export class HubController {
 
 
   @del('/hub')
-  // @authenticate('csAdminToken')
+  // @authenticate(SecurityTypes.admin)
   async delete(
     @param.query.string('YesImSure', {required:true}) YesImSure: string,
   ): Promise<string> {

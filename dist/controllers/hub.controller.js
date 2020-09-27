@@ -14,6 +14,7 @@ const repositories_1 = require("../repositories");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const authentication_1 = require("@loopback/authentication");
 const HubStatus_1 = require("../crownstone/HubStatus");
+const Constants_1 = require("../constants/Constants");
 /**
  * This controller will echo the state of the hub.
  */
@@ -75,7 +76,7 @@ let HubController = class HubController {
             });
         }
     }
-    // @authenticate('csAdminToken')
+    // @authenticate(SecurityTypes.admin)
     async delete(YesImSure) {
         if (YesImSure !== 'YesImSure') {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
@@ -108,7 +109,7 @@ tslib_1.__decorate([
 ], HubController.prototype, "createHub", null);
 tslib_1.__decorate([
     rest_1.post('/uartKey'),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, rest_1.param.query.string('uartKey', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
@@ -116,7 +117,7 @@ tslib_1.__decorate([
 ], HubController.prototype, "setUartKey", null);
 tslib_1.__decorate([
     rest_1.patch('/hub'),
-    authentication_1.authenticate('csAdminToken'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, rest_1.requestBody({
         content: { 'application/json': { schema: rest_1.getModelSchemaRef(hub_model_1.Hub, { title: 'newHub', exclude: ['id', 'uartKey', 'accessToken', 'accessTokenExpiration'] }) } },
     })),

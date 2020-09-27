@@ -41,13 +41,13 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
       openapi: '3.0.0',
       info: {title: pkg.name, version: pkg.version},
       paths: {},
-      components: {securitySchemes: {csTokens: {
+      components: {securitySchemes: {sphereAuthorizationToken: {
         type: 'apiKey',
         in: 'header',
         name:'access_token'
       }}},
       servers:  [{url: '/api'}],
-      security: [{csTokens: []}]
+      security: [{sphereAuthorizationToken: []}]
     });
 
 

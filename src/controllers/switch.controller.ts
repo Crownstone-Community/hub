@@ -6,6 +6,7 @@ import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
+import {SecurityTypes} from '../constants/Constants';
 
 
 const SwitchDataSchema = {
@@ -45,7 +46,7 @@ export class SwitchController {
   constructor() {}
 
   @post('/turnOn', EmptyReturnCode)
-  @authenticate('csTokens')
+  @authenticate(SecurityTypes.sphere)
   async turnOn(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
@@ -53,7 +54,7 @@ export class SwitchController {
     await CrownstoneHub.uart.switchCrownstones([{type:"TURN_ON", stoneId: crownstoneUID}])
   }
   @post('/turnOff', EmptyReturnCode)
-  @authenticate('csTokens')
+  @authenticate(SecurityTypes.sphere)
   async turnOff(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
@@ -62,7 +63,7 @@ export class SwitchController {
   }
 
   @post('/switch', EmptyReturnCode)
-  @authenticate('csTokens')
+  @authenticate(SecurityTypes.sphere)
   async dim(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
@@ -76,7 +77,7 @@ export class SwitchController {
 
 
   @post('/switchMultiple', EmptyReturnCode)
-  @authenticate('csTokens')
+  @authenticate(SecurityTypes.sphere)
   async switchCrownstones(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @requestBody({

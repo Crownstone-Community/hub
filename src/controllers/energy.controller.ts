@@ -9,6 +9,7 @@ import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
+import {SecurityTypes} from '../constants/Constants';
 
 /**
  * This controller will echo the state of the hub.
@@ -22,7 +23,7 @@ export class EnergyController {
 
 
   @get('/energyRange')
-  @authenticate('csToken')
+  @authenticate(SecurityTypes.sphere)
   async getEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
@@ -41,7 +42,7 @@ export class EnergyController {
 
 
   @get('/energyAvailability')
-  @authenticate('csToken')
+  @authenticate(SecurityTypes.sphere)
   async getEnergyAvailability(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<{crownstoneUID: number, count: number}[]> {
@@ -59,7 +60,7 @@ export class EnergyController {
   }
 
   @del('/energyFromCrownstone')
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async deleteStoneEnergy(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
@@ -68,7 +69,7 @@ export class EnergyController {
   }
 
   @del('/energyData')
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async deleteAllEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<Count> {

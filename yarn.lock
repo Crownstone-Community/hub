@@ -1643,10 +1643,10 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crownstone-cloud@^0.17.9:
-  version "0.17.9"
-  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.9.tgz#0c0f20ac79e7fcfa7726a05dee5baf51a509d963"
-  integrity sha512-MRHBTsB9QHlOdARkrWH4fVobLMH/LU+HVETHhXx9I+eo+ai6GhGW2X3nJcO2wWmQLc7mcUJPH47jA0E8QoZo1A==
+crownstone-cloud@^0.17.11:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.17.11.tgz#587456a7f625f4323a5cf666debd0e4b1a101988"
+  integrity sha512-56EehpEcfurjOqOO8mOETkvGWRnGZR9JAyv+bTtmaSIbuJ0T1jQnTf7x8UB5RXc3gG3FOd9Cqo/jyeKJONAG6Q==
   dependencies:
     cross-fetch "^3.0.4"
     crownstone-core "^0.8.2"
@@ -1682,10 +1682,10 @@ crownstone-sse@^3.0.7:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@^0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.8.7.tgz#97a1d2240ff82a15fab56615fa827daf6ab5bd2e"
-  integrity sha512-kOs9stRgDA+O0TiW8o6YiSOL0SUOFZ4WSeIt919L/5JFZTRGMf4WITkNGcuXYji/rhTYUJE3RcEKTrQYj0Fuxg==
+crownstone-uart@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.8.8.tgz#74d009acbfcbf65828463b48d1837421c6836c2f"
+  integrity sha512-FS6iNV5qzanUt8nE5szoEvFIwOBxmnrSHLgdypBCU0pxMR+OGKMhzqxea0v46fuOrw88+6b2WUC4mR2yRz0Xlg==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.8.2"

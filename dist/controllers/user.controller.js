@@ -32,7 +32,7 @@
 //
 //   // returns a list of our objects
 //   @get('/isAuthenticated')
-//   @authenticate('csTokens')
+//   @authenticate(SecurityTypes.sphere)
 //   async isAuthenticated(
 //     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
 //   ): Promise<string> {

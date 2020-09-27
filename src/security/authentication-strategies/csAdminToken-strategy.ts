@@ -6,6 +6,7 @@ import {UserService} from '../../services';
 import {inject} from '@loopback/context';
 import {Request} from "express-serve-static-core";
 import {extractToken} from './csToken-strategy';
+import {SecurityTypes} from '../../constants/Constants';
 
 
 export interface UserProfileDescription {
@@ -18,7 +19,7 @@ export interface UserProfileDescription {
 type sphereRole = "admin" | "member" | "guest" | "hub"
 
 export class CsAdminTokenStrategy implements AuthenticationStrategy {
-  name = 'csAdminToken';
+  name = SecurityTypes.admin;
 
   constructor(
     @inject('UserService') public userService: UserService,

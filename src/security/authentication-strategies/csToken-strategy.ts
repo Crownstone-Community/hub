@@ -5,6 +5,7 @@ import {securityId, UserProfile} from '@loopback/security';
 import {UserService} from '../../services';
 import {inject} from '@loopback/context';
 import {Request} from "express-serve-static-core";
+import {SecurityTypes} from '../../constants/Constants';
 
 
 export interface UserProfileDescription {
@@ -17,7 +18,7 @@ export interface UserProfileDescription {
 type sphereRole = "admin" | "member" | "guest" | "hub"
 
 export class CsTokenStrategy implements AuthenticationStrategy {
-  name = 'csTokens';
+  name = SecurityTypes.sphere;
 
   constructor(
     @inject('UserService') public userService: UserService,

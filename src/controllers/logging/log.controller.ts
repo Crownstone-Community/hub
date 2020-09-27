@@ -13,6 +13,7 @@ import {EmptyReturnCode} from '../returnCodes/ReturnCodes';
 import * as fs from 'fs';
 import {getHubConfig, storeHubConfig} from '../../util/ConfigUtil';
 import path from 'path';
+import {SecurityTypes} from '../../constants/Constants';
 
 const log = Logger(__filename);
 
@@ -28,7 +29,7 @@ export class LogController {
 
 
   @post('/setLogLevel', EmptyReturnCode)
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async setLogLevel(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.string('consoleLevel', {required:false}) consoleLevel: string,
@@ -53,7 +54,7 @@ export class LogController {
   }
 
   @post('/setFileLogging', EmptyReturnCode)
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async setFileLogging(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.boolean('enabled', {required:true}) enabled: boolean,
@@ -65,7 +66,7 @@ export class LogController {
   }
 
   @get('/availableLogFiles', EmptyReturnCode)
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async availableLogFiles(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<LogFileDetails[]> {
@@ -89,7 +90,7 @@ export class LogController {
   }
 
   @get('/downloadLogFile')
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   @oas.response.file()
   async downloadLogFile(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
@@ -111,7 +112,7 @@ export class LogController {
   }
 
   @get('/deleteAllLogs', EmptyReturnCode)
-  @authenticate('csAdminToken')
+  @authenticate(SecurityTypes.admin)
   async deleteAllLogs(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<void> {
