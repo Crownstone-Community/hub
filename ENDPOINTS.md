@@ -47,7 +47,8 @@ Crownstone consumer app is finalized. Adding a new hub will eventually be done v
 these endpoints.
 
 
-##### POST: /hub
+
+#### POST: /hub
 > `no authorization required`
 >
 > This endpoint is used to instantiate a new hub. You can read the INSTALLATION.MD for more details.
@@ -64,8 +65,9 @@ these endpoints.
 > 
 > If there already is a hub configuration present, this method will throw an error.
 
+<br/>
 
-##### GET: /hubStatus
+#### GET: /hubStatus
 > `no authorization required`
 >
 > You can use this endpoint to get some information on how the hub is doing. The returned data type is:
@@ -81,24 +83,29 @@ these endpoints.
 > }
 >```
 
-##### DELETE: /hub
+<br/>
+
+#### DELETE: /hub
 > `no authorization required (for now)`
 >
 > Use this endpoint to delete the hub instance. The entire database will also be cleared. 
 > From a user data point of view, the hub will return to the initial state when you first received it.
 > Make sure you type YesImSure in the YesImSure field.
 
+<br/>
 
-##### PATCH: /hub
+#### PATCH: /hub
 > `admin authorization required`
 >
 > Update one or more fields of your hub.
 
+<br/>
 
 <a name="MeshController"></a>
 ## MeshController
+This controller will provide you with information on the mesh.
 
-##### GET: /crownstonesInMesh
+#### GET: /crownstonesInMesh
 > `authorization required`
 >
 > You can use this endpoint to see which Crownstones are reachable in the mesh network connected to your hub. 
@@ -116,11 +123,15 @@ these endpoints.
 > ]
 >```
 
+<br/>
+
 <a name="EnergyController"></a>
 ## EnergyController
+This controller will provide you with everything regarding the collected energy data. 
 
-##### GET: /energyAvailability
+#### GET: /energyAvailability
 > `authorization required`
+>
 > This endpoint informs you of the amount of data available per Crownstone.
 > The format of the returned data is:
 >```
@@ -135,7 +146,9 @@ these endpoints.
 >]
 >```
 
-##### GET: /energyRange
+<br/>
+
+#### GET: /energyRange
 > `authorization required`
 >
 >This is where you get the energy data. You provide the Crownstone short UID, a from and until ISO timestring and finally a maximum amount of datapoints to collect.
@@ -152,31 +165,52 @@ these endpoints.
 >]
 >```
 
-##### DELETE: /energyData
+<br/>
+
+#### DELETE: /energyData
 > `admin authorization required`
+>
 > Delete all energy data from this hub.
 
+<br/>
 
-##### DELETE: /energyFromCrownstone
+#### DELETE: /energyFromCrownstone
 > `admin authorization required`
+>
 > Delete all energy data for a specific Crownstone from this hub.
+
+<br/>
 
 <a name="SwitchController"></a>
 ## SwitchController
+This controller will handle all your requirements for switching and dimming the Crownstones in your network.
 
-##### POST: /turnOff
+#### POST: /turnOff
+> `authorization required`
+>
 > Turn off the Crownstone with the provided Crownstone short uid. 
 
-##### POST: /turnOn
+<br/>
+
+#### POST: /turnOn
+> `authorization required`
+>
 > Turn on the Crownstone with the provided Crownstone short uid. Turn on will respect behaviour and twilight preferences of the Crownstone,
 > whereas switch with 100% will just set the light to 100% regardless of the behaviour.
 
+<br/>
 
-##### POST: /switch
+#### POST: /switch
+> `authorization required`
+>
 > Set the switch of the Crownstone that has the provided short UID to the provided percentage (0, 10-100). 
 > Dimming between 0 and 10% is not allowed.
 
-##### POST: /switchMultiple
+<br/>
+
+#### POST: /switchMultiple
+> `authorization required`
+>
 > Switch a number of Crownstones at the same time. You have to provide an array of SwitchData objects which are described below. 
 > The difference between turn on and percentage is described above.
 >```
