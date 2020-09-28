@@ -7,13 +7,34 @@ interface Crownstone {
     switchcraft: boolean;
     tapToToggle: boolean;
     cloudId: string;
+    locationCloudId: string;
+    updatedAt: number;
+}
+interface Location {
+    name: string;
+    uid: number;
+    icon: string;
+    cloudId: string;
     updatedAt: number;
 }
 declare class MemoryDbClass {
     stones: {
-        [key: string]: Crownstone;
+        [shortUid: string]: Crownstone;
     };
+    locations: {
+        [shortUid: string]: Location;
+    };
+    locationByCloudId: {
+        [cloudId: string]: Location;
+    };
+    loadCloudLocationData(locationData: cloud_Location[]): void;
     loadCloudStoneData(stoneData: cloud_Stone[]): void;
 }
+export declare function fillWithStoneData(uid: number | string): {
+    uid: number;
+    name: string | null;
+    cloudId: string | null;
+    locationName: string | null;
+};
 export declare const MemoryDb: MemoryDbClass;
 export {};

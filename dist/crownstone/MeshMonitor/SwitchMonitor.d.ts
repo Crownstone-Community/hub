@@ -5,7 +5,7 @@
  */
 export declare class SwitchMonitor {
     lastSwitchStates: {
-        [key: number]: number;
+        [stoneUID: string]: number;
     };
     collect(crownstoneUid: number, switchState: number, upload?: boolean): void;
 }

@@ -1,10 +1,52 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MemoryDb = void 0;
+exports.MemoryDb = exports.fillWithStoneData = void 0;
 class MemoryDbClass {
     constructor() {
         // the key of the stones is the UID, the short-uint8 id.
         this.stones = {};
+        // the key of the locations is the UID, the short-uint8 id.
+        this.locations = {};
+    }
+    loadCloudLocationData(locationData) {
+        let usedUIDs = {};
+        Object.keys(this.stones).forEach((uid) => { usedUIDs[uid] = false; });
+        // load cloud data into local data store
+        locationData.forEach((cloudLocation) => {
+            let uid = cloudLocation.uid;
+            let cloudDataUpdateTime = new Date(cloudLocation.updatedAt).valueOf();
+            usedUIDs[uid] = true;
+            if (this.locations[uid] === undefined) {
+                this.locations[uid] = {
+                    name: cloudLocation.name,
+                    uid: cloudLocation.uid,
+                    icon: cloudLocation.icon,
+                    cloudId: cloudLocation.id,
+                    updatedAt: cloudDataUpdateTime,
+                };
+            }
+            else {
+                if (this.locations[uid].updatedAt < cloudDataUpdateTime) {
+                    this.locations[uid].name = cloudLocation.name;
+                    this.locations[uid].uid = cloudLocation.uid;
+                    this.locations[uid].icon = cloudLocation.icon;
+                    this.locations[uid].cloudId = cloudLocation.id;
+                    this.locations[uid].updatedAt = cloudDataUpdateTime;
+                }
+            }
+        });
+        // cleanup
+        Object.keys(usedUIDs).forEach((uid) => {
+            if (usedUIDs[uid] === false) {
+                delete this.locations[uid];
+            }
+        });
+        // fill the cloudId map
+        this.locationByCloudId = {};
+        Object.keys(this.locations).forEach((uid) => {
+            let location = this.locations[uid];
+            this.locationByCloudId[location.cloudId] = location;
+        });
     }
     loadCloudStoneData(stoneData) {
         let usedUIDs = {};
@@ -19,6 +61,7 @@ class MemoryDbClass {
                     name: cloudStone.name,
                     uid: cloudStone.uid,
                     locked: cloudStone.locked,
+                    locationCloudId: cloudStone.locationId,
                     cloudId: cloudStone.id,
                     updatedAt: cloudDataUpdateTime,
                     switchState: null,
@@ -33,6 +76,7 @@ class MemoryDbClass {
                     this.stones[uid].uid = cloudStone.uid;
                     this.stones[uid].locked = cloudStone.locked;
                     this.stones[uid].cloudId = cloudStone.id;
+                    this.stones[uid].locationCloudId = cloudStone.locationId;
                     this.stones[uid].updatedAt = cloudDataUpdateTime;
                 }
                 this.stones[uid].switchcraft = getAbilityData("switchcraft", cloudStone.abilities, this.stones[uid]);
@@ -69,5 +113,24 @@ function getAbilityData(type, abilities, stoneItem) {
     }
     return false;
 }
+function fillWithStoneData(uid) {
+    var _a;
+    let object = {};
+    let stone = exports.MemoryDb.stones[uid];
+    if (!stone) {
+        object.name = null;
+        object.locationName = null;
+        object.uid = Number(uid);
+        object.cloudId = null;
+        return object;
+    }
+    let locationName = ((_a = exports.MemoryDb.locationByCloudId[stone.locationCloudId]) === null || _a === void 0 ? void 0 : _a.name) || null;
+    object.name = stone.name;
+    object.locationName = locationName;
+    object.uid = Number(uid);
+    object.cloudId = stone.cloudId;
+    return object;
+}
+exports.fillWithStoneData = fillWithStoneData;
 exports.MemoryDb = new MemoryDbClass();
 //# sourceMappingURL=MemoryDb.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateLoggingBasedOnConfig = exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = void 0;
+exports.updateLoggingBasedOnConfig = exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = exports.BOOT_TIME = void 0;
 const tslib_1 = require("tslib");
 const boot_1 = require("@loopback/boot");
 const rest_explorer_1 = require("@loopback/rest-explorer");
@@ -19,6 +19,7 @@ const csAdminToken_strategy_1 = require("./security/authentication-strategies/cs
 const Logger_1 = require("./Logger");
 const pkg = require('../package.json');
 const log = Logger_1.Logger(__filename);
+exports.BOOT_TIME = Date.now();
 class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
     constructor(options = {}) {
         let executionPath = __dirname;

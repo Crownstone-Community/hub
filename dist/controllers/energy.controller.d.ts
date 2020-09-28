@@ -8,11 +8,13 @@ export declare class EnergyController {
     protected energyDataProcessedRepo: EnergyDataProcessedRepository;
     protected energyDataRepo: EnergyDataRepository;
     constructor(energyDataProcessedRepo: EnergyDataProcessedRepository, energyDataRepo: EnergyDataRepository);
-    getEnergyData(userProfile: UserProfileDescription, crownstoneUID: number, from: Date, until: Date, limit: number): Promise<import("../models").EnergyDataProcessed[]>;
     getEnergyAvailability(userProfile: UserProfileDescription): Promise<{
         crownstoneUID: number;
+        name: string;
+        locationName: string;
         count: number;
     }[]>;
+    getEnergyData(userProfile: UserProfileDescription, crownstoneUID: number, from: Date, until: Date, limit: number): Promise<import("../models").EnergyDataProcessed[]>;
     deleteStoneEnergy(userProfile: UserProfileDescription, crownstoneUID: number): Promise<Count>;
     deleteAllEnergyData(userProfile: UserProfileDescription): Promise<Count>;
 }

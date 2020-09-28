@@ -5,6 +5,7 @@ export interface PackageInfo {
     version: string;
     description: string;
 }
+export declare let BOOT_TIME: number;
 declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     projectRoot: string;
     bootOptions?: import("@loopback/boot").BootOptions | undefined;

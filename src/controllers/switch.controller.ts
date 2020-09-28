@@ -16,8 +16,8 @@ const SwitchDataSchema = {
       required: ['type', 'crownstoneId'],
       properties: {
         type: {type: 'TURN_ON'},
-        crownstoneId: { type: 'number' },
-        value: {type:'null'}
+        crownstoneUID: { type: 'number' },
+        percentage: { type:'null' }
       }
     },
     {
@@ -25,17 +25,17 @@ const SwitchDataSchema = {
       required: ['type', 'crownstoneId'],
       properties: {
         type: {type: 'TURN_OFF'},
-        crownstoneId: { type: 'number' },
-        value: {type:'null'}
+        crownstoneUID: { type: 'number' },
+        percentage: { type:'null' }
       }
     },
     {
       type: 'object',
       required: ['type', 'crownstoneId', 'value'],
       properties: {
-        type: { type: "DIMMING" },
-        crownstoneId: { type: 'number' },
-        value: { type:'number' }
+        type: { type: "PERCENTAGE" },
+        crownstoneUID: { type: 'number' },
+        percentage: { type:'number' }
       }
     }
   ]
@@ -67,12 +67,12 @@ export class SwitchController {
   async dim(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
-    @param.query.number('switchState',   {required:true}) switchState:   number,
+    @param.query.number('percentage',   {required:true}) percentage:   number,
   ) : Promise<void> {
-    if (switchState < 0 || switchState > 0 && switchState <= 1 || switchState > 100) {
-      throw new HttpErrors.UnprocessableEntity("Switch state must be between 0 and 100.")
+    if (percentage < 0 || percentage > 100 || (percentage > 0 && percentage < 10)) {
+      throw new HttpErrors.UnprocessableEntity("Switch state must be 0 or between 10 and 100.")
     }
-    await CrownstoneHub.uart.switchCrownstones([{type:"PERCENTAGE", stoneId: crownstoneUID, percentage: switchState}])
+    await CrownstoneHub.uart.switchCrownstones([{type:"PERCENTAGE", stoneId: crownstoneUID, percentage: percentage}])
   }
 
 
@@ -85,6 +85,18 @@ export class SwitchController {
     })
       switchData: SwitchData[],
   ) : Promise<void> {
+    if (switchData && Array.isArray(switchData)) {
+      for (let i = 0; i < switchData.length; i++) {
+        let switchElement = switchData[i];
+        if ('percentage' in switchElement) {
+          let percentage = switchElement.percentage;
+          if (percentage < 0 || percentage > 100 || (percentage > 0 && percentage < 10)) {
+            throw new HttpErrors.UnprocessableEntity("Switch state must be 0 or between 10 and 100.")
+          }
+        }
+      }
+    }
+
     await CrownstoneHub.uart.switchCrownstones(switchData)
   }
 

@@ -9,6 +9,6 @@ export function resetHubStatus() {
     loggedIntoSSE: false,
     syncedWithCloud: false,
     uartReady: false,
-    belongsToSphere: 'none',
+    belongsToSphere: 'none'
   }
 }

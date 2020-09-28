@@ -10,6 +10,7 @@ import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 import {SecurityTypes} from '../constants/Constants';
+import {fillWithStoneData, MemoryDb} from '../crownstone/Data/MemoryDb';
 
 /**
  * This controller will echo the state of the hub.
@@ -20,6 +21,32 @@ export class EnergyController {
     @repository(EnergyDataProcessedRepository) protected energyDataProcessedRepo: EnergyDataProcessedRepository,
     @repository(EnergyDataRepository) protected energyDataRepo: EnergyDataRepository,
   ) {}
+
+
+  @get('/energyAvailability')
+  @authenticate(SecurityTypes.sphere)
+  async getEnergyAvailability(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<{crownstoneUID: number, name: string, locationName: string, count: number}[]> {
+    let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
+    if (collection) {
+      let result = [];
+      let uids = await collection.distinct('stoneUID');
+      for (let i = 0; i < uids.length; i++) {
+        let data : any = fillWithStoneData(uids[i]);
+        data.count = 0;
+        if (data.cloudId) {
+          let countData = await this.energyDataProcessedRepo.count({stoneUID: uids[i]});
+          if (countData) {
+            data.count = countData.count;
+          }
+          result.push(data);
+        }
+      }
+      return result;
+    }
+    throw new HttpErrors.InternalServerError("Could not get distinct list");
+  }
 
 
   @get('/energyRange')
@@ -41,31 +68,14 @@ export class EnergyController {
   }
 
 
-  @get('/energyAvailability')
-  @authenticate(SecurityTypes.sphere)
-  async getEnergyAvailability(
-    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-  ) : Promise<{crownstoneUID: number, count: number}[]> {
-    let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
-    if (collection) {
-      let result = [];
-      let uids = await collection.distinct('stoneUID');
-      for (let i = 0; i < uids.length; i++) {
-        let count = await this.energyDataProcessedRepo.count({stoneUID: uids[i]});
-        result.push({crownstoneUID: uids[i] as number, count: count.count});
-      }
-      return result;
-    }
-    throw new HttpErrors.InternalServerError("Could not get distinct list");
-  }
-
   @del('/energyFromCrownstone')
   @authenticate(SecurityTypes.admin)
   async deleteStoneEnergy(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
   ) : Promise<Count> {
-   return this.energyDataProcessedRepo.deleteAll({stoneUID: crownstoneUID})
+    await this.energyDataRepo.deleteAll({stoneUID: crownstoneUID})
+    return this.energyDataProcessedRepo.deleteAll({stoneUID: crownstoneUID})
   }
 
   @del('/energyData')
@@ -73,9 +83,8 @@ export class EnergyController {
   async deleteAllEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<Count> {
-    let count = await this.energyDataProcessedRepo.deleteAll()
-    await this.energyDataRepo.deleteAll()
-    return count;
+    await this.energyDataRepo.deleteAll();
+    return this.energyDataProcessedRepo.deleteAll();
   }
 
 

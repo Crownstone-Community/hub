@@ -9,19 +9,19 @@ import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
  * we update the state in the cloud.
  */
 export class SwitchMonitor {
-  lastSwitchStates : {[key:number]: number} = {};
+  lastSwitchStates : {[stoneUID : string]: number} = {};
 
   collect( crownstoneUid: number, switchState: number, upload: boolean = true ) {
-    if (switchState !== this.lastSwitchStates[crownstoneUid]) {
-      DbRef.switches.create({ stoneUID: crownstoneUid, switchState: switchState, timestamp: new Date() });
-      this.lastSwitchStates[crownstoneUid] = switchState;
+    let switchStateConverted = Math.min(100, Math.max(switchState));
+
+    if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
+      DbRef.switches.create({ stoneUID: crownstoneUid, switchState: switchStateConverted, timestamp: new Date() });
+      this.lastSwitchStates[crownstoneUid] = switchStateConverted;
 
       if (MemoryDb.stones[crownstoneUid] && upload) {
         let cloudId = MemoryDb.stones[crownstoneUid].cloudId;
-        let cloudSwitchState = Math.min(0, Math.max(switchState));
-
         CloudCommandHandler.addToQueue((CM) => {
-          return CM.cloud.crownstone(cloudId).setCurrentSwitchState(cloudSwitchState).catch()
+          return CM.cloud.crownstone(cloudId).setCurrentSwitchState(switchStateConverted).catch()
         })
       }
 

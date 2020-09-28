@@ -26,6 +26,8 @@ export interface PackageInfo {
 const pkg: PackageInfo = require('../package.json');
 const log = Logger(__filename);
 
+export let BOOT_TIME = Date.now();
+
 export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     let executionPath = __dirname;

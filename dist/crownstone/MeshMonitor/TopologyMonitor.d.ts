@@ -1,6 +1,6 @@
 export declare class TopologyMonitor {
     crownstonesInMesh: {
-        [stoneUid: number]: number;
+        [stoneUID: string]: number;
     };
     collect(crownstoneId: number): void;
 }

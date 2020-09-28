@@ -15,6 +15,7 @@ const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const authentication_1 = require("@loopback/authentication");
 const HubStatus_1 = require("../crownstone/HubStatus");
 const Constants_1 = require("../constants/Constants");
+const application_1 = require("../application");
 /**
  * This controller will echo the state of the hub.
  */
@@ -23,7 +24,6 @@ let HubController = class HubController {
         this.hubRepo = hubRepo;
         this.userRepo = userRepo;
     }
-    // returns a list of our objects
     async createHub(newHub) {
         if (await this.hubRepo.isSet() === false) {
             return this.hubRepo.create(newHub)
@@ -35,23 +35,26 @@ let HubController = class HubController {
             throw new rest_1.HttpErrors.Forbidden("Hub already created and initialized.");
         }
     }
-    // returns a list of our objects
-    async setUartKey(uartKey) {
-        let currentHub = await this.hubRepo.get();
-        if (currentHub === null) {
-            throw new rest_1.HttpErrors.NotFound("No hub configured.");
-        }
-        else {
-            if (uartKey.length !== 32) {
-                throw new rest_1.HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
-            }
-            currentHub.uartKey = uartKey;
-            return this.hubRepo.update(currentHub)
-                .then(() => {
-                HubEventBus_1.eventBus.emit(topics_1.topics.HUB_UART_KEY_UPDATED);
-            });
-        }
-    }
+    // @post('/uartKey')
+    // @authenticate(SecurityTypes.admin)
+    // async setUartKey(
+    //   @param.query.string('uartKey', {required:true}) uartKey: string,
+    // ): Promise<void> {
+    //   let currentHub = await this.hubRepo.get()
+    //   if (currentHub === null) {
+    //     throw new HttpErrors.NotFound("No hub configured.");
+    //   }
+    //   else {
+    //     if (uartKey.length !== 32) {
+    //       throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
+    //     }
+    //     currentHub.uartKey = uartKey;
+    //     return this.hubRepo.update(currentHub)
+    //       .then(() => {
+    //         eventBus.emit(topics.HUB_UART_KEY_UPDATED);
+    //       })
+    //   }
+    // }
     async updateHub(editedHub) {
         let currentHub = await this.hubRepo.get();
         if (currentHub === null) {
@@ -95,7 +98,7 @@ let HubController = class HubController {
         if (currentHub === null) {
             throw new rest_1.HttpErrors.NotFound("No hub configured.");
         }
-        return HubStatus_1.HubStatus;
+        return { ...HubStatus_1.HubStatus, uptime: Math.round((Date.now() - application_1.BOOT_TIME) * 0.001) };
     }
 };
 tslib_1.__decorate([
@@ -107,14 +110,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "createHub", null);
-tslib_1.__decorate([
-    rest_1.post('/uartKey'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, rest_1.param.query.string('uartKey', { required: true })),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [String]),
-    tslib_1.__metadata("design:returntype", Promise)
-], HubController.prototype, "setUartKey", null);
 tslib_1.__decorate([
     rest_1.patch('/hub'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),

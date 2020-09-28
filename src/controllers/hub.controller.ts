@@ -14,6 +14,7 @@ import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {authenticate} from '@loopback/authentication';
 import {HubStatus} from '../crownstone/HubStatus';
 import {SecurityTypes} from '../constants/Constants';
+import {BOOT_TIME} from '../application';
 
 /**
  * This controller will echo the state of the hub.
@@ -26,7 +27,6 @@ export class HubController {
   ) {}
 
 
-  // returns a list of our objects
   @post('/hub')
   async createHub(
     @requestBody({
@@ -45,27 +45,26 @@ export class HubController {
     }
   }
 
-  // returns a list of our objects
-  @post('/uartKey')
-  @authenticate(SecurityTypes.admin)
-  async setUartKey(
-    @param.query.string('uartKey', {required:true}) uartKey: string,
-  ): Promise<void> {
-    let currentHub = await this.hubRepo.get()
-    if (currentHub === null) {
-      throw new HttpErrors.NotFound("No hub configured.");
-    }
-    else {
-      if (uartKey.length !== 32) {
-        throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
-      }
-      currentHub.uartKey = uartKey;
-      return this.hubRepo.update(currentHub)
-        .then(() => {
-          eventBus.emit(topics.HUB_UART_KEY_UPDATED);
-        })
-    }
-  }
+  // @post('/uartKey')
+  // @authenticate(SecurityTypes.admin)
+  // async setUartKey(
+  //   @param.query.string('uartKey', {required:true}) uartKey: string,
+  // ): Promise<void> {
+  //   let currentHub = await this.hubRepo.get()
+  //   if (currentHub === null) {
+  //     throw new HttpErrors.NotFound("No hub configured.");
+  //   }
+  //   else {
+  //     if (uartKey.length !== 32) {
+  //       throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
+  //     }
+  //     currentHub.uartKey = uartKey;
+  //     return this.hubRepo.update(currentHub)
+  //       .then(() => {
+  //         eventBus.emit(topics.HUB_UART_KEY_UPDATED);
+  //       })
+  //   }
+  // }
 
   @patch('/hub')
   @authenticate(SecurityTypes.admin)
@@ -119,6 +118,6 @@ export class HubController {
     if (currentHub === null) {
       throw new HttpErrors.NotFound("No hub configured.");
     }
-    return HubStatus;
+    return {...HubStatus, uptime: Math.round((Date.now() - BOOT_TIME)*0.001)};
   }
 }

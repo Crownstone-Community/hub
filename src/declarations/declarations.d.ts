@@ -26,5 +26,6 @@ interface HubStatus {
   loggedIntoSSE: boolean,
   syncedWithCloud: boolean,
   uartReady: boolean,
-  belongsToSphere: string
+  belongsToSphere: string,
+  uptime?: number
 }

@@ -247,6 +247,23 @@ export class CloudManager {
       }
     }
 
+    let locationsSynced = false;
+    while (locationsSynced === false && this.resetTriggered === false) {
+      try {
+        let locations = await this.cloud.sphere(this.sphereId).locations();
+        if (locations) { MemoryDb.loadCloudLocationData(locations); }
+        locationsSynced = true;
+      }
+      catch(e) {
+        HubStatus.syncedWithCloud = false;
+        // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
+        // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
+        log.warn("Error in sync", e);
+        if (e && e.statusCode && e.statusCode === 401) { throw 401; }
+        await Util.wait(RETRY_INTERVAL_MS);
+      }
+    }
+
     HubStatus.syncedWithCloud = true;
     log.info("Cloudmanager SYNC finished.");
     this.syncInProgress = false;

@@ -1,6 +1,13 @@
+interface CrownstoneInMeshData {
+    uid: number;
+    name: string | null;
+    cloudId: string | null;
+    locationName: string | null;
+    lastSeen: Date;
+    lastSeenSwitchState: number | null;
+}
 export declare class MeshController {
     constructor();
-    switchCrownstones(): Promise<{
-        [stoneUid: number]: number;
-    }>;
+    getCrownstonesInMesh(): Promise<CrownstoneInMeshData[]>;
 }
+export {};

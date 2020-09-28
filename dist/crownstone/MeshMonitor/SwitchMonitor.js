@@ -14,14 +14,14 @@ class SwitchMonitor {
         this.lastSwitchStates = {};
     }
     collect(crownstoneUid, switchState, upload = true) {
-        if (switchState !== this.lastSwitchStates[crownstoneUid]) {
-            DbReference_1.DbRef.switches.create({ stoneUID: crownstoneUid, switchState: switchState, timestamp: new Date() });
-            this.lastSwitchStates[crownstoneUid] = switchState;
+        let switchStateConverted = Math.min(100, Math.max(switchState));
+        if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
+            DbReference_1.DbRef.switches.create({ stoneUID: crownstoneUid, switchState: switchStateConverted, timestamp: new Date() });
+            this.lastSwitchStates[crownstoneUid] = switchStateConverted;
             if (MemoryDb_1.MemoryDb.stones[crownstoneUid] && upload) {
                 let cloudId = MemoryDb_1.MemoryDb.stones[crownstoneUid].cloudId;
-                let cloudSwitchState = Math.min(0, Math.max(switchState));
                 CloudCommandHandler_1.CloudCommandHandler.addToQueue((CM) => {
-                    return CM.cloud.crownstone(cloudId).setCurrentSwitchState(cloudSwitchState).catch();
+                    return CM.cloud.crownstone(cloudId).setCurrentSwitchState(switchStateConverted).catch();
                 });
             }
         }

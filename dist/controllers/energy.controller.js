@@ -11,6 +11,7 @@ const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");
 const security_1 = require("@loopback/security");
 const Constants_1 = require("../constants/Constants");
+const MemoryDb_1 = require("../crownstone/Data/MemoryDb");
 /**
  * This controller will echo the state of the hub.
  */
@@ -18,6 +19,27 @@ let EnergyController = class EnergyController {
     constructor(energyDataProcessedRepo, energyDataRepo) {
         this.energyDataProcessedRepo = energyDataProcessedRepo;
         this.energyDataRepo = energyDataRepo;
+    }
+    async getEnergyAvailability(userProfile) {
+        var _a;
+        let collection = (_a = this.energyDataProcessedRepo.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
+        if (collection) {
+            let result = [];
+            let uids = await collection.distinct('stoneUID');
+            for (let i = 0; i < uids.length; i++) {
+                let data = MemoryDb_1.fillWithStoneData(uids[i]);
+                data.count = 0;
+                if (data.cloudId) {
+                    let countData = await this.energyDataProcessedRepo.count({ stoneUID: uids[i] });
+                    if (countData) {
+                        data.count = countData.count;
+                    }
+                    result.push(data);
+                }
+            }
+            return result;
+        }
+        throw new rest_1.HttpErrors.InternalServerError("Could not get distinct list");
     }
     async getEnergyData(userProfile, crownstoneUID, from, until, limit) {
         let filters = [{ stoneUID: crownstoneUID }];
@@ -31,29 +53,23 @@ let EnergyController = class EnergyController {
         // @ts-ignore
         return await this.energyDataProcessedRepo.find(query);
     }
-    async getEnergyAvailability(userProfile) {
-        var _a;
-        let collection = (_a = this.energyDataProcessedRepo.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
-        if (collection) {
-            let result = [];
-            let uids = await collection.distinct('stoneUID');
-            for (let i = 0; i < uids.length; i++) {
-                let count = await this.energyDataProcessedRepo.count({ stoneUID: uids[i] });
-                result.push({ crownstoneUID: uids[i], count: count.count });
-            }
-            return result;
-        }
-        throw new rest_1.HttpErrors.InternalServerError("Could not get distinct list");
-    }
     async deleteStoneEnergy(userProfile, crownstoneUID) {
+        await this.energyDataRepo.deleteAll({ stoneUID: crownstoneUID });
         return this.energyDataProcessedRepo.deleteAll({ stoneUID: crownstoneUID });
     }
     async deleteAllEnergyData(userProfile) {
-        let count = await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.deleteAll();
-        return count;
+        return this.energyDataProcessedRepo.deleteAll();
     }
 };
+tslib_1.__decorate([
+    rest_1.get('/energyAvailability'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], EnergyController.prototype, "getEnergyAvailability", null);
 tslib_1.__decorate([
     rest_1.get('/energyRange'),
     authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
@@ -67,14 +83,6 @@ tslib_1.__decorate([
         Date, Number]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "getEnergyData", null);
-tslib_1.__decorate([
-    rest_1.get('/energyAvailability'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", Promise)
-], EnergyController.prototype, "getEnergyAvailability", null);
 tslib_1.__decorate([
     rest_1.del('/energyFromCrownstone'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
