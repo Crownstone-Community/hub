@@ -34,7 +34,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   async initialize() {
     resetHubStatus();
     let hub = await DbRef.hub.get();
-    if (hub && hub.cloudId === 'null') {
+    if (hub && hub.cloudId !== 'null') {
       log.info("Launching Modules");
 
       if (this.launched === false) {

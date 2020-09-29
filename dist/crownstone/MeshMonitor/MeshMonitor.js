@@ -17,10 +17,10 @@ class MeshMonitor {
         this.energy = new EnergyMonitor_1.EnergyMonitor(this.hubReference);
         this.switch = new SwitchMonitor_1.SwitchMonitor();
         this.topology = new TopologyMonitor_1.TopologyMonitor();
-        this.setupEvents();
     }
     init() {
         this.energy.init();
+        this.setupEvents();
     }
     cleanup() {
         this.unsubscribeEventListener();

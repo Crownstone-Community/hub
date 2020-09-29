@@ -25,12 +25,11 @@ export class MeshMonitor {
     this.energy   = new EnergyMonitor(this.hubReference);
     this.switch   = new SwitchMonitor();
     this.topology = new TopologyMonitor();
-
-    this.setupEvents();
   }
 
   init() {
     this.energy.init();
+    this.setupEvents();
   }
 
   cleanup() {

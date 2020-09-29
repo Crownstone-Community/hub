@@ -31,6 +31,7 @@ export async function main(options: ApplicationConfig = {}) {
   await server.start();
   log.info(`Server started.`);
 
+
   log.info(`Creating Database References...`);
   DbRef.hub             = await server.lbApp.getRepository(HubRepository)
   DbRef.power           = await server.lbApp.getRepository(PowerDataRepository)

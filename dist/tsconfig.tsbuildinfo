@@ -2541,7 +2541,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/meshmonitor.ts": {
-        "version": "8ca8b042e83e6114af0d67e03b7fe320af957a75b97ed628b5d8bebeb196c4b4",
+        "version": "17adfa03d2c8cd6ee6359003635c97a6adc1095e21a4b42cc242681dfd82d956",
         "signature": "16bd73e97565b805f66e1273dfcaa784f0f636e5fac72240342f1b09c5e8b91e",
         "affectsGlobalScope": false
       },
@@ -2551,7 +2551,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "f16701a1183f48af48554e461a6e3f974406c5a43accff48d19d7bbeac5cbe1d",
+        "version": "d947547c65f69f8492d832ca80359e8cdcea3b4d6a5061d65e6d5907b90cb262",
         "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
         "affectsGlobalScope": false
       },
@@ -2641,7 +2641,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "bf792846314897f6e95c1e612212b9862d7c5343f5610eb8ea55c07a7f75f119",
+        "version": "476b6cdad7b0de0903511460639368f12d1910144a92e733d578ec58fa9236a0",
         "signature": "9c4af631ae06937e8e55b0e1fcea32aa0802711846037774adabf0355bb87153",
         "affectsGlobalScope": false
       },
