@@ -2551,7 +2551,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "817cf3db26e26091437317b4f2a05fba348a55a7c8f46025453a824d0566c2ae",
+        "version": "f16701a1183f48af48554e461a6e3f974406c5a43accff48d19d7bbeac5cbe1d",
         "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
         "affectsGlobalScope": false
       },
@@ -2641,7 +2641,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "fd28223986928dd0389609f3a6417d6bf75b916332b41d436200a05d245ae5c8",
+        "version": "bf792846314897f6e95c1e612212b9862d7c5343f5610eb8ea55c07a7f75f119",
         "signature": "9c4af631ae06937e8e55b0e1fcea32aa0802711846037774adabf0355bb87153",
         "affectsGlobalScope": false
       },
@@ -2656,7 +2656,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "48238a74ed6d81444d0df9bd6d3664e70be63d03981f0b758de6ccea98cf0d29",
+        "version": "fee85391ae046e74d64fea09b58c50fa2195a78695f079c1b1ccd20f0c863d42",
         "signature": "8ad39eec9ab2e3dc11b4088f5027a31d40f23527afc91c2f09b0d32d851f7d2f",
         "affectsGlobalScope": false
       },
@@ -5315,13 +5315,11 @@
         "../src/security/authentication-strategies/cstoken-strategy.ts"
       ],
       "../src/controllers/hub.controller.ts": [
-        "../node_modules/@loopback/authentication/dist/index.d.ts",
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../node_modules/@loopback/repository/src/common-types.ts",
         "../node_modules/@loopback/rest/dist/index.d.ts",
         "../node_modules/crownstone-cloud/dist/index.d.ts",
         "../src/application.ts",
-        "../src/constants/constants.ts",
         "../src/crownstone/crownstonehub.ts",
         "../src/crownstone/hubeventbus.ts",
         "../src/crownstone/hubstatus.ts",

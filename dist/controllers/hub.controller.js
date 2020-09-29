@@ -100,6 +100,7 @@ let HubController = class HubController {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
         }
         if (await this.hubRepo.isSet() === true) {
+            HubStatus_1.resetHubStatus();
             HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
             await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
             return "Success.";

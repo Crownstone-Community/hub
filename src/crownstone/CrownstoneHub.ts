@@ -34,7 +34,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   async initialize() {
     resetHubStatus();
     let hub = await DbRef.hub.get();
-    if (hub && hub.id) {
+    if (hub && hub.cloudId === 'null') {
       log.info("Launching Modules");
 
       if (this.launched === false) {
@@ -62,6 +62,9 @@ export class CrownstoneHubClass implements CrownstoneHub {
           }
         }
       }
+      else {
+        log.info("Modules already launched. No need to launch again...")
+      }
     }
     else {
       log.info("Hub not configured yet.")
@@ -73,11 +76,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
   async cleanupAndDestroy() {
     this.launched = false;
-
     await this.mesh.cleanup();
-
     await this.timeKeeper.stop();
-
     await CrownstoneHub.cloud.cleanup();
 
     await EMPTY_DATABASE();

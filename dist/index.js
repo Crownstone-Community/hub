@@ -12,7 +12,6 @@ const Logger_1 = require("./Logger");
 const log = Logger_1.Logger(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
-    var _a;
     application_1.updateLoggingBasedOnConfig();
     log.info(`Creating Server...`);
     const server = new server_1.ExpressServer();
@@ -21,8 +20,6 @@ async function main(options = {}) {
     log.info(`Server starting...`);
     await server.start();
     log.info(`Server started.`);
-    const port = (_a = server.lbApp.restServer.config.port) !== null && _a !== void 0 ? _a : 3000;
-    // const host = server.lbApp.restServer.config.host ?? 'NO-HOST';
     log.info(`Creating Database References...`);
     DbReference_1.DbRef.hub = await server.lbApp.getRepository(repositories_1.HubRepository);
     DbReference_1.DbRef.power = await server.lbApp.getRepository(repositories_1.PowerDataRepository);

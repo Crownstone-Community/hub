@@ -25,7 +25,7 @@ class CrownstoneHubClass {
     async initialize() {
         HubStatus_1.resetHubStatus();
         let hub = await DbReference_1.DbRef.hub.get();
-        if (hub && hub.id) {
+        if (hub && hub.cloudId === 'null') {
             log.info("Launching Modules");
             if (this.launched === false) {
                 // execute modules
@@ -48,6 +48,9 @@ class CrownstoneHubClass {
                         log.info("Initialization failed", e);
                     }
                 }
+            }
+            else {
+                log.info("Modules already launched. No need to launch again...");
             }
         }
         else {

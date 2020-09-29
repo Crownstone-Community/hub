@@ -31,9 +31,6 @@ export async function main(options: ApplicationConfig = {}) {
   await server.start();
   log.info(`Server started.`);
 
-  const port = server.lbApp.restServer.config.port ?? 3000;
-  // const host = server.lbApp.restServer.config.host ?? 'NO-HOST';
-
   log.info(`Creating Database References...`);
   DbRef.hub             = await server.lbApp.getRepository(HubRepository)
   DbRef.power           = await server.lbApp.getRepository(PowerDataRepository)

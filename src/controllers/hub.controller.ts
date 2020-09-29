@@ -11,9 +11,7 @@ import {eventBus} from '../crownstone/HubEventBus';
 import {topics} from '../crownstone/topics';
 import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
-import {authenticate} from '@loopback/authentication';
-import {HubStatus} from '../crownstone/HubStatus';
-import {SecurityTypes} from '../constants/Constants';
+import {HubStatus, resetHubStatus} from '../crownstone/HubStatus';
 import {BOOT_TIME} from '../application';
 import {CrownstoneCloud} from 'crownstone-cloud';
 
@@ -118,6 +116,7 @@ export class HubController {
       throw new HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
     }
     if (await this.hubRepo.isSet() === true) {
+      resetHubStatus();
       eventBus.emit(topics.HUB_DELETED);
       await CrownstoneHub.cleanupAndDestroy();
       return "Success."
