@@ -53,6 +53,18 @@ let EnergyController = class EnergyController {
         // @ts-ignore
         return await this.energyDataProcessedRepo.find(query);
     }
+    async getRawEnergyData(userProfile, crownstoneUID, from, until, limit) {
+        let filters = [{ stoneUID: crownstoneUID }];
+        if (from) {
+            filters.push({ timestamp: { gte: from } });
+        }
+        if (until) {
+            filters.push({ timestamp: { lte: until } });
+        }
+        let query = { where: { and: filters }, limit: limit, fields: { energyUsage: true, timestamp: true }, order: 'timestamp ASC' };
+        // @ts-ignore
+        return await this.energyDataRepo.find(query);
+    }
     async deleteStoneEnergy(userProfile, crownstoneUID) {
         await this.energyDataRepo.deleteAll({ stoneUID: crownstoneUID });
         return this.energyDataProcessedRepo.deleteAll({ stoneUID: crownstoneUID });
@@ -83,6 +95,19 @@ tslib_1.__decorate([
         Date, Number]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "getEnergyData", null);
+tslib_1.__decorate([
+    rest_1.get('/rawEnergyRange'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
+    tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
+    tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
+    tslib_1.__param(4, rest_1.param.query.number('limit', { required: true })),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Number, Date,
+        Date, Number]),
+    tslib_1.__metadata("design:returntype", Promise)
+], EnergyController.prototype, "getRawEnergyData", null);
 tslib_1.__decorate([
     rest_1.del('/energyFromCrownstone'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),

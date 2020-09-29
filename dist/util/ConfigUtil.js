@@ -11,11 +11,7 @@ const log = Logger_1.Logger(__filename);
 const defaultConfig = {
     useDevControllers: false,
     useLogControllers: false,
-    logging: {
-        consoleLevel: (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info'),
-        fileLevel: (process.env.CS_FILE_LOGGING_LEVEL || 'info'),
-        fileLoggingEnabled: process.env.CS_ENABLE_FILE_LOGGING === 'true'
-    }
+    logging: {}
 };
 function checkObject(candidate, example) {
     let keys = Object.keys(example);
@@ -58,7 +54,6 @@ function getConfigPath() {
 }
 function storeHubConfig(config) {
     let configPath = getConfigPath();
-    log.info("Storing", config, 'at', configPath);
     let str = JSON.stringify(config);
     fs_1.default.writeFileSync(configPath, str);
 }

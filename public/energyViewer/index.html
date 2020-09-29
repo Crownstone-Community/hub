@@ -7,101 +7,25 @@
     <link href="./energyViewer/css/groups.css" rel="stylesheet" type="text/css" />
     <link href="./energyViewer/css/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link href="./energyViewer/css/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
-    <script src="./energyViewer/js/vis.js"></script>
-    <script src="./energyViewer/js/code.js"></script>
+    <script src="./energyViewer/js/lib/vis.js"></script>
+    <script src="./energyViewer/js/util.js"></script>
+    <script src="./energyViewer/js/domHandler.js"></script>
+    <script src="./energyViewer/js/visHandler.js"></script>
+    <script src="./energyViewer/js/init.js"></script>
 </head>
-<body>
+<body onload="init()">
+<div id="tokenInputWrapper" style="display:block">
+    <p>Please input your sphereAuthorizationToken here:</p>
+    <input id="tokenInput" style="width:500px" onchange="validateTokenInput()"/>
+    <p><i>It has to be 64 characters long. Press enter to continue.</i></p>
+</div>
+
+<div id="graphWrapper" style="display:none">
 Select Crownstone to visualize:
-<select id="stoneSelector" onchange="updateData();">
+<select id="stoneSelector" onchange="updateSelectedStoneData();">
     <option>---- select -----</option>
 </select>
-
 <div id="visualization"></div>
-<script>
-  const dropDown = document.getElementById("stoneSelector");
-  let dataset = new vis.DataSet();
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('access_token');
-
-
-  function updateData() {
-    getData(`../api/energyRange?crownstoneUID=${dropDown.value}&limit=5000&access_token=${token}`, (data) => {
-      let dataArr = JSON.parse(data);
-      let datasetFormat = [];
-      dataset.clear();
-
-      for (let i = 0; i < dataArr.length; i++) {
-        datasetFormat.push({x:dataArr[i].timestamp, y: dataArr[i].energyUsage})
-      }
-      dataset.add(datasetFormat);
-      graph2d.fit()
-    })
-  }
-
-  getData(`../api/energyAvailability?access_token=${token}`, (data) => {
-    let dataArr = JSON.parse(data);
-    dataArr.forEach((element) => {
-      var el = document.createElement("option");
-      el.textContent =  element.crownstoneUID + " - " + element.count + " samples";
-      el.value = element.crownstoneUID;
-      dropDown.appendChild(el);
-    })
-  }, (err) => {
-    console.log(err)
-  })
-
-  let container = document.getElementById("visualization")
-
-
-
-  // create a dataSet with groups
-  var options = {
-    dataAxis: {
-      showMinorLabels: false,
-      right: {
-        title: {
-          text: 'Title (right axis)'
-        }
-      }
-    },
-  };
-  var graph2d = new vis.Graph2d(container, dataset, options);
-
-  function showIcons(show) {
-    graph2d.setOptions({dataAxis: {icons: show}});
-  }
-
-  function showTitle(axis, show) {
-    var title;
-    if(show == true) {
-      title = {text: "Title (" + axis + " axis)"};
-    }
-    else {
-      title = {text: undefined};
-    }
-
-    if(axis == 'left') {
-      graph2d.setOptions({dataAxis: {left: {title: title}}});
-    }
-    else {
-      graph2d.setOptions({dataAxis: {right: {title: title}}});
-    }
-  }
-
-  var colors=['red','green','blue','black','yellow','purple','pink'];
-  function styleTitle(axis) {
-    var title;
-    title = {style: "color: " + colors[Math.floor(Math.random() * colors.length) + 1]};
-
-    if(axis == 'left') {
-      graph2d.setOptions({dataAxis: {left: {title: title}}});
-    }
-    else {
-      graph2d.setOptions({dataAxis: {right: {title: title}}});
-    }
-  }
-
-
-</script>
+</div>
 </body>
 </html>

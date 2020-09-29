@@ -11,12 +11,8 @@ import {CrownstoneHubApplication, updateControllersBasedOnConfig} from './applic
 import { ApplicationConfig } from '@loopback/core';
 import fs from "fs";
 import {verifyCertificate} from './security/VerifyCertificates';
-import {extractToken} from './security/authentication-strategies/csToken-strategy';
-import {HttpErrors} from '@loopback/rest';
-import {checkAccessToken} from './services';
-import {DbRef} from './crownstone/Data/DbReference';
-import {getHubConfig, storeHubConfig} from './util/ConfigUtil';
 import {Logger} from './Logger';
+import {applyCustomRoutes} from './customRoutes/ApplyCustomRoutes';
 
 export {ApplicationConfig};
 
@@ -41,58 +37,14 @@ export class ExpressServer {
     // Expose the front-end assets via Express, not as LB4 route
     this.app.use('/api', this.lbApp.requestHandler);
 
+    applyCustomRoutes(this.app, this.lbApp);
+
     // Custom Express routes
     this.app.get('/', function (_req: Request, res: Response) {
       res.sendFile(path.join(__dirname, '../public/index.html'));
     });
 
-    this.app.get('/enableLogging',async (req: Request, res: Response) => {
-      try {
-        let access_token = extractToken(req);
-        let userData = await checkAccessToken(access_token, DbRef.user);
-        if (userData.sphereRole === 'admin') {
-          let config = getHubConfig();
-          config.useLogControllers = true;
-          storeHubConfig(config);
-          updateControllersBasedOnConfig(this.lbApp);
-          res.end("Command accepted. LoggingController is now enabled.");
-        }
-      }
-      catch(e) {
-        res.end(JSON.stringify(new HttpErrors.Unauthorized()))
-      }
-    });
-    this.app.get('/disableLogging',async (req: Request, res: Response) => {
-      try {
-        let access_token = extractToken(req);
-        let userData = await checkAccessToken(access_token, DbRef.user);
-        if (userData.sphereRole === 'admin') {
-          let config = getHubConfig();
-          config.useLogControllers = false;
-          storeHubConfig(config);
-          res.end("Command accepted. LoggingController will be disabled. Changed will take effect on next reboot.");
-          setTimeout(() => {
-            process.exit()
-          }, 2000);
-        }
-      }
-      catch(e) {
-        res.end(JSON.stringify(new HttpErrors.Unauthorized()))
-      }
-    });
 
-    this.app.get('/vis',async (req: Request, res: Response) => {
-      try {
-        let access_token = extractToken(req);
-        let userData = await checkAccessToken(access_token, DbRef.user);
-        if (userData) {
-          res.sendFile(path.join(__dirname, '../public/energyViewer/index.html'));
-        }
-      }
-      catch(e) {
-        res.end(JSON.stringify(new HttpErrors.Unauthorized()))
-      }
-    });
 
     // Serve static files in the public folder
     this.app.use(express.static(path.join(__dirname, '../public')));

@@ -82,9 +82,31 @@ function updateControllersBasedOnConfig(app) {
 exports.updateControllersBasedOnConfig = updateControllersBasedOnConfig;
 function updateLoggingBasedOnConfig() {
     let hubConfig = ConfigUtil_1.getHubConfig();
-    log.config.setConsoleLevel(hubConfig.logging.consoleLevel);
-    log.config.setFileLevel(hubConfig.logging.fileLevel);
-    log.config.setFileLogging(hubConfig.logging.fileLoggingEnabled);
+    let individualFileLoggingEnabled = false;
+    let loggers = log.config.getLoggerIds();
+    let overrideLoggerIds = Object.keys(hubConfig.logging);
+    // check if file logging is required for an individual logger.
+    overrideLoggerIds.forEach((loggerId) => {
+        if (loggers.indexOf(loggerId) !== -1) {
+            if (hubConfig.logging[loggerId].file !== 'none') {
+                individualFileLoggingEnabled = true;
+            }
+        }
+    });
+    if (individualFileLoggingEnabled) {
+        log.config.setFileLogging(true);
+    }
+    overrideLoggerIds.forEach((loggerId) => {
+        if (loggers.indexOf(loggerId) !== -1) {
+            let transports = log.config.getTransportForLogger(loggerId);
+            if (transports) {
+                transports.console.level = hubConfig.logging[loggerId].console;
+                if (transports.file) {
+                    transports.file.level = hubConfig.logging[loggerId].file;
+                }
+            }
+        }
+    });
 }
 exports.updateLoggingBasedOnConfig = updateLoggingBasedOnConfig;
 //# sourceMappingURL=application.js.map

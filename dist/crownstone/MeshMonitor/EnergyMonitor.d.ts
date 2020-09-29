@@ -10,5 +10,5 @@ export declare class EnergyMonitor {
     processMeasurements(): Promise<void>;
     _uploadStoneEnergy(processedData: EnergyDataProcessed[]): Promise<void>;
     _processStoneEnergy(stoneUID: string, energyData: EnergyData[]): Promise<void>;
-    collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number): void;
+    collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number, timestamp: number): void;
 }

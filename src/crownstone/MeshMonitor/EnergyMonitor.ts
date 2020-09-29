@@ -106,11 +106,12 @@ export class EnergyMonitor {
 
 
   async _processStoneEnergy(stoneUID: string, energyData: EnergyData[]) {
-    if (energyData.length === 0) { return }
+    // we want at least 2 points to process.
+    if (energyData.length < 2) { return }
     let initial = energyData[0];
-    let prev = energyData[0];
+    let prev = initial;
 
-    let lastDatapoint = await DbRef.energy.findOne({where: {timestamp: {lt: prev.timestamp}}});
+    let lastDatapoint = await DbRef.energy.findOne({where: {timestamp: {lt: initial.timestamp}}});
     // we will try to have an ever-incrementing energy usage
     // if there is no previous point to depend on, we will try
     let offsetValue : number;
@@ -118,21 +119,40 @@ export class EnergyMonitor {
       offsetValue = lastDatapoint.energyUsage;
     }
     else {
-      offsetValue = prev.energyUsage;
+      offsetValue = initial.energyUsage;
     }
 
     let samples : DataObject<EnergyDataProcessed>[] = [];
 
-    for (let i = 1; i < energyData.length; i++) {
+    for (let i = 0; i < energyData.length; i++) {
       let datapoint = energyData[i];
+      let pointTimestamp = datapoint.timestamp.valueOf();
+
+      let nextSamplePoint = new Date(pointTimestamp).setSeconds(0,0);
+      // if this datapoint is exactly the sample point, great!
+      // if this datapoint is not the last point we handle, we allow it to be processed.
+      // if we process the last datapoint, we cannot use it if we want to interpolate for the next one.
+      if (datapoint.timestamp.valueOf() === nextSamplePoint && i === energyData.length - 1) {
+        samples.push({stoneUID: Number(stoneUID), energyUsage: Math.round(datapoint.energyUsage), timestamp: new Date(nextSamplePoint), uploaded: false});
+        datapoint.processed = true;
+        DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint",2,e); }) // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+        prev = datapoint;
+        continue;
+      }
+      else if (i === 0) {
+        // if this is the first datapoint and we have to use it to interpolate,
+        // we will handle it together with the next datapoint.
+        continue;
+      }
+
       let previousTimestamp = prev.timestamp.valueOf();
-      let timeBetweenPoints = datapoint.timestamp.valueOf() - previousTimestamp;
+      let timeBetweenPoints = pointTimestamp - previousTimestamp;
 
       // we sample every 1 minute, on the minute.
       // we only have to process the point if:
       //   - the previous point is before the minute, and the current is equal or after the minute
-      let nextSamplePoint = datapoint.timestamp.setSeconds(0,0);
-      let previousSamplePoint  = prev.timestamp.setSeconds(0,0);
+      //   - the previous point is ON the minute;
+      let previousSamplePoint = new Date(previousTimestamp).setSeconds(0,0);
       if (previousTimestamp > nextSamplePoint) {
         prev = datapoint;
         log.debug("Gap is too large. Mark as processed.")
@@ -219,12 +239,12 @@ export class EnergyMonitor {
     }
   }
 
-  collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number) {
+  collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number, timestamp: number) {
     DbRef.energy.create({
       stoneUID:    crownstoneId,
       energyUsage: accumulatedEnergy,
       pointPowerUsage: powerUsage,
-      timestamp:   new Date(),
+      timestamp:   new Date(timestamp*1000),
       processed:   false
     })
   }

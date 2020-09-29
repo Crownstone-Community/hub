@@ -7,8 +7,9 @@ interface LogFileDetails {
 }
 export declare class LogController {
     constructor();
-    setLogLevel(userProfile: UserProfileDescription, consoleLevel: string, fileLevel: string): Promise<void>;
-    setFileLogging(userProfile: UserProfileDescription, enabled: boolean): Promise<void>;
+    getLoggers(userProfile: UserProfileDescription): Promise<any>;
+    setIndividualLevels(userProfile: UserProfileDescription, loggerConfig: any): Promise<any>;
+    clearIndividualLevels(userProfile: UserProfileDescription): Promise<any>;
     availableLogFiles(userProfile: UserProfileDescription): Promise<LogFileDetails[]>;
     downloadLogFile(userProfile: UserProfileDescription, filename: string, response: Response): Promise<Response<any>>;
     deleteAllLogs(userProfile: UserProfileDescription): Promise<void>;

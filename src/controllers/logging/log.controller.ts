@@ -3,7 +3,7 @@
 // import {inject} from '@loopback/context';
 
 
-import {get, HttpErrors, oas, param, post, Response, RestBindings} from '@loopback/rest';
+import {del, get, getModelSchemaRef, HttpErrors, oas, param, post, requestBody, Response, RestBindings} from '@loopback/rest';
 import {authenticate} from '@loopback/authentication';
 import {Logger} from '../../Logger';
 import {inject} from '@loopback/context';
@@ -14,6 +14,10 @@ import * as fs from 'fs';
 import {getHubConfig, storeHubConfig} from '../../util/ConfigUtil';
 import path from 'path';
 import {SecurityTypes} from '../../constants/Constants';
+import {Hub} from '../../models';
+import {DataObject} from '@loopback/repository/src/common-types';
+import {hub} from 'crownstone-cloud/dist/rest/sections/hub';
+import {updateLoggingBasedOnConfig} from '../../application';
 
 const log = Logger(__filename);
 
@@ -28,42 +32,106 @@ export class LogController {
   constructor() {}
 
 
-  @post('/setLogLevel', EmptyReturnCode)
+  @get('/individualLogLevels')
   @authenticate(SecurityTypes.admin)
-  async setLogLevel(
+  async getLoggers(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @param.query.string('consoleLevel', {required:false}) consoleLevel: string,
-    @param.query.string('fileLevel', {required:false}) fileLevel: string,
-  ) : Promise<void> {
-    if (consoleLevel && AVAILABLE_LEVELS.indexOf(consoleLevel) === -1) {
-      throw new HttpErrors.BadRequest("consoleLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
-    }
-    if (fileLevel && AVAILABLE_LEVELS.indexOf(fileLevel) === -1) {
-      throw new HttpErrors.BadRequest("fileLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
-    }
+  ) : Promise<any> {
+    let loggerIds = log.config.getLoggerIds();
+
+    let data : any = {};
+    loggerIds.forEach((loggerId) => {
+      let transport = log.config.getTransportForLogger(loggerId);
+      data[loggerId] = {console: transport?.console.level || "info", file: transport?.file?.level || 'none'};
+    })
+    return data;
+  }
+
+
+  @post('/individualLogLevels', EmptyReturnCode)
+  @authenticate(SecurityTypes.admin)
+  async setIndividualLevels(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @requestBody( {'application/json': { example: {loggerId: {console: 'info', file: 'none'}} }}) loggerConfig: any,
+  ) : Promise<any> {
+    let loggerIds = log.config.getLoggerIds();
+    let providedKeys = Object.keys(loggerConfig);
     let hubConfig = getHubConfig();
-    if (consoleLevel) {
-      hubConfig.logging.consoleLevel = consoleLevel as TransportLevel;
-      log.config.setConsoleLevel(consoleLevel as TransportLevel);
-    };
-    if (fileLevel)    {
-      hubConfig.logging.fileLevel = fileLevel as TransportLevel;
-      log.config.setFileLevel(fileLevel as TransportLevel);
-    };
+    for (let i = 0; i < providedKeys.length; i++) {
+      let loggerId = providedKeys[i];
+      let levels = loggerConfig[loggerId];
+      if (loggerIds.indexOf(loggerId) === -1) {
+        throw new HttpErrors.BadRequest("Invalid loggerId:" + loggerId);
+      }
+
+      let currentLevels = hubConfig.logging[loggerId];
+      if (!currentLevels) {
+        currentLevels = {
+          console: (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info') as TransportLevel,
+          file:    (process.env.CS_FILE_LOGGING_LEVEL    || 'info') as TransportLevel,
+        };
+      }
+
+      // restore defaults and remove override.
+      if (levels === null || levels === 'null') {
+        let transports = log.config.getTransportForLogger(loggerId);
+        if (transports) {
+          transports.console.level = (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info') as TransportLevel;
+          if (transports.file) {
+            transports.file.level = (process.env.CS_FILE_LOGGING_LEVEL || 'info') as TransportLevel;
+          }
+        }
+        delete hubConfig.logging[loggerId];
+        continue;
+      }
+
+      if (levels.console) {
+        if (AVAILABLE_LEVELS.indexOf(levels.console) === -1) {
+          throw new HttpErrors.BadRequest("Invalid level:" + levels.console);
+        }
+        currentLevels.console = levels.console;
+      }
+      if (levels.file) {
+        if (AVAILABLE_LEVELS.indexOf(levels.file) === -1) {
+          throw new HttpErrors.BadRequest("Invalid level:" + levels.file);
+        }
+        currentLevels.file = levels.file;
+      }
+      hubConfig.logging[loggerId] = currentLevels;
+    }
+    storeHubConfig(hubConfig);
+    updateLoggingBasedOnConfig();
+  }
+
+  @del('/individualLogLevels', EmptyReturnCode)
+  @authenticate(SecurityTypes.admin)
+  async clearIndividualLevels(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<any> {
+    let hubConfig = getHubConfig();
+    let providedKeys = Object.keys(hubConfig.logging);
+    let loggerIds = log.config.getLoggerIds();
+
+    for (let i = 0; i < providedKeys.length; i++) {
+      let loggerId = providedKeys[i];
+      if (loggerIds.indexOf(loggerId) === -1) {
+        continue;
+      }
+
+      // restore defaults and remove override.
+      let transports = log.config.getTransportForLogger(loggerId);
+      if (transports) {
+        transports.console.level = (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info') as TransportLevel;
+        if (transports.file) {
+          transports.file.level = (process.env.CS_FILE_LOGGING_LEVEL || 'info') as TransportLevel;
+        }
+      }
+      continue;
+    }
+    hubConfig.logging = {};
     storeHubConfig(hubConfig);
   }
 
-  @post('/setFileLogging', EmptyReturnCode)
-  @authenticate(SecurityTypes.admin)
-  async setFileLogging(
-    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @param.query.boolean('enabled', {required:true}) enabled: boolean,
-  ) : Promise<void> {
-    let hubConfig = getHubConfig();
-    hubConfig.logging.fileLoggingEnabled = enabled;
-    log.config.setFileLogging(enabled);
-    storeHubConfig(hubConfig);
-  }
 
   @get('/availableLogFiles', EmptyReturnCode)
   @authenticate(SecurityTypes.admin)
@@ -111,7 +179,7 @@ export class LogController {
     return response;
   }
 
-  @get('/deleteAllLogs', EmptyReturnCode)
+  @del('/deleteAllLogs', EmptyReturnCode)
   @authenticate(SecurityTypes.admin)
   async deleteAllLogs(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,

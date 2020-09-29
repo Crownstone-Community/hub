@@ -14,34 +14,87 @@ const fs = tslib_1.__importStar(require("fs"));
 const ConfigUtil_1 = require("../../util/ConfigUtil");
 const path_1 = tslib_1.__importDefault(require("path"));
 const Constants_1 = require("../../constants/Constants");
+const application_1 = require("../../application");
 const log = Logger_1.Logger(__filename);
 let AVAILABLE_LEVELS = ["none", "critical", "error", "warn", "notice", "info", "debug", "verbose", "silly"];
 class LogController {
     constructor() { }
-    async setLogLevel(userProfile, consoleLevel, fileLevel) {
-        if (consoleLevel && AVAILABLE_LEVELS.indexOf(consoleLevel) === -1) {
-            throw new rest_1.HttpErrors.BadRequest("consoleLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
-        }
-        if (fileLevel && AVAILABLE_LEVELS.indexOf(fileLevel) === -1) {
-            throw new rest_1.HttpErrors.BadRequest("fileLevel must be one of these: " + AVAILABLE_LEVELS.join(", "));
-        }
-        let hubConfig = ConfigUtil_1.getHubConfig();
-        if (consoleLevel) {
-            hubConfig.logging.consoleLevel = consoleLevel;
-            log.config.setConsoleLevel(consoleLevel);
-        }
-        ;
-        if (fileLevel) {
-            hubConfig.logging.fileLevel = fileLevel;
-            log.config.setFileLevel(fileLevel);
-        }
-        ;
-        ConfigUtil_1.storeHubConfig(hubConfig);
+    async getLoggers(userProfile) {
+        let loggerIds = log.config.getLoggerIds();
+        let data = {};
+        loggerIds.forEach((loggerId) => {
+            var _a;
+            let transport = log.config.getTransportForLogger(loggerId);
+            data[loggerId] = { console: (transport === null || transport === void 0 ? void 0 : transport.console.level) || "info", file: ((_a = transport === null || transport === void 0 ? void 0 : transport.file) === null || _a === void 0 ? void 0 : _a.level) || 'none' };
+        });
+        return data;
     }
-    async setFileLogging(userProfile, enabled) {
+    async setIndividualLevels(userProfile, loggerConfig) {
+        let loggerIds = log.config.getLoggerIds();
+        let providedKeys = Object.keys(loggerConfig);
         let hubConfig = ConfigUtil_1.getHubConfig();
-        hubConfig.logging.fileLoggingEnabled = enabled;
-        log.config.setFileLogging(enabled);
+        for (let i = 0; i < providedKeys.length; i++) {
+            let loggerId = providedKeys[i];
+            let levels = loggerConfig[loggerId];
+            if (loggerIds.indexOf(loggerId) === -1) {
+                throw new rest_1.HttpErrors.BadRequest("Invalid loggerId:" + loggerId);
+            }
+            let currentLevels = hubConfig.logging[loggerId];
+            if (!currentLevels) {
+                currentLevels = {
+                    console: (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info'),
+                    file: (process.env.CS_FILE_LOGGING_LEVEL || 'info'),
+                };
+            }
+            // restore defaults and remove override.
+            if (levels === null || levels === 'null') {
+                let transports = log.config.getTransportForLogger(loggerId);
+                if (transports) {
+                    transports.console.level = (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info');
+                    if (transports.file) {
+                        transports.file.level = (process.env.CS_FILE_LOGGING_LEVEL || 'info');
+                    }
+                }
+                delete hubConfig.logging[loggerId];
+                continue;
+            }
+            if (levels.console) {
+                if (AVAILABLE_LEVELS.indexOf(levels.console) === -1) {
+                    throw new rest_1.HttpErrors.BadRequest("Invalid level:" + levels.console);
+                }
+                currentLevels.console = levels.console;
+            }
+            if (levels.file) {
+                if (AVAILABLE_LEVELS.indexOf(levels.file) === -1) {
+                    throw new rest_1.HttpErrors.BadRequest("Invalid level:" + levels.file);
+                }
+                currentLevels.file = levels.file;
+            }
+            hubConfig.logging[loggerId] = currentLevels;
+        }
+        ConfigUtil_1.storeHubConfig(hubConfig);
+        application_1.updateLoggingBasedOnConfig();
+    }
+    async clearIndividualLevels(userProfile) {
+        let hubConfig = ConfigUtil_1.getHubConfig();
+        let providedKeys = Object.keys(hubConfig.logging);
+        let loggerIds = log.config.getLoggerIds();
+        for (let i = 0; i < providedKeys.length; i++) {
+            let loggerId = providedKeys[i];
+            if (loggerIds.indexOf(loggerId) === -1) {
+                continue;
+            }
+            // restore defaults and remove override.
+            let transports = log.config.getTransportForLogger(loggerId);
+            if (transports) {
+                transports.console.level = (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info');
+                if (transports.file) {
+                    transports.file.level = (process.env.CS_FILE_LOGGING_LEVEL || 'info');
+                }
+            }
+            continue;
+        }
+        hubConfig.logging = {};
         ConfigUtil_1.storeHubConfig(hubConfig);
     }
     async availableLogFiles(userProfile) {
@@ -101,24 +154,30 @@ class LogController {
     }
 }
 tslib_1.__decorate([
-    rest_1.post('/setLogLevel', ReturnCodes_1.EmptyReturnCode),
+    rest_1.get('/individualLogLevels'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.param.query.string('consoleLevel', { required: false })),
-    tslib_1.__param(2, rest_1.param.query.string('fileLevel', { required: false })),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object, String, String]),
+    tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
-], LogController.prototype, "setLogLevel", null);
+], LogController.prototype, "getLoggers", null);
 tslib_1.__decorate([
-    rest_1.post('/setFileLogging', ReturnCodes_1.EmptyReturnCode),
+    rest_1.post('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.param.query.boolean('enabled', { required: true })),
+    tslib_1.__param(1, rest_1.requestBody({ 'application/json': { example: { loggerId: { console: 'info', file: 'none' } } } })),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object, Boolean]),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
-], LogController.prototype, "setFileLogging", null);
+], LogController.prototype, "setIndividualLevels", null);
+tslib_1.__decorate([
+    rest_1.del('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], LogController.prototype, "clearIndividualLevels", null);
 tslib_1.__decorate([
     rest_1.get('/availableLogFiles', ReturnCodes_1.EmptyReturnCode),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
@@ -139,7 +198,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "downloadLogFile", null);
 tslib_1.__decorate([
-    rest_1.get('/deleteAllLogs', ReturnCodes_1.EmptyReturnCode),
+    rest_1.del('/deleteAllLogs', ReturnCodes_1.EmptyReturnCode),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),

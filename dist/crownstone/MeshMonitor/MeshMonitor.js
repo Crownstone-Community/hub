@@ -36,7 +36,7 @@ class MeshMonitor {
         let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
         log.debug("Received data from", crownstoneUid);
         this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
-        this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal);
+        this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
         this.switch.collect(crownstoneUid, data.switchState);
         this.topology.collect(crownstoneUid);
     }

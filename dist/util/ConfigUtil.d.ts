@@ -4,9 +4,10 @@ interface HubConfig {
     logging: HubLogConfig;
 }
 interface HubLogConfig {
-    consoleLevel: TransportLevel;
-    fileLevel: TransportLevel;
-    fileLoggingEnabled: boolean;
+    [loggerId: string]: {
+        console: TransportLevel;
+        file: TransportLevel;
+    };
 }
 export declare function getHubConfig(): HubConfig;
 export declare function storeHubConfig(config: HubConfig): void;

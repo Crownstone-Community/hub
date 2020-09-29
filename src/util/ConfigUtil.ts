@@ -13,20 +13,14 @@ interface HubConfig {
 }
 
 interface HubLogConfig {
-  consoleLevel: TransportLevel,
-  fileLevel: TransportLevel,
-  fileLoggingEnabled: boolean
+  [loggerId: string] : {console: TransportLevel, file: TransportLevel}
 }
 
 const defaultConfig : HubConfig = {
   useDevControllers: false,
   useLogControllers: false,
 
-  logging: {
-    consoleLevel: (process.env.CS_CONSOLE_LOGGING_LEVEL || 'info') as TransportLevel,
-    fileLevel:    (process.env.CS_FILE_LOGGING_LEVEL    || 'info') as TransportLevel,
-    fileLoggingEnabled: process.env.CS_ENABLE_FILE_LOGGING === 'true'
-  }
+  logging: {}
 }
 
 function checkObject(candidate : any, example : any) {
@@ -73,7 +67,6 @@ function getConfigPath() {
 
 export function storeHubConfig(config : HubConfig) {
   let configPath = getConfigPath();
-  log.info("Storing", config, 'at', configPath)
   let str = JSON.stringify(config);
   fs.writeFileSync(configPath, str)
 }
