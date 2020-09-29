@@ -2098,22 +2098,22 @@
       },
       "../src/models/sphere-feature.model.ts": {
         "version": "1a1a28d67daa22a9ae78ffaffef1b7da22d0e393805d27652617a785e0dc8e1a",
-        "signature": "6f9663eb267547cf3ad73aae0cdb2303f013e0a5203fa4febadd2993cf7fa40d",
+        "signature": "0ef105d4a93682c457eb4d9b325c43524210fa8ad823d93462b3ae1a05e67da8",
         "affectsGlobalScope": false
       },
       "../src/models/hub.model.ts": {
         "version": "fe40b00dbc433cc02a3cbb6ab6bb5ebbc2acdf857a19011f2450b4563aa90ec1",
-        "signature": "acbb7b14f344ef83d9b1ba422206c717936e042f4dd4b0bf83bc3f870e30abe7",
+        "signature": "1517009ce541951c433da814fa087f6f3df2740077ecf236d4da2afcdd411484",
         "affectsGlobalScope": false
       },
       "../src/models/user-permission.model.ts": {
         "version": "7cd0489870e3c7dd8df9557d93ad7048915777b8a102af47dda23e7420c3aa35",
-        "signature": "2339ecaa047cc847f09da5e24f14f928123625338cc78c5945aee959b65a9b0d",
+        "signature": "ff672073ed760c59babd87bc48d8dd1851e1e0d2be8af6565bce1d15e00f30b8",
         "affectsGlobalScope": false
       },
       "../src/models/user.model.ts": {
         "version": "94639d6c4c8aeb4f1abebaf4700f090c389d32d596a378617f112165c6e1b176",
-        "signature": "d086a8ad043d09babe4b029e17d25e9da6a6e05f483989f7cc19e64d0785add6",
+        "signature": "832898e9bf24d5a9c60fa2aec802a2e80857ef20f1e6940825d8b6ba55227885",
         "affectsGlobalScope": false
       },
       "../src/models/index.ts": {
@@ -2138,7 +2138,7 @@
       },
       "../src/repositories/sphere-feature.repository.ts": {
         "version": "a8465a8e6a4f54ac08135c4be53eeb70e72214566ce6abd36b82376801ac55df",
-        "signature": "3744c3d037c7e7561bfc0674d0357c38564a54f7875ba829d39f8fa7661b4723",
+        "signature": "bfcbd2bd8f20e7e1419d43c0650ee578e35ac4b6459fe936a892222efe57765d",
         "affectsGlobalScope": false
       },
       "../node_modules/@loopback/repository/src/common-types.ts": {
@@ -2572,7 +2572,7 @@
       },
       "../src/repositories/user-permission.repository.ts": {
         "version": "94ffd426768b87f2694edaeafecaee0f85570db5f7e27d41e5ae6a56273b4ece",
-        "signature": "f66cd5b8e37f20a6a8b107122ca9afd0adaebb12bb257da3546350948bc7a1cb",
+        "signature": "0de64ea2e35023e19c83cfc3889062ee1ec6036b3c82df4d8a09c023f901786d",
         "affectsGlobalScope": false
       },
       "../src/repositories/user.repository.ts": {
@@ -2722,12 +2722,12 @@
       },
       "../src/datasources/mongo.datasource.config.ts": {
         "version": "c2d12bd6c86693f86b6b4af7febc3427b16b558d22b8f13ed70195bed0402a4c",
-        "signature": "2cb899854b75d4604e656639aa0fd6b116bde7d77aa8372a196e488d6cc1e2df",
+        "signature": "80d53a1efbe9c72601c4c04d9a11e196bb6d064daedb9571be9dc0e49ffbc979",
         "affectsGlobalScope": false
       },
       "../src/datasources/mongo.datasource.ts": {
         "version": "668acbd4ad8752ca17806fecc019bb1928da505031996f27ec0870ad70308e0f",
-        "signature": "ab60b4010810dc5b50d0e839060b150f8a9fe37e338cec89bdcd00e7efdd12b6",
+        "signature": "b151b167f64c581cc97edc5985d9b8470021f29e6f9dfee5893bcb7236cc4fa1",
         "affectsGlobalScope": false
       },
       "../src/datasources/index.ts": {
@@ -3026,7 +3026,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
