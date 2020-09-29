@@ -39,13 +39,13 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
       if (this.launched === false) {
         // execute modules
+        await this.uart.initialize();
+        log.info("Uart initialized")
+        HubStatus.uartReady = true;
+
         try {
           await this.cloud.initialize();
           log.info("Cloud initialized")
-
-          await this.uart.initialize();
-          log.info("Uart initialized")
-          HubStatus.uartReady = true;
 
           this.mesh.init()
           this.timeKeeper.init()
@@ -72,6 +72,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
   }
 
   async cleanupAndDestroy() {
+    this.launched = false;
+
     await this.mesh.cleanup();
 
     await this.timeKeeper.stop();

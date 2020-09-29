@@ -3,6 +3,6 @@ export declare class SwitchData extends Entity {
     constructor(data?: Partial<SwitchData>);
     id: string;
     stoneUID: number;
-    switchState: number;
+    percentage: number;
     timestamp: Date;
 }

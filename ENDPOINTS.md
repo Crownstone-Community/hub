@@ -94,13 +94,6 @@ these endpoints.
 
 <br/>
 
-#### PATCH: /hub
-> `admin authorization required`
->
-> Update one or more fields of your hub.
-
-<br/>
-
 <a name="MeshController"></a>
 ## MeshController
 This controller will provide you with information on the mesh.

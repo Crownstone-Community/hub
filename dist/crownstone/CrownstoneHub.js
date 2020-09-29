@@ -29,12 +29,12 @@ class CrownstoneHubClass {
             log.info("Launching Modules");
             if (this.launched === false) {
                 // execute modules
+                await this.uart.initialize();
+                log.info("Uart initialized");
+                HubStatus_1.HubStatus.uartReady = true;
                 try {
                     await this.cloud.initialize();
                     log.info("Cloud initialized");
-                    await this.uart.initialize();
-                    log.info("Uart initialized");
-                    HubStatus_1.HubStatus.uartReady = true;
                     this.mesh.init();
                     this.timeKeeper.init();
                     this.launched = true;
@@ -57,6 +57,7 @@ class CrownstoneHubClass {
         HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
     }
     async cleanupAndDestroy() {
+        this.launched = false;
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();

@@ -1,18 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EMPTY_DATABASE = exports.DbRef = void 0;
+const MemoryDb_1 = require("./MemoryDb");
+const Logger_1 = require("../../Logger");
+const logger = Logger_1.Logger(__filename);
 class DbReferenceClass {
 }
 exports.DbRef = new DbReferenceClass();
 async function EMPTY_DATABASE() {
-    await exports.DbRef.hub.deleteAll();
-    await exports.DbRef.user.deleteAll();
-    await exports.DbRef.userPermission.deleteAll();
-    await exports.DbRef.power.deleteAll();
-    await exports.DbRef.energy.deleteAll();
-    await exports.DbRef.energyProcessed.deleteAll();
-    await exports.DbRef.switches.deleteAll();
-    await exports.DbRef.sphereFeatures.deleteAll();
+    var _a, _b;
+    logger.notice("Emptying database...");
+    logger.info("Deleting All data from db...");
+    let collections = await ((_a = exports.DbRef.hub.dataSource.connector) === null || _a === void 0 ? void 0 : _a.db.listCollections().toArray());
+    for (let i = 0; i < collections.length; i++) {
+        let name = collections[i].name;
+        if (name !== 'system.profile') {
+            logger.info("Deleting " + collections[i].name + " data from db...");
+            await ((_b = exports.DbRef.user.dataSource.connector) === null || _b === void 0 ? void 0 : _b.collection(collections[i].name).drop());
+        }
+    }
+    logger.info("Clearing in-memory db...");
+    MemoryDb_1.MemoryDb.stones = {};
+    MemoryDb_1.MemoryDb.locations = {};
+    MemoryDb_1.MemoryDb.locationByCloudId = {};
+    logger.notice("Database emptied!");
 }
 exports.EMPTY_DATABASE = EMPTY_DATABASE;
 //# sourceMappingURL=DbReference.js.map

@@ -8,7 +8,11 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from '../../repositories';
+import {MemoryDb} from './MemoryDb';
+import {Logger} from '../../Logger';
 
+
+const logger = Logger(__filename);
 class DbReferenceClass {
   hub             : HubRepository
   power           : PowerDataRepository
@@ -22,12 +26,21 @@ class DbReferenceClass {
 export const DbRef = new DbReferenceClass();
 
 export async function EMPTY_DATABASE() {
-  await DbRef.hub.deleteAll();
-  await DbRef.user.deleteAll();
-  await DbRef.userPermission.deleteAll();
-  await DbRef.power.deleteAll();
-  await DbRef.energy.deleteAll();
-  await DbRef.energyProcessed.deleteAll();
-  await DbRef.switches.deleteAll();
-  await DbRef.sphereFeatures.deleteAll();
+  logger.notice("Emptying database...")
+
+  logger.info("Deleting All data from db...");
+  let collections = await DbRef.hub.dataSource.connector?.db.listCollections().toArray();
+  for (let i = 0; i < collections.length; i++) {
+    let name = collections[i].name;
+    if (name !== 'system.profile') {
+      logger.info("Deleting " + collections[i].name + " data from db...");
+      await DbRef.user.dataSource.connector?.collection(collections[i].name).drop();
+    }
+  }
+
+  logger.info("Clearing in-memory db...");
+  MemoryDb.stones = {};
+  MemoryDb.locations = {};
+  MemoryDb.locationByCloudId = {};
+  logger.notice("Database emptied!");
 }

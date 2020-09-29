@@ -13,7 +13,7 @@ export class SwitchData extends Entity {
   stoneUID: number;
 
   @property({type: 'number'})
-  switchState: number;
+  percentage: number;
 
   @property({type: 'date'})
   timestamp: Date

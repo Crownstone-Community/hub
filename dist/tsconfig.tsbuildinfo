@@ -2092,8 +2092,8 @@
         "affectsGlobalScope": false
       },
       "../src/models/switch-data.model.ts": {
-        "version": "93f11523ef45e17c24add199bbe853bada889610a8009dd8e89ab14ea0054601",
-        "signature": "1e348366e4aa3e0cf921623d1907c2fcba7fdcfb84cc218bf884ef1b4f864363",
+        "version": "d22a90af86af1254960af49320547f93f03d9aca8904895350f5ab3a08791ef8",
+        "signature": "c76315647f9daf67baee40ac750af1e4d0c007e298c2458d21840fca59a21d4c",
         "affectsGlobalScope": false
       },
       "../src/models/sphere-feature.model.ts": {
@@ -2133,7 +2133,7 @@
       },
       "../src/repositories/switch-data.repository.ts": {
         "version": "c11829b95f4dc2d52df4f2eb891463e894619ef0b9be6c725a76886828e02efd",
-        "signature": "59b84503cca449c70527079d4949a1dd1bedfc96b38979123c56633fc9ee2605",
+        "signature": "2db39101a4e1796eb4e41914f025a11480dc069a2ff0e0b3c1c30972e7d6c90a",
         "affectsGlobalScope": false
       },
       "../src/repositories/sphere-feature.repository.ts": {
@@ -2143,86 +2143,6 @@
       },
       "../node_modules/@loopback/repository/src/common-types.ts": {
         "version": "e5f52792f989d1dd83eed0e7628f7fe4b65367185e86417a108b2ec792b1f268",
-        "affectsGlobalScope": false
-      },
-      "../src/crownstone/data/dbreference.ts": {
-        "version": "019643066646b5f74131ed055b500981288c7f58da56bd97048b7a848d4ae361",
-        "signature": "62e4e0bf1c12500a3e931c362a27857efa6c68399ab05262ae951d506ee1d9fa",
-        "affectsGlobalScope": false
-      },
-      "../src/repositories/hub.repository.ts": {
-        "version": "4e0770bb6fda95c1608ded61734a3866973c87864b44bb6538e55789b3c220e8",
-        "signature": "c42c796092c0937e71e9ace5bc4fd3d4f57ec2a9b7f4bf8ee583a1806985ab81",
-        "affectsGlobalScope": false
-      },
-      "../src/repositories/user-permission.repository.ts": {
-        "version": "94ffd426768b87f2694edaeafecaee0f85570db5f7e27d41e5ae6a56273b4ece",
-        "signature": "f66cd5b8e37f20a6a8b107122ca9afd0adaebb12bb257da3546350948bc7a1cb",
-        "affectsGlobalScope": false
-      },
-      "../src/repositories/user.repository.ts": {
-        "version": "88740fd20e88f929402045923af55e05adba0c69ce40ecd4a22bad658fd62226",
-        "signature": "db364f7eec3bf05e51120853ee3f09763cfbb94531998b2c882167c65eae5bbe",
-        "affectsGlobalScope": false
-      },
-      "../src/repositories/index.ts": {
-        "version": "9be9803172d7777e2599bc31dfb27749e799677da1cb5824476826fff6acab3d",
-        "signature": "0609e7aef27e4665753608ce62b3e911897072d86690d46a37116a859ab88320",
-        "affectsGlobalScope": false
-      },
-      "../src/services/user.service.ts": {
-        "version": "f91eaadc12ed913c968acbb3c5f08eac0530ea83d7e86e34dcdb0d792b575710",
-        "signature": "5fdcfdd9f6b657032b5f1a7098391038154d68498f7f216c3effc7c185e1d510",
-        "affectsGlobalScope": false
-      },
-      "../src/services/index.ts": {
-        "version": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
-        "signature": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
-        "affectsGlobalScope": false
-      },
-      "../src/constants/constants.ts": {
-        "version": "c886bfbd6deaad91ea89cd1cc771564f7c5416fd1de8a3c965cc08ce8ce703a7",
-        "signature": "9670d12fef7eb91ba1e499f0d27d98d057abaf1687aa28e7b44551379c4220f0",
-        "affectsGlobalScope": false
-      },
-      "../src/security/authentication-strategies/cstoken-strategy.ts": {
-        "version": "3512abcdd50fb277006b7be002a767e16e3f5f92e17ef7db30886f3c577754b3",
-        "signature": "b8d85dce6c8a74df30b33f6473a9f259ce8eac42e145b478be4868c3057c5a66",
-        "affectsGlobalScope": false
-      },
-      "../src/config.ts": {
-        "version": "bcb04ea12bba777a541ee3372d6625de869ddc751995fac80a0c5750b484e444",
-        "signature": "d58605f2dfd4210d714446acbd883935e64efbfff331dc56c26c5662edda0ca9",
-        "affectsGlobalScope": false
-      },
-      "../src/util/util.ts": {
-        "version": "c469020784b2e036188152c6f7a36d0c79dfad9c597aadfe55544d8cca186130",
-        "signature": "cf760d5908451aa3f443aeece82a4719539dfe3dae1dd5c6a666e64397bca38b",
-        "affectsGlobalScope": false
-      },
-      "../src/util/configutil.ts": {
-        "version": "5d6f55e23b9bd05ddc208baa5a3fc9588aa93a81c4d6ee46351110718388738a",
-        "signature": "37487d0086208692a79b68a9224a4053c55f96ccf84ca7308ce91c51a21f3cd6",
-        "affectsGlobalScope": false
-      },
-      "../src/controllers/returncodes/returncodes.ts": {
-        "version": "004790552bf7347e312ac3cd737365c2e647cf95a8eff6f0d5cbd3b6dd9cfef3",
-        "signature": "f6854ed0ff96924cf54e2422c276c3f245b7aa98f2ad180e82c39e8dec24b2d7",
-        "affectsGlobalScope": false
-      },
-      "../src/controllers/logging/log.controller.ts": {
-        "version": "313346820a946274c38c18db8e5433dd268b15785250ce56c8b85e09ccd71084",
-        "signature": "0698682fca857fcdd4d69227ba4a740ae841ac503d59d780ad2d0f7cf1092aa3",
-        "affectsGlobalScope": false
-      },
-      "../src/security/authentication-strategies/csadmintoken-strategy.ts": {
-        "version": "d0beedcd3c73129ece505faa4c634af30210f80b53a984c72cbddc922eedb8d1",
-        "signature": "9cb978e4acb430cbb0c0f997b0684ba3cd46b466f25e3e10c85188e70344e783",
-        "affectsGlobalScope": false
-      },
-      "../src/application.ts": {
-        "version": "c7ad8b3f008b137734495b38783050fb90e068dd305f5ca06fae307164f97ff0",
-        "signature": "3f13db18edcdf032f483dbe975028aeb1cbf616e97482006527c5f8478c7554d",
         "affectsGlobalScope": false
       },
       "../node_modules/crownstone-uart/src/declarations/declarations.d.ts": {
@@ -2445,6 +2365,11 @@
         "signature": "a7c61fa5c03a6d15f78596b6d21b1aee4303bdc00f5ca71e062332ccca9b2154",
         "affectsGlobalScope": false
       },
+      "../src/config.ts": {
+        "version": "bcb04ea12bba777a541ee3372d6625de869ddc751995fac80a0c5750b484e444",
+        "signature": "d58605f2dfd4210d714446acbd883935e64efbfff331dc56c26c5662edda0ca9",
+        "affectsGlobalScope": false
+      },
       "../src/crownstone/topics.ts": {
         "version": "80beafb04128bbef155e8c93f7517eabc188f04982862c034c092b15fe0a1ee5",
         "signature": "9fb28a4c95ac552718958e25a9260057269fefa3847f57dd681ef845b4c4a4d7",
@@ -2570,9 +2495,9 @@
         "signature": "2f97665003e5b0ad8d3db7c4d6b6005e407ee02bf6a53bb28216f12b05993e86",
         "affectsGlobalScope": false
       },
-      "../src/crownstone/data/memorydb.ts": {
-        "version": "4f42b974d74bb1626f65f41e4066f8018f46df63efd533a17533141b54229f07",
-        "signature": "3132096d51192a05aef719b6535b938c11db8e6dca5372427b142948ab23c487",
+      "../src/util/util.ts": {
+        "version": "c469020784b2e036188152c6f7a36d0c79dfad9c597aadfe55544d8cca186130",
+        "signature": "cf760d5908451aa3f443aeece82a4719539dfe3dae1dd5c6a666e64397bca38b",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/sseeventhandler.ts": {
@@ -2611,7 +2536,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/switchmonitor.ts": {
-        "version": "9f4d939d244766f7e4c3e0aab105e4e2fc8da075de550e639447ae96639fb76d",
+        "version": "e5ed573332d24fa2e78ea626cd934c8b700d80855d435e5218a38d64a1fae2ef",
         "signature": "70600831cceb869a66de6ae40110998d21d7e6fc6051a4c49451f9a416dc7239",
         "affectsGlobalScope": false
       },
@@ -2626,8 +2551,83 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "d32f415fc4cca7d72e8e72f4a3f28bbb0d49423e1b5d935e498e0d0f0bfdff4d",
+        "version": "817cf3db26e26091437317b4f2a05fba348a55a7c8f46025453a824d0566c2ae",
         "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
+        "affectsGlobalScope": false
+      },
+      "../src/crownstone/data/memorydb.ts": {
+        "version": "4f42b974d74bb1626f65f41e4066f8018f46df63efd533a17533141b54229f07",
+        "signature": "3132096d51192a05aef719b6535b938c11db8e6dca5372427b142948ab23c487",
+        "affectsGlobalScope": false
+      },
+      "../src/crownstone/data/dbreference.ts": {
+        "version": "0c415d2cdc5912dedeefeab2d0d31841ddce0cf4e0c5243841a4d91b762b63ef",
+        "signature": "62e4e0bf1c12500a3e931c362a27857efa6c68399ab05262ae951d506ee1d9fa",
+        "affectsGlobalScope": false
+      },
+      "../src/repositories/hub.repository.ts": {
+        "version": "4e0770bb6fda95c1608ded61734a3866973c87864b44bb6538e55789b3c220e8",
+        "signature": "c42c796092c0937e71e9ace5bc4fd3d4f57ec2a9b7f4bf8ee583a1806985ab81",
+        "affectsGlobalScope": false
+      },
+      "../src/repositories/user-permission.repository.ts": {
+        "version": "94ffd426768b87f2694edaeafecaee0f85570db5f7e27d41e5ae6a56273b4ece",
+        "signature": "f66cd5b8e37f20a6a8b107122ca9afd0adaebb12bb257da3546350948bc7a1cb",
+        "affectsGlobalScope": false
+      },
+      "../src/repositories/user.repository.ts": {
+        "version": "88740fd20e88f929402045923af55e05adba0c69ce40ecd4a22bad658fd62226",
+        "signature": "db364f7eec3bf05e51120853ee3f09763cfbb94531998b2c882167c65eae5bbe",
+        "affectsGlobalScope": false
+      },
+      "../src/repositories/index.ts": {
+        "version": "9be9803172d7777e2599bc31dfb27749e799677da1cb5824476826fff6acab3d",
+        "signature": "0609e7aef27e4665753608ce62b3e911897072d86690d46a37116a859ab88320",
+        "affectsGlobalScope": false
+      },
+      "../src/services/user.service.ts": {
+        "version": "f91eaadc12ed913c968acbb3c5f08eac0530ea83d7e86e34dcdb0d792b575710",
+        "signature": "5fdcfdd9f6b657032b5f1a7098391038154d68498f7f216c3effc7c185e1d510",
+        "affectsGlobalScope": false
+      },
+      "../src/services/index.ts": {
+        "version": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
+        "signature": "f149b46d44b3ee06a4deeebba4647197bb58a46518ca9a6bac52abe3f3b47e83",
+        "affectsGlobalScope": false
+      },
+      "../src/constants/constants.ts": {
+        "version": "c886bfbd6deaad91ea89cd1cc771564f7c5416fd1de8a3c965cc08ce8ce703a7",
+        "signature": "9670d12fef7eb91ba1e499f0d27d98d057abaf1687aa28e7b44551379c4220f0",
+        "affectsGlobalScope": false
+      },
+      "../src/security/authentication-strategies/cstoken-strategy.ts": {
+        "version": "3512abcdd50fb277006b7be002a767e16e3f5f92e17ef7db30886f3c577754b3",
+        "signature": "b8d85dce6c8a74df30b33f6473a9f259ce8eac42e145b478be4868c3057c5a66",
+        "affectsGlobalScope": false
+      },
+      "../src/util/configutil.ts": {
+        "version": "5d6f55e23b9bd05ddc208baa5a3fc9588aa93a81c4d6ee46351110718388738a",
+        "signature": "37487d0086208692a79b68a9224a4053c55f96ccf84ca7308ce91c51a21f3cd6",
+        "affectsGlobalScope": false
+      },
+      "../src/controllers/returncodes/returncodes.ts": {
+        "version": "004790552bf7347e312ac3cd737365c2e647cf95a8eff6f0d5cbd3b6dd9cfef3",
+        "signature": "f6854ed0ff96924cf54e2422c276c3f245b7aa98f2ad180e82c39e8dec24b2d7",
+        "affectsGlobalScope": false
+      },
+      "../src/controllers/logging/log.controller.ts": {
+        "version": "313346820a946274c38c18db8e5433dd268b15785250ce56c8b85e09ccd71084",
+        "signature": "0698682fca857fcdd4d69227ba4a740ae841ac503d59d780ad2d0f7cf1092aa3",
+        "affectsGlobalScope": false
+      },
+      "../src/security/authentication-strategies/csadmintoken-strategy.ts": {
+        "version": "d0beedcd3c73129ece505faa4c634af30210f80b53a984c72cbddc922eedb8d1",
+        "signature": "9cb978e4acb430cbb0c0f997b0684ba3cd46b466f25e3e10c85188e70344e783",
+        "affectsGlobalScope": false
+      },
+      "../src/application.ts": {
+        "version": "c7ad8b3f008b137734495b38783050fb90e068dd305f5ca06fae307164f97ff0",
+        "signature": "3f13db18edcdf032f483dbe975028aeb1cbf616e97482006527c5f8478c7554d",
         "affectsGlobalScope": false
       },
       "../src/security/verifycertificates.ts": {
@@ -2641,7 +2641,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "195747fa0ddade91acf6b76c803eb207c00eea027b49aed161efc2793515a374",
+        "version": "fd28223986928dd0389609f3a6417d6bf75b916332b41d436200a05d245ae5c8",
         "signature": "9c4af631ae06937e8e55b0e1fcea32aa0802711846037774adabf0355bb87153",
         "affectsGlobalScope": false
       },
@@ -2656,8 +2656,8 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {
-        "version": "549e21caaef240b5364f270bef208093372d8780fc7bd24f1296b38ced433fc5",
-        "signature": "ba31b34d4defb6a0ddffb63c09e0d16fe9724b45c9040ffc99e3fb9e25ea9123",
+        "version": "48238a74ed6d81444d0df9bd6d3664e70be63d03981f0b758de6ccea98cf0d29",
+        "signature": "8ad39eec9ab2e3dc11b4088f5027a31d40f23527afc91c2f09b0d32d851f7d2f",
         "affectsGlobalScope": false
       },
       "../src/controllers/localization.controller.ts": {
@@ -5319,6 +5319,7 @@
         "../node_modules/@loopback/repository/dist/index.d.ts",
         "../node_modules/@loopback/repository/src/common-types.ts",
         "../node_modules/@loopback/rest/dist/index.d.ts",
+        "../node_modules/crownstone-cloud/dist/index.d.ts",
         "../src/application.ts",
         "../src/constants/constants.ts",
         "../src/crownstone/crownstonehub.ts",
@@ -5406,6 +5407,8 @@
         "../src/logger.ts"
       ],
       "../src/crownstone/data/dbreference.ts": [
+        "../src/crownstone/data/memorydb.ts",
+        "../src/logger.ts",
         "../src/repositories/index.ts"
       ],
       "../src/crownstone/data/memorydb.ts": [

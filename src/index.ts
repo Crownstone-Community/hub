@@ -8,7 +8,7 @@ import {
   SwitchDataRepository, UserPermissionRepository,
   UserRepository,
 } from './repositories';
-import {DbRef} from './crownstone/Data/DbReference';
+import {DbRef, EMPTY_DATABASE} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
@@ -58,7 +58,6 @@ export async function main(options: ApplicationConfig = {}) {
   //
   // console.log(`Server is running at ${host}:${port}`);
   log.info(`Server initialized!`);
-
 
   // setTimeout(() => { app.controller(MeshController)}, 10000)
   return server.lbApp;;

@@ -15,6 +15,7 @@ import {authenticate} from '@loopback/authentication';
 import {HubStatus} from '../crownstone/HubStatus';
 import {SecurityTypes} from '../constants/Constants';
 import {BOOT_TIME} from '../application';
+import {CrownstoneCloud} from 'crownstone-cloud';
 
 /**
  * This controller will echo the state of the hub.
@@ -35,6 +36,18 @@ export class HubController {
     newHub: DataObject<Hub>,
   ): Promise<void> {
     if (await this.hubRepo.isSet() === false) {
+      let cloud = new CrownstoneCloud();
+      if (!(newHub.cloudId && newHub.token)) {
+        throw new HttpErrors.BadRequest("CloudId and token are mandatory.");
+      }
+      try {
+        await cloud.hubLogin(newHub.cloudId, newHub.token);
+      }
+      catch (e) {
+        if (e && e.statusCode === 401) {
+          throw new HttpErrors.BadRequest("Invalid token/cloudId combination.");
+        }
+      }
       return this.hubRepo.create(newHub)
         .then(() => {
           eventBus.emit(topics.HUB_CREATED);
@@ -66,32 +79,34 @@ export class HubController {
   //   }
   // }
 
-  @patch('/hub')
-  @authenticate(SecurityTypes.admin)
-  async updateHub(
-    @requestBody({
-      content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
-    })
-      editedHub: DataObject<Hub>,
-  ): Promise<void> {
-    let currentHub = await this.hubRepo.get()
-    if (currentHub === null) {
-      return this.hubRepo.create(editedHub)
-        .then(() => {
-          eventBus.emit(topics.HUB_CREATED);
-        })
-    }
-    else {
-      if (editedHub.cloudId) { currentHub.cloudId = editedHub.cloudId; }
-      if (editedHub.name)    { currentHub.name    = editedHub.name;    }
-      if (editedHub.token)   { currentHub.token   = editedHub.token;   }
-
-      return this.hubRepo.update(currentHub)
-        .then(() => {
-          eventBus.emit(topics.HUB_CREATED);
-        })
-    }
-  }
+  // @patch('/hub')
+  // @authenticate(SecurityTypes.admin)
+  // async updateHub(
+  //   @requestBody({
+  //     content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
+  //   })
+  //     editedHub: DataObject<Hub>,
+  // ): Promise<void> {
+  //   let currentHub = await this.hubRepo.get()
+  //   if (currentHub === null) {
+  //
+  //
+  //     return this.hubRepo.create(editedHub)
+  //       .then(() => {
+  //         eventBus.emit(topics.HUB_CREATED);
+  //       })
+  //   }
+  //   else {
+  //     if (editedHub.cloudId) { currentHub.cloudId = editedHub.cloudId; }
+  //     if (editedHub.name)    { currentHub.name    = editedHub.name;    }
+  //     if (editedHub.token)   { currentHub.token   = editedHub.token;   }
+  //
+  //     return this.hubRepo.update(currentHub)
+  //       .then(() => {
+  //         eventBus.emit(topics.HUB_CREATED);
+  //       })
+  //   }
+  // }
 
 
   @del('/hub')
