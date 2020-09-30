@@ -16,7 +16,11 @@ export class SwitchMonitor {
     let switchStateConverted = Math.min(100, Math.max(switchState));
 
     if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
-      DbRef.switches.create({ stoneUID: crownstoneUid, percentage: switchStateConverted, timestamp: new Date(Util.crownstoneTimeToTimestamp(timestamp)), });
+      DbRef.switches.create({
+        stoneUID: crownstoneUid,
+        percentage: switchStateConverted,
+        timestamp: new Date(Util.crownstoneTimeToTimestamp(timestamp))
+      });
       this.lastSwitchStates[crownstoneUid] = switchStateConverted;
 
       if (MemoryDb.stones[crownstoneUid] && upload) {

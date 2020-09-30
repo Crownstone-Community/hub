@@ -5,7 +5,7 @@ const DbReference_1 = require("../Data/DbReference");
 const crownstone_core_1 = require("crownstone-core");
 class PowerMonitor {
     collect(crownstoneId, powerUsageReal, powerFactor, timestamp) {
-        DbReference_1.DbRef.power.create({
+        return DbReference_1.DbRef.power.create({
             stoneUID: crownstoneId,
             powerUsage: powerUsageReal,
             powerFactor: powerFactor,

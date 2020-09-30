@@ -66,6 +66,21 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
                 extensions: ['.controller.js'],
                 nested: false,
             },
+            repositories: {
+                dirs: ['repositories'],
+                extensions: ['.repository.ts', '.repository.js'],
+                nested: true,
+            },
+            datasources: {
+                dirs: ['datasources'],
+                extensions: ['.datasource.ts', '.datasource.js'],
+                nested: true,
+            },
+            services: {
+                dirs: ['services'],
+                extensions: ['.service.ts', '.service.js'],
+                nested: true,
+            },
         };
     }
     setUpBindings() {

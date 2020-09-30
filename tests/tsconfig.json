@@ -2,11 +2,14 @@
   "$schema": "http://json.schemastore.org/tsconfig",
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "strictNullChecks": false
   },
   "include": [
     "../src/**/*",
     "../tests/**/*",
+    "../node_modules/crownstone-logger/src/declarations/logger_types.d.ts",
+    "../node_modules/crownstone-uart/src/declarations/declarations.d.ts",
     "../node_modules/crownstone-core/src/declarations/declarations.d.ts",
     "../node_modules/crownstone-cloud/src/declarations/**/*"
   ]

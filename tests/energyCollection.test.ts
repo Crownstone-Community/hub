@@ -1,7 +1,139 @@
 import {EnergyMonitor} from '../src/crownstone/MeshMonitor/EnergyMonitor';
+import {clearTestDatabase, createApp} from './helpers';
+import {CrownstoneHubApplication} from '../src';
+import {Client, createRestAppClient} from '@loopback/testlab';
+import {DbRef} from '../src/crownstone/Data/DbReference';
+// import {Logger} from '../src/Logger';
+//
+// const log = Logger("EnergyCollectionTest");
+// log.config.setConsoleLevel('debug')
+
+let app    : CrownstoneHubApplication;
+let client : Client;
+
+beforeEach(async () => { await clearTestDatabase(); })
+beforeAll(async () => {
+  app    = await createApp()
+  client = createRestAppClient(app);
+})
+afterAll(async () => { await app.stop(); })
 
 
-test("collectData", async () => {
-  let monitor = new EnergyMonitor(jest.mock)
+test("check processing energy data without interpolation", async () => {
+  let monitor = new EnergyMonitor();
 
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,0))
+  await monitor.collect(1, 2000, 5, m(1,0))
+
+  await monitor.processMeasurements()
+
+  let processedPoints = await DbRef.energyProcessed.find()
+
+  expect(processedPoints.length).toBe(2)
+  expect(processedPoints[0].energyUsage).toBe(1000)
+  expect(processedPoints[1].energyUsage).toBe(2000)
+});
+
+
+test("check processing energy data without interpolation WITH a gap", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,0))
+  await monitor.collect(1, 2000, 5, m(1,0))
+  await monitor.collect(1, 3000, 5, m(8,0))
+
+  await monitor.processMeasurements()
+
+  await monitor.collect(1, 4000, 5, m(9,0))
+
+  await monitor.processMeasurements()
+
+  let processedPoints = await DbRef.energyProcessed.find()
+
+  expect(processedPoints.length).toBe(4)
+});
+
+
+test("check processing energy data without interpolation WITH a gap 2", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,0))
+  await monitor.collect(1, 2000, 5, m(1,0))
+  await monitor.collect(1, 3000, 5, m(8,0))
+  await monitor.collect(1, 4000, 5, m(9,0))
+
+  await monitor.processMeasurements()
+
+  let processedPoints = await DbRef.energyProcessed.find()
+
+  expect(processedPoints.length).toBe(4)
+});
+
+
+test("check processing energy data in normal situation", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,1))
+  await monitor.collect(1, 2000, 5, m(1,4))
+  await monitor.collect(1, 3000, 5, m(2,0))
+  await monitor.collect(1, 4000, 5, m(5,4))
+
+  await monitor.processMeasurements()
+
+  let energyPoints    = await DbRef.energy.find();
+  let processedPoints = await DbRef.energyProcessed.find()
+
+  expect(processedPoints[0].energyUsage).toBe(Math.round((1000/63)*59+1000));
+  expect(processedPoints[1].energyUsage).toBe(3000);
+  expect(processedPoints[2].energyUsage).toBe(Math.round((1000/184)*60 + 3000));
+  expect(processedPoints[3].energyUsage).toBe(Math.round((1000/184)*120 + 3000));
+  expect(processedPoints[4].energyUsage).toBe(Math.round((1000/184)*180 + 3000));
+
+  for (let i = 0; i < energyPoints.length-1;i++) {
+    expect(energyPoints[i].processed).toBe(true);
+  }
+  expect(energyPoints[energyPoints.length -1].processed).toBe(false);
+});
+
+
+test("check reboot detection and handling", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,1))
+  await monitor.collect(1, 0, 5, m(2,4))
+  await monitor.collect(1, 3000, 5, m(4,0))
+
+  await monitor.processMeasurements()
+
+  let processedPoints = await DbRef.energyProcessed.find()
+  expect(processedPoints[0].energyUsage).toBe(1000);
+  expect(processedPoints[1].energyUsage).toBe(1000);
+  expect(processedPoints[2].energyUsage).toBe(Math.round((3000/116)*56) + 1000);
+  expect(processedPoints[3].energyUsage).toBe(3000 + 1000);
+});
+
+
+test("check large gap", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(0,1))
+  await monitor.collect(1, 2000, 5, m(1,1))
+  await monitor.collect(1, 3000, 5, m(9,0))
+  await monitor.collect(1, 4000, 5, m(10,0))
+
+  await monitor.processMeasurements()
+  let processedPoints = await DbRef.energyProcessed.find()
+  expect(processedPoints.length).toBe(3)
 });

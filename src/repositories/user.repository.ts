@@ -19,8 +19,8 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
   public permissions: HasManyRepositoryFactory<UserPermission, typeof User.prototype.id>;
 
   constructor(
-    @repository(UserPermissionRepository) protected userPermissionRepository: UserPermissionRepository,
     @inject('datasources.mongo') protected datasource: juggler.DataSource,
+    @repository(UserPermissionRepository) protected userPermissionRepository: UserPermissionRepository,
   ) {
     super(User, datasource);
     this.permissions = this.createHasManyRepositoryFactoryFor('permissions',async () => userPermissionRepository);

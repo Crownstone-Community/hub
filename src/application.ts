@@ -82,12 +82,29 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
         extensions: ['.controller.js'],
         nested: false,
       },
+      repositories: {
+        dirs: ['repositories'],
+        extensions: ['.repository.ts','.repository.js'],
+        nested: true,
+      },
+      datasources: {
+        dirs: ['datasources'],
+        extensions: ['.datasource.ts','.datasource.js'],
+        nested: true,
+      },
+      services: {
+        dirs: ['services'],
+        extensions: ['.service.ts','.service.js'],
+        nested: true,
+      },
     };
   }
 
   setUpBindings(): void {
     this.bind("UserService").toClass(UserService);
   }
+
+
 }
 
 

@@ -2082,8 +2082,8 @@
         "affectsGlobalScope": false
       },
       "../src/models/energy-data-processed.model.ts": {
-        "version": "970a54f6eec03ca2f94649eb36a1e3568002090c86230f49584171217c0cd6e3",
-        "signature": "5547536cabd32fed12425203352ad3fc78672ba36eaa012202d23a4be926a656",
+        "version": "529214a1cf78705a6daf47b1c0e3f8da0ef32c044d07e492bce92c71330e9089",
+        "signature": "93894ff8be9230a32683154ad3f192ba73dad8158458d82aea496d718947500d",
         "affectsGlobalScope": false
       },
       "../src/models/power-data.model.ts": {
@@ -2516,8 +2516,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/powermonitor.ts": {
-        "version": "fb4ebe0160bb741b5fb984bf5df01af440a2e15602d8cf9608f1da171f30304f",
-        "signature": "810bb321397c2666eff77a5b1205d44aeb6420c3bd86ed8b1f6c10321d250877",
+        "version": "e8a4c2f395530331199a64f505b4c8b6edaa4883d329b1d1619622aebb478b22",
+        "signature": "890e76be3b0c13afceeb8f8375c5f5bce063dd5c2a8b9fe35780df0ed1aa2abd",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudcommandhandler.ts": {
@@ -2526,8 +2526,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "573b72da2d0490cb3dc02dc4d50031dd5d43634aea7d267e27a6cc285bf699ec",
-        "signature": "104af7283e6aa2a4af7b8b47b107d70646dfb3951af35b54a93bf631279fb81e",
+        "version": "eeab10f34519f571fefb27ea19e277acc6d82ed8463835de0954b33715a597c0",
+        "signature": "25f0c282678475f6f12a80a879ea48436d63455b27da42a4c5ee6dcc45dcabd3",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
@@ -2536,7 +2536,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/switchmonitor.ts": {
-        "version": "182b979bae320994e91ef46f7b3e17d830f1e98b23a9ea4b5f6db3cc36bf2826",
+        "version": "b2c61735d72b3985d191a9838b940e607cc09364aacc75d818fd0fd16139cdb5",
         "signature": "02ac5a3a7d593621b1add852096e1ba9686919f64a6307064d5d79f9a142c44a",
         "affectsGlobalScope": false
       },
@@ -2576,8 +2576,8 @@
         "affectsGlobalScope": false
       },
       "../src/repositories/user.repository.ts": {
-        "version": "88740fd20e88f929402045923af55e05adba0c69ce40ecd4a22bad658fd62226",
-        "signature": "db364f7eec3bf05e51120853ee3f09763cfbb94531998b2c882167c65eae5bbe",
+        "version": "b10555ffb6b83c28717290cc75c849d85c8758298d051510dbad870307bee730",
+        "signature": "76edc616f0fed034aa24800381f7ae80d817cc9ac5f9caf2e0c930f3912f3e4b",
         "affectsGlobalScope": false
       },
       "../src/repositories/index.ts": {
@@ -2631,7 +2631,7 @@
         "affectsGlobalScope": false
       },
       "../src/application.ts": {
-        "version": "45d1745f9799c8fcda792100e5ae9568ae2871f1a26c08adaf4ae02533fab71a",
+        "version": "e60040435bcce69f2d0e36992fa20ffbd1e56f33578e5ac69a6ace4b0afc9b80",
         "signature": "3f13db18edcdf032f483dbe975028aeb1cbf616e97482006527c5f8478c7554d",
         "affectsGlobalScope": false
       },
@@ -2666,7 +2666,7 @@
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "476b6cdad7b0de0903511460639368f12d1910144a92e733d578ec58fa9236a0",
+        "version": "bf792846314897f6e95c1e612212b9862d7c5343f5610eb8ea55c07a7f75f119",
         "signature": "9c4af631ae06937e8e55b0e1fcea32aa0802711846037774adabf0355bb87153",
         "affectsGlobalScope": false
       },
@@ -8258,6 +8258,9 @@
         "../src/crownstone/meshmonitor/powermonitor.ts",
         "../src/crownstone/meshmonitor/switchmonitor.ts",
         "../src/crownstone/meshmonitor/topologymonitor.ts"
+      ],
+      "../src/crownstone/meshmonitor/powermonitor.ts": [
+        "../src/models/index.ts"
       ],
       "../src/crownstone/uart/uart.ts": [
         "../node_modules/crownstone-uart/dist/index.d.ts",

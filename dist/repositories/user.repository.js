@@ -12,10 +12,10 @@ const user_model_1 = require("../models/user.model");
 const user_permission_repository_1 = require("./user-permission.repository");
 const dist_1 = require("@loopback/rest/dist");
 let UserRepository = class UserRepository extends repository_1.DefaultCrudRepository {
-    constructor(userPermissionRepository, datasource) {
+    constructor(datasource, userPermissionRepository) {
         super(user_model_1.User, datasource);
-        this.userPermissionRepository = userPermissionRepository;
         this.datasource = datasource;
+        this.userPermissionRepository = userPermissionRepository;
         this.permissions = this.createHasManyRepositoryFactoryFor('permissions', async () => userPermissionRepository);
     }
     async create(entity, options) {
@@ -73,9 +73,9 @@ let UserRepository = class UserRepository extends repository_1.DefaultCrudReposi
     }
 };
 UserRepository = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(user_permission_repository_1.UserPermissionRepository)),
-    tslib_1.__param(1, core_1.inject('datasources.mongo')),
-    tslib_1.__metadata("design:paramtypes", [user_permission_repository_1.UserPermissionRepository, repository_1.juggler.DataSource])
+    tslib_1.__param(0, core_1.inject('datasources.mongo')),
+    tslib_1.__param(1, repository_1.repository(user_permission_repository_1.UserPermissionRepository)),
+    tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource, user_permission_repository_1.UserPermissionRepository])
 ], UserRepository);
 exports.UserRepository = UserRepository;
 //# sourceMappingURL=user.repository.js.map
