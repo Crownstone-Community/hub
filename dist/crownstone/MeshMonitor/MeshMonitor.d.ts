@@ -9,8 +9,7 @@ export declare class MeshMonitor {
     energy: EnergyMonitor;
     switch: SwitchMonitor;
     topology: TopologyMonitor;
-    hubReference: CrownstoneHub;
-    constructor(hub: CrownstoneHub);
+    constructor();
     init(): void;
     cleanup(): void;
     setupEvents(): void;

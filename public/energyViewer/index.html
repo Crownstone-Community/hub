@@ -20,11 +20,75 @@
     <p><i>It has to be 64 characters long. Press enter to continue.</i></p>
 </div>
 
-<div id="graphWrapper" style="display:none">
-Select Crownstone to visualize:
-<select id="stoneSelector" onchange="updateSelectedStoneData();">
-    <option>---- select -----</option>
-</select>
+<div id="graphWrapper" style="display:block">
+    <div style="width:500px; height: 80px">
+        <div style="float:left">
+            <p>From:</p>
+            <input type="date" id="fromDate" />
+            <input type="time" id="fromTime" value="00:00"/>
+        </div>
+        <div style="float:right">
+            <p>Until:</p>
+            <input type="date" id="untilDate" />
+            <input type="time" id="untilTime" value="23:59"/>
+        </div>
+    </div>
+    <div>
+        <p>Max amount of samples:</p>
+        <input type="number" id="sampleCount" value="5000"/>
+
+        <p><b>Type of data:</b></p>
+        <div>
+            <input type="radio" id="dataType1" name="dataType" value="energy" onchange="determineDataType()">
+            <label for="dataType1">Energy (kWh, etc.)</label>
+            <input type="radio" id="dataType2" name="dataType" value="power" checked="checked" onchange="determineDataType()">
+            <label for="dataType2">Power (W)</label>
+        </div>
+    </div>
+    <div id="unitsWrapper" style="display:none">
+        <p><b>Units:</b></p>
+        <div>
+            <input type="radio" id="unitType1" name="unitType" value="j" checked="checked" onchange="determineUnitsType()">
+            <label for="unitType1">Joule</label>
+            <input type="radio" id="unitType2" name="unitType" value="wh" onchange="determineUnitsType()">
+            <label for="unitType2">Watt hour</label>
+            <input type="radio" id="unitType3" name="unitType" value="kwh" onchange="determineUnitsType()">
+            <label for="unitType3">kWh</label>
+        </div>
+    </div>
+
+    <div id="presentationEnergyWrapper" style="display:block">
+        <p><b>Data presentation:</b></p>
+        <div>
+            <div>
+                <input type="radio" id="presentationType1" name="presentationEnergy" value="cumulative" checked="checked" onchange="determinePresentationType()">
+                <label for="presentationType1">Cumulative</label>
+            </div><div>
+                <input type="radio" id="presentationType2" name="presentationEnergy" value="minuteBlock" onchange="determinePresentationType()">
+                <label for="presentationType2">Usage per minute</label>
+            </div><div>
+                <input type="radio" id="presentationType3" name="presentationEnergy" value="hourBlock" onchange="determinePresentationType()">
+                <label for="presentationType3">Usage per hour</label>
+            </div><div>
+                <input type="radio" id="presentationType4" name="presentationEnergy" value="hourBlock" onchange="determinePresentationType()">
+                <label for="presentationType4">Usage per day</label>
+            </div>
+        </div>
+    </div>
+    <div id="presentationPowerWrapper" style="display:block">
+        <p><b>Data presentation:</b></p>
+        <div>
+            <input type="radio" id="presentationPowerType1" name="presentationPower" value="minuteBlock" checked="checked" onchange="determinePresentationType()">
+            <label for="presentationPowerType1">average per minute</label>
+            <input type="radio" id="presentationPowerType2" name="presentationPower" value="hourBlock" onchange="determinePresentationType()">
+            <label for="presentationPowerType2">average per hour</label>
+        </div>
+    </div>
+
+    <p><b>Select Crownstone to visualize:</b></p>
+    <select id="stoneSelector" onchange="selectedStoneChanged();">
+        <option>---- select -----</option>
+    </select>
 <div id="visualization"></div>
 </div>
 </body>

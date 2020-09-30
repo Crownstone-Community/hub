@@ -23,7 +23,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   constructor() {
     this.cloud = new CloudManager()
     this.uart  = new Uart();
-    this.mesh  = new MeshMonitor(this);
+    this.mesh  = new MeshMonitor();
 
     this.timeKeeper = new Timekeeper(this);
     CloudCommandHandler.loadManager(this.cloud);

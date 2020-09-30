@@ -5,12 +5,10 @@ const DbReference_1 = require("../Data/DbReference");
 const MemoryDb_1 = require("../Data/MemoryDb");
 const CloudCommandHandler_1 = require("../Cloud/CloudCommandHandler");
 const Logger_1 = require("../../Logger");
+const crownstone_core_1 = require("crownstone-core");
 const log = Logger_1.Logger(__filename);
 const SAMPLE_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
-    constructor(hub) {
-        this.hubReference = hub;
-    }
     init() {
         this.stop();
         this.timeInterval = setInterval(() => {
@@ -110,12 +108,16 @@ class EnergyMonitor {
             let pointTimestamp = datapoint.timestamp.valueOf();
             let nextSamplePoint = new Date(pointTimestamp).setSeconds(0, 0);
             // if this datapoint is exactly the sample point, great!
-            // if this datapoint is not the last point we handle, we allow it to be processed.
+            // if this datapoint is not the last point in the array, we allow it to be processed.
             // if we process the last datapoint, we cannot use it if we want to interpolate for the next one.
             if (datapoint.timestamp.valueOf() === nextSamplePoint && i === energyData.length - 1) {
-                samples.push({ stoneUID: Number(stoneUID), energyUsage: Math.round(datapoint.energyUsage), timestamp: new Date(nextSamplePoint), uploaded: false });
+                let energyAtPoint = datapoint.energyUsage;
+                if (offsetValue && energyAtPoint < offsetValue * 0.9) {
+                    energyAtPoint += offsetValue;
+                }
+                samples.push({ stoneUID: Number(stoneUID), energyUsage: energyAtPoint, timestamp: new Date(nextSamplePoint), uploaded: false });
                 datapoint.processed = true;
-                DbReference_1.DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", 2, e); }); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
+                DbReference_1.DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", e); }); // we do not wait on this modifcation, but assume it will be successful. If it is not, we will re-evaluate this point later on again.
                 prev = datapoint;
                 continue;
             }
@@ -210,7 +212,7 @@ class EnergyMonitor {
             stoneUID: crownstoneId,
             energyUsage: accumulatedEnergy,
             pointPowerUsage: powerUsage,
-            timestamp: new Date(timestamp * 1000),
+            timestamp: new Date(crownstone_core_1.Util.crownstoneTimeToTimestamp(timestamp)),
             processed: false
         });
     }

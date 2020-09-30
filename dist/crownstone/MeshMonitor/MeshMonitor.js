@@ -10,11 +10,10 @@ const topics_1 = require("../topics");
 const Logger_1 = require("../../Logger");
 const log = Logger_1.Logger(__filename);
 class MeshMonitor {
-    constructor(hub) {
+    constructor() {
         this.eventsRegistered = false;
-        this.hubReference = hub;
         this.power = new PowerMonitor_1.PowerMonitor();
-        this.energy = new EnergyMonitor_1.EnergyMonitor(this.hubReference);
+        this.energy = new EnergyMonitor_1.EnergyMonitor();
         this.switch = new SwitchMonitor_1.SwitchMonitor();
         this.topology = new TopologyMonitor_1.TopologyMonitor();
     }
@@ -35,9 +34,9 @@ class MeshMonitor {
     gather(data) {
         let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
         log.debug("Received data from", crownstoneUid);
-        this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
+        this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
         this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
-        this.switch.collect(crownstoneUid, data.switchState);
+        this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
         this.topology.collect(crownstoneUid);
     }
 }

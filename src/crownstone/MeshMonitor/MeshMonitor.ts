@@ -16,13 +16,9 @@ export class MeshMonitor {
   switch:   SwitchMonitor;
   topology: TopologyMonitor;
 
-  hubReference: CrownstoneHub
-
-  constructor(hub : CrownstoneHub) {
-    this.hubReference = hub;
-
+  constructor() {
     this.power    = new PowerMonitor();
-    this.energy   = new EnergyMonitor(this.hubReference);
+    this.energy   = new EnergyMonitor();
     this.switch   = new SwitchMonitor();
     this.topology = new TopologyMonitor();
   }
@@ -47,10 +43,9 @@ export class MeshMonitor {
   gather(data: ServiceDataJson) {
     let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
     log.debug("Received data from", crownstoneUid)
-
-    this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor);
+    this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
     this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
-    this.switch.collect(crownstoneUid, data.switchState);
+    this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
     this.topology.collect(crownstoneUid);
   }
 } 

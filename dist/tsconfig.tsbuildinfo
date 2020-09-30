@@ -2516,8 +2516,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/powermonitor.ts": {
-        "version": "6d36b9cad4935d1aee9a5324970e627f729c5627766a7dc2e9ed5c461dab28a4",
-        "signature": "271a69642272014220724db79836e57fa6d8cfc4994a89ab7a68d4d11b0d9847",
+        "version": "fb4ebe0160bb741b5fb984bf5df01af440a2e15602d8cf9608f1da171f30304f",
+        "signature": "810bb321397c2666eff77a5b1205d44aeb6420c3bd86ed8b1f6c10321d250877",
         "affectsGlobalScope": false
       },
       "../src/crownstone/cloud/cloudcommandhandler.ts": {
@@ -2526,8 +2526,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "f88ca36d3d6e73bcf663948fb7fe7f8ec306dc7013aa4565e2e0a145e0ae58c1",
-        "signature": "cbdc9f4a88f8fa6fe419034efc8c84ce65bd6f92e5d743582c6e13306b1c3506",
+        "version": "573b72da2d0490cb3dc02dc4d50031dd5d43634aea7d267e27a6cc285bf699ec",
+        "signature": "104af7283e6aa2a4af7b8b47b107d70646dfb3951af35b54a93bf631279fb81e",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
@@ -2536,13 +2536,13 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/switchmonitor.ts": {
-        "version": "e5ed573332d24fa2e78ea626cd934c8b700d80855d435e5218a38d64a1fae2ef",
-        "signature": "70600831cceb869a66de6ae40110998d21d7e6fc6051a4c49451f9a416dc7239",
+        "version": "182b979bae320994e91ef46f7b3e17d830f1e98b23a9ea4b5f6db3cc36bf2826",
+        "signature": "02ac5a3a7d593621b1add852096e1ba9686919f64a6307064d5d79f9a142c44a",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/meshmonitor.ts": {
-        "version": "a95db2d4acf705759ae32f34d599191df17d32e9103197598db6c972943a969c",
-        "signature": "16bd73e97565b805f66e1273dfcaa784f0f636e5fac72240342f1b09c5e8b91e",
+        "version": "23ba61ac2af05ad49665481f11d040d6d1290d96066ee56d2e2fb2d5b4829de9",
+        "signature": "22a561dee40e5021150d1e77a07fed252f6efd0aff774f9c2a0db252d43dbc1f",
         "affectsGlobalScope": false
       },
       "../src/crownstone/actions/timekeeper.ts": {
@@ -2551,7 +2551,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/crownstonehub.ts": {
-        "version": "d947547c65f69f8492d832ca80359e8cdcea3b4d6a5061d65e6d5907b90cb262",
+        "version": "7c252fbdf2668e296de95bb933748f04152d7bed67cc968957e71be22ce2949a",
         "signature": "fae2ec4ce5bcc685d2505748a438cf5988c28db339d62c99173a7289b9a9ff74",
         "affectsGlobalScope": false
       },
@@ -2850,6 +2850,36 @@
         "signature": "9eb263f60c623a1782c7f794f254baac5a9c012b198e95c56d082baff34004cb",
         "affectsGlobalScope": true
       },
+      "../node_modules/@babel/types/lib/index.d.ts": {
+        "version": "f4d27b39be5d82eb94f12c54a15e61f65decb27fb289353d11ef238de49bf5c2",
+        "signature": "f4d27b39be5d82eb94f12c54a15e61f65decb27fb289353d11ef238de49bf5c2",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/babel__generator/index.d.ts": {
+        "version": "b25c5f2970d06c729f464c0aeaa64b1a5b5f1355aa93554bb5f9c199b8624b1e",
+        "signature": "b25c5f2970d06c729f464c0aeaa64b1a5b5f1355aa93554bb5f9c199b8624b1e",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/babel__traverse/index.d.ts": {
+        "version": "ef91066d2057cca50511e3af2d4aa54e07913a15f9cee1748f256139318eb413",
+        "signature": "ef91066d2057cca50511e3af2d4aa54e07913a15f9cee1748f256139318eb413",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@babel/parser/typings/babel-parser.d.ts": {
+        "version": "04467c3822f065aee977f9e1225b86b9ac0e976cb42b0c8da0b893a3290920e1",
+        "signature": "04467c3822f065aee977f9e1225b86b9ac0e976cb42b0c8da0b893a3290920e1",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/babel__template/index.d.ts": {
+        "version": "3e0a34f7207431d967dc32d593d1cda0c23975e9484bc8895b39d96ffca4a0d8",
+        "signature": "3e0a34f7207431d967dc32d593d1cda0c23975e9484bc8895b39d96ffca4a0d8",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/babel__core/index.d.ts": {
+        "version": "7df3163944694feeac63067632a8dc2e2dea1350119ec8b43df277af69198369",
+        "signature": "7df3163944694feeac63067632a8dc2e2dea1350119ec8b43df277af69198369",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@types/keyv/index.d.ts": {
         "version": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23",
         "signature": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23",
@@ -2899,6 +2929,66 @@
         "version": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
         "signature": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
         "affectsGlobalScope": false
+      },
+      "../node_modules/@types/graceful-fs/index.d.ts": {
+        "version": "2c7dca525f4e2e5f2b357dacb58ab6c8777995e6d505ef652bcbbf9789ac558f",
+        "signature": "2c7dca525f4e2e5f2b357dacb58ab6c8777995e6d505ef652bcbbf9789ac558f",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/istanbul-lib-coverage/index.d.ts": {
+        "version": "de18acda71730bac52f4b256ce7511bb56cc21f6f114c59c46782eff2f632857",
+        "signature": "de18acda71730bac52f4b256ce7511bb56cc21f6f114c59c46782eff2f632857",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/istanbul-lib-report/index.d.ts": {
+        "version": "7eb06594824ada538b1d8b48c3925a83e7db792f47a081a62cf3e5c4e23cf0ee",
+        "signature": "7eb06594824ada538b1d8b48c3925a83e7db792f47a081a62cf3e5c4e23cf0ee",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/istanbul-reports/index.d.ts": {
+        "version": "905c3e8f7ddaa6c391b60c05b2f4c3931d7127ad717a080359db3df510b7bdab",
+        "signature": "905c3e8f7ddaa6c391b60c05b2f4c3931d7127ad717a080359db3df510b7bdab",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts": {
+        "version": "e222104af6cb9415238ad358488b74d76eceeff238c1268ec6e85655b05341da",
+        "signature": "e222104af6cb9415238ad358488b74d76eceeff238c1268ec6e85655b05341da",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts": {
+        "version": "69da61a7b5093dac77fa3bec8be95dcf9a74c95a0e9161edb98bb24e30e439d2",
+        "signature": "69da61a7b5093dac77fa3bec8be95dcf9a74c95a0e9161edb98bb24e30e439d2",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts": {
+        "version": "eba230221317c985ab1953ccc3edc517f248b37db4fef7875cb2c8d08aff7be7",
+        "signature": "eba230221317c985ab1953ccc3edc517f248b37db4fef7875cb2c8d08aff7be7",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts": {
+        "version": "b83e796810e475da3564c6515bc0ae9577070596a33d89299b7d99f94ecfd921",
+        "signature": "b83e796810e475da3564c6515bc0ae9577070596a33d89299b7d99f94ecfd921",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts": {
+        "version": "b4439890c168d646357928431100daac5cbdee1d345a34e6bf6eca9f3abe22bc",
+        "signature": "b4439890c168d646357928431100daac5cbdee1d345a34e6bf6eca9f3abe22bc",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/pretty-format/build/types.d.ts": {
+        "version": "5d72971a459517c44c1379dab9ed248e87a61ba0a1e0f25c9d67e1e640cd9a09",
+        "signature": "5d72971a459517c44c1379dab9ed248e87a61ba0a1e0f25c9d67e1e640cd9a09",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts": {
+        "version": "02d734976af36f4273d930bea88b3e62adf6b078cf120c1c63d49aa8d8427c5c",
+        "signature": "02d734976af36f4273d930bea88b3e62adf6b078cf120c1c63d49aa8d8427c5c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/jest/index.d.ts": {
+        "version": "f2b73fbe0e4e473289046067e91303cd1b0994206edc6d38b80aa45692afa6b8",
+        "signature": "f2b73fbe0e4e473289046067e91303cd1b0994206edc6d38b80aa45692afa6b8",
+        "affectsGlobalScope": true
       },
       "../node_modules/@types/lodash/common/common.d.ts": {
         "version": "29304d38d619bac17128f20c21af1a03256f9edf8f0b82e6674565e09e956dff",
@@ -2970,9 +3060,19 @@
         "signature": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
         "affectsGlobalScope": true
       },
+      "../node_modules/@types/normalize-package-data/index.d.ts": {
+        "version": "c9ad058b2cc9ce6dc2ed92960d6d009e8c04bef46d3f5312283debca6869f613",
+        "signature": "c9ad058b2cc9ce6dc2ed92960d6d009e8c04bef46d3f5312283debca6869f613",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@types/on-finished/index.d.ts": {
         "version": "c69767317aec528b574762b18727db85eef7cf66f33617cc0ee905cbe5a43d97",
         "signature": "c69767317aec528b574762b18727db85eef7cf66f33617cc0ee905cbe5a43d97",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/prettier/index.d.ts": {
+        "version": "38433e50f876a09a45b665837a2954003ae14606270a157491f2bb52edf10382",
+        "signature": "38433e50f876a09a45b665837a2954003ae14606270a157491f2bb52edf10382",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/shot/index.d.ts": {
@@ -2990,6 +3090,11 @@
         "signature": "a586d90634d2ad27c7f2022b5c42ccec5a83996e41e78376d3e145fe6bf35d8a",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/stack-utils/index.d.ts": {
+        "version": "41422586881bcd739b4e62d9b91cd29909f8572aa3e3cdf316b7c50f14708d49",
+        "signature": "41422586881bcd739b4e62d9b91cd29909f8572aa3e3cdf316b7c50f14708d49",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@types/superagent/index.d.ts": {
         "version": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
         "signature": "022bb15c2fb40bb465a4511476b1796b9977e2bab463ffd8b2b3d1d1a56b00d1",
@@ -3003,6 +3108,16 @@
       "../node_modules/@types/type-is/index.d.ts": {
         "version": "37e4c904fc4eede08a541021c074c160cf27f6a756e4459197c2711fb8b2a648",
         "signature": "37e4c904fc4eede08a541021c074c160cf27f6a756e4459197c2711fb8b2a648",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/yargs-parser/index.d.ts": {
+        "version": "fdfbe321c556c39a2ecf791d537b999591d0849e971dd938d88f460fea0186f6",
+        "signature": "fdfbe321c556c39a2ecf791d537b999591d0849e971dd938d88f460fea0186f6",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/yargs/index.d.ts": {
+        "version": "f0ed104b5564e9fda6de99e1f489207e7aad5bdf3f7c679aa327756d1f0a90a5",
+        "signature": "f0ed104b5564e9fda6de99e1f489207e7aad5bdf3f7c679aa327756d1f0a90a5",
         "affectsGlobalScope": false
       }
     },
@@ -3029,6 +3144,9 @@
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
+      "../node_modules/@babel/parser/typings/babel-parser.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
       "../node_modules/@loopback/authentication/dist/authentication.component.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
@@ -4561,6 +4679,23 @@
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
+      "../node_modules/@types/babel__core/index.d.ts": [
+        "../node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "../node_modules/@babel/types/lib/index.d.ts",
+        "../node_modules/@types/babel__generator/index.d.ts",
+        "../node_modules/@types/babel__template/index.d.ts",
+        "../node_modules/@types/babel__traverse/index.d.ts"
+      ],
+      "../node_modules/@types/babel__generator/index.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "../node_modules/@types/babel__template/index.d.ts": [
+        "../node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "../node_modules/@types/babel__traverse/index.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
       "../node_modules/@types/body-parser/index.d.ts": [
         "../node_modules/@types/connect/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
@@ -4603,6 +4738,37 @@
         "../node_modules/@types/minimatch/index.d.ts",
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/graceful-fs/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/istanbul-lib-report/index.d.ts": [
+        "../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../node_modules/@types/istanbul-reports/index.d.ts": [
+        "../node_modules/@types/istanbul-lib-report/index.d.ts"
+      ],
+      "../node_modules/@types/jest/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts",
+        "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/pretty-format/build/types.d.ts"
       ],
       "../node_modules/@types/keyv/index.d.ts": [
         "../node_modules/@types/node/events.d.ts",
@@ -4990,6 +5156,9 @@
       "../node_modules/@types/type-is/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/yargs/index.d.ts": [
+        "../node_modules/@types/yargs-parser/index.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts": [
         "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts",
@@ -5445,6 +5614,7 @@
       ],
       "../src/crownstone/meshmonitor/energymonitor.ts": [
         "../node_modules/@loopback/repository/src/common-types.ts",
+        "../node_modules/crownstone-core/dist/index.d.ts",
         "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/data/memorydb.ts",
@@ -5461,9 +5631,11 @@
         "../src/logger.ts"
       ],
       "../src/crownstone/meshmonitor/powermonitor.ts": [
+        "../node_modules/crownstone-core/dist/index.d.ts",
         "../src/crownstone/data/dbreference.ts"
       ],
       "../src/crownstone/meshmonitor/switchmonitor.ts": [
+        "../node_modules/crownstone-core/dist/index.d.ts",
         "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/data/memorydb.ts"
@@ -5689,6 +5861,9 @@
       ]
     },
     "exportedModulesMap": {
+      "../node_modules/@babel/parser/typings/babel-parser.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
       "../node_modules/@loopback/authentication/dist/authentication.component.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
@@ -7221,6 +7396,23 @@
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts"
       ],
+      "../node_modules/@types/babel__core/index.d.ts": [
+        "../node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "../node_modules/@babel/types/lib/index.d.ts",
+        "../node_modules/@types/babel__generator/index.d.ts",
+        "../node_modules/@types/babel__template/index.d.ts",
+        "../node_modules/@types/babel__traverse/index.d.ts"
+      ],
+      "../node_modules/@types/babel__generator/index.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "../node_modules/@types/babel__template/index.d.ts": [
+        "../node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "../node_modules/@types/babel__traverse/index.d.ts": [
+        "../node_modules/@babel/types/lib/index.d.ts"
+      ],
       "../node_modules/@types/body-parser/index.d.ts": [
         "../node_modules/@types/connect/index.d.ts",
         "../node_modules/@types/node/http.d.ts",
@@ -7263,6 +7455,37 @@
         "../node_modules/@types/minimatch/index.d.ts",
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/graceful-fs/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/istanbul-lib-report/index.d.ts": [
+        "../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../node_modules/@types/istanbul-reports/index.d.ts": [
+        "../node_modules/@types/istanbul-lib-report/index.d.ts"
+      ],
+      "../node_modules/@types/jest/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts",
+        "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts": [
+        "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+        "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts"
+      ],
+      "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts": [
+        "../node_modules/@types/jest/node_modules/pretty-format/build/types.d.ts"
       ],
       "../node_modules/@types/keyv/index.d.ts": [
         "../node_modules/@types/node/events.d.ts",
@@ -7650,6 +7873,9 @@
       "../node_modules/@types/type-is/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
+      ],
+      "../node_modules/@types/yargs/index.d.ts": [
+        "../node_modules/@types/yargs-parser/index.d.ts"
       ],
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts": [
         "../node_modules/crownstone-cloud/dist/datacontainers/crownstone.d.ts",
@@ -8175,6 +8401,8 @@
       ]
     },
     "semanticDiagnosticsPerFile": [
+      "../node_modules/@babel/parser/typings/babel-parser.d.ts",
+      "../node_modules/@babel/types/lib/index.d.ts",
       "../node_modules/@loopback/authentication/dist/authentication.component.d.ts",
       "../node_modules/@loopback/authentication/dist/decorators/authenticate.decorator.d.ts",
       "../node_modules/@loopback/authentication/dist/decorators/index.d.ts",
@@ -8463,6 +8691,10 @@
       "../node_modules/@loopback/service-proxy/dist/legacy-juggler-bridge.d.ts",
       "../node_modules/@loopback/service-proxy/dist/mixins/index.d.ts",
       "../node_modules/@loopback/service-proxy/dist/mixins/service.mixin.d.ts",
+      "../node_modules/@types/babel__core/index.d.ts",
+      "../node_modules/@types/babel__generator/index.d.ts",
+      "../node_modules/@types/babel__template/index.d.ts",
+      "../node_modules/@types/babel__traverse/index.d.ts",
       "../node_modules/@types/body-parser/index.d.ts",
       "../node_modules/@types/cacheable-request/index.d.ts",
       "../node_modules/@types/color-name/index.d.ts",
@@ -8475,8 +8707,20 @@
       "../node_modules/@types/express/index.d.ts",
       "../node_modules/@types/fs-extra/index.d.ts",
       "../node_modules/@types/glob/index.d.ts",
+      "../node_modules/@types/graceful-fs/index.d.ts",
       "../node_modules/@types/http-cache-semantics/index.d.ts",
       "../node_modules/@types/http-errors/index.d.ts",
+      "../node_modules/@types/istanbul-lib-coverage/index.d.ts",
+      "../node_modules/@types/istanbul-lib-report/index.d.ts",
+      "../node_modules/@types/istanbul-reports/index.d.ts",
+      "../node_modules/@types/jest/index.d.ts",
+      "../node_modules/@types/jest/node_modules/jest-diff/build/cleanupsemantic.d.ts",
+      "../node_modules/@types/jest/node_modules/jest-diff/build/difflines.d.ts",
+      "../node_modules/@types/jest/node_modules/jest-diff/build/index.d.ts",
+      "../node_modules/@types/jest/node_modules/jest-diff/build/printdiffs.d.ts",
+      "../node_modules/@types/jest/node_modules/jest-diff/build/types.d.ts",
+      "../node_modules/@types/jest/node_modules/pretty-format/build/index.d.ts",
+      "../node_modules/@types/jest/node_modules/pretty-format/build/types.d.ts",
       "../node_modules/@types/json-schema/index.d.ts",
       "../node_modules/@types/keyv/index.d.ts",
       "../node_modules/@types/lodash/common/array.d.ts",
@@ -8542,7 +8786,9 @@
       "../node_modules/@types/node/wasi.d.ts",
       "../node_modules/@types/node/worker_threads.d.ts",
       "../node_modules/@types/node/zlib.d.ts",
+      "../node_modules/@types/normalize-package-data/index.d.ts",
       "../node_modules/@types/on-finished/index.d.ts",
+      "../node_modules/@types/prettier/index.d.ts",
       "../node_modules/@types/qs/index.d.ts",
       "../node_modules/@types/range-parser/index.d.ts",
       "../node_modules/@types/responselike/index.d.ts",
@@ -8550,9 +8796,12 @@
       "../node_modules/@types/shot/index.d.ts",
       "../node_modules/@types/sinon/index.d.ts",
       "../node_modules/@types/sinonjs__fake-timers/index.d.ts",
+      "../node_modules/@types/stack-utils/index.d.ts",
       "../node_modules/@types/superagent/index.d.ts",
       "../node_modules/@types/supertest/index.d.ts",
       "../node_modules/@types/type-is/index.d.ts",
+      "../node_modules/@types/yargs-parser/index.d.ts",
+      "../node_modules/@types/yargs/index.d.ts",
       "../node_modules/ajv/lib/ajv.d.ts",
       "../node_modules/crownstone-cloud/dist/crownstonecloud.d.ts",
       "../node_modules/crownstone-cloud/dist/crownstonewebhooks.d.ts",

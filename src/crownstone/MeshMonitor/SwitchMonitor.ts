@@ -1,6 +1,7 @@
 import {DbRef} from '../Data/DbReference';
 import {MemoryDb} from '../Data/MemoryDb';
 import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
+import {Util} from 'crownstone-core';
 
 
 /**
@@ -11,11 +12,11 @@ import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
 export class SwitchMonitor {
   lastSwitchStates : {[stoneUID : string]: number} = {};
 
-  collect( crownstoneUid: number, switchState: number, upload: boolean = true ) {
+  collect( crownstoneUid: number, switchState: number, timestamp: number, upload: boolean = true) {
     let switchStateConverted = Math.min(100, Math.max(switchState));
 
     if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
-      DbRef.switches.create({ stoneUID: crownstoneUid, percentage: switchStateConverted, timestamp: new Date() });
+      DbRef.switches.create({ stoneUID: crownstoneUid, percentage: switchStateConverted, timestamp: new Date(Util.crownstoneTimeToTimestamp(timestamp)), });
       this.lastSwitchStates[crownstoneUid] = switchStateConverted;
 
       if (MemoryDb.stones[crownstoneUid] && upload) {

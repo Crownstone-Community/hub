@@ -17,7 +17,7 @@ class CrownstoneHubClass {
         this.launched = false;
         this.cloud = new CloudManager_1.CloudManager();
         this.uart = new Uart_1.Uart();
-        this.mesh = new MeshMonitor_1.MeshMonitor(this);
+        this.mesh = new MeshMonitor_1.MeshMonitor();
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });

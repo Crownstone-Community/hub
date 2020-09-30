@@ -3,8 +3,6 @@ import Timeout = NodeJS.Timeout;
 import { EnergyData, EnergyDataProcessed } from '../../models';
 export declare class EnergyMonitor {
     timeInterval: Timeout | null;
-    hubReference: CrownstoneHub;
-    constructor(hub: CrownstoneHub);
     init(): void;
     stop(): void;
     processMeasurements(): Promise<void>;
