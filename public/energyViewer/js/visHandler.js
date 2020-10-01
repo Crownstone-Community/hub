@@ -1,21 +1,31 @@
 
 
-let DATASET = new vis.DataSet();;
+
+
+let DATASET = new vis.DataSet();
 let GRAPH_2D;
 
 function initVis() {
   // create a dataSet with groups
+  var groups = new vis.DataSet();
+  groups.add({id: 'power',  content: "power" , className:'powerUsageGraphStyle'})
+  groups.add({id: 'energy', content: "energy", className:'energyUsageGraphStyle'})
+
   var options = {
     interpolation: false,
+    sampling: true,
+    shaded: {
+      orientation: 'bottom'
+    },
     dataAxis: {
-      right: {
-        title: {
-          text: 'Title (right axis)'
+      left: {
+        range: {
+          min:0
         }
       }
-    },
+    }
   };
-  GRAPH_2D = new vis.Graph2d(VIS_CONTAINER, DATASET, options);
+  GRAPH_2D = new vis.Graph2d(VIS_CONTAINER, DATASET, groups, options);
 }
 
 
@@ -53,22 +63,19 @@ function drawData() {
 
 function drawPowerData() {
   let datasetFormat = [];
-  if (POWER_PRESENTATION === 'HOUR') {
-    for (let i = 0; i < DATA.length; i++) {
-      datasetFormat.push({x:DATA[i].timestamp, y: factor*DATA[i].energyUsage - initialValue });
-    }
-  }
-  else if (POWER_PRESENTATION === 'MINUTE') {
+  GRAPH_2D.setOptions({interpolation:true})
+  if (POWER_PRESENTATION === 'MINUTE') {
     for (let i = 1; i < DATA.length; i++) {
       let dE = (DATA[i].energyUsage - DATA[i-1].energyUsage)/60;
-      datasetFormat.push({x: new Date(DATA[i-1].timestamp), y: dE });
-      datasetFormat.push({x: new Date(DATA[i].timestamp),   y: dE });
+      let t = (new Date(DATA[i-1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
+      datasetFormat.push({x: t, y: dE, group: 'power' });
     }
   }
   DATASET.add(datasetFormat);
 }
 
 function drawEnergyData() {
+  GRAPH_2D.setOptions({interpolation:false})
   let factor = 1;
   if (ENERGY_UNITS === 'Wh') {
     factor = 1/3600;
@@ -85,27 +92,18 @@ function drawEnergyData() {
   let datasetFormat = [];
   if (ENERGY_PRESENTATION === 'CUMULATIVE') {
     for (let i = 0; i < DATA.length; i++) {
-      datasetFormat.push({x:DATA[i].timestamp, y: factor*DATA[i].energyUsage });
+      datasetFormat.push({x:DATA[i].timestamp, y: factor*DATA[i].energyUsage - initialValue, group: "energy" });
     }
   }
   else if (ENERGY_PRESENTATION === 'MINUTE') {
     for (let i = 1; i < DATA.length; i++) {
       let t = (new Date(DATA[i-1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
       let dE = factor*(DATA[i].energyUsage - DATA[i-1].energyUsage);
-      datasetFormat.push({x: t, y: dE });
+      datasetFormat.push({x: t, y: dE, group: "energy" });
     }
   }
   DATASET.add(datasetFormat);
-
 }
-
-
-
-
-
-
-
-
 
 
 function debug_updateSelectedStoneData() {

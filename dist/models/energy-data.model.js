@@ -23,6 +23,10 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     repository_1.property({ type: 'number' }),
     tslib_1.__metadata("design:type", Number)
+], EnergyData.prototype, "correctedEnergyUsage", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'number' }),
+    tslib_1.__metadata("design:type", Number)
 ], EnergyData.prototype, "pointPowerUsage", void 0);
 tslib_1.__decorate([
     repository_1.property({ type: 'date', index: true }),

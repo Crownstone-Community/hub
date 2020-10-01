@@ -16,6 +16,9 @@ export class EnergyData extends Entity {
   energyUsage: number;
 
   @property({type: 'number'})
+  correctedEnergyUsage: number;
+
+  @property({type: 'number'})
   pointPowerUsage: number;
 
   @property({type: 'date', index: true})

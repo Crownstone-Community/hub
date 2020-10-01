@@ -2072,8 +2072,8 @@
         "affectsGlobalScope": false
       },
       "../src/models/energy-data.model.ts": {
-        "version": "31d290d48ff3337ec717cb989fc1490f7f6f78d20a65d7dffe07846cd9c8719e",
-        "signature": "8cb0f93a662647d6cd11b33bac3b90bc1c433ba3da16d149a23c5e371c3fd634",
+        "version": "dcc6fe823bab77c8412762a444c0ddbadb72108dd38d14d990502f7ef8ad8ba0",
+        "signature": "0e48e9663fe21e10586fc7d0061ba40ae39b667752906b21ccc95ed4aacfd597",
         "affectsGlobalScope": false
       },
       "../src/repositories/energy-data.repository.ts": {
@@ -2525,9 +2525,14 @@
         "signature": "545816800edc40c72a25d9503e7490686385e5dd11069943b6e1b1c1a9bc89ca",
         "affectsGlobalScope": false
       },
+      "../src/crownstone/processing/energyprocessor.ts": {
+        "version": "bb80094db4ee9cf4c91c513f7b3a8187afff8a9bcf1b9055fd1beb08af68d9aa",
+        "signature": "739b103ef81e19a259e0220189920bab2992d58e84b9cfc1b09eb9e0d397e725",
+        "affectsGlobalScope": false
+      },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "eeab10f34519f571fefb27ea19e277acc6d82ed8463835de0954b33715a597c0",
-        "signature": "25f0c282678475f6f12a80a879ea48436d63455b27da42a4c5ee6dcc45dcabd3",
+        "version": "ee00266564e83a43cca3a0db93d0d09d0c5024e2c03452e25fabff6c03eab4e3",
+        "signature": "7b2818f839b43c278592558b0e3f755d1d6c42d7c188724c865373d1ab346b9b",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
@@ -3141,6 +3146,7 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
+      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -5618,6 +5624,7 @@
         "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/data/memorydb.ts",
+        "../src/crownstone/processing/energyprocessor.ts",
         "../src/logger.ts",
         "../src/models/index.ts"
       ],
@@ -5639,6 +5646,12 @@
         "../src/crownstone/cloud/cloudcommandhandler.ts",
         "../src/crownstone/data/dbreference.ts",
         "../src/crownstone/data/memorydb.ts"
+      ],
+      "../src/crownstone/processing/energyprocessor.ts": [
+        "../node_modules/@loopback/repository/src/common-types.ts",
+        "../src/crownstone/data/dbreference.ts",
+        "../src/logger.ts",
+        "../src/models/index.ts"
       ],
       "../src/crownstone/uart/promisemanager.ts": [
         "../src/logger.ts"
@@ -8262,6 +8275,10 @@
       "../src/crownstone/meshmonitor/powermonitor.ts": [
         "../src/models/index.ts"
       ],
+      "../src/crownstone/processing/energyprocessor.ts": [
+        "../node_modules/@loopback/repository/src/common-types.ts",
+        "../src/models/index.ts"
+      ],
       "../src/crownstone/uart/uart.ts": [
         "../node_modules/crownstone-uart/dist/index.d.ts",
         "../src/crownstone/uart/promisemanager.ts"
@@ -8985,6 +9002,7 @@
       "../src/crownstone/meshmonitor/powermonitor.ts",
       "../src/crownstone/meshmonitor/switchmonitor.ts",
       "../src/crownstone/meshmonitor/topologymonitor.ts",
+      "../src/crownstone/processing/energyprocessor.ts",
       "../src/crownstone/topics.ts",
       "../src/crownstone/uart/promisemanager.ts",
       "../src/crownstone/uart/uart.ts",
