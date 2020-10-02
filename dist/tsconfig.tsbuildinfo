@@ -2681,8 +2681,8 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/energy.controller.ts": {
-        "version": "b9bc54b716f659823edccce9748f647638a037456e9fd0fd94f59ec83aad4fcd",
-        "signature": "8db5ee01d67df302918d25920e61cb9147f684c1de4b811105afe6c06f4dfe17",
+        "version": "098b5978f300f5a80fb466757b7d679a993ae06b50ecfe6f42484ee1b5cb90bb",
+        "signature": "f200fda733c0fdfbb9a6f278f15c7657774ee4f0c2a63c1c8bc6b5c38bbd9946",
         "affectsGlobalScope": false
       },
       "../src/controllers/hub.controller.ts": {

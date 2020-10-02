@@ -67,23 +67,23 @@ export class EnergyController {
     return await this.energyDataProcessedRepo.find(query)
   }
 
-  @get('/rawEnergyRange')
-  @authenticate(SecurityTypes.sphere)
-  async getRawEnergyData(
-    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
-    @param.query.dateTime('from', {required:false}) from: Date,
-    @param.query.dateTime('until', {required:false}) until: Date,
-    @param.query.number('limit', {required:true}) limit: number,
-  ) {
-    let filters : any[] = [{stoneUID:crownstoneUID}];
-    if (from)  { filters.push({timestamp:{gte: from}})  }
-    if (until) { filters.push({timestamp:{lte: until}}) }
-
-    let query = {where: {and: filters}, limit: limit, fields:{energyUsage: true, timestamp: true}, order: 'timestamp ASC'}
-    // @ts-ignore
-    return await this.energyDataRepo.find(query)
-  }
+  // @get('/rawEnergyRange')
+  // @authenticate(SecurityTypes.sphere)
+  // async getRawEnergyData(
+  //   @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  //   @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
+  //   @param.query.dateTime('from', {required:false}) from: Date,
+  //   @param.query.dateTime('until', {required:false}) until: Date,
+  //   @param.query.number('limit', {required:true}) limit: number,
+  // ) {
+  //   let filters : any[] = [{stoneUID:crownstoneUID}];
+  //   if (from)  { filters.push({timestamp:{gte: from}})  }
+  //   if (until) { filters.push({timestamp:{lte: until}}) }
+  //
+  //   let query = {where: {and: filters}, limit: limit, fields:{energyUsage: true, timestamp: true}, order: 'timestamp ASC'}
+  //   // @ts-ignore
+  //   return await this.energyDataRepo.find(query)
+  // }
 
 
   @del('/energyFromCrownstone')

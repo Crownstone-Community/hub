@@ -12,6 +12,11 @@ You can also explore the endpoints from your browser here:
 https://<ip-of-your-hub>:5050/api/explorer 
 ```
 
+Initially, you may get a warning from your browser. This is because we (have to) use self-signed certificates in order
+to have HTTPS running on a local network. The HTTPS ensures that all headers, and tokens you send with a request are encrypted!
+You have to accept the self-signed (or invalid, depending on how the browser calls it) once before you can use the urls.
+More information [here](https://medium.com/@dblazeski/chrome-bypass-net-err-cert-invalid-for-development-daefae43eb12).
+
 In this document we will describe each of the controllers, but first, a bit about authorization!
 
 # Authorization
