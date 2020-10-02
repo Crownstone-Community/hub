@@ -9,6 +9,7 @@ const tslib_1 = require("tslib");
 const events_1 = require("events");
 const express_1 = tslib_1.__importDefault(require("express"));
 const https_1 = tslib_1.__importDefault(require("https"));
+const cors_1 = tslib_1.__importDefault(require("cors"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const application_1 = require("./application");
 const fs_1 = tslib_1.__importDefault(require("fs"));
@@ -26,6 +27,7 @@ class ExpressServer {
     constructor(options = {}) {
         this.app = express_1.default();
         this.lbApp = new application_1.CrownstoneHubApplication(config);
+        this.app.use(cors_1.default());
         // Expose the front-end assets via Express, not as LB4 route
         this.app.use('/api', this.lbApp.requestHandler);
         ApplyCustomRoutes_1.applyCustomRoutes(this.app, this.lbApp);

@@ -135,6 +135,8 @@ test("check large gap", async () => {
   let processedPoints = await DbRef.energyProcessed.find()
   expect(processedPoints.length).toBe(3)
 });
+
+
 test("check resuming after zero measurement gap", async () => {
   let monitor = new EnergyMonitor();
 
@@ -155,4 +157,20 @@ test("check resuming after zero measurement gap", async () => {
   expect(processedPoints[2].energyUsage).toBe(3000 + 1000);
   expect(processedPoints[3].energyUsage).toBe(4000 + 1000);
 
+});
+
+test("check duplicate handling", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 1000, 5, m(1,0))
+  await monitor.collect(1, 3000, 5, m(2,0))
+  await monitor.collect(1, 3000, 5, m(2,0))
+  await monitor.collect(1, 3000, 5, m(2,0))
+  await monitor.collect(1, 4000, 5, m(3,0))
+
+  await monitor.processMeasurements()
+  let processedPoints = await DbRef.energyProcessed.find()
+  expect(processedPoints.length).toBe(3)
 });

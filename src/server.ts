@@ -6,6 +6,7 @@
 import {once} from 'events';
 import express, {Request, Response} from 'express';
 import https from 'https';
+import cors from 'cors';
 import path from 'path';
 import {CrownstoneHubApplication, updateControllersBasedOnConfig} from './application';
 import { ApplicationConfig } from '@loopback/core';
@@ -34,6 +35,8 @@ export class ExpressServer {
     this.app = express();
     this.lbApp = new CrownstoneHubApplication(config);
 
+    this.app.use(cors());
+
     // Expose the front-end assets via Express, not as LB4 route
     this.app.use('/api', this.lbApp.requestHandler);
 
@@ -44,8 +47,7 @@ export class ExpressServer {
       res.sendFile(path.join(__dirname, '../public/index.html'));
     });
 
-
-
+    
     // Serve static files in the public folder
     this.app.use(express.static(path.join(__dirname, '../public')));
   }

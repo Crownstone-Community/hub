@@ -2666,7 +2666,7 @@
         "affectsGlobalScope": false
       },
       "../src/server.ts": {
-        "version": "e49689b4c3421601a458cbca608f113262658c745228925e50b4fece41e4709d",
+        "version": "137efac3bb5ab6e5ec074613c31e7115eb8557847e1ce5efe66c9e6b6eb70893",
         "signature": "33b593d08525387ca21eb86a391cf44b3481eeef54b0f1ecb8c9d78f4ba3c1ef",
         "affectsGlobalScope": false
       },
@@ -3146,7 +3146,6 @@
       "importHelpers": true,
       "outDir": "./",
       "project": "../tsconfig.json",
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -5843,6 +5842,7 @@
       ],
       "../src/server.ts": [
         "../node_modules/@loopback/core/dist/index.d.ts",
+        "../node_modules/@types/cors/index.d.ts",
         "../node_modules/@types/express/index.d.ts",
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/fs.d.ts",

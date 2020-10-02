@@ -53,6 +53,7 @@
     "crownstone-sse": "^3.0.8",
     "crownstone-uart": "^0.8.11",
     "helmet": "^4.1.1",
+    "cors": "^2.8.5",
     "loopback-connector-mongodb": "^5.2.3",
     "mongodb": "^3.6.2",
     "tslib": "^2.0.0",
