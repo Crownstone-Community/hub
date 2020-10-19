@@ -33,9 +33,13 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.");
         }
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(120);
         await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.updateAll({ processed: false });
-        setTimeout(() => { CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements(); });
+        setTimeout(() => {
+            CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements();
+            CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeProcessing();
+        });
     }
     async reprocessingStatus(userProfile) {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {

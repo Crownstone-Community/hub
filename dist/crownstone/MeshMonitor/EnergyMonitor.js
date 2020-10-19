@@ -12,11 +12,14 @@ const SAMPLE_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
     constructor() {
         this.energyIsProcessing = false;
+        this.processingPaused = false;
     }
     init() {
         this.stop();
         this.timeInterval = setInterval(() => {
-            this.processing().catch();
+            if (this.processingPaused === false) {
+                this.processing().catch();
+            }
         }, SAMPLE_INTERVAL * 1.1); // every 61 seconds.;
         // do the upload check initially.
         this.processing().catch();
@@ -25,6 +28,15 @@ class EnergyMonitor {
         if (this.timeInterval) {
             clearTimeout(this.timeInterval);
         }
+    }
+    pauseProcessing(seconds) {
+        clearTimeout(this.pauseTimeout);
+        this.processingPaused = true;
+        this.pauseTimeout = setTimeout(() => { this.processingPaused = false; }, seconds * 1000);
+    }
+    resumeProcessing() {
+        clearTimeout(this.pauseTimeout);
+        this.processingPaused = false;
     }
     async processing() {
         await this.processMeasurements();
@@ -35,28 +47,39 @@ class EnergyMonitor {
             return;
         }
         this.energyIsProcessing = true;
-        let energyData = await DbReference_1.DbRef.energy.find({ where: { processed: false }, order: ['timestamp ASC'] });
-        // -------------------------------------------------------
-        // sort in separate lists per stone.
-        let stoneEnergy = {};
-        if (energyData.length > 0) {
-            for (let i = 0; i < energyData.length; i++) {
-                let energy = energyData[i];
-                if (stoneEnergy[energy.stoneUID] === undefined) {
-                    stoneEnergy[energy.stoneUID] = [];
+        let iterationRequired = true;
+        let iterationSize = 500;
+        while (iterationRequired) {
+            let energyData = await DbReference_1.DbRef.energy.find({ where: { processed: false }, limit: iterationSize, order: ['timestamp ASC'] });
+            if (energyData.length === iterationSize) {
+                iterationRequired = true;
+            }
+            else {
+                iterationRequired = false;
+            }
+            // -------------------------------------------------------
+            // sort in separate lists per stone.
+            let stoneEnergy = {};
+            if (energyData.length > 0) {
+                for (let i = 0; i < energyData.length; i++) {
+                    let energy = energyData[i];
+                    if (stoneEnergy[energy.stoneUID] === undefined) {
+                        stoneEnergy[energy.stoneUID] = [];
+                    }
+                    stoneEnergy[energy.stoneUID].push(energy);
                 }
-                stoneEnergy[energy.stoneUID].push(energy);
             }
-        }
-        try {
-            // handle it for each stone separately
-            let stoneIds = Object.keys(stoneEnergy);
-            for (let i = 0; i < stoneIds.length; i++) {
-                await this._processStoneEnergy(Number(stoneIds[i]), stoneEnergy[stoneIds[i]]);
+            try {
+                // handle it for each stone separately
+                let stoneIds = Object.keys(stoneEnergy);
+                for (let i = 0; i < stoneIds.length; i++) {
+                    await this._processStoneEnergy(Number(stoneIds[i]), stoneEnergy[stoneIds[i]]);
+                }
             }
-        }
-        catch (e) {
-            log.info("processMeasurements: Error in _processStoneEnergy", e);
+            catch (e) {
+                log.info("processMeasurements: Error in _processStoneEnergy", e);
+                break;
+            }
         }
         this.energyIsProcessing = false;
     }

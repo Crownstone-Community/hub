@@ -236,3 +236,35 @@ test("check duplicate handling", async () => {
   let processedPoints = await DbRef.energyProcessed.find()
   expect(processedPoints.length).toBe(3)
 });
+
+
+// const fs = require('fs')
+// const path = require('path')
+// test("try to process data", async () => {
+//   let data = require("../__development/test.json");
+//   let monitor = new EnergyMonitor();
+//   let usedData = [];
+//   data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
+//   for (let i = 0; i < data.length; i++) {
+//     usedData.push(data[i]);
+//     if (i === 4000) { break; }
+//   }
+//
+//   for (let i = 0; i < usedData.length; i++) {
+//     let dp = usedData[i];
+//     await monitor.collect(dp.stoneUID, dp.energyUsage, dp.pointPowerUsage, new Date(dp.timestamp).valueOf());
+//   }
+//
+//   console.time("process")
+//   await monitor.processMeasurements()
+//   console.timeEnd("process")
+//
+//   let processedPoints = await DbRef.energyProcessed.find()
+//   processedPoints.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
+//   let str = "[\n  " + JSON.stringify(processedPoints[0])
+//   for (let j = 1; j < processedPoints.length; j++) {
+//     str += ",\n  " + JSON.stringify(processedPoints[j])
+//   }
+//   str += "\n]"
+//   fs.writeFileSync(path.join(__dirname,"data.json"), str);
+// });

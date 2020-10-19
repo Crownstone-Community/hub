@@ -59,30 +59,46 @@ export class EnergyMonitor {
     }
 
     this.energyIsProcessing = true;
-    let energyData = await DbRef.energy.find({where: {processed: false}, order:['timestamp ASC']} )
-    // -------------------------------------------------------
-    // sort in separate lists per stone.
-    let stoneEnergy : {[stoneUID : string]: EnergyData[] } = {};
-    if (energyData.length > 0) {
-      for (let i = 0; i < energyData.length; i++) {
-        let energy = energyData[i];
-        if (stoneEnergy[energy.stoneUID] === undefined) {
-          stoneEnergy[energy.stoneUID] = [];
+    let iterationRequired = true;
+    let iterationSize = 500;
+
+    while (iterationRequired) {
+      let energyData = await DbRef.energy.find({where: {processed: false}, limit:iterationSize, order:['timestamp ASC']} );
+
+      if (energyData.length === iterationSize) {
+        iterationRequired = true;
+      }
+      else {
+        iterationRequired = false;
+      }
+
+      // -------------------------------------------------------
+      // sort in separate lists per stone.
+      let stoneEnergy : {[stoneUID : string]: EnergyData[] } = {};
+      if (energyData.length > 0) {
+        for (let i = 0; i < energyData.length; i++) {
+          let energy = energyData[i];
+          if (stoneEnergy[energy.stoneUID] === undefined) {
+            stoneEnergy[energy.stoneUID] = [];
+          }
+          stoneEnergy[energy.stoneUID].push(energy);
         }
-        stoneEnergy[energy.stoneUID].push(energy);
+      }
+
+      try {
+        // handle it for each stone separately
+        let stoneIds = Object.keys(stoneEnergy);
+        for (let i = 0; i < stoneIds.length; i++) {
+          await this._processStoneEnergy(Number(stoneIds[i]), stoneEnergy[stoneIds[i]])
+        }
+      }
+      catch (e) {
+        log.info("processMeasurements: Error in _processStoneEnergy", e);
+        break;
       }
     }
 
-    try {
-      // handle it for each stone separately
-      let stoneIds = Object.keys(stoneEnergy);
-      for (let i = 0; i < stoneIds.length; i++) {
-        await this._processStoneEnergy(Number(stoneIds[i]), stoneEnergy[stoneIds[i]])
-      }
-    }
-    catch (e) {
-      log.info("processMeasurements: Error in _processStoneEnergy", e);
-    }
+
     this.energyIsProcessing = false;
   }
 

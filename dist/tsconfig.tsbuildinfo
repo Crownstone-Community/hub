@@ -2531,8 +2531,8 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/energymonitor.ts": {
-        "version": "7d51387984812a600f8190e6eca0f2d0bd9b164a18d2d28e2b2f415cc35bdde8",
-        "signature": "57e7635a1671c305115e938016d6b76091d1d00648213032013c8cfc5b3f53cb",
+        "version": "1fb54c4019acd94537cb2e9e5c820a47ce59e0377f24dbb5fc0b572f2b8a608d",
+        "signature": "b1709b3914165febbc05854e3cebc088d4748efc413c2c58131f670685dfd943",
         "affectsGlobalScope": false
       },
       "../src/crownstone/meshmonitor/topologymonitor.ts": {
@@ -2631,7 +2631,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/development/dev.controller.ts": {
-        "version": "c7efde1d8f63ad703d136c99adce1b0f0c7f0310b0553f44ddf150441437edf7",
+        "version": "78a6775394a1a0d3ad34ba557fc6301bf10fd3eee960959880548bfc495e689c",
         "signature": "cf3c485a078fc1241cb2fdfa49c4f7b3148c5b542449e4a94c66bf37da7fae97",
         "affectsGlobalScope": false
       },
