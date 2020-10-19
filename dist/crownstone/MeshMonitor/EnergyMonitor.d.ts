@@ -3,6 +3,7 @@ import Timeout = NodeJS.Timeout;
 import { EnergyData, EnergyDataProcessed } from '../../models';
 export declare class EnergyMonitor {
     timeInterval: Timeout | null;
+    energyIsProcessing: boolean;
     init(): void;
     stop(): void;
     processing(): Promise<void>;

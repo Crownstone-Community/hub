@@ -15,6 +15,7 @@ const SAMPLE_INTERVAL = 60000; // 1 minute;
 export class EnergyMonitor {
 
   timeInterval : Timeout | null;
+  energyIsProcessing: boolean = false;
 
   init() {
     this.stop();
@@ -38,6 +39,11 @@ export class EnergyMonitor {
   }
 
   async processMeasurements() {
+    if (this.energyIsProcessing) {
+      return;
+    }
+
+    this.energyIsProcessing = true;
     let energyData = await DbRef.energy.find({where: {processed: false}, order:['timestamp ASC']} )
     // -------------------------------------------------------
     // sort in separate lists per stone.
@@ -62,6 +68,7 @@ export class EnergyMonitor {
     catch (e) {
       log.info("processMeasurements: Error in _processStoneEnergy", e);
     }
+    this.energyIsProcessing = false;
   }
 
 

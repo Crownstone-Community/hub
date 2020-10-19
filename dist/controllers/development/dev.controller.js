@@ -30,9 +30,28 @@ let DevController = class DevController {
         return await this.energyDataRepo.find(query);
     }
     async reprocessEnergyData(userProfile) {
+        if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {
+            throw new rest_1.HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.");
+        }
         await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.updateAll({ processed: false });
-        await CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements();
+        setTimeout(() => { CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements(); });
+    }
+    async reprocessingStatus(userProfile) {
+        if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {
+            let totalCount = await this.energyDataRepo.count();
+            let processedCount = await this.energyDataRepo.count({ processed: true });
+            return {
+                status: "IN_PROGRESS",
+                percentage: 100 * (processedCount.count / totalCount.count)
+            };
+        }
+        else {
+            return {
+                status: "FINISHED",
+                percentage: 100
+            };
+        }
     }
 };
 tslib_1.__decorate([
@@ -56,6 +75,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyData", null);
+tslib_1.__decorate([
+    rest_1.get('/reprocessingStatus'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], DevController.prototype, "reprocessingStatus", null);
 DevController = tslib_1.__decorate([
     tslib_1.__param(0, repository_1.repository(repositories_1.EnergyDataProcessedRepository)),
     tslib_1.__param(1, repository_1.repository(repositories_1.EnergyDataRepository)),

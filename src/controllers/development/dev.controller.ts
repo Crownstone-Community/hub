@@ -46,9 +46,32 @@ export class DevController {
   async reprocessEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) {
+    if (CrownstoneHub.mesh.energy.energyIsProcessing) {
+      throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
+    }
     await this.energyDataProcessedRepo.deleteAll();
     await this.energyDataRepo.updateAll({processed:false});
-    await CrownstoneHub.mesh.energy.processMeasurements()
+    setTimeout(() => {CrownstoneHub.mesh.energy.processMeasurements()});
+  }
 
+  @get('/reprocessingStatus')
+  @authenticate(SecurityTypes.admin)
+  async reprocessingStatus(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<any> {
+    if (CrownstoneHub.mesh.energy.energyIsProcessing) {
+      let totalCount = await this.energyDataRepo.count();
+      let processedCount = await this.energyDataRepo.count({processed: true});
+      return {
+        status: "IN_PROGRESS",
+        percentage: 100*(processedCount.count / totalCount.count)
+      };
+    }
+    else {
+      return {
+        status: "FINISHED",
+        percentage: 100
+      };
+    }
   }
 }

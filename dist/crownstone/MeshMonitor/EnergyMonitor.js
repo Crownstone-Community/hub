@@ -10,6 +10,9 @@ const EnergyProcessor_1 = require("../Processing/EnergyProcessor");
 const log = Logger_1.Logger(__filename);
 const SAMPLE_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
+    constructor() {
+        this.energyIsProcessing = false;
+    }
     init() {
         this.stop();
         this.timeInterval = setInterval(() => {
@@ -28,6 +31,10 @@ class EnergyMonitor {
         // await this.uploadProcessed();
     }
     async processMeasurements() {
+        if (this.energyIsProcessing) {
+            return;
+        }
+        this.energyIsProcessing = true;
         let energyData = await DbReference_1.DbRef.energy.find({ where: { processed: false }, order: ['timestamp ASC'] });
         // -------------------------------------------------------
         // sort in separate lists per stone.
@@ -51,6 +58,7 @@ class EnergyMonitor {
         catch (e) {
             log.info("processMeasurements: Error in _processStoneEnergy", e);
         }
+        this.energyIsProcessing = false;
     }
     async uploadProcessed() {
         let processedData = await DbReference_1.DbRef.energyProcessed.find({ where: { uploaded: false } });

@@ -6,4 +6,5 @@ export declare class DevController {
     constructor(energyDataProcessedRepo: EnergyDataProcessedRepository, energyDataRepo: EnergyDataRepository);
     getRawEnergyData(userProfile: UserProfileDescription, crownstoneUID: number, from: Date, until: Date, limit: number): Promise<import("../../models").EnergyData[]>;
     reprocessEnergyData(userProfile: UserProfileDescription): Promise<void>;
+    reprocessingStatus(userProfile: UserProfileDescription): Promise<any>;
 }
