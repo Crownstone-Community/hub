@@ -16,11 +16,15 @@ export class EnergyMonitor {
 
   timeInterval : Timeout | null;
   energyIsProcessing: boolean = false;
+  processingPaused: boolean = false;
+  pauseTimeout: Timeout;
 
   init() {
     this.stop();
     this.timeInterval = setInterval(() => {
-      this.processing().catch()
+      if (this.processingPaused === false) {
+        this.processing().catch();
+      }
     }, SAMPLE_INTERVAL*1.1); // every 61 seconds.;
 
     // do the upload check initially.
@@ -31,6 +35,17 @@ export class EnergyMonitor {
     if (this.timeInterval) {
       clearTimeout(this.timeInterval)
     }
+  }
+
+  pauseProcessing(seconds : number) {
+    clearTimeout(this.pauseTimeout);
+    this.processingPaused = true;
+    this.pauseTimeout = setTimeout(() => { this.processingPaused = false}, seconds*1000);
+  }
+
+  resumeProcessing() {
+    clearTimeout(this.pauseTimeout);
+    this.processingPaused = false;
   }
 
   async processing() {

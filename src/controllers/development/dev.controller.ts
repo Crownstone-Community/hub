@@ -49,9 +49,13 @@ export class DevController {
     if (CrownstoneHub.mesh.energy.energyIsProcessing) {
       throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
     }
+    CrownstoneHub.mesh.energy.pauseProcessing(120);
     await this.energyDataProcessedRepo.deleteAll();
     await this.energyDataRepo.updateAll({processed:false});
-    setTimeout(() => {CrownstoneHub.mesh.energy.processMeasurements()});
+    setTimeout(() => {
+      CrownstoneHub.mesh.energy.processMeasurements();
+      CrownstoneHub.mesh.energy.resumeProcessing();
+    });
   }
 
   @get('/reprocessingStatus')
