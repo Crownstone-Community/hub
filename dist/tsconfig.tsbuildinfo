@@ -2631,7 +2631,7 @@
         "affectsGlobalScope": false
       },
       "../src/controllers/development/dev.controller.ts": {
-        "version": "79c7bddb38dcef2134d8d3b156b67396f5d66e42df75a081caf6f583f8b77509",
+        "version": "10c08ba558605f4535fd01cfb89e963b7576f4c9fb534b94229968861bb787c8",
         "signature": "5c426f62fda10064b04fcbca83add7baaa490af0d10ec34eabdaf27d8f205d7b",
         "affectsGlobalScope": false
       },
