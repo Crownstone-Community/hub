@@ -62,6 +62,7 @@ async function processDataPairSingleNew(
   let nextTimestamp     = nextDatapoint.timestamp.valueOf();
   let nextValue         = nextDatapoint.energyUsage;
   let previousTimestamp = previouslyProcessedPoint.timestamp.valueOf();
+  let previousRawValue  = previouslyProcessedPoint.energyUsage;
   let previousValue     = previouslyProcessedPoint.correctedEnergyUsage;
   let offsetValue       = previousValue - previouslyProcessedPoint.energyUsage;
 
@@ -70,16 +71,18 @@ async function processDataPairSingleNew(
 
   let timeSinceLastSamplePoint = nextTimestamp - previousTimestamp;
 
+
   // if energyAtPoint is larger than the offsetValue, we just accept the new measurement.
   // if it is smaller, we will add the energyAtPoint to the offsetValue.
   // The reason here is that we will assume a reset, and that the energy from 0 to energyAtPoint is consumed.
   // This can miss a second reboot when we're not listening.
   // TODO: check if the difference is within the thresold of negative usage, then accept that we have negative usage.
-  if (nextValue < previousValue*0.9) {
+  if (nextValue < previousRawValue*0.9) { // we compare with raw, since previousValue has the offset included.
     nextValue += previousValue;
   }
-
-  nextValue += offsetValue;
+  else {
+    nextValue += offsetValue;
+  }
 
   async function wrapUp() {
     nextDatapoint.processed = true;

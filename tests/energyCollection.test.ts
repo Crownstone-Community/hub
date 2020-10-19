@@ -159,6 +159,68 @@ test("check resuming after zero measurement gap", async () => {
 
 });
 
+
+
+test("check double reboot gap", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 40000, 5, m(0,0));   // 40000
+  await monitor.collect(1, 0, 5, m(1,1));       // 40000
+  await monitor.collect(1, 3000, 5, m(2,0));    // 43000
+  await monitor.collect(1, 4000, 5, m(3,0));    // 44000
+  await monitor.collect(1, 20000, 5, m(4,0));   // 60000
+  await monitor.collect(1, 0, 5, m(5,1));       // 60000
+  await monitor.collect(1, 3000, 5, m(6,0));    // 63000
+  await monitor.collect(1, 4000, 5, m(7,0));    // 64000
+  await monitor.collect(1, 20000, 5, m(8,0));   // 80000
+
+  await monitor.processMeasurements()
+  let processedPoints = await DbRef.energyProcessed.find()
+  expect(processedPoints[0].energyUsage).toBe(40000);
+  expect(processedPoints[1].energyUsage).toBe(40000);
+  expect(processedPoints[2].energyUsage).toBe(43000);
+  expect(processedPoints[3].energyUsage).toBe(44000);
+  expect(processedPoints[4].energyUsage).toBe(60000);
+  expect(processedPoints[5].energyUsage).toBe(60000);
+  expect(processedPoints[6].energyUsage).toBe(63000);
+  expect(processedPoints[7].energyUsage).toBe(64000);
+  expect(processedPoints[8].energyUsage).toBe(80000);
+});
+
+
+
+test("check double reboot gap with not exactly zero numbers", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 40000, 5, m(0,0));   // 40000
+  await monitor.collect(1, 200, 5, m(1,0));     // 40000
+  await monitor.collect(1, 3000, 5, m(2,0));    // 43000
+  await monitor.collect(1, 4000, 5, m(3,0));    // 44000
+  await monitor.collect(1, 20000, 5, m(4,0));   // 60000
+  await monitor.collect(1, 260, 5, m(5,0));     // 60000
+  await monitor.collect(1, 3000, 5, m(6,0));    // 63000
+  await monitor.collect(1, 4000, 5, m(7,0));    // 64000
+  await monitor.collect(1, 20000, 5, m(8,0));   // 80000
+
+  await monitor.processMeasurements()
+  let processedPoints = await DbRef.energyProcessed.find()
+  expect(processedPoints[0].energyUsage).toBe(40000);
+  expect(processedPoints[1].energyUsage).toBe(200   + 40000);
+  expect(processedPoints[2].energyUsage).toBe(3000  + 40000);
+  expect(processedPoints[3].energyUsage).toBe(4000  + 40000);
+  expect(processedPoints[4].energyUsage).toBe(20000 + 40000);
+  expect(processedPoints[5].energyUsage).toBe(260   + 20000 + 40000);
+  expect(processedPoints[6].energyUsage).toBe(3000  + 20000 + 40000);
+  expect(processedPoints[7].energyUsage).toBe(4000  + 20000 + 40000);
+  expect(processedPoints[8].energyUsage).toBe(20000 + 20000 + 40000);
+});
+
+
+
 test("check duplicate handling", async () => {
   let monitor = new EnergyMonitor();
 

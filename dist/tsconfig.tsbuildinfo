@@ -2526,7 +2526,7 @@
         "affectsGlobalScope": false
       },
       "../src/crownstone/processing/energyprocessor.ts": {
-        "version": "bb80094db4ee9cf4c91c513f7b3a8187afff8a9bcf1b9055fd1beb08af68d9aa",
+        "version": "0d5797810f088dbbe4332952e74ad2677562aacb9c1b317dc5e8d577fc81e5f8",
         "signature": "739b103ef81e19a259e0220189920bab2992d58e84b9cfc1b09eb9e0d397e725",
         "affectsGlobalScope": false
       },
