@@ -17,6 +17,7 @@ import {getHubConfig} from './util/ConfigUtil';
 import {LogController} from './controllers/logging/log.controller';
 import {CsAdminTokenStrategy} from './security/authentication-strategies/csAdminToken-strategy';
 import {Logger} from './Logger';
+import {DevController} from './controllers/development/dev.controller';
 
 export interface PackageInfo {
   name: string;
@@ -112,6 +113,9 @@ export function updateControllersBasedOnConfig(app : CrownstoneHubApplication) {
   let hubConfig = getHubConfig();
   if (hubConfig.useLogControllers) {
     app.controller(LogController)
+  }
+  if (hubConfig.useDevControllers) {
+    app.controller(DevController)
   }
 }
 

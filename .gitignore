@@ -69,4 +69,6 @@ key.pem
 cert.pem
 hub_config.json
 
+__*.js
+
 coverage

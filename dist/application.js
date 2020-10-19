@@ -17,6 +17,7 @@ const ConfigUtil_1 = require("./util/ConfigUtil");
 const log_controller_1 = require("./controllers/logging/log.controller");
 const csAdminToken_strategy_1 = require("./security/authentication-strategies/csAdminToken-strategy");
 const Logger_1 = require("./Logger");
+const dev_controller_1 = require("./controllers/development/dev.controller");
 const pkg = require('../package.json');
 const log = Logger_1.Logger(__filename);
 exports.BOOT_TIME = Date.now();
@@ -92,6 +93,9 @@ function updateControllersBasedOnConfig(app) {
     let hubConfig = ConfigUtil_1.getHubConfig();
     if (hubConfig.useLogControllers) {
         app.controller(log_controller_1.LogController);
+    }
+    if (hubConfig.useDevControllers) {
+        app.controller(dev_controller_1.DevController);
     }
 }
 exports.updateControllersBasedOnConfig = updateControllersBasedOnConfig;

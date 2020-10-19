@@ -14,9 +14,6 @@ import * as fs from 'fs';
 import {getHubConfig, storeHubConfig} from '../../util/ConfigUtil';
 import path from 'path';
 import {SecurityTypes} from '../../constants/Constants';
-import {Hub} from '../../models';
-import {DataObject} from '@loopback/repository/src/common-types';
-import {hub} from 'crownstone-cloud/dist/rest/sections/hub';
 import {updateLoggingBasedOnConfig} from '../../application';
 
 const log = Logger(__filename);
