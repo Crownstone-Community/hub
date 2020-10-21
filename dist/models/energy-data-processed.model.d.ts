@@ -6,4 +6,5 @@ export declare class EnergyDataProcessed extends Entity {
     energyUsage: number;
     timestamp: Date;
     uploaded: boolean;
+    interval: string;
 }

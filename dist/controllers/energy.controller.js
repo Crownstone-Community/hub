@@ -12,6 +12,7 @@ const context_1 = require("@loopback/context");
 const security_1 = require("@loopback/security");
 const Constants_1 = require("../constants/Constants");
 const MemoryDb_1 = require("../crownstone/Data/MemoryDb");
+const IntervalData_1 = require("../crownstone/Processing/IntervalData");
 /**
  * This controller will echo the state of the hub.
  */
@@ -30,7 +31,7 @@ let EnergyController = class EnergyController {
                 let data = MemoryDb_1.fillWithStoneData(uids[i]);
                 data.count = 0;
                 if (data.cloudId) {
-                    let countData = await this.energyDataProcessedRepo.count({ stoneUID: uids[i] });
+                    let countData = await this.energyDataProcessedRepo.count({ stoneUID: uids[i], interval: '1m' });
                     if (countData) {
                         data.count = countData.count;
                     }
@@ -41,8 +42,12 @@ let EnergyController = class EnergyController {
         }
         throw new rest_1.HttpErrors.InternalServerError("Could not get distinct list");
     }
-    async getEnergyData(userProfile, crownstoneUID, from, until, limit) {
-        let filters = [{ stoneUID: crownstoneUID }];
+    async getEnergyData(userProfile, crownstoneUID, from, until, limit, interval) {
+        let useInterval = '1m';
+        if (interval === '1m' || IntervalData_1.IntervalData[interval] !== undefined) {
+            useInterval = interval;
+        }
+        let filters = [{ stoneUID: crownstoneUID, interval: useInterval }];
         if (from) {
             filters.push({ timestamp: { gte: from } });
         }
@@ -53,23 +58,6 @@ let EnergyController = class EnergyController {
         // @ts-ignore
         return await this.energyDataProcessedRepo.find(query);
     }
-    // @get('/rawEnergyRange')
-    // @authenticate(SecurityTypes.sphere)
-    // async getRawEnergyData(
-    //   @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    //   @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
-    //   @param.query.dateTime('from', {required:false}) from: Date,
-    //   @param.query.dateTime('until', {required:false}) until: Date,
-    //   @param.query.number('limit', {required:true}) limit: number,
-    // ) {
-    //   let filters : any[] = [{stoneUID:crownstoneUID}];
-    //   if (from)  { filters.push({timestamp:{gte: from}})  }
-    //   if (until) { filters.push({timestamp:{lte: until}}) }
-    //
-    //   let query = {where: {and: filters}, limit: limit, fields:{energyUsage: true, timestamp: true}, order: 'timestamp ASC'}
-    //   // @ts-ignore
-    //   return await this.energyDataRepo.find(query)
-    // }
     async deleteStoneEnergy(userProfile, crownstoneUID) {
         await this.energyDataRepo.deleteAll({ stoneUID: crownstoneUID });
         return this.energyDataProcessedRepo.deleteAll({ stoneUID: crownstoneUID });
@@ -95,9 +83,10 @@ tslib_1.__decorate([
     tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
     tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
     tslib_1.__param(4, rest_1.param.query.number('limit', { required: true })),
+    tslib_1.__param(5, rest_1.param.query.string('interval', { required: false })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Number, Date,
-        Date, Number]),
+        Date, Number, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "getEnergyData", null);
 tslib_1.__decorate([

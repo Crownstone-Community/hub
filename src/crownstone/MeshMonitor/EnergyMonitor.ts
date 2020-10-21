@@ -6,18 +6,24 @@ import {MemoryDb} from '../Data/MemoryDb';
 import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
 import {Logger} from '../../Logger';
 import { Util } from 'crownstone-core';
+import { Util as HubUtil } from '../../util/Util';
 import {minuteInterval, processPair} from '../Processing/EnergyProcessor';
+import {
+} from '../../repositories';
+import {IntervalData} from '../Processing/IntervalData';
 const log = Logger(__filename);
 
-
-const SAMPLE_INTERVAL = 60000; // 1 minute;
+const PROCESSING_INTERVAL = 60000; // 1 minute;
 
 export class EnergyMonitor {
 
   timeInterval : Timeout | null;
   energyIsProcessing: boolean = false;
+  energyIsAggregating: boolean = false;
   processingPaused: boolean = false;
   pauseTimeout: Timeout;
+  aggregationProcessingPaused: boolean = false;
+  aggregationPauseTimeout: Timeout;
 
   init() {
     this.stop();
@@ -25,7 +31,7 @@ export class EnergyMonitor {
       if (this.processingPaused === false) {
         this.processing().catch();
       }
-    }, SAMPLE_INTERVAL*1.1); // every 61 seconds.;
+    }, PROCESSING_INTERVAL*1.1); // every 61 seconds.;
 
     // do the upload check initially.
     this.processing().catch()
@@ -42,19 +48,30 @@ export class EnergyMonitor {
     this.processingPaused = true;
     this.pauseTimeout = setTimeout(() => { this.processingPaused = false}, seconds*1000);
   }
+  pauseAggregationProcessing(seconds : number) {
+    clearTimeout(this.aggregationPauseTimeout);
+    this.aggregationProcessingPaused = true;
+    this.aggregationPauseTimeout = setTimeout(() => { this.aggregationProcessingPaused = false}, seconds*1000);
+  }
 
   resumeProcessing() {
     clearTimeout(this.pauseTimeout);
     this.processingPaused = false;
   }
 
+  resumeAggregationProcessing() {
+    clearTimeout(this.aggregationPauseTimeout);
+    this.aggregationProcessingPaused = false;
+  }
+
   async processing() {
     await this.processMeasurements();
+    await this.processAggregations();
     // await this.uploadProcessed();
   }
 
   async processMeasurements() {
-    if (this.energyIsProcessing) {
+    if (this.energyIsProcessing || this.energyIsAggregating) {
       return;
     }
 
@@ -98,9 +115,102 @@ export class EnergyMonitor {
       }
     }
 
-
     this.energyIsProcessing = false;
   }
+
+  async processAggregations() {
+    if (this.energyIsProcessing || this.energyIsAggregating) {
+      return;
+    }
+
+    this.energyIsAggregating = true;
+
+    let uids = await DbRef.energyProcessed.getStoneUIDs();
+    for (let i = 0; i < uids.length; i++) {
+      // get last known 5 minute interval datapoint
+      let stoneUID = uids[i];
+      let aggregationIntervals = Object.keys(IntervalData);
+      for (let j = 0; j < aggregationIntervals.length; j++) {
+        // @ts-ignore
+        let intervalData = IntervalData[aggregationIntervals[j]];
+        await this._processAggregations(stoneUID, intervalData)
+      }
+    }
+
+    this.energyIsAggregating = false;
+  }
+
+
+
+  async _processAggregations(
+    stoneUID: number,
+    intervalData: IntervalData,
+    ) {
+    let lastPoint = await DbRef.energyProcessed.findOne({where: {stoneUID: stoneUID, interval: intervalData.targetInterval}, order: ['timestamp DESC']});
+    let fromDate = lastPoint && lastPoint.timestamp || new Date(0);
+
+    let iterationRequired = true;
+    let iterationSize = 500;
+
+    let samples : DataObject<EnergyDataProcessed>[] = [];
+    while (iterationRequired) {
+      let processedPoints = await DbRef.energyProcessed.find({where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: {gt: fromDate}}, limit: iterationSize, order: ['timestamp ASC'] });
+
+      if (processedPoints.length === iterationSize) {
+        iterationRequired = true;
+      }
+      else {
+        iterationRequired = false;
+      }
+
+      let previousPoint : EnergyDataProcessed | null = null;
+      for (let i = 0; i < processedPoints.length; i++) {
+        let point = processedPoints[i];
+        let timestamp  = new Date(point.timestamp).valueOf();
+        let isONsamplePoint = intervalData.isOnSamplePoint(timestamp);
+
+        if (isONsamplePoint) {
+          samples.push({stoneUID: stoneUID, energyUsage: point.energyUsage, timestamp: point.timestamp, uploaded: false, interval: intervalData.targetInterval});
+        }
+        else if (previousPoint) {
+          let previousTimestamp = new Date(previousPoint.timestamp).valueOf()
+
+          let previousSamplePointFromCurrent = intervalData.getPreviousSamplePoint(timestamp);
+          let previousSamplePointFromLast    = intervalData.getPreviousSamplePoint(previousTimestamp);
+
+          // this means these items fall in the same bucket
+          if (previousSamplePointFromCurrent == previousSamplePointFromLast) {
+            // do nothing.
+          }
+          else {
+            // this means that the point exactly ON the datapoint is missing, but we have one before, and one after (a number?) of points.
+            let dt = timestamp - previousTimestamp;
+            let dJ = point.energyUsage - previousPoint.energyUsage;
+            let dJms = dJ / dt;
+            let elapsedSamplePoints = Math.ceil((previousSamplePointFromCurrent - previousSamplePointFromLast) / intervalData.sampleIntervalMs); // ms
+
+            // allow interpolation.
+            if (elapsedSamplePoints <= intervalData.interpolationThreshold) {
+              for (let j = 0; j < elapsedSamplePoints; j++ ) {
+                let samplePoint = previousSamplePointFromLast + (1+j)*intervalData.sampleIntervalMs;
+                let dt = samplePoint - previousTimestamp;
+                let energyAtPoint = previousPoint.energyUsage + dt*dJms;
+                samples.push({stoneUID: stoneUID, energyUsage: Math.round(energyAtPoint), timestamp: new Date(samplePoint), uploaded: false, interval: intervalData.targetInterval});
+              }
+            }
+          }
+        }
+
+        previousPoint = point;
+      }
+      if (previousPoint) {
+        fromDate = previousPoint.timestamp;
+      }
+    }
+    await DbRef.energyProcessed.createAll(samples);
+  }
+
+
 
 
   async uploadProcessed() {
@@ -175,10 +285,6 @@ export class EnergyMonitor {
       await DbRef.energyProcessed.createAll(samples);
     }
   }
-
-
-
-
 
 
 

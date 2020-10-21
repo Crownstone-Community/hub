@@ -49,18 +49,43 @@ export class DevController {
     if (CrownstoneHub.mesh.energy.energyIsProcessing) {
       throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
     }
+    if (CrownstoneHub.mesh.energy.energyIsAggregating) {
+      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
+    }
     CrownstoneHub.mesh.energy.pauseProcessing(120);
     await this.energyDataProcessedRepo.deleteAll();
     await this.energyDataRepo.updateAll({processed:false});
-    setTimeout(() => {
-      CrownstoneHub.mesh.energy.processMeasurements();
+    setTimeout(async() => {
+      await CrownstoneHub.mesh.energy.processMeasurements();
       CrownstoneHub.mesh.energy.resumeProcessing();
     });
   }
 
-  @get('/reprocessingStatus')
+
+  @get('/reprocessEnergyAggregates')
   @authenticate(SecurityTypes.admin)
-  async reprocessingStatus(
+  async reprocessEnergyAggregates(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) {
+    if (CrownstoneHub.mesh.energy.energyIsProcessing) {
+      throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
+    }
+    if (CrownstoneHub.mesh.energy.energyIsAggregating) {
+      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
+    }
+    CrownstoneHub.mesh.energy.pauseAggregationProcessing(120);
+    let count = await this.energyDataProcessedRepo.deleteAll({interval:{neq:'1m'}});
+    console.log("COUNT", count)
+    setTimeout(async () => {
+      console.log("Start aggregation calc")
+      await CrownstoneHub.mesh.energy.processAggregations();
+      CrownstoneHub.mesh.energy.resumeAggregationProcessing();
+    });
+  }
+
+  @get('/reprocessEnergyDataStatus')
+  @authenticate(SecurityTypes.admin)
+  async reprocessEnergyDataStatus(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<any> {
     if (CrownstoneHub.mesh.energy.energyIsProcessing) {
@@ -69,6 +94,29 @@ export class DevController {
       return {
         status: "IN_PROGRESS",
         percentage: 100*(processedCount.count / totalCount.count)
+      };
+    }
+    else {
+      return {
+        status: "FINISHED",
+        percentage: 100
+      };
+    }
+  }
+  @get('/reprocessEnergyAggregatesStatus')
+  @authenticate(SecurityTypes.admin)
+  async reprocessEnergyAggregatesStatus(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<any> {
+    if (CrownstoneHub.mesh.energy.energyIsAggregating) {
+      let totalCount     = await this.energyDataProcessedRepo.count({interval: '1m'});
+      let processedCount = await this.energyDataProcessedRepo.count({interval: {neq:'1m'}});
+      let assumedFactor = 1/5 + 1/10 + 1/15 + 1/30 + 1/60 + 1/(3*60) + 1/(6*60) + 1/(12*60) + 1/(24*60) + 1/(7*24*60);
+      let expectedCount = totalCount.count * assumedFactor;
+      console.log(totalCount, expectedCount, processedCount)
+      return {
+        status: "IN_PROGRESS",
+        percentage: 100*(processedCount.count / expectedCount)
       };
     }
     else {

@@ -1,5 +1,5 @@
 import {
-  EnergyDataProcessedRepository,
+  DatabaseInfoRepository,
   EnergyDataRepository,
   HubRepository,
   PowerDataRepository,
@@ -10,18 +10,20 @@ import {
 } from '../../repositories';
 import {MemoryDb} from './MemoryDb';
 import {Logger} from '../../Logger';
+import {EnergyDataProcessedRepository} from '../../repositories/energy-data-processed.repository';
 
 
 const logger = Logger(__filename);
 class DbReferenceClass {
-  hub             : HubRepository
-  power           : PowerDataRepository
-  energy          : EnergyDataRepository
-  energyProcessed : EnergyDataProcessedRepository
-  sphereFeatures  : SphereFeatureRepository
-  switches        : SwitchDataRepository
-  user            : UserRepository
-  userPermission  : UserPermissionRepository
+  dbInfo               : DatabaseInfoRepository
+  hub                  : HubRepository
+  power                : PowerDataRepository
+  energy               : EnergyDataRepository
+  energyProcessed      : EnergyDataProcessedRepository
+  sphereFeatures       : SphereFeatureRepository
+  switches             : SwitchDataRepository
+  user                 : UserRepository
+  userPermission       : UserPermissionRepository
 }
 export const DbRef = new DbReferenceClass();
 

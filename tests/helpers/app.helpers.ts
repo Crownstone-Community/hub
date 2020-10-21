@@ -1,7 +1,7 @@
 import {CrownstoneHubApplication} from '../../src';
 import {testdb} from "../fixtures/datasources/testdb.datasource";
 import {DbRef} from '../../src/crownstone/Data/DbReference';
-import {EnergyDataRepository, EnergyDataProcessedRepository} from '../../src/repositories';
+import {EnergyDataProcessedRepository, EnergyDataRepository} from '../../src/repositories';
 
 
 export async function createApp() : Promise<CrownstoneHubApplication> {

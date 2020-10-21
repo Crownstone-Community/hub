@@ -11,6 +11,17 @@ let EnergyDataProcessedRepository = class EnergyDataProcessedRepository extends 
         this.datasource = datasource;
         this.datasource.autoupdate();
     }
+    async getStoneUIDs() {
+        var _a;
+        let collection = (_a = this.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
+        if (collection) {
+            let uids = await collection.distinct('stoneUID');
+            return uids;
+        }
+        else {
+            return [];
+        }
+    }
 };
 EnergyDataProcessedRepository = tslib_1.__decorate([
     tslib_1.__param(0, core_1.inject('datasources.mongo')),

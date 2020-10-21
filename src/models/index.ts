@@ -1,4 +1,5 @@
 
+export * from './database-info.model';
 export * from './energy-data.model';
 export * from './energy-data-processed.model';
 export * from './power-data.model';

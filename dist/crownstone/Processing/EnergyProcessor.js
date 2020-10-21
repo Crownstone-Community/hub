@@ -65,25 +65,6 @@ async function processDataPairSingleNew(previouslyProcessedPoint, nextDatapoint,
         await wrapUp();
         return;
     }
-    // Before processing, we check if the current is larger or equal than the previous.
-    // If it is not, we assume that a reset has taken place.
-    //       -- IF CURRENT < PREV with more than 1000J (diff is about 20W for a minute)
-    //               -- reset, so dJ = currentJ. Current has started again from 0, so usage is the current value.
-    //       -- IF CURRENT < PREV with less than 1000J
-    //               -- negative drift, flatten to 0J used.
-    //       -- IF CURRENT >= PREV
-    //               -- calculate dJ
-    let dJ = nextValue - previousValue;
-    if (dJ < -100) {
-        dJ = nextValue;
-    }
-    if (dJ <= 0) {
-        dJ = 0;
-    }
-    else {
-        // we just use dJ
-    }
-    let dJms = dJ / timeSinceLastSamplePoint;
     // We will now check how many sample points have elapsed since last sample time and current sample time.
     // we ceil this since, if we are here, we know that the sample point is in between these points.
     let elapsedSamplePoints = Math.ceil((nextSamplePoint - previousSamplePoint) / sampleIntervalMs); // ms
@@ -99,6 +80,25 @@ async function processDataPairSingleNew(previouslyProcessedPoint, nextDatapoint,
     }
     // if less than 5 have elapsed, we do a linear interpolation, one for each point
     else {
+        // Before processing, we check if the current is larger or equal than the previous.
+        // If it is not, we assume that a reset has taken place.
+        //       -- IF CURRENT < PREV with more than 1000J (diff is about 20W for a minute)
+        //               -- reset, so dJ = currentJ. Current has started again from 0, so usage is the current value.
+        //       -- IF CURRENT < PREV with less than 1000J
+        //               -- negative drift, flatten to 0J used.
+        //       -- IF CURRENT >= PREV
+        //               -- calculate dJ
+        let dJ = nextValue - previousValue;
+        if (dJ < -100) {
+            dJ = nextValue;
+        }
+        if (dJ <= 0) {
+            dJ = 0;
+        }
+        else {
+            // we just use dJ
+        }
+        let dJms = dJ / timeSinceLastSamplePoint;
         // @IMPROVEMENT:
         // use the pointPowerUsage on prev and on current to more accurately estimate interpolated points.
         // for now, use linear.

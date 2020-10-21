@@ -20,4 +20,7 @@ export class EnergyDataProcessed extends Entity {
 
   @property({ type:'boolean', index: true })
   uploaded: boolean
+
+  @property({ type:'string', index: true, default: '1m' })
+  interval: string
 }

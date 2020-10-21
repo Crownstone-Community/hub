@@ -20,15 +20,18 @@ let UNITS_TYPE_J;
 let UNITS_TYPE_Wh;
 let UNITS_TYPE_kWh;
 
+let SAMPLING_CHECKBOX;
+
 let PRESENTATION_ENERGY_WRAPPER;
 let PRESENTATION_ENERGY_TYPE_cumulative;
-let PRESENTATION_ENERGY_TYPE_minute_block;
-let PRESENTATION_ENERGY_TYPE_hour_block;
-let PRESENTATION_ENERGY_TYPE_day_block;
+let PRESENTATION_ENERGY_TYPE_time_block;
+
+let TIMESTEP_SELECTOR;
+
 
 let PRESENTATION_POWER_WRAPPER;
-let PRESENTATION_POWER_TYPE_minute_block;
-let PRESENTATION_POWER_TYPE_hour_block;
+let PRESENTATION_POWER_TYPE_average;
+let PRESENTATION_POWER_TYPE_block;
 
 function initDOM() {
   STONE_SELECT_DROPDOWN = document.getElementById("stoneSelector");
@@ -46,14 +49,15 @@ function initDOM() {
   UNITS_TYPE_J          = document.getElementById("unitType1");
   UNITS_TYPE_Wh         = document.getElementById("unitType2");
   UNITS_TYPE_kWh        = document.getElementById("unitType3");
+  SAMPLING_CHECKBOX     = document.getElementById("samplingCheckbox");
   PRESENTATION_ENERGY_WRAPPER           = document.getElementById("presentationEnergyWrapper");
   PRESENTATION_ENERGY_TYPE_cumulative   = document.getElementById("presentationType1");
-  PRESENTATION_ENERGY_TYPE_minute_block = document.getElementById("presentationType2");
-  PRESENTATION_ENERGY_TYPE_hour_block   = document.getElementById("presentationType3");
-  PRESENTATION_ENERGY_TYPE_day_block    = document.getElementById("presentationType4");
+  PRESENTATION_ENERGY_TYPE_time_block   = document.getElementById("presentationType2");
+  TIMESTEP_SELECTOR                     = document.getElementById("timeslotSelector");
+
   PRESENTATION_POWER_WRAPPER            = document.getElementById("presentationPowerWrapper");
-  PRESENTATION_POWER_TYPE_minute_block  = document.getElementById("presentationPowerType1");
-  PRESENTATION_POWER_TYPE_hour_block    = document.getElementById("presentationPowerType2");
+  PRESENTATION_POWER_TYPE_average       = document.getElementById("presentationPowerType1");
+  PRESENTATION_POWER_TYPE_block         = document.getElementById("presentationPowerType2");
 
   FROM_DATE.value = new Date().toISOString().substr(0,10)
   UNTIL_DATE.value = new Date().toISOString().substr(0,10)
@@ -71,8 +75,6 @@ function initDOM() {
   }
 
   determineDataType();
-
-
 }
 
 function getAvailableData() {
@@ -117,20 +119,19 @@ function validateTokenInput() {
 }
 
 let USE_DATA_TYPE = "P";
-let POWER_PRESENTATION = "MINUTE";
 let ENERGY_PRESENTATION = "CUMULATIVE";
-let ENERGY_UNITS = "J"
+let TIME_STEP = '1m';
+let ENERGY_UNITS = "J";
+let POWER_PRESENTATION = "AVERAGE";
 
 function determineDataType() {
   if (DATA_TYPE_E.checked) {
     USE_DATA_TYPE = "E"
-    PRESENTATION_POWER_WRAPPER.style.display = 'none';
     PRESENTATION_ENERGY_WRAPPER.style.display = 'block';
     UNITS_WRAPPER.style.display = 'block';
   }
   else {
     USE_DATA_TYPE = "P";
-    PRESENTATION_POWER_WRAPPER.style.display = 'block';
     PRESENTATION_ENERGY_WRAPPER.style.display = 'none';
     UNITS_WRAPPER.style.display = 'none';
   }
@@ -155,24 +156,23 @@ function determinePresentationType() {
     if (PRESENTATION_ENERGY_TYPE_cumulative.checked) {
       ENERGY_PRESENTATION = 'CUMULATIVE';
     }
-    else if (PRESENTATION_ENERGY_TYPE_minute_block.checked) {
-      ENERGY_PRESENTATION = 'MINUTE';
-    }
-    else if (PRESENTATION_ENERGY_TYPE_hour_block.checked) {
-      ENERGY_PRESENTATION = 'HOUR';
-    }
-    else {
-      ENERGY_PRESENTATION = 'DAY';
+    else if (PRESENTATION_ENERGY_TYPE_time_block.checked) {
+      ENERGY_PRESENTATION = 'PER_TIME_STEP';
     }
   }
   else {
-    if (PRESENTATION_POWER_TYPE_hour_block.checked) {
-      POWER_PRESENTATION = 'HOUR';
+    if (PRESENTATION_POWER_TYPE_block.checked) {
+      POWER_PRESENTATION = 'BLOCK';
     }
     else {
-      POWER_PRESENTATION = 'MINUTE';
+      POWER_PRESENTATION = 'AVERAGE';
     }
   }
+  refreshData();
+}
 
-  drawData();
+function timeStepChanged() {
+  TIME_STEP = TIMESTEP_SELECTOR.value;
+
+  refreshData();
 }

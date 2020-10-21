@@ -1,6 +1,7 @@
 export declare const Util: {
     wait: (waitTimeMs: number) => Promise<void>;
     pad: (str: string | number) => string | number;
+    getWeekNumber: (timestamp: number) => number;
     getDateHourId: (timestamp: number) => string;
     getDateFormat: (timestamp: number) => string;
     getDateTimeFormat: (timestamp: number) => string;

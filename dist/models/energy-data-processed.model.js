@@ -28,6 +28,10 @@ tslib_1.__decorate([
     repository_1.property({ type: 'boolean', index: true }),
     tslib_1.__metadata("design:type", Boolean)
 ], EnergyDataProcessed.prototype, "uploaded", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'string', index: true, default: '1m' }),
+    tslib_1.__metadata("design:type", String)
+], EnergyDataProcessed.prototype, "interval", void 0);
 EnergyDataProcessed = tslib_1.__decorate([
     repository_1.model(),
     tslib_1.__metadata("design:paramtypes", [Object])

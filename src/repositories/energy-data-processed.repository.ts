@@ -12,6 +12,17 @@ export class EnergyDataProcessedRepository extends DefaultCrudRepository<EnergyD
     this.datasource.autoupdate()
   }
 
+  async getStoneUIDs() : Promise<number[]> {
+    let collection = this.dataSource.connector?.collection("EnergyDataProcessed");
+    if (collection) {
+      let uids = await collection.distinct('stoneUID');
+      return uids;
+    }
+    else {
+      return [];
+    }
+  }
+
 
 
 }
