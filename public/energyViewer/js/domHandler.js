@@ -144,13 +144,18 @@ function determineDataType() {
     USE_DATA_TYPE = "E"
     PRESENTATION_ENERGY_WRAPPER.style.display = 'block';
     UNITS_WRAPPER.style.display = 'block';
-    PRESENTATION_POWER_WRAPPER.style.display = 'none';
+    if (ENERGY_PRESENTATION !== "CUMULATIVE") {
+      PRESENTATION_POWER_WRAPPER.style.display = 'block'
+    }
+    else {
+      PRESENTATION_POWER_WRAPPER.style.display = 'none'
+    }
   }
   else {
     USE_DATA_TYPE = "P";
     PRESENTATION_ENERGY_WRAPPER.style.display = 'none';
+    PRESENTATION_POWER_WRAPPER.style.display = 'block'
     UNITS_WRAPPER.style.display = 'none';
-    PRESENTATION_POWER_WRAPPER.style.display = 'block';
   }
   drawData();
 }
@@ -185,18 +190,18 @@ function determinePresentationType() {
   if (USE_DATA_TYPE === 'E') {
     if (PRESENTATION_ENERGY_TYPE_cumulative.checked) {
       ENERGY_PRESENTATION = 'CUMULATIVE';
+      PRESENTATION_POWER_WRAPPER.style.display = 'none'
     }
     else if (PRESENTATION_ENERGY_TYPE_time_block.checked) {
       ENERGY_PRESENTATION = 'PER_TIME_STEP';
+      PRESENTATION_POWER_WRAPPER.style.display = 'block'
     }
   }
+  if (PRESENTATION_POWER_TYPE_block.checked) {
+    POWER_PRESENTATION = 'BLOCK';
+  }
   else {
-    if (PRESENTATION_POWER_TYPE_block.checked) {
-      POWER_PRESENTATION = 'BLOCK';
-    }
-    else {
-      POWER_PRESENTATION = 'AVERAGE';
-    }
+    POWER_PRESENTATION = 'AVERAGE';
   }
   refreshData();
 }

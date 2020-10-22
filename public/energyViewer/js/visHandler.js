@@ -100,10 +100,11 @@ function drawData() {
 
 function drawPowerData() {
   let datasetFormat = [];
-
+  let msBetweenSamples = getMilliSecondsBetweenSamples();
   if (POWER_PRESENTATION === 'AVERAGE') {
     for (let i = 1; i < DATA.length; i++) {
       let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      if (dtms > msBetweenSamples) { continue; }
       let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / (0.001*dtms);
       let t = (new Date(DATA[i - 1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
       datasetFormat.push({x: t, y: dE, group: 'power'});
@@ -112,6 +113,7 @@ function drawPowerData() {
   else {
     for (let i = 1; i < DATA.length; i++) {
       let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      if (dtms > msBetweenSamples) { continue; }
       let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / (0.001*dtms);
       datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'power'});
       datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'power'});
@@ -135,6 +137,42 @@ function drawEnergyData() {
     initialValue = DATA[0].energyUsage*factor;
   }
 
+  let msBetweenSamples = getMilliSecondsBetweenSamples();
+  console.log("Correction Value:", initialValue)
+  let datasetFormat = [];
+  if (ENERGY_PRESENTATION === 'CUMULATIVE') {
+    for (let i = 0; i < DATA.length; i++) {
+      datasetFormat.push({x:DATA[i].timestamp, y: DATA[i].y || (factor*DATA[i].energyUsage - initialValue), group: DATA[i].group || "energy" });
+    }
+  }
+  else {
+    if (POWER_PRESENTATION === 'AVERAGE') {
+      for (let i = 1; i < DATA.length; i++) {
+        let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+        if (dtms > msBetweenSamples) { continue; }
+        let t = (new Date(DATA[i-1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
+
+        let dE = factor*(DATA[i].energyUsage - DATA[i-1].energyUsage);
+        datasetFormat.push({x: t, y: dE, group: "energy" });
+      }
+    }
+    else {
+      for (let i = 1; i < DATA.length; i++) {
+        let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+        if (dtms > msBetweenSamples) { continue; }
+
+        let dE = factor*(DATA[i].energyUsage - DATA[i-1].energyUsage);
+        datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'energy'});
+        datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'energy'});
+      }
+    }
+
+  }
+  DATASET.add(datasetFormat);
+}
+
+
+function getMilliSecondsBetweenSamples() {
   let secondsBetweenSamples = 60;
   switch (TIME_STEP) {
     case "1m":
@@ -161,22 +199,5 @@ function drawEnergyData() {
       secondsBetweenSamples = 7*24*3600; break;
   }
 
-  console.log("Correction Value:", initialValue)
-  let datasetFormat = [];
-  if (ENERGY_PRESENTATION === 'CUMULATIVE') {
-    for (let i = 0; i < DATA.length; i++) {
-      datasetFormat.push({x:DATA[i].timestamp, y: DATA[i].y || (factor*DATA[i].energyUsage - initialValue), group: DATA[i].group || "energy" });
-    }
-  }
-  else {
-    for (let i = 1; i < DATA.length; i++) {
-      let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
-      if (dtms > 1000*secondsBetweenSamples) { continue; }
-      let t = (new Date(DATA[i-1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
-
-      let dE = factor*(DATA[i].energyUsage - DATA[i-1].energyUsage);
-      datasetFormat.push({x: t, y: dE, group: "energy" });
-    }
-  }
-  DATASET.add(datasetFormat);
+  return 1000*secondsBetweenSamples;
 }
