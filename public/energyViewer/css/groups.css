@@ -253,10 +253,25 @@ div.dataContainer.native {
     stroke: #200001;
 }
 
-.EnableStone {
+.raw {
     fill: #00ff08;
     fill-opacity:0.0;
     stroke-width:2px;
     stroke: #00ff08;
+}
+
+
+.rawEnergyUsageGraphStyle {
+    fill: #a2cf34;
+    fill-opacity:0;
+    stroke-width:2px;
+    stroke: #a2cf34;
+}
+
+.rawCorrectedEnergyUsageGraphStyle {
+    fill: #3a99ff;
+    fill-opacity:0;
+    stroke-width:2px;
+    stroke: #3a99ff;
 }
 

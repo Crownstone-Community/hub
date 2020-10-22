@@ -1,6 +1,7 @@
 let VIS_CONTAINER;
 let STONE_SELECT_DROPDOWN;
 let TOKEN;
+let SHOW_RAW;
 let GRAPH_WRAPPER;
 let TOKEN_INPUT_WRAPPER;
 let TOKEN_INPUT;
@@ -28,10 +29,14 @@ let PRESENTATION_ENERGY_TYPE_time_block;
 
 let TIMESTEP_SELECTOR;
 
-
 let PRESENTATION_POWER_WRAPPER;
 let PRESENTATION_POWER_TYPE_average;
 let PRESENTATION_POWER_TYPE_block;
+
+let DATA_SOURCE_WRAPPER;
+let DATA_SOURCE_type_processed;
+let DATA_SOURCE_type_raw;
+let DATA_SOURCE_type_raw_corrected;
 
 function initDOM() {
   STONE_SELECT_DROPDOWN = document.getElementById("stoneSelector");
@@ -50,20 +55,29 @@ function initDOM() {
   UNITS_TYPE_Wh         = document.getElementById("unitType2");
   UNITS_TYPE_kWh        = document.getElementById("unitType3");
   SAMPLING_CHECKBOX     = document.getElementById("samplingCheckbox");
-  PRESENTATION_ENERGY_WRAPPER           = document.getElementById("presentationEnergyWrapper");
-  PRESENTATION_ENERGY_TYPE_cumulative   = document.getElementById("presentationType1");
-  PRESENTATION_ENERGY_TYPE_time_block   = document.getElementById("presentationType2");
-  TIMESTEP_SELECTOR                     = document.getElementById("timeslotSelector");
+  PRESENTATION_ENERGY_WRAPPER         = document.getElementById("presentationEnergyWrapper");
+  PRESENTATION_ENERGY_TYPE_cumulative = document.getElementById("presentationType1");
+  PRESENTATION_ENERGY_TYPE_time_block = document.getElementById("presentationType2");
+  TIMESTEP_SELECTOR                   = document.getElementById("timeslotSelector");
 
-  PRESENTATION_POWER_WRAPPER            = document.getElementById("presentationPowerWrapper");
-  PRESENTATION_POWER_TYPE_average       = document.getElementById("presentationPowerType1");
-  PRESENTATION_POWER_TYPE_block         = document.getElementById("presentationPowerType2");
+  PRESENTATION_POWER_WRAPPER          = document.getElementById("presentationPowerWrapper");
+  PRESENTATION_POWER_TYPE_average     = document.getElementById("presentationPowerType1");
+  PRESENTATION_POWER_TYPE_block       = document.getElementById("presentationPowerType2");
+
+  DATA_SOURCE_WRAPPER                 = document.getElementById("dataSourceWrapper");
+  DATA_SOURCE_type_processed          = document.getElementById("datasourceType1");
+  DATA_SOURCE_type_raw                = document.getElementById("datasourceType2");
+  DATA_SOURCE_type_raw_corrected      = document.getElementById("datasourceType3");
 
   FROM_DATE.value = new Date().toISOString().substr(0,10)
   UNTIL_DATE.value = new Date().toISOString().substr(0,10)
 
   const urlParams = new URLSearchParams(window.location.search);
   TOKEN = urlParams.get('access_token');
+  SHOW_RAW = urlParams.get('show_raw') || false;
+  if (SHOW_RAW !== false) {
+    DATA_SOURCE_WRAPPER.style.display = 'block';
+  }
 
   VIS_CONTAINER = document.getElementById("visualization")
 
@@ -123,6 +137,7 @@ let ENERGY_PRESENTATION = "CUMULATIVE";
 let TIME_STEP = '1m';
 let ENERGY_UNITS = "J";
 let POWER_PRESENTATION = "AVERAGE";
+let DATA_SOURCE = "PROCESSED";
 
 function determineDataType() {
   if (DATA_TYPE_E.checked) {
@@ -138,6 +153,19 @@ function determineDataType() {
     PRESENTATION_POWER_WRAPPER.style.display = 'block';
   }
   drawData();
+}
+
+function determineDataSource() {
+  if (DATA_SOURCE_type_processed.checked) {
+    DATA_SOURCE = "PROCESSED"
+  }
+  else if (DATA_SOURCE_type_raw.checked) {
+    DATA_SOURCE = "RAW"
+  }
+  else if (DATA_SOURCE_type_raw_corrected.checked) {
+    DATA_SOURCE = "RAW_CORRECTED"
+  }
+  refreshData();
 }
 
 function determineUnitsType() {

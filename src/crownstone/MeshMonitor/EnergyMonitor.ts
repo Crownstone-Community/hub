@@ -6,10 +6,7 @@ import {MemoryDb} from '../Data/MemoryDb';
 import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
 import {Logger} from '../../Logger';
 import { Util } from 'crownstone-core';
-import { Util as HubUtil } from '../../util/Util';
 import {minuteInterval, processPair} from '../Processing/EnergyProcessor';
-import {
-} from '../../repositories';
 import {IntervalData} from '../Processing/IntervalData';
 const log = Logger(__filename);
 
@@ -79,9 +76,11 @@ export class EnergyMonitor {
     let iterationRequired = true;
     let iterationSize = 500;
 
+    let count = 0;
     while (iterationRequired) {
       let energyData = await DbRef.energy.find({where: {processed: false}, limit:iterationSize, order:['timestamp ASC']} );
 
+      count += energyData.length;
       if (energyData.length === iterationSize) {
         iterationRequired = true;
       }

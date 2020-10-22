@@ -71,7 +71,6 @@ async function processDataPairSingleNew(
 
   let timeSinceLastSamplePoint = nextTimestamp - previousTimestamp;
 
-
   // if energyAtPoint is larger than the offsetValue, we just accept the new measurement.
   // if it is smaller, we will add the energyAtPoint to the offsetValue.
   // The reason here is that we will assume a reset, and that the energy from 0 to energyAtPoint is consumed.
@@ -117,14 +116,14 @@ async function processDataPairSingleNew(
   else {
     // Before processing, we check if the current is larger or equal than the previous.
     // If it is not, we assume that a reset has taken place.
-    //       -- IF CURRENT < PREV with more than 1000J (diff is about 20W for a minute)
+    //       -- IF CURRENT < PREV with more than 1000J (diff is about 20W for a minute) or 25% of the previous value. If the previous value is large, we require a larger jump
     //               -- reset, so dJ = currentJ. Current has started again from 0, so usage is the current value.
     //       -- IF CURRENT < PREV with less than 1000J
     //               -- negative drift, flatten to 0J used.
     //       -- IF CURRENT >= PREV
     //               -- calculate dJ
     let dJ = nextValue - previousValue;
-    if (dJ < -100) {
+    if (dJ < -1*Math.max(0.25*previousValue, 1000)) {
       dJ = nextValue;
     }
     if (dJ <= 0) {

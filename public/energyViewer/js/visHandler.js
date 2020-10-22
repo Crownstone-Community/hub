@@ -10,6 +10,8 @@ function initVis() {
   var groups = new vis.DataSet();
   groups.add({id: 'power',  content: "power" , className:'powerUsageGraphStyle'})
   groups.add({id: 'energy', content: "energy", className:'energyUsageGraphStyle'})
+  groups.add({id: 'raw_energyUsage', content: "raw_energyUsage", className:'rawEnergyUsageGraphStyle'})
+  groups.add({id: 'raw_correctedEnergyUsage', content: "raw_correctedEnergyUsage", className:'rawCorrectedEnergyUsageGraphStyle'})
 
   var options = {
     interpolation: false,
@@ -52,65 +54,62 @@ function refreshData() {
 function downloadData(finishedCallback = null) {
   let fromTime = new Date(FROM_DATE.value + " " + FROM_TIME.value).toISOString();
   let untilTime = new Date(UNTIL_DATE.value + " " + UNTIL_TIME.value).toISOString();
-  getData(`../api/energyRange?crownstoneUID=${STONE_SELECT_DROPDOWN.value}&from=${fromTime}&until=${untilTime}&limit=${SAMPLE_COUNT.value}&interval=${TIME_STEP}&access_token=${TOKEN}`, (data) => {
-    DATA = JSON.parse(data);
-    if (finishedCallback) {
-      finishedCallback();
-    }
-  })
+
+  if (DATA_SOURCE === 'PROCESSED') {
+    getData(`../api/energyRange?crownstoneUID=${STONE_SELECT_DROPDOWN.value}&from=${fromTime}&until=${untilTime}&limit=${SAMPLE_COUNT.value}&interval=${TIME_STEP}&access_token=${TOKEN}`, (data) => {
+      DATA = JSON.parse(data);
+      if (finishedCallback) {
+        finishedCallback();
+      }
+    });
+  }
+  else {
+    getData(`../api/rawEnergyRange?crownstoneUID=${STONE_SELECT_DROPDOWN.value}&from=${fromTime}&until=${untilTime}&limit=${SAMPLE_COUNT.value}&access_token=${TOKEN}`, (data) => {
+      DATA = [];
+      let rawData = JSON.parse(data);
+      for (let i = 0; i < rawData.length; i++) {
+        let d = rawData[i];
+        if (DATA_SOURCE === "RAW") {
+          DATA.push({timestamp: d.timestamp, energyUsage: d.energyUsage, group: 'raw_energyUsage'})
+        }
+        if (DATA_SOURCE === "RAW_CORRECTED") {
+          DATA.push({timestamp: d.timestamp, energyUsage: d.correctedEnergyUsage, group: 'raw_correctedEnergyUsage'})
+        }
+      }
+      if (finishedCallback) {
+        finishedCallback();
+      }
+    })
+  }
 }
 
 function drawData() {
   DATASET.clear();
-  if (!DATA) { return; }
-
-  if (USE_DATA_TYPE === "E") {
-    drawEnergyData();
+  for (let i = 1; i < DATA.length; i++) {
+    let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+    let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
+    datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'power'});
+    datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'power'});
   }
-  else {
-    drawPowerData();
-  }
+  DATASET.add(datasetFormat);
   GRAPH_2D.fit();
 }
 
 function drawPowerData() {
   let datasetFormat = [];
-  let secondsBetweenSamples = 60;
-  switch (TIME_STEP) {
-    case "1m":
-      secondsBetweenSamples = 60; break;
-    case "5m":
-      secondsBetweenSamples = 5*60; break;
-    case "10m":
-      secondsBetweenSamples = 10*60; break;
-    case "15m":
-      secondsBetweenSamples = 15*60; break;
-    case "30m":
-      secondsBetweenSamples = 30*60; break;
-    case "1h":
-      secondsBetweenSamples = 3600; break;
-    case "3h":
-      secondsBetweenSamples = 3*3600; break;
-    case "6h":
-      secondsBetweenSamples = 6*3600; break;
-    case "12h":
-      secondsBetweenSamples = 12*3600; break;
-    case "1d":
-      secondsBetweenSamples = 24*3600; break;
-    case "1w":
-      secondsBetweenSamples = 7*24*3600; break;
-  }
 
   if (POWER_PRESENTATION === 'AVERAGE') {
     for (let i = 1; i < DATA.length; i++) {
-      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / secondsBetweenSamples;
+      let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
       let t = (new Date(DATA[i - 1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
       datasetFormat.push({x: t, y: dE, group: 'power'});
     }
   }
   else {
     for (let i = 1; i < DATA.length; i++) {
-      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / secondsBetweenSamples;
+      let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
       datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'power'});
       datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'power'});
     }
@@ -133,6 +132,7 @@ function drawEnergyData() {
     initialValue = DATA[0].energyUsage*factor;
   }
 
+  console.log("Correction Value:", initialValue)
   let datasetFormat = [];
   if (ENERGY_PRESENTATION === 'CUMULATIVE') {
     for (let i = 0; i < DATA.length; i++) {

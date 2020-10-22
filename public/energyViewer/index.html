@@ -60,6 +60,17 @@
             <label for="dataType2">Power (W)</label>
         </div>
     </div>
+    <div id="dataSourceWrapper" style="display:none">
+        <p><b>Show data from source:</b></p>
+        <div>
+            <input type="radio" id="datasourceType1" name="datasourceType" value="processed" checked="checked" onchange="determineDataSource()">
+            <label for="unitType1">processed</label>
+            <input type="radio" id="datasourceType2" name="datasourceType" value="raw" onchange="determineDataSource()">
+            <label for="unitType2">raw</label>
+            <input type="radio" id="datasourceType3" name="datasourceType" value="corrected" onchange="determineDataSource()">
+            <label for="unitType3">raw corrected</label>
+        </div>
+    </div>
     <div id="unitsWrapper" style="display:none">
         <p><b>Units:</b></p>
         <div>

@@ -62,7 +62,6 @@ export async function main(options: ApplicationConfig = {}) {
 async function migrate() {
   console.time("migrate")
   let databaseInfo = await DbRef.dbInfo.findOne();
-  console.log("databaseInfo", databaseInfo)
   if (databaseInfo === null) {
     await DbRef.dbInfo.create({version: 0});
     databaseInfo = await DbRef.dbInfo.findOne();
