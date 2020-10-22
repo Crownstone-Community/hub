@@ -129,11 +129,13 @@ function determineDataType() {
     USE_DATA_TYPE = "E"
     PRESENTATION_ENERGY_WRAPPER.style.display = 'block';
     UNITS_WRAPPER.style.display = 'block';
+    PRESENTATION_POWER_WRAPPER.style.display = 'none';
   }
   else {
     USE_DATA_TYPE = "P";
     PRESENTATION_ENERGY_WRAPPER.style.display = 'none';
     UNITS_WRAPPER.style.display = 'none';
+    PRESENTATION_POWER_WRAPPER.style.display = 'block';
   }
   drawData();
 }
