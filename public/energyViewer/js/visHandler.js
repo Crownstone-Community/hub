@@ -85,13 +85,16 @@ function downloadData(finishedCallback = null) {
 
 function drawData() {
   DATASET.clear();
-  for (let i = 1; i < DATA.length; i++) {
-    let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
-    let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
-    datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'power'});
-    datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'power'});
+  if (!DATA) {
+    return;
   }
-  DATASET.add(datasetFormat);
+
+  if (USE_DATA_TYPE === "E") {
+    drawEnergyData();
+  }
+  else {
+    drawPowerData();
+  }
   GRAPH_2D.fit();
 }
 
@@ -100,16 +103,16 @@ function drawPowerData() {
 
   if (POWER_PRESENTATION === 'AVERAGE') {
     for (let i = 1; i < DATA.length; i++) {
-      let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
-      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
+      let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / (0.001*dtms);
       let t = (new Date(DATA[i - 1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
       datasetFormat.push({x: t, y: dE, group: 'power'});
     }
   }
   else {
     for (let i = 1; i < DATA.length; i++) {
-      let dt = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
-      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / dt;
+      let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      let dE = (DATA[i].energyUsage - DATA[i - 1].energyUsage) / (0.001*dtms);
       datasetFormat.push({x: new Date(DATA[i - 1].timestamp).valueOf() + 1, y: dE, group: 'power'});
       datasetFormat.push({x: new Date(DATA[i].timestamp).valueOf(),     y: dE, group: 'power'});
     }
@@ -132,6 +135,32 @@ function drawEnergyData() {
     initialValue = DATA[0].energyUsage*factor;
   }
 
+  let secondsBetweenSamples = 60;
+  switch (TIME_STEP) {
+    case "1m":
+      secondsBetweenSamples = 60; break;
+    case "5m":
+      secondsBetweenSamples = 5*60; break;
+    case "10m":
+      secondsBetweenSamples = 10*60; break;
+    case "15m":
+      secondsBetweenSamples = 15*60; break;
+    case "30m":
+      secondsBetweenSamples = 30*60; break;
+    case "1h":
+      secondsBetweenSamples = 3600; break;
+    case "3h":
+      secondsBetweenSamples = 3*3600; break;
+    case "6h":
+      secondsBetweenSamples = 6*3600; break;
+    case "12h":
+      secondsBetweenSamples = 12*3600; break;
+    case "1d":
+      secondsBetweenSamples = 24*3600; break;
+    case "1w":
+      secondsBetweenSamples = 7*24*3600; break;
+  }
+
   console.log("Correction Value:", initialValue)
   let datasetFormat = [];
   if (ENERGY_PRESENTATION === 'CUMULATIVE') {
@@ -141,7 +170,10 @@ function drawEnergyData() {
   }
   else {
     for (let i = 1; i < DATA.length; i++) {
+      let dtms = new Date(DATA[i].timestamp).valueOf() - new Date(DATA[i - 1].timestamp).valueOf();
+      if (dtms > 1000*secondsBetweenSamples) { continue; }
       let t = (new Date(DATA[i-1].timestamp).valueOf() + new Date(DATA[i].timestamp).valueOf()) / 2;
+
       let dE = factor*(DATA[i].energyUsage - DATA[i-1].energyUsage);
       datasetFormat.push({x: t, y: dE, group: "energy" });
     }
