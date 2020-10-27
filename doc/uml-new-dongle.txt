@@ -1,0 +1,26 @@
+@startuml
+participant hub
+participant dongle
+participant app
+participant cloud
+
+dongle --> app : Advertise (device=dongle,\n dongle_mode=setup)
+hub -> dongle : Status (mode=normal)
+dongle -> hub : Status (mode=setup, hub_mode=false)
+hub -> dongle : Set hub mode
+dongle -> hub : Status (mode=setup, hub_mode=true)
+dongle --> app : Advertise (device=hub_dongle,\n dongle_mode=setup, hub_mode=normal)
+
+app -> cloud : Create stone hub dongle
+cloud -> cloud : Generate UART key
+cloud -> app : Dongle keys
+app -> dongle : Perform setup
+dongle -> app : Setup complete
+dongle --> app: Advertise (device=hub_dongle,\n dongle_mode=normal, hub_mode=normal)
+app -> dongle : Set UART key
+dongle -> hub : Status (dongle_mode=normal)
+
+hub -> cloud : Get UART key (mac_address=A)
+cloud -> hub : UART key
+@enduml
+
