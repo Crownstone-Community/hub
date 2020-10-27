@@ -1,5 +1,6 @@
 import Timeout = NodeJS.Timeout;
 import {Logger} from '../../Logger';
+import {Util} from 'crownstone-core';
 const log = Logger(__filename);
 
 
@@ -24,7 +25,7 @@ export class Timekeeper {
 
   async setTime() {
     try {
-      await this.hubReference.uart.uart.setTime();
+      await this.hubReference.uart.uart.setTime(Util.nowToCrownstoneTime());
     }
     catch (e) {
       log.warn("Error when trying to set time", e);

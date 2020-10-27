@@ -55,31 +55,22 @@ class SseEventHandler {
     }
     handleCommandEvent(event) {
         switch (event.subType) {
-            case 'switchCrownstone':
-                // switch the crownstone!
-                log.info("switchCrownstoneEvent received: ", event);
-                let switchState = event.crownstone.switchState;
-                if (switchState !== null) {
-                    let switchPairs = [];
-                    if (switchState > 0 && switchState <= 1) {
-                        switchState *= 100;
-                    }
-                    if (switchState == 100) {
-                        switchPairs.push({ type: "TURN_ON", stoneId: event.crownstone.uid });
-                    }
-                    else {
-                        switchPairs.push({ type: "PERCENTAGE", stoneId: event.crownstone.uid, percentage: switchState });
-                    }
-                    CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones(switchPairs);
-                }
-                break;
             case 'multiSwitch':
                 if (!Array.isArray(event.switchData)) {
                     return;
                 }
                 let switchPairs = [];
                 event.switchData.forEach((switchData) => {
-                    switchPairs.push({ type: switchData.type, percentage: switchData.switchState, stoneId: switchData.uid });
+                    if (switchData.type === 'PERCENTAGE' && switchData.percentage !== undefined) {
+                        switchPairs.push({ type: switchData.type, percentage: switchData.percentage, stoneId: switchData.uid });
+                    }
+                    else if (switchData.type === 'PERCENTAGE') {
+                        // if we have no percentage, we just turn it on. this is mostly to silence typescript.
+                        switchPairs.push({ type: "TURN_ON", stoneId: switchData.uid });
+                    }
+                    else {
+                        switchPairs.push({ type: switchData.type, stoneId: switchData.uid });
+                    }
                 });
                 if (switchPairs.length > 0) {
                     CrownstoneHub_1.CrownstoneHub.uart.switchCrownstones(switchPairs);
