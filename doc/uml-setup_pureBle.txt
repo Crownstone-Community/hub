@@ -1,0 +1,44 @@
+@startuml
+participant hub
+participant dongle
+participant app
+participant cloud
+
+dongle --> app : Advertise (device=dongle,\n dongle_mode=setup)
+hub --> dongle : Status (mode=setup)
+
+hub -> dongle : Get mac address
+dongle -> hub : Mac address=A
+
+dongle --> hub : Status (mode=setup, hub_mode=false, encryption=false)
+hub --> dongle : Set hub mode
+dongle --> hub : Status (mode=setup, hub_mode=true, encryption=false)
+hub --> dongle : Set IP address = x
+dongle --> app : Advertise (device=hub_dongle,\n dongle_mode=setup,\n hub_mode=setup,\n hub_ip=x, \n encryption=false)
+
+app -> cloud : Create stone hub dongle
+cloud -> cloud : Generate UART key
+cloud -> app : Dongle keys
+app -> dongle : Perform setup
+dongle -> app : Setup complete
+dongle --> hub: REBOOT-EVENT
+hub --> dongle: hello!
+dongle --> hub: sphereUID, status
+hub --> dongle: send status
+dongle --> app: Advertise (device=hub_dongle,\n dongle_mode=normal,\n hub_mode=setup)
+
+app -> app : Generate hub token
+app -> cloud : Create hub (sphere X, token Y)
+cloud -> app: Hub created
+app --> dongle: Set hubToken, sphereCloudId
+hub -> cloud : Get user tokens, and sphere data, UART key
+cloud -> hub : User tokens, and sphere data, UART key
+hub -> cloud : My local IP is 10.0.0.134
+hub -> dongle : Setup success
+dongle --> app : Advertise (device=hub_dongle,\n dongle_mode=normal,\n hub_mode=normal,\n hub_ip=x,\n encryption=false)
+
+app -> dongle : Set UART key
+dongle -> hub : Status (mode=normal, hub_mode=true, encryption=true)
+
+dongle --> app : Advertise (device=hub_dongle,\n dongle_mode=normal,\n hub_mode=normal,\n hub_ip=x,\n encryption=true)
+@enduml
