@@ -6,39 +6,38 @@ participant cloud
 
 dongle --> app : Advertise (\ndevice=dongle,\n dongle_mode=setup)
 hub --> dongle : Status (mode=setup)
-dongle --> hub : Status (mode=setup, hub_mode=false, encryption=false)
+dongle --> hub : Status (\n mode=setup,\n hub_mode=false,\n encryption=false)
 
 hub --> dongle : Get mac address
 dongle --> hub : Mac address=A
 
 hub --> dongle : Set hub mode
 dongle --> hub : Set result success
-dongle --> app : Advertise (\n device=hub_dongle,\n dongle_mode=setup,\n hub_mode=setup,\n hub_ip=x)
+dongle --> app : Advertise (\n device=hub_dongle,\n dongle_mode=setup,\n hub_mode=setup)
 
 app -> cloud : Create stone hub dongle
 cloud -> cloud : Generate UART key
 cloud -> app : Dongle keys
+app -> dongle : Set UART key
 app -> dongle : Perform setup
 dongle -> app : Setup complete
-dongle -> dongle: Reboot
-dongle --> hub: Booted
-hub --> dongle: Hello
-dongle --> hub: Hello (sphereUID, mode=setup, hub_mode=false, encryption=true)
-dongle --> app: Advertise (\n device=hub_dongle,\n dongle_mode=normal,\n hub_mode=setup,\n hub_ip=x)
+dongle -> dongle : Reboot
+dongle --> hub : Booted
+hub --> dongle : Hello
+dongle --> hub : Hello (\n sphereUID,\n mode=normal,\n hub_mode=true,\n encryption=true)
+dongle -> app: Advertise (\n device=hub_dongle,\n dongle_mode=normal,\n hub_mode=setup)
 
 app -> app : Generate hub token
 app -> cloud : Create hub (sphere X, token Y)
 cloud -> app: Hub created
-app --> dongle: Set hubToken, sphereCloudId
+app -> dongle: Set hubToken, sphereCloudId
 dongle --> hub: Set hubToken, sphereCloudId
-hub -> cloud : Get user tokens, and sphere data, UART key
-cloud -> hub : User tokens, and sphere data, UART key
+hub -> cloud : Get user tokens, sphere data, and UART key
+cloud -> hub : User tokens, sphere data, and UART key
 hub -> cloud : Set local IP 10.0.0.134
-hub --> dongle : Status (mode=normal)
-dongle --> app : Advertise (\n device=hub_dongle,\n dongle_mode=normal,\n hub_mode=normal,\n hub_ip=x)
 
-app -> dongle : Set UART key
-dongle --> hub : Status (mode=normal, hub_mode=true, encryption=true)
-
+hub -> dongle : Status (\n mode=normal,\n encryption=true)
+dongle --> hub : Status (\n mode=normal,\n hub_mode=true,\n encryption=true)
 dongle -> app : Advertise (\n device=hub_dongle,\n dongle_mode=normal,\n hub_mode=normal,\n hub_ip=x)
+
 @enduml
