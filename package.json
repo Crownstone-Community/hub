@@ -50,7 +50,7 @@
     "crownstone-cloud": "^0.17.13",
     "crownstone-core": "^0.8.4",
     "crownstone-logger": "^0.1.4",
-    "crownstone-sse": "^4.0.0",
+    "crownstone-sse": "^4.1.0",
     "crownstone-uart": "^0.8.11",
     "helmet": "^4.1.1",
     "cors": "^2.8.5",

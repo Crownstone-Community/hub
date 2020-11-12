@@ -3,7 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PowerMonitor = void 0;
 const DbReference_1 = require("../Data/DbReference");
 const crownstone_core_1 = require("crownstone-core");
+const InMemoryCache_1 = require("../Data/InMemoryCache");
 class PowerMonitor {
+    constructor() {
+        this.powerCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.DbRef.power.createAll(data); }, 'powerMonitor');
+    }
+    init() {
+        this.stop();
+        // use this to batch the writes in the database.
+        this.storeInterval = setInterval(async () => {
+            await this.powerCache.store();
+        }, 2000);
+    }
+    stop() {
+        if (this.storeInterval) {
+            clearInterval(this.storeInterval);
+        }
+    }
     collect(crownstoneId, powerUsageReal, powerFactor, timestamp) {
         return DbReference_1.DbRef.power.create({
             stoneUID: crownstoneId,

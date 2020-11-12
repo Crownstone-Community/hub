@@ -8,6 +8,7 @@ import {Logger} from '../../Logger';
 import { Util } from 'crownstone-core';
 import {minuteInterval, processPair} from '../Processing/EnergyProcessor';
 import {IntervalData} from '../Processing/IntervalData';
+import {InMemoryCache} from '../Data/InMemoryCache';
 const log = Logger(__filename);
 
 const PROCESSING_INTERVAL = 60000; // 1 minute;
@@ -15,6 +16,7 @@ const PROCESSING_INTERVAL = 60000; // 1 minute;
 export class EnergyMonitor {
 
   timeInterval : Timeout | null;
+  storeInterval : Timeout | null;
   energyIsProcessing: boolean = false;
   energyIsAggregating: boolean = false;
   processingPaused: boolean = false;
@@ -22,9 +24,22 @@ export class EnergyMonitor {
   aggregationProcessingPaused: boolean = false;
   aggregationPauseTimeout: Timeout;
 
+  energyCache : InMemoryCache;
+
+  constructor() {
+    this.energyCache = new InMemoryCache(async (data: any[]) => { await DbRef.energy.createAll(data) }, 'energyMonitor');
+  }
+
+
   init() {
     this.stop();
-    this.timeInterval = setInterval(() => {
+    // use this to batch the writes in the database.
+    this.storeInterval = setInterval(async () => {
+      await this.energyCache.store();
+    }, 2000);
+
+    this.timeInterval = setInterval(async () => {
+      await this.energyCache.store();
       if (this.processingPaused === false) {
         this.processing().catch();
       }
@@ -36,7 +51,10 @@ export class EnergyMonitor {
 
   stop() {
     if (this.timeInterval) {
-      clearTimeout(this.timeInterval)
+      clearInterval(this.timeInterval)
+    }
+    if (this.storeInterval) {
+      clearInterval(this.storeInterval)
     }
   }
 
@@ -288,13 +306,15 @@ export class EnergyMonitor {
 
 
   collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number, timestamp: number) {
-    return DbRef.energy.create({
+    this.energyCache.collect({
       stoneUID:    crownstoneId,
       energyUsage: accumulatedEnergy,
       pointPowerUsage: powerUsage,
       timestamp:   new Date(Util.crownstoneTimeToTimestamp(timestamp)),
       processed:   false
-    })
+    });
+    // return DbRef.energy.create()
   }
 
 }
+

@@ -9,6 +9,7 @@ export declare class CloudManager {
     sse: CrownstoneSSE | null;
     sseEventHandler: SseEventHandler;
     initializeInProgress: boolean;
+    retryInitialization: boolean;
     initialized: boolean;
     loginInProgress: boolean;
     syncInProgress: boolean;

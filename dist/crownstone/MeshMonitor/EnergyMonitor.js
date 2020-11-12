@@ -8,6 +8,7 @@ const Logger_1 = require("../../Logger");
 const crownstone_core_1 = require("crownstone-core");
 const EnergyProcessor_1 = require("../Processing/EnergyProcessor");
 const IntervalData_1 = require("../Processing/IntervalData");
+const InMemoryCache_1 = require("../Data/InMemoryCache");
 const log = Logger_1.Logger(__filename);
 const PROCESSING_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
@@ -16,10 +17,16 @@ class EnergyMonitor {
         this.energyIsAggregating = false;
         this.processingPaused = false;
         this.aggregationProcessingPaused = false;
+        this.energyCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.DbRef.energy.createAll(data); }, 'energyMonitor');
     }
     init() {
         this.stop();
-        this.timeInterval = setInterval(() => {
+        // use this to batch the writes in the database.
+        this.storeInterval = setInterval(async () => {
+            await this.energyCache.store();
+        }, 2000);
+        this.timeInterval = setInterval(async () => {
+            await this.energyCache.store();
             if (this.processingPaused === false) {
                 this.processing().catch();
             }
@@ -29,7 +36,10 @@ class EnergyMonitor {
     }
     stop() {
         if (this.timeInterval) {
-            clearTimeout(this.timeInterval);
+            clearInterval(this.timeInterval);
+        }
+        if (this.storeInterval) {
+            clearInterval(this.storeInterval);
         }
     }
     pauseProcessing(seconds) {
@@ -239,13 +249,14 @@ class EnergyMonitor {
         }
     }
     collect(crownstoneId, accumulatedEnergy, powerUsage, timestamp) {
-        return DbReference_1.DbRef.energy.create({
+        this.energyCache.collect({
             stoneUID: crownstoneId,
             energyUsage: accumulatedEnergy,
             pointPowerUsage: powerUsage,
             timestamp: new Date(crownstone_core_1.Util.crownstoneTimeToTimestamp(timestamp)),
             processed: false
         });
+        // return DbRef.energy.create()
     }
 }
 exports.EnergyMonitor = EnergyMonitor;

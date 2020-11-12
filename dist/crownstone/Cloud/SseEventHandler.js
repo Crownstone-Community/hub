@@ -40,7 +40,7 @@ class SseEventHandler {
     }
     handleSystemEvent(event) {
         switch (event.subType) {
-            case 'TOKEN_EXPIRED':
+            case 'COULD_NOT_REFRESH_TOKEN':
                 // login again
                 HubEventBus_1.eventBus.emit(topics_1.topics.TOKEN_EXPIRED);
                 break;

@@ -25,12 +25,14 @@ export class MeshMonitor {
 
   init() {
     this.energy.init();
+    this.power.init();
     this.setupEvents();
   }
 
   cleanup() {
     this.unsubscribeEventListener();
     this.energy.stop();
+    this.power.stop();
   }
 
   setupEvents() {

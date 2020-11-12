@@ -18,6 +18,7 @@ class CloudManager {
     constructor() {
         this.sse = null;
         this.initializeInProgress = false;
+        this.retryInitialization = false;
         this.initialized = false;
         this.loginInProgress = false;
         this.syncInProgress = false;
@@ -64,16 +65,21 @@ class CloudManager {
     }
     async initialize() {
         if (this.initializeInProgress === true) {
+            log.info("Cloudmanager has requested a second initialization.");
+            this.retryInitialization = true;
             return;
         }
+        this.initialized = false;
+        this.retryInitialization = false;
+        this.initializeInProgress = true;
         HubStatus_1.HubStatus.loggedIntoCloud = false;
         HubStatus_1.HubStatus.loggedIntoSSE = false;
         HubStatus_1.HubStatus.syncedWithCloud = false;
         // The hub can never be not trying to connect unless it has no database reference to the hub itself.
-        this.initializeInProgress = true;
         let hub = await DbReference_1.DbRef.hub.get();
         if (hub) {
             // we have a hub database entry. We will continue to retry to initialize until we either succeed or the hub
+            let iterations = 0;
             while (this.initialized === false) {
                 let hub = await DbReference_1.DbRef.hub.get();
                 if (!hub) {
@@ -82,7 +88,7 @@ class CloudManager {
                 if (hub.cloudId === 'null') {
                     throw 401;
                 }
-                log.info("Cloudmanager initialize started.");
+                log.info("Cloudmanager initialize started.", iterations);
                 try {
                     try {
                         await this.login(hub);
@@ -113,8 +119,8 @@ class CloudManager {
                                 }
                             });
                         }, 60 * 60 * 1000); // every 60 minutes
-                        this.initialized = true;
                     }
+                    this.initialized = true;
                 }
                 catch (err) {
                     log.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
@@ -124,6 +130,7 @@ class CloudManager {
                         throw err;
                     }
                 }
+                iterations++;
             }
         }
         else {
@@ -131,6 +138,12 @@ class CloudManager {
         }
         log.info("Cloudmanager initialize finished.");
         this.initializeInProgress = false;
+        if (this.retryInitialization) {
+            log.info("Waiting to start a second initialization...");
+            await Util_1.Util.wait(5000);
+            log.info("Executing a second initialization...");
+            await this.initialize();
+        }
     }
     async recover(delayMs = 500) {
         await this.cleanup();

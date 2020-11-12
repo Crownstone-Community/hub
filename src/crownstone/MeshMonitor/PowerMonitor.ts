@@ -1,10 +1,35 @@
 import {DbRef} from '../Data/DbReference';
 import {Util} from 'crownstone-core';
+import {InMemoryCache} from '../Data/InMemoryCache';
+import Timeout = NodeJS.Timeout;
 
 
 export class PowerMonitor {
 
-  collect(crownstoneId: number, powerUsageReal: number, powerFactor: number, timestamp: number) {
+
+  storeInterval : Timeout;
+  powerCache : InMemoryCache;
+
+  constructor() {
+    this.powerCache = new InMemoryCache(async (data: object[]) => { await DbRef.power.createAll(data) }, 'powerMonitor')
+  }
+
+
+  init() {
+    this.stop();
+    // use this to batch the writes in the database.
+    this.storeInterval = setInterval(async () => {
+      await this.powerCache.store();
+    }, 2000);
+  }
+
+  stop() {
+    if (this.storeInterval) {
+      clearInterval(this.storeInterval);
+    }
+  }
+
+      collect(crownstoneId: number, powerUsageReal: number, powerFactor: number, timestamp: number) {
    return DbRef.power.create({
       stoneUID:    crownstoneId,
       powerUsage:  powerUsageReal,

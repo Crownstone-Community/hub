@@ -28,7 +28,7 @@ export class UserRepository extends DefaultCrudRepository<User,typeof User.proto
 
   async create(entity: DataObject<User>, options?: Options): Promise<User> {
     await this.checkUniqueness(entity);
-    return super.create(entity, options)
+    return super.create(entity, options);
   }
 
   async checkUniqueness(entity: DataObject<User>) {

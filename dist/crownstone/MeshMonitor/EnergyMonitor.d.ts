@@ -1,14 +1,18 @@
 /// <reference types="node" />
 import Timeout = NodeJS.Timeout;
 import { EnergyData, EnergyDataProcessed } from '../../models';
+import { InMemoryCache } from '../Data/InMemoryCache';
 export declare class EnergyMonitor {
     timeInterval: Timeout | null;
+    storeInterval: Timeout | null;
     energyIsProcessing: boolean;
     energyIsAggregating: boolean;
     processingPaused: boolean;
     pauseTimeout: Timeout;
     aggregationProcessingPaused: boolean;
     aggregationPauseTimeout: Timeout;
+    energyCache: InMemoryCache;
+    constructor();
     init(): void;
     stop(): void;
     pauseProcessing(seconds: number): void;
@@ -22,5 +26,5 @@ export declare class EnergyMonitor {
     uploadProcessed(): Promise<void>;
     _uploadStoneEnergy(processedData: EnergyDataProcessed[]): Promise<void>;
     _processStoneEnergy(stoneUID: number, energyData: EnergyData[]): Promise<void>;
-    collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number, timestamp: number): Promise<EnergyData>;
+    collect(crownstoneId: number, accumulatedEnergy: number, powerUsage: number, timestamp: number): void;
 }
