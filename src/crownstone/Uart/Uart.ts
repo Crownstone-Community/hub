@@ -57,7 +57,7 @@ export class Uart implements UartInterface {
     return this.queue.register(() => {
       log.info("Dispatching switchAction", switchPairs);
       return this.uart.switchCrownstones(switchPairs);
-    });
+    }, "switchCrownstones from Uart" + JSON.stringify(switchPairs));
   }
 
   registerTrackedDevice(

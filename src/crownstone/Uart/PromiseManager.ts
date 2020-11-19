@@ -19,8 +19,8 @@ export class PromiseManager {
 
   constructor() {
     this.pendingPromises = [];
-    this.promiseInProgress = undefined;
-    this.clearPendingPromiseTimeout = undefined;
+    this.promiseInProgress = null;
+    this.clearPendingPromiseTimeout = null;
   }
 
   register(promise : () => Promise<any>, message= "" , customTimeoutMs: number = PROMISE_MANAGER_FALLBACK_TIMEOUT) : Promise<any> {
@@ -36,7 +36,7 @@ export class PromiseManager {
     log.info("HubPromiseManager: registered promise in manager");
     return new Promise((resolve, reject) => {
       let container = { promise: promise, resolve: resolve, reject: reject, message: message, completed: false, timeout: timeout };
-      if (this.promiseInProgress === undefined) {
+      if (this.promiseInProgress === null) {
         this.executePromise(container);
       }
       else {
@@ -66,12 +66,15 @@ export class PromiseManager {
       });
     }, promiseContainer.timeout);
 
+
     promiseContainer.promise()
       .then((data : any) => {
+        if (promiseContainer.completed) { return; }
         log.info("HubPromiseManager: resolved: ", promiseContainer.message);
         this.finalize(promiseContainer, () => { promiseContainer.resolve(data); });
       })
       .catch((err : any) => {
+        if (promiseContainer.completed) { return; }
         log.warn("HubPromiseManager: rejected: ", promiseContainer.message);
         this.finalize(promiseContainer, () => { promiseContainer.reject(err); });
       })
@@ -85,10 +88,9 @@ export class PromiseManager {
    * @param callback
    */
   finalize(promiseContainer : PromiseContainer, callback : () => void) {
-    if (typeof this.clearPendingPromiseTimeout === 'function') {
-      this.clearPendingPromiseTimeout();
-      this.clearPendingPromiseTimeout = null;
-    }
+    clearTimeout(this.clearPendingPromiseTimeout);
+    this.clearPendingPromiseTimeout = null;
+
     if (promiseContainer.completed === false) {
       promiseContainer.completed = true;
       callback();
@@ -97,7 +99,7 @@ export class PromiseManager {
   }
 
   moveOn() {
-    this.promiseInProgress = undefined;
+    this.promiseInProgress = null;
     this.getNextPromise()
   }
 

@@ -47,7 +47,7 @@ class Uart {
         return this.queue.register(() => {
             log.info("Dispatching switchAction", switchPairs);
             return this.uart.switchCrownstones(switchPairs);
-        });
+        }, "switchCrownstones from Uart" + JSON.stringify(switchPairs));
     }
     registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes) {
         if (!this.ready) {

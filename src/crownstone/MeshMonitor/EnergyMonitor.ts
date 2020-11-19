@@ -39,7 +39,6 @@ export class EnergyMonitor {
     }, 2000);
 
     this.timeInterval = setInterval(async () => {
-      await this.energyCache.store();
       if (this.processingPaused === false) {
         this.processing().catch();
       }
@@ -89,6 +88,8 @@ export class EnergyMonitor {
     if (this.energyIsProcessing || this.energyIsAggregating) {
       return;
     }
+
+    await this.energyCache.store();
 
     this.energyIsProcessing = true;
     let iterationRequired = true;

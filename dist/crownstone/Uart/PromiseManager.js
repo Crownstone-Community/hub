@@ -7,8 +7,8 @@ const PROMISE_MANAGER_FALLBACK_TIMEOUT = 5000;
 class PromiseManager {
     constructor() {
         this.pendingPromises = [];
-        this.promiseInProgress = undefined;
-        this.clearPendingPromiseTimeout = undefined;
+        this.promiseInProgress = null;
+        this.clearPendingPromiseTimeout = null;
     }
     register(promise, message = "", customTimeoutMs = PROMISE_MANAGER_FALLBACK_TIMEOUT) {
         return this._register(promise, message, false, customTimeoutMs);
@@ -21,7 +21,7 @@ class PromiseManager {
         log.info("HubPromiseManager: registered promise in manager");
         return new Promise((resolve, reject) => {
             let container = { promise: promise, resolve: resolve, reject: reject, message: message, completed: false, timeout: timeout };
-            if (this.promiseInProgress === undefined) {
+            if (this.promiseInProgress === null) {
                 this.executePromise(container);
             }
             else {
@@ -50,10 +50,16 @@ class PromiseManager {
         }, promiseContainer.timeout);
         promiseContainer.promise()
             .then((data) => {
+            if (promiseContainer.completed) {
+                return;
+            }
             log.info("HubPromiseManager: resolved: ", promiseContainer.message);
             this.finalize(promiseContainer, () => { promiseContainer.resolve(data); });
         })
             .catch((err) => {
+            if (promiseContainer.completed) {
+                return;
+            }
             log.warn("HubPromiseManager: rejected: ", promiseContainer.message);
             this.finalize(promiseContainer, () => { promiseContainer.reject(err); });
         });
@@ -65,10 +71,8 @@ class PromiseManager {
      * @param callback
      */
     finalize(promiseContainer, callback) {
-        if (typeof this.clearPendingPromiseTimeout === 'function') {
-            this.clearPendingPromiseTimeout();
-            this.clearPendingPromiseTimeout = null;
-        }
+        clearTimeout(this.clearPendingPromiseTimeout);
+        this.clearPendingPromiseTimeout = null;
         if (promiseContainer.completed === false) {
             promiseContainer.completed = true;
             callback();
@@ -76,7 +80,7 @@ class PromiseManager {
         }
     }
     moveOn() {
-        this.promiseInProgress = undefined;
+        this.promiseInProgress = null;
         this.getNextPromise();
     }
     getNextPromise() {
