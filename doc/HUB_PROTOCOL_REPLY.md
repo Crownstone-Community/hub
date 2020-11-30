@@ -55,6 +55,7 @@ uint16 | length | 2 | length of message
 
 Value | Name |  Description
 --- | --- | ---
-| 0 | SETUP_FAILED_NOT_IN_SETUP_MODE | This hub is not in setup mode |
-| 1 | SETUP_FAILED_INVALID_TOKEN | The provided token (or cloud id) is incorrect. |
-| 2 | SETUP_FAILED_UNKNOWN       | Something else went wrong.. |
+| 0 | NOT_IN_SETUP_MODE     | This hub is NOT in setup mode |
+| 1 | IN_SETUP_MODE         | This hub IS in setup mode |
+| 2 | INVALID_TOKEN         | The provided token (or cloud id) is incorrect. |
+| 60000 | UNKNOWN           | Something else went wrong.. |
