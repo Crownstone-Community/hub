@@ -45,7 +45,6 @@ class UartHubDataCommunication {
                     sphereId: hubCloudData.sphereId,
                 });
                 HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
-                log.info("Hub created.");
                 return this.uart.uart.hubDataReply(HubDataReply_1.HubDataReplySuccess());
             }
             catch (e) {
@@ -67,7 +66,7 @@ class UartHubDataCommunication {
             else {
                 let hub = await DbReference_1.Dbs.hub.get();
                 if (hub === null || hub === void 0 ? void 0 : hub.cloudId) {
-                    return this.uart.uart.hubDataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, hub === null || hub === void 0 ? void 0 : hub.cloudId));
+                    return this.uart.uart.hubDataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub === null || hub === void 0 ? void 0 : hub.cloudId)));
                 }
                 // no hub or no cloudId.
                 return this.uart.uart.hubDataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE));

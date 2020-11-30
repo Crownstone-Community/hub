@@ -2,17 +2,15 @@ import {DataWriter, ResultValue} from 'crownstone-core';
 import {HubReplyCode} from '../HubProtocol';
 
 const PROTOCOL_VERSION = 0;
+const PREFIX_SIZE = 5;
 
 export function HubDataReplyError(type: number, message: string = '') {
-  let headerBuffer = new DataWriter(9); // 2 +3 + 4
+  let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 5 * prefix + 2
   headerBuffer.putUInt16(ResultValue.SUCCESS);
   headerBuffer.putUInt8(PROTOCOL_VERSION);
   headerBuffer.putUInt16(HubReplyCode.ERROR);
 
   let stringBuffer = Buffer.from(message, 'ascii');
-  let messageLength = stringBuffer.length;
-
-  headerBuffer.putUInt16(messageLength);
 
   let result = Buffer.concat([headerBuffer.getBuffer(), stringBuffer]);
 
@@ -24,13 +22,10 @@ export function HubDataReplyError(type: number, message: string = '') {
 
 
 export function HubDataReplySuccess(data?:any) : Buffer {
-  let headerBuffer = new DataWriter(7); // 2 (uart protocol) + 3 (prefix) + 4 (data)
+  let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 2 (uart protocol) + 3 (prefix) + 4 (data)
   headerBuffer.putUInt16(ResultValue.SUCCESS); // This is the required value of the uart protocol
   headerBuffer.putUInt8(PROTOCOL_VERSION);
   headerBuffer.putUInt16(HubReplyCode.SUCCESS); // SUCCESS CODE
-
-  let messageLength = 0;
-  headerBuffer.putUInt16(messageLength);
 
   let result = headerBuffer.getBuffer();
 
@@ -47,14 +42,12 @@ export function HubDataReplyString(requestedDataType: number, data: string) : Bu
 }
 
 export function HubDataReplyData(requestedDataType: number, data: Buffer) : Buffer {
-  let headerBuffer = new DataWriter(9); // 5 + 2 + 2 (length) + N bytes
+  let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 5 + 2 + N bytes
   headerBuffer.putUInt16(ResultValue.SUCCESS);
   headerBuffer.putUInt8(PROTOCOL_VERSION);
   headerBuffer.putUInt16(HubReplyCode.DATA_REPLY);
 
   headerBuffer.putUInt16(requestedDataType);
-  let messageLength = data.length;
-  headerBuffer.putUInt16(messageLength);
 
   let result = Buffer.concat([headerBuffer.getBuffer(), data])
 

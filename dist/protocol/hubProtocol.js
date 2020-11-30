@@ -9,8 +9,8 @@ exports.HubDataType = {
 };
 exports.HubReplyError = {
     NOT_IN_SETUP_MODE: 0,
-    INVALID_TOKEN: 1,
-    IN_SETUP_MODE: 10,
+    IN_SETUP_MODE: 1,
+    INVALID_TOKEN: 2,
     UNKNOWN: 60000,
 };
 exports.HubReplyCode = {

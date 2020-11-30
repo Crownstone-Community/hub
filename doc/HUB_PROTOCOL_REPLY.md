@@ -24,7 +24,6 @@ Value | Name |  Payload
 
 Type | Name | Length | Description
 --- | --- | --- | ---
-uint16 | length | 2 | length of message
 [uint8] | message | length | ascii string message (optional)
 
 
@@ -33,7 +32,6 @@ uint16 | length | 2 | length of message
 Type | Name | Length | Description
 --- | --- | --- | ---
 uint16 | dataType | 2 | Type of requested data
-uint16 | length | 2 | length of message
 [uint8] | data | length | ByteArray of requested data. Formatting depends on data type
 
 #### DataTypes
@@ -47,7 +45,6 @@ Value | Name | Formatting
 Type | Name | Length | Description
 --- | --- | --- | ---
 uint16 | ErrorCode | code of the error |
-uint16 | length | 2 | length of message
 [uint8] | message | Size | ascii string message (optional)
 
 
