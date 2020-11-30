@@ -16,7 +16,7 @@ const SwitchDataSchema = {
             type: 'object',
             required: ['type', 'crownstoneId'],
             properties: {
-                type: { type: 'TURN_ON' },
+                type: { type: 'string' },
                 crownstoneUID: { type: 'number' },
                 percentage: { type: 'null' }
             }
@@ -25,7 +25,7 @@ const SwitchDataSchema = {
             type: 'object',
             required: ['type', 'crownstoneId'],
             properties: {
-                type: { type: 'TURN_OFF' },
+                type: { type: 'string' },
                 crownstoneUID: { type: 'number' },
                 percentage: { type: 'null' }
             }
@@ -34,7 +34,7 @@ const SwitchDataSchema = {
             type: 'object',
             required: ['type', 'crownstoneId', 'value'],
             properties: {
-                type: { type: "PERCENTAGE" },
+                type: { type: "string" },
                 crownstoneUID: { type: 'number' },
                 percentage: { type: 'number' }
             }

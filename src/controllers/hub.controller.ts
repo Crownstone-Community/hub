@@ -26,35 +26,35 @@ export class HubController {
   ) {}
 
 
-  @post('/hub')
-  async createHub(
-    @requestBody({
-      content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
-    })
-    newHub: DataObject<Hub>,
-  ): Promise<void> {
-    if (await this.hubRepo.isSet() === false) {
-      let cloud = new CrownstoneCloud();
-      if (!(newHub.cloudId && newHub.token)) {
-        throw new HttpErrors.BadRequest("CloudId and token are mandatory.");
-      }
-      try {
-        await cloud.hubLogin(newHub.cloudId, newHub.token);
-      }
-      catch (e) {
-        if (e && e.statusCode === 401) {
-          throw new HttpErrors.BadRequest("Invalid token/cloudId combination.");
-        }
-      }
-      return this.hubRepo.create(newHub)
-        .then(() => {
-          eventBus.emit(topics.HUB_CREATED);
-        })
-    }
-    else {
-      throw new HttpErrors.Forbidden("Hub already created and initialized.");
-    }
-  }
+  // @post('/hub')
+  // async createHub(
+  //   @requestBody({
+  //     content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
+  //   })
+  //   newHub: DataObject<Hub>,
+  // ): Promise<void> {
+  //   if (await this.hubRepo.isSet() === false) {
+  //     let cloud = new CrownstoneCloud();
+  //     if (!(newHub.cloudId && newHub.token)) {
+  //       throw new HttpErrors.BadRequest("CloudId and token are mandatory.");
+  //     }
+  //     try {
+  //       await cloud.hubLogin(newHub.cloudId, newHub.token);
+  //     }
+  //     catch (e) {
+  //       if (e && e.statusCode === 401) {
+  //         throw new HttpErrors.BadRequest("Invalid token/cloudId combination.");
+  //       }
+  //     }
+  //     return this.hubRepo.create(newHub)
+  //       .then(() => {
+  //         eventBus.emit(topics.HUB_CREATED);
+  //       })
+  //   }
+  //   else {
+  //     throw new HttpErrors.Forbidden("Hub already created and initialized.");
+  //   }
+  // }
 
   // @post('/uartKey')
   // @authenticate(SecurityTypes.admin)

@@ -9,7 +9,7 @@ const log = Logger(__filename);
 
 export class MeshMonitor {
   eventsRegistered = false;
-  unsubscribeEventListener : () => void;
+  unsubscribeEventListener : () => void = () => {};
 
   power:    PowerMonitor;
   energy:   EnergyMonitor;

@@ -9,7 +9,7 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from './repositories';
-import {DbRef, EMPTY_DATABASE} from './crownstone/Data/DbReference';
+import {Dbs, EMPTY_DATABASE} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
@@ -35,15 +35,15 @@ export async function main(options: ApplicationConfig = {}) {
   log.info(`Server started.`);
 
   log.info(`Creating Database References...`);
-  DbRef.dbInfo            = await server.lbApp.getRepository(DatabaseInfoRepository)
-  DbRef.hub               = await server.lbApp.getRepository(HubRepository)
-  DbRef.power             = await server.lbApp.getRepository(PowerDataRepository)
-  DbRef.energy            = await server.lbApp.getRepository(EnergyDataRepository)
-  DbRef.energyProcessed   = await server.lbApp.getRepository(EnergyDataProcessedRepository)
-  DbRef.user              = await server.lbApp.getRepository(UserRepository)
-  DbRef.userPermission    = await server.lbApp.getRepository(UserPermissionRepository)
-  DbRef.switches          = await server.lbApp.getRepository(SwitchDataRepository)
-  DbRef.sphereFeatures    = await server.lbApp.getRepository(SphereFeatureRepository)
+  Dbs.dbInfo            = await server.lbApp.getRepository(DatabaseInfoRepository)
+  Dbs.hub               = await server.lbApp.getRepository(HubRepository)
+  Dbs.power             = await server.lbApp.getRepository(PowerDataRepository)
+  Dbs.energy            = await server.lbApp.getRepository(EnergyDataRepository)
+  Dbs.energyProcessed   = await server.lbApp.getRepository(EnergyDataProcessedRepository)
+  Dbs.user              = await server.lbApp.getRepository(UserRepository)
+  Dbs.userPermission    = await server.lbApp.getRepository(UserPermissionRepository)
+  Dbs.switches          = await server.lbApp.getRepository(SwitchDataRepository)
+  Dbs.sphereFeatures    = await server.lbApp.getRepository(SphereFeatureRepository)
 
   await migrate();
   await maintainIndexes();
@@ -61,21 +61,21 @@ export async function main(options: ApplicationConfig = {}) {
 
 async function migrate() {
   console.time("migrate")
-  let databaseInfo = await DbRef.dbInfo.findOne();
+  let databaseInfo = await Dbs.dbInfo.findOne();
   if (databaseInfo === null) {
-    await DbRef.dbInfo.create({version: 0});
-    databaseInfo = await DbRef.dbInfo.findOne();
+    await Dbs.dbInfo.create({version: 0});
+    databaseInfo = await Dbs.dbInfo.findOne();
   }
 
   // this won't happen but it makes the typescript happy!
   if (databaseInfo === null) { return; }
   if (databaseInfo.version === 0) {
-    let noIntervalCount = await DbRef.energyProcessed.count();
+    let noIntervalCount = await Dbs.energyProcessed.count();
     if (noIntervalCount.count > 0) {
-      await DbRef.energyProcessed.updateAll({interval:"1m"});
+      await Dbs.energyProcessed.updateAll({interval:"1m"});
     }
     databaseInfo.version = 1;
-    await DbRef.dbInfo.update(databaseInfo);
+    await Dbs.dbInfo.update(databaseInfo);
   }
   console.timeEnd("migrate")
 }

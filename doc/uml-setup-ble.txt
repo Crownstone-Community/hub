@@ -30,8 +30,8 @@ dongle -> app: Advertise (\n device=hub_dongle,\n dongle_mode=normal,\n hub_mode
 app -> app : Generate hub token
 app -> cloud : Create hub (sphere X, token Y)
 cloud -> app: Hub created
-app -> dongle: Set hubToken, sphereCloudId
-dongle --> hub: Set hubToken, sphereCloudId
+app -> dongle: Set hubToken, hubCloudId
+dongle --> hub: Set hubToken, hubCloudId
 hub -> cloud : Get user tokens, sphere data, and UART key
 cloud -> hub : User tokens, sphere data, and UART key
 hub -> cloud : Set local IP 10.0.0.134

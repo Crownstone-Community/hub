@@ -76,12 +76,12 @@ class CloudManager {
         HubStatus_1.HubStatus.loggedIntoSSE = false;
         HubStatus_1.HubStatus.syncedWithCloud = false;
         // The hub can never be not trying to connect unless it has no database reference to the hub itself.
-        let hub = await DbReference_1.DbRef.hub.get();
+        let hub = await DbReference_1.Dbs.hub.get();
         if (hub) {
             // we have a hub database entry. We will continue to retry to initialize until we either succeed or the hub
             let iterations = 0;
             while (this.initialized === false) {
-                let hub = await DbReference_1.DbRef.hub.get();
+                let hub = await DbReference_1.Dbs.hub.get();
                 if (!hub) {
                     break;
                 }
@@ -97,7 +97,7 @@ class CloudManager {
                         if (e === 401) {
                             hub.cloudId = 'null';
                             hub.token = 'null';
-                            await DbReference_1.DbRef.hub.save(hub);
+                            await DbReference_1.Dbs.hub.save(hub);
                             throw e;
                         }
                     }
@@ -169,7 +169,7 @@ class CloudManager {
                     cloudLoggedIn = true;
                     hub.accessToken = loginData.accessToken;
                     hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + Date.now());
-                    await DbReference_1.DbRef.hub.update(hub);
+                    await DbReference_1.Dbs.hub.update(hub);
                 }
                 catch (e) {
                     log.warn("Error in login to cloud", e);
@@ -226,7 +226,7 @@ class CloudManager {
                 let sphereUsers = await this.cloud.sphere(this.sphereId).users();
                 let tokenSets = await this.cloud.sphere(this.sphereId).authorizationTokens();
                 usersObtained = true;
-                await DbReference_1.DbRef.user.merge(sphereUsers, tokenSets);
+                await DbReference_1.Dbs.user.merge(sphereUsers, tokenSets);
             }
             catch (e) {
                 HubStatus_1.HubStatus.syncedWithCloud = false;

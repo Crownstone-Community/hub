@@ -1,5 +1,5 @@
 import {EnergyData, EnergyDataProcessed} from '../../models';
-import {DbRef} from '../Data/DbReference';
+import {Dbs} from '../Data/DbReference';
 import {DataObject} from '@loopback/repository/src/common-types';
 import {Logger} from '../../Logger';
 
@@ -49,7 +49,7 @@ async function processSinglePoint(
 
   datapoint.correctedEnergyUsage = datapoint.energyUsage;
   datapoint.processed = true;
-  await DbRef.energy.update(datapoint).catch((e) => {log.error("Error persisting processed boolean on datapoint", e);})
+  await Dbs.energy.update(datapoint).catch((e) => {log.error("Error persisting processed boolean on datapoint", e);})
 }
 
 async function processDataPairSingleNew(
@@ -86,7 +86,7 @@ async function processDataPairSingleNew(
   async function wrapUp() {
     nextDatapoint.processed = true;
     nextDatapoint.correctedEnergyUsage = nextValue;
-    await DbRef.energy.update(nextDatapoint).catch((e) => {log.error("Error persisting processed boolean on datapoint", e);})
+    await Dbs.energy.update(nextDatapoint).catch((e) => {log.error("Error persisting processed boolean on datapoint", e);})
   }
 
   // we sample every 1 minute, on the minute.

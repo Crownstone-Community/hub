@@ -2,7 +2,7 @@ import {EnergyMonitor} from '../src/crownstone/MeshMonitor/EnergyMonitor';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {DbRef} from '../src/crownstone/Data/DbReference';
+import {Dbs} from '../src/crownstone/Data/DbReference';
 // import {Logger} from '../src/Logger';
 //
 // const log = Logger("EnergyCollectionTest");
@@ -40,7 +40,7 @@ test("try to process data", async () => {
   await monitor.processMeasurements()
   console.timeEnd("process")
 
-  // let processedPoints = await DbRef.energyProcessed.find()
+  // let processedPoints = await Dbs.energyProcessed.find()
   // processedPoints.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
   // let str = "[\n  " + JSON.stringify(processedPoints[0])
   // for (let j = 1; j < processedPoints.length; j++) {

@@ -11,7 +11,7 @@ function addLoggingRoutes(app, loopbackApp) {
     app.get('/enableLogging', async (req, res) => {
         try {
             let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.DbRef.user);
+            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
                 let config = ConfigUtil_1.getHubConfig();
                 config.useLogControllers = true;
@@ -27,7 +27,7 @@ function addLoggingRoutes(app, loopbackApp) {
     app.get('/disableLogging', async (req, res) => {
         try {
             let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.DbRef.user);
+            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
                 let config = ConfigUtil_1.getHubConfig();
                 config.useLogControllers = false;

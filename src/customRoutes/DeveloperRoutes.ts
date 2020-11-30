@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
 import {extractToken} from '../security/authentication-strategies/csToken-strategy';
 import {checkAccessToken} from '../services';
-import {DbRef} from '../crownstone/Data/DbReference';
+import {Dbs} from '../crownstone/Data/DbReference';
 import {getHubConfig, storeHubConfig} from '../util/ConfigUtil';
 import {CrownstoneHubApplication, updateControllersBasedOnConfig} from '../application';
 import {HttpErrors} from '@loopback/rest';
@@ -10,7 +10,7 @@ export function addDeveloperRoutes(app : express.Application, loopbackApp: Crown
   app.get('/enableDeveloperMode',async (req: Request, res: Response) => {
     try {
       let access_token = extractToken(req);
-      let userData = await checkAccessToken(access_token, DbRef.user);
+      let userData = await checkAccessToken(access_token, Dbs.user);
       if (userData.sphereRole === 'admin') {
         let config = getHubConfig();
         config.useDevControllers = true;
@@ -27,7 +27,7 @@ export function addDeveloperRoutes(app : express.Application, loopbackApp: Crown
   app.get('/disableDeveloperMode',async (req: Request, res: Response) => {
     try {
       let access_token = extractToken(req);
-      let userData = await checkAccessToken(access_token, DbRef.user);
+      let userData = await checkAccessToken(access_token, Dbs.user);
       if (userData.sphereRole === 'admin') {
         let config = getHubConfig();
         config.useDevControllers = false;

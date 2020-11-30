@@ -2,7 +2,7 @@ import {EnergyMonitor} from '../src/crownstone/MeshMonitor/EnergyMonitor';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {DbRef} from '../src/crownstone/Data/DbReference';
+import {Dbs} from '../src/crownstone/Data/DbReference';
 // import {Logger} from '../src/Logger';
 //
 // const log = Logger("EnergyCollectionTest");
@@ -29,7 +29,7 @@ test("check processing energy data without interpolation", async () => {
 
   await monitor.processMeasurements()
 
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints.length).toBe(2)
   expect(processedPoints[0].energyUsage).toBe(1000)
   expect(processedPoints[1].energyUsage).toBe(2000)
@@ -51,7 +51,7 @@ test("check processing energy data without interpolation WITH a gap", async () =
 
   await monitor.processMeasurements()
 
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints.length).toBe(4)
 });
 
@@ -68,7 +68,7 @@ test("check processing energy data without interpolation WITH a gap 2", async ()
 
   await monitor.processMeasurements()
 
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
 
 
   expect(processedPoints.length).toBe(4)
@@ -87,8 +87,8 @@ test("check processing energy data in normal situation", async () => {
 
   await monitor.processMeasurements()
 
-  let energyPoints    = await DbRef.energy.find();
-  let processedPoints = await DbRef.energyProcessed.find()
+  let energyPoints    = await Dbs.energy.find();
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints[0].energyUsage).toBe(Math.round((1000/63)*59+1000));
   expect(processedPoints[1].energyUsage).toBe(3000);
   expect(processedPoints[2].energyUsage).toBe(Math.round((1000/184)*60 + 3000));
@@ -113,7 +113,7 @@ test("check reboot detection and handling", async () => {
 
   await monitor.processMeasurements()
 
-  let processedPoints = await DbRef.energyProcessed.find();
+  let processedPoints = await Dbs.energyProcessed.find();
   expect(processedPoints[0].energyUsage).toBe(1000);
   expect(processedPoints[1].energyUsage).toBe(1000);
   expect(processedPoints[2].energyUsage).toBe(Math.round((3000/116)*56) + 1000);
@@ -132,7 +132,7 @@ test("check large gap", async () => {
   await monitor.collect(1, 4000, 5, m(10,0))
 
   await monitor.processMeasurements()
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints.length).toBe(3)
 });
 
@@ -151,7 +151,7 @@ test("check resuming after zero measurement gap", async () => {
   await monitor.collect(1, 4000, 5, m(10,0))
 
   await monitor.processMeasurements()
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints[0].energyUsage).toBe(1000);
   expect(processedPoints[1].energyUsage).toBe(1000);
   expect(processedPoints[2].energyUsage).toBe(3000 + 1000);
@@ -177,7 +177,7 @@ test("check double reboot gap", async () => {
   await monitor.collect(1, 20000, 5, m(8,0));   // 80000
 
   await monitor.processMeasurements()
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints[0].energyUsage).toBe(40000);
   expect(processedPoints[1].energyUsage).toBe(40000);
   expect(processedPoints[2].energyUsage).toBe(43000);
@@ -207,7 +207,7 @@ test("check double reboot gap with not exactly zero numbers", async () => {
   await monitor.collect(1, 20000, 5, m(8,0));   // 80000
 
   await monitor.processMeasurements()
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints[0].energyUsage).toBe(40000);
   expect(processedPoints[1].energyUsage).toBe(200   + 40000);
   expect(processedPoints[2].energyUsage).toBe(3000  + 40000);
@@ -233,6 +233,6 @@ test("check duplicate handling", async () => {
   await monitor.collect(1, 4000, 5, m(3,0))
 
   await monitor.processMeasurements()
-  let processedPoints = await DbRef.energyProcessed.find()
+  let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints.length).toBe(3)
 });

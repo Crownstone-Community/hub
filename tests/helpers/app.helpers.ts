@@ -1,6 +1,6 @@
 import {CrownstoneHubApplication} from '../../src';
 import {testdb} from "../fixtures/datasources/testdb.datasource";
-import {DbRef} from '../../src/crownstone/Data/DbReference';
+import {Dbs} from '../../src/crownstone/Data/DbReference';
 import {EnergyDataProcessedRepository, EnergyDataRepository} from '../../src/repositories';
 
 
@@ -20,6 +20,6 @@ export async function createApp() : Promise<CrownstoneHubApplication> {
 }
 
 async function setupDbRef(app : CrownstoneHubApplication) {
-  DbRef.energy          = await app.getRepository(EnergyDataRepository);
-  DbRef.energyProcessed = await app.getRepository(EnergyDataProcessedRepository);
+  Dbs.energy          = await app.getRepository(EnergyDataRepository);
+  Dbs.energyProcessed = await app.getRepository(EnergyDataProcessedRepository);
 }

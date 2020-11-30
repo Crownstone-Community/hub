@@ -1,30 +1,40 @@
-import { CrownstoneUart } from 'crownstone-uart'
+import {CrownstoneUart, UartTopics} from 'crownstone-uart';
 import { PromiseManager } from './PromiseManager';
 import {eventBus} from '../HubEventBus';
 import {CONFIG} from '../../config';
-import {topics} from '../topics';
 
 import {Logger} from '../../Logger';
+import {topics} from '../topics';
+import {UartHubDataCommunication} from './UartHubDataCommunication';
+import {CrownstoneCloud} from 'crownstone-cloud';
+import {Dbs} from '../Data/DbReference';
 const log = Logger(__filename);
 
 
 export class Uart implements UartInterface {
   uart     : CrownstoneUart;
   queue    : PromiseManager;
+  hubDataHandler: UartHubDataCommunication;
   ready : boolean = false
+  cloud : CrownstoneCloud;
 
-  constructor() {
+  constructor(cloud: CrownstoneCloud) {
     this.queue = new PromiseManager();
-    this.uart  = new CrownstoneUart();
+    this.cloud = cloud;
 
+    this.uart  = new CrownstoneUart();
+    this.uart.uart.setMode("HUB");
+
+    this.hubDataHandler = new UartHubDataCommunication(this.uart);
     this.forwardEvents();
   }
 
   forwardEvents() {
     // generate a list of topics that can be remapped from uart to lib.
     let eventsToForward = [
-      {uartTopic: "MeshServiceData", moduleTopic: topics.MESH_SERVICE_DATA},
+      {uartTopic: UartTopics.MeshServiceData, moduleTopic: topics.MESH_SERVICE_DATA},
     ];
+
 
     // forward all required events to the module eventbus.
     eventsToForward.forEach((event) => {
@@ -35,18 +45,43 @@ export class Uart implements UartInterface {
 
       this.uart.on(event.uartTopic, (data) => { eventBus.emit(moduleEvent, data); })
     });
+
+    this.uart.on(UartTopics.HubDataReceived, (data: Buffer) => { this.hubDataHandler.handleIncomingHubData(data) })
+    this.uart.on(UartTopics.KeyRequested,() => { this.refreshUartEncryption(); })
   }
+
 
 
   async initialize() {
     try {
-      await this.uart.start(CONFIG.uartPort)
+      await this.uart.start(CONFIG.uartPort);
       log.info("Uart is ready")
       this.ready = true;
     }
     catch (err) {
       this.ready = false;
       throw err;
+    }
+  }
+
+
+  async refreshUartEncryption() {
+    if (!Dbs.hub) { return; }
+    let hub = await Dbs.hub.get();
+    if (hub) {
+      if (hub.uartKey) {
+        this.uart.uart.setKey(hub.uartKey);
+      }
+
+      // this is done regardless since we might require a new key.
+      let macAddress = await this.uart.getMacAddress();
+      let uartKey = await this.cloud.hub().getUartKey(macAddress);
+
+      if (uartKey !== hub?.uartKey && hub) {
+        hub.uartKey = uartKey;
+        await Dbs.hub.save(hub);
+      }
+      this.uart.uart.setKey(uartKey);
     }
   }
 

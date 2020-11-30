@@ -12,6 +12,7 @@ const log = Logger_1.Logger(__filename);
 class MeshMonitor {
     constructor() {
         this.eventsRegistered = false;
+        this.unsubscribeEventListener = () => { };
         this.power = new PowerMonitor_1.PowerMonitor();
         this.energy = new EnergyMonitor_1.EnergyMonitor();
         this.switch = new SwitchMonitor_1.SwitchMonitor();

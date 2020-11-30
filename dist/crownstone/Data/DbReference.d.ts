@@ -11,6 +11,6 @@ declare class DbReferenceClass {
     user: UserRepository;
     userPermission: UserPermissionRepository;
 }
-export declare const DbRef: DbReferenceClass;
+export declare const Dbs: DbReferenceClass;
 export declare function EMPTY_DATABASE(): Promise<void>;
 export {};

@@ -6,7 +6,7 @@ const crownstone_core_1 = require("crownstone-core");
 const InMemoryCache_1 = require("../Data/InMemoryCache");
 class PowerMonitor {
     constructor() {
-        this.powerCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.DbRef.power.createAll(data); }, 'powerMonitor');
+        this.powerCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.Dbs.power.createAll(data); }, 'powerMonitor');
     }
     init() {
         this.stop();
@@ -21,7 +21,7 @@ class PowerMonitor {
         }
     }
     collect(crownstoneId, powerUsageReal, powerFactor, timestamp) {
-        return DbReference_1.DbRef.power.create({
+        return DbReference_1.Dbs.power.create({
             stoneUID: crownstoneId,
             powerUsage: powerUsageReal,
             powerFactor: powerFactor,

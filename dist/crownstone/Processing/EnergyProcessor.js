@@ -29,7 +29,7 @@ async function processSinglePoint(datapoint, calculateSamplePoint, samples) {
     }
     datapoint.correctedEnergyUsage = datapoint.energyUsage;
     datapoint.processed = true;
-    await DbReference_1.DbRef.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", e); });
+    await DbReference_1.Dbs.energy.update(datapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", e); });
 }
 async function processDataPairSingleNew(previouslyProcessedPoint, nextDatapoint, calculateSamplePoint, sampleIntervalMs, samples) {
     let nextTimestamp = nextDatapoint.timestamp.valueOf();
@@ -55,7 +55,7 @@ async function processDataPairSingleNew(previouslyProcessedPoint, nextDatapoint,
     async function wrapUp() {
         nextDatapoint.processed = true;
         nextDatapoint.correctedEnergyUsage = nextValue;
-        await DbReference_1.DbRef.energy.update(nextDatapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", e); });
+        await DbReference_1.Dbs.energy.update(nextDatapoint).catch((e) => { log.error("Error persisting processed boolean on datapoint", e); });
     }
     // we sample every 1 minute, on the minute.
     // we only have to interpolate the point if:

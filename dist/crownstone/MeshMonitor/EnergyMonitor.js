@@ -17,7 +17,7 @@ class EnergyMonitor {
         this.energyIsAggregating = false;
         this.processingPaused = false;
         this.aggregationProcessingPaused = false;
-        this.energyCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.DbRef.energy.createAll(data); }, 'energyMonitor');
+        this.energyCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.Dbs.energy.createAll(data); }, 'energyMonitor');
     }
     init() {
         this.stop();
@@ -74,7 +74,7 @@ class EnergyMonitor {
         let iterationSize = 500;
         let count = 0;
         while (iterationRequired) {
-            let energyData = await DbReference_1.DbRef.energy.find({ where: { processed: false }, limit: iterationSize, order: ['timestamp ASC'] });
+            let energyData = await DbReference_1.Dbs.energy.find({ where: { processed: false }, limit: iterationSize, order: ['timestamp ASC'] });
             count += energyData.length;
             if (energyData.length === iterationSize) {
                 iterationRequired = true;
@@ -113,7 +113,7 @@ class EnergyMonitor {
             return;
         }
         this.energyIsAggregating = true;
-        let uids = await DbReference_1.DbRef.energyProcessed.getStoneUIDs();
+        let uids = await DbReference_1.Dbs.energyProcessed.getStoneUIDs();
         for (let i = 0; i < uids.length; i++) {
             // get last known 5 minute interval datapoint
             let stoneUID = uids[i];
@@ -127,13 +127,13 @@ class EnergyMonitor {
         this.energyIsAggregating = false;
     }
     async _processAggregations(stoneUID, intervalData) {
-        let lastPoint = await DbReference_1.DbRef.energyProcessed.findOne({ where: { stoneUID: stoneUID, interval: intervalData.targetInterval }, order: ['timestamp DESC'] });
+        let lastPoint = await DbReference_1.Dbs.energyProcessed.findOne({ where: { stoneUID: stoneUID, interval: intervalData.targetInterval }, order: ['timestamp DESC'] });
         let fromDate = lastPoint && lastPoint.timestamp || new Date(0);
         let iterationRequired = true;
         let iterationSize = 500;
         let samples = [];
         while (iterationRequired) {
-            let processedPoints = await DbReference_1.DbRef.energyProcessed.find({ where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: { gt: fromDate } }, limit: iterationSize, order: ['timestamp ASC'] });
+            let processedPoints = await DbReference_1.Dbs.energyProcessed.find({ where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: { gt: fromDate } }, limit: iterationSize, order: ['timestamp ASC'] });
             if (processedPoints.length === iterationSize) {
                 iterationRequired = true;
             }
@@ -179,10 +179,10 @@ class EnergyMonitor {
                 fromDate = previousPoint.timestamp;
             }
         }
-        await DbReference_1.DbRef.energyProcessed.createAll(samples);
+        await DbReference_1.Dbs.energyProcessed.createAll(samples);
     }
     async uploadProcessed() {
-        let processedData = await DbReference_1.DbRef.energyProcessed.find({ where: { uploaded: false } });
+        let processedData = await DbReference_1.Dbs.energyProcessed.find({ where: { uploaded: false } });
         try {
             await this._uploadStoneEnergy(processedData);
         }
@@ -215,7 +215,7 @@ class EnergyMonitor {
                 CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
                     await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
                     for (let i = 0; i < dataUploaded.length; i++) {
-                        await DbReference_1.DbRef.energyProcessed.update(dataUploaded[i]);
+                        await DbReference_1.Dbs.energyProcessed.update(dataUploaded[i]);
                     }
                 });
             }
@@ -229,7 +229,7 @@ class EnergyMonitor {
         let samples = [];
         // get the lastProcessed datapoint.
         let startFromIndex = 0;
-        let lastDatapoint = await DbReference_1.DbRef.energy.findOne({ where: { stoneUID: stoneUID, timestamp: { lt: energyData[0].timestamp }, processed: true }, order: ['timestamp DESC'] });
+        let lastDatapoint = await DbReference_1.Dbs.energy.findOne({ where: { stoneUID: stoneUID, timestamp: { lt: energyData[0].timestamp }, processed: true }, order: ['timestamp DESC'] });
         if (!lastDatapoint) {
             if (energyData.length < 2) {
                 return;
@@ -245,7 +245,7 @@ class EnergyMonitor {
         if (samples.length > 0) {
             // all processed datapoints have been marked, except the last one, and possible the very first one. If we have samples, then the very first one has been used.
             // we mark it processed because of that.
-            await DbReference_1.DbRef.energyProcessed.createAll(samples);
+            await DbReference_1.Dbs.energyProcessed.createAll(samples);
         }
     }
     collect(crownstoneId, accumulatedEnergy, powerUsage, timestamp) {
@@ -256,7 +256,7 @@ class EnergyMonitor {
             timestamp: new Date(crownstone_core_1.Util.crownstoneTimeToTimestamp(timestamp)),
             processed: false
         });
-        // return DbRef.energy.create()
+        // return Dbs.energy.create()
     }
 }
 exports.EnergyMonitor = EnergyMonitor;

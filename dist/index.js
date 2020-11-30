@@ -23,15 +23,15 @@ async function main(options = {}) {
     await server.start();
     log.info(`Server started.`);
     log.info(`Creating Database References...`);
-    DbReference_1.DbRef.dbInfo = await server.lbApp.getRepository(repositories_1.DatabaseInfoRepository);
-    DbReference_1.DbRef.hub = await server.lbApp.getRepository(repositories_1.HubRepository);
-    DbReference_1.DbRef.power = await server.lbApp.getRepository(repositories_1.PowerDataRepository);
-    DbReference_1.DbRef.energy = await server.lbApp.getRepository(repositories_1.EnergyDataRepository);
-    DbReference_1.DbRef.energyProcessed = await server.lbApp.getRepository(energy_data_processed_repository_1.EnergyDataProcessedRepository);
-    DbReference_1.DbRef.user = await server.lbApp.getRepository(repositories_1.UserRepository);
-    DbReference_1.DbRef.userPermission = await server.lbApp.getRepository(repositories_1.UserPermissionRepository);
-    DbReference_1.DbRef.switches = await server.lbApp.getRepository(repositories_1.SwitchDataRepository);
-    DbReference_1.DbRef.sphereFeatures = await server.lbApp.getRepository(repositories_1.SphereFeatureRepository);
+    DbReference_1.Dbs.dbInfo = await server.lbApp.getRepository(repositories_1.DatabaseInfoRepository);
+    DbReference_1.Dbs.hub = await server.lbApp.getRepository(repositories_1.HubRepository);
+    DbReference_1.Dbs.power = await server.lbApp.getRepository(repositories_1.PowerDataRepository);
+    DbReference_1.Dbs.energy = await server.lbApp.getRepository(repositories_1.EnergyDataRepository);
+    DbReference_1.Dbs.energyProcessed = await server.lbApp.getRepository(energy_data_processed_repository_1.EnergyDataProcessedRepository);
+    DbReference_1.Dbs.user = await server.lbApp.getRepository(repositories_1.UserRepository);
+    DbReference_1.Dbs.userPermission = await server.lbApp.getRepository(repositories_1.UserPermissionRepository);
+    DbReference_1.Dbs.switches = await server.lbApp.getRepository(repositories_1.SwitchDataRepository);
+    DbReference_1.Dbs.sphereFeatures = await server.lbApp.getRepository(repositories_1.SphereFeatureRepository);
     await migrate();
     await maintainIndexes();
     log.info(`Initializing CrownstoneHub...`);
@@ -46,22 +46,22 @@ async function main(options = {}) {
 exports.main = main;
 async function migrate() {
     console.time("migrate");
-    let databaseInfo = await DbReference_1.DbRef.dbInfo.findOne();
+    let databaseInfo = await DbReference_1.Dbs.dbInfo.findOne();
     if (databaseInfo === null) {
-        await DbReference_1.DbRef.dbInfo.create({ version: 0 });
-        databaseInfo = await DbReference_1.DbRef.dbInfo.findOne();
+        await DbReference_1.Dbs.dbInfo.create({ version: 0 });
+        databaseInfo = await DbReference_1.Dbs.dbInfo.findOne();
     }
     // this won't happen but it makes the typescript happy!
     if (databaseInfo === null) {
         return;
     }
     if (databaseInfo.version === 0) {
-        let noIntervalCount = await DbReference_1.DbRef.energyProcessed.count();
+        let noIntervalCount = await DbReference_1.Dbs.energyProcessed.count();
         if (noIntervalCount.count > 0) {
-            await DbReference_1.DbRef.energyProcessed.updateAll({ interval: "1m" });
+            await DbReference_1.Dbs.energyProcessed.updateAll({ interval: "1m" });
         }
         databaseInfo.version = 1;
-        await DbReference_1.DbRef.dbInfo.update(databaseInfo);
+        await DbReference_1.Dbs.dbInfo.update(databaseInfo);
     }
     console.timeEnd("migrate");
 }

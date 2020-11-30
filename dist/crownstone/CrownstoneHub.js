@@ -16,29 +16,46 @@ class CrownstoneHubClass {
     constructor() {
         this.launched = false;
         this.cloud = new CloudManager_1.CloudManager();
-        this.uart = new Uart_1.Uart();
+        this.uart = new Uart_1.Uart(this.cloud.cloud);
         this.mesh = new MeshMonitor_1.MeshMonitor();
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
+        this.uart.initialize();
+        log.info("Uart initialized");
+        HubStatus_1.HubStatus.uartReady = true;
     }
     async initialize() {
         HubStatus_1.resetHubStatus();
-        let hub = await DbReference_1.DbRef.hub.get();
+        let hub = await DbReference_1.Dbs.hub.get();
         if (hub && hub.cloudId !== 'null') {
             log.info("Launching Modules");
             if (this.launched === false) {
-                // execute modules
-                await this.uart.initialize();
-                log.info("Uart initialized");
-                HubStatus_1.HubStatus.uartReady = true;
+                // load the key if we already have it.
+                if (hub.uartKey) {
+                    this.uart.uart.setKey(hub.uartKey);
+                    this.uart.uart.setHubStatus({ clientHasBeenSetup: true });
+                }
                 try {
                     await this.cloud.initialize();
                     log.info("Cloud initialized");
+                    try {
+                        log.info("Setting up UART encryption...");
+                        await this.uart.refreshUartEncryption();
+                        log.info("UART key loaded.");
+                    }
+                    catch (e) {
+                        log.warn("Could not obtain uart key.");
+                    }
                     this.mesh.init();
                     this.timeKeeper.init();
                     this.launched = true;
                     HubStatus_1.HubStatus.initialized = true;
+                    await this.uart.uart.setHubStatus({
+                        clientHasBeenSetup: true,
+                        encryptionRequired: true,
+                        clientHasInternet: true,
+                    });
                 }
                 catch (e) {
                     if (e === 401) {
@@ -56,11 +73,12 @@ class CrownstoneHubClass {
         else {
             log.info("Hub not configured yet.");
         }
-        hub = await DbReference_1.DbRef.hub.get();
+        hub = await DbReference_1.Dbs.hub.get();
         HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
     }
     async cleanupAndDestroy() {
         this.launched = false;
+        this.uart.uart.setHubStatus({ clientHasBeenSetup: false });
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();

@@ -22,14 +22,11 @@ export class Hub extends Entity {
   uartKey: string;
 
 
-
   @property({type: 'string'})
   accessToken: string;
 
   @property({type: 'date'})
   accessTokenExpiration: Date;
-
-
 
 
   @property({type: 'string', required: true})

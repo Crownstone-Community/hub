@@ -1,4 +1,4 @@
-import {getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
+import {getModelSchemaRef, param, post, requestBody, SchemaObject} from '@loopback/rest';
 import {HttpErrors} from '@loopback/rest/dist';
 import {EmptyReturnCode} from './returnCodes/ReturnCodes';
 import {authenticate} from '@loopback/authentication';
@@ -9,13 +9,13 @@ import {UserProfileDescription} from '../security/authentication-strategies/csTo
 import {SecurityTypes} from '../constants/Constants';
 
 
-const SwitchDataSchema = {
+const SwitchDataSchema : SchemaObject = {
   oneOf: [
     {
       type: 'object',
       required: ['type', 'crownstoneId'],
       properties: {
-        type: {type: 'TURN_ON'},
+        type: {type: 'string'},
         crownstoneUID: { type: 'number' },
         percentage: { type:'null' }
       }
@@ -24,7 +24,7 @@ const SwitchDataSchema = {
       type: 'object',
       required: ['type', 'crownstoneId'],
       properties: {
-        type: {type: 'TURN_OFF'},
+        type: {type: 'string'},
         crownstoneUID: { type: 'number' },
         percentage: { type:'null' }
       }
@@ -33,7 +33,7 @@ const SwitchDataSchema = {
       type: 'object',
       required: ['type', 'crownstoneId', 'value'],
       properties: {
-        type: { type: "PERCENTAGE" },
+        type: { type: "string" },
         crownstoneUID: { type: 'number' },
         percentage: { type:'number' }
       }

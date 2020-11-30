@@ -11,7 +11,7 @@ function addDeveloperRoutes(app, loopbackApp) {
     app.get('/enableDeveloperMode', async (req, res) => {
         try {
             let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.DbRef.user);
+            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
                 let config = ConfigUtil_1.getHubConfig();
                 config.useDevControllers = true;
@@ -27,7 +27,7 @@ function addDeveloperRoutes(app, loopbackApp) {
     app.get('/disableDeveloperMode', async (req, res) => {
         try {
             let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.DbRef.user);
+            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
                 let config = ConfigUtil_1.getHubConfig();
                 config.useDevControllers = false;

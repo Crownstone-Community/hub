@@ -1,4 +1,4 @@
-import {DbRef} from '../Data/DbReference';
+import {Dbs} from '../Data/DbReference';
 import Timeout = NodeJS.Timeout;
 import {EnergyData, EnergyDataProcessed} from '../../models';
 import {DataObject} from '@loopback/repository/src/common-types';
@@ -27,7 +27,7 @@ export class EnergyMonitor {
   energyCache : InMemoryCache;
 
   constructor() {
-    this.energyCache = new InMemoryCache(async (data: any[]) => { await DbRef.energy.createAll(data) }, 'energyMonitor');
+    this.energyCache = new InMemoryCache(async (data: any[]) => { await Dbs.energy.createAll(data) }, 'energyMonitor');
   }
 
 
@@ -97,7 +97,7 @@ export class EnergyMonitor {
 
     let count = 0;
     while (iterationRequired) {
-      let energyData = await DbRef.energy.find({where: {processed: false}, limit:iterationSize, order:['timestamp ASC']} );
+      let energyData = await Dbs.energy.find({where: {processed: false}, limit:iterationSize, order:['timestamp ASC']} );
 
       count += energyData.length;
       if (energyData.length === iterationSize) {
@@ -143,7 +143,7 @@ export class EnergyMonitor {
 
     this.energyIsAggregating = true;
 
-    let uids = await DbRef.energyProcessed.getStoneUIDs();
+    let uids = await Dbs.energyProcessed.getStoneUIDs();
     for (let i = 0; i < uids.length; i++) {
       // get last known 5 minute interval datapoint
       let stoneUID = uids[i];
@@ -164,7 +164,7 @@ export class EnergyMonitor {
     stoneUID: number,
     intervalData: IntervalData,
     ) {
-    let lastPoint = await DbRef.energyProcessed.findOne({where: {stoneUID: stoneUID, interval: intervalData.targetInterval}, order: ['timestamp DESC']});
+    let lastPoint = await Dbs.energyProcessed.findOne({where: {stoneUID: stoneUID, interval: intervalData.targetInterval}, order: ['timestamp DESC']});
     let fromDate = lastPoint && lastPoint.timestamp || new Date(0);
 
     let iterationRequired = true;
@@ -172,7 +172,7 @@ export class EnergyMonitor {
 
     let samples : DataObject<EnergyDataProcessed>[] = [];
     while (iterationRequired) {
-      let processedPoints = await DbRef.energyProcessed.find({where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: {gt: fromDate}}, limit: iterationSize, order: ['timestamp ASC'] });
+      let processedPoints = await Dbs.energyProcessed.find({where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: {gt: fromDate}}, limit: iterationSize, order: ['timestamp ASC'] });
 
       if (processedPoints.length === iterationSize) {
         iterationRequired = true;
@@ -225,14 +225,14 @@ export class EnergyMonitor {
         fromDate = previousPoint.timestamp;
       }
     }
-    await DbRef.energyProcessed.createAll(samples);
+    await Dbs.energyProcessed.createAll(samples);
   }
 
 
 
 
   async uploadProcessed() {
-    let processedData = await DbRef.energyProcessed.find({where: {uploaded: false}} )
+    let processedData = await Dbs.energyProcessed.find({where: {uploaded: false}} )
     try {
       await this._uploadStoneEnergy(processedData)
     }
@@ -266,7 +266,7 @@ export class EnergyMonitor {
         CloudCommandHandler.addToQueue(async (CM) => {
           await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
           for (let i = 0; i < dataUploaded.length; i++) {
-            await DbRef.energyProcessed.update(dataUploaded[i])
+            await Dbs.energyProcessed.update(dataUploaded[i])
           }
         })
       }
@@ -281,7 +281,7 @@ export class EnergyMonitor {
 
     // get the lastProcessed datapoint.
     let startFromIndex = 0;
-    let lastDatapoint = await DbRef.energy.findOne({where: {stoneUID: stoneUID, timestamp: {lt: energyData[0].timestamp}, processed: true}, order: ['timestamp DESC']});
+    let lastDatapoint = await Dbs.energy.findOne({where: {stoneUID: stoneUID, timestamp: {lt: energyData[0].timestamp}, processed: true}, order: ['timestamp DESC']});
     if (!lastDatapoint) {
       if (energyData.length < 2) {
         return;
@@ -300,7 +300,7 @@ export class EnergyMonitor {
     if (samples.length > 0) {
       // all processed datapoints have been marked, except the last one, and possible the very first one. If we have samples, then the very first one has been used.
       // we mark it processed because of that.
-      await DbRef.energyProcessed.createAll(samples);
+      await Dbs.energyProcessed.createAll(samples);
     }
   }
 
@@ -314,7 +314,7 @@ export class EnergyMonitor {
       timestamp:   new Date(Util.crownstoneTimeToTimestamp(timestamp)),
       processed:   false
     });
-    // return DbRef.energy.create()
+    // return Dbs.energy.create()
   }
 
 }
