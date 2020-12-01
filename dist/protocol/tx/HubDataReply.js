@@ -19,8 +19,8 @@ function HubDataReplyError(type, message = '') {
 }
 exports.HubDataReplyError = HubDataReplyError;
 function HubDataReplySuccess(data) {
-    let headerBuffer = new crownstone_core_1.DataWriter(PREFIX_SIZE + 2); // 2 (uart protocol) + 3 (prefix) + 4 (data)
-    headerBuffer.putUInt16(crownstone_core_1.ResultValue.SUCCESS); // This is the required value of the uart protocol
+    let headerBuffer = new crownstone_core_1.DataWriter(PREFIX_SIZE + 2); // 2 (connection protocol) + 3 (prefix) + 4 (data)
+    headerBuffer.putUInt16(crownstone_core_1.ResultValue.SUCCESS); // This is the required value of the connection protocol
     headerBuffer.putUInt8(PROTOCOL_VERSION);
     headerBuffer.putUInt16(HubProtocol_1.HubReplyCode.SUCCESS); // SUCCESS CODE
     let result = headerBuffer.getBuffer();

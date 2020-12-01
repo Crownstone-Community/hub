@@ -2407,8 +2407,10 @@ crownstone-sse@^4.1.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-"crownstone-uart@file:../crownstone-lib-nodejs-uart":
-  version "0.8.11"
+crownstone-uart@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.11.0.tgz#76f14dbe45b66360610ef5ae8e3285ef403799fd"
+  integrity sha512-/htbsqSLzslBtrwx5Sdemf8Jta17Bx+GCbvnXbOqokGx6UjoXTHDEeV8dgy5APXAdmoedKpY0jTHdkrI5rYgkw==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.12.0"

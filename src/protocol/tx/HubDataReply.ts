@@ -22,8 +22,8 @@ export function HubDataReplyError(type: number, message: string = '') {
 
 
 export function HubDataReplySuccess(data?:any) : Buffer {
-  let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 2 (uart protocol) + 3 (prefix) + 4 (data)
-  headerBuffer.putUInt16(ResultValue.SUCCESS); // This is the required value of the uart protocol
+  let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 2 (connection protocol) + 3 (prefix) + 4 (data)
+  headerBuffer.putUInt16(ResultValue.SUCCESS); // This is the required value of the connection protocol
   headerBuffer.putUInt8(PROTOCOL_VERSION);
   headerBuffer.putUInt16(HubReplyCode.SUCCESS); // SUCCESS CODE
 

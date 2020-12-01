@@ -31,7 +31,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
     eventBus.on(topics.HUB_CREATED,() => { this.initialize(); });
 
     this.uart.initialize();
-    log.info("Uart initialized")
+    log.info("Uart initialized");
+
     HubStatus.uartReady = true;
   }
 
@@ -43,8 +44,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
       if (this.launched === false) {
         // load the key if we already have it.
         if (hub.uartKey) {
-          this.uart.uart.setKey(hub.uartKey);
-          this.uart.uart.setHubStatus({ clientHasBeenSetup: true });
+          this.uart.connection.setKey(hub.uartKey);
+          this.uart.connection.setHubStatus({ clientHasBeenSetup: true });
         }
 
         try {
@@ -57,7 +58,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
             log.info("UART key loaded.")
           }
           catch (e) {
-            log.warn("Could not obtain uart key.")
+            log.warn("Could not obtain connection key.")
           }
 
           this.mesh.init()
@@ -66,11 +67,11 @@ export class CrownstoneHubClass implements CrownstoneHub {
           this.launched = true;
           HubStatus.initialized = true;
 
-          await this.uart.uart.setHubStatus({
+          await this.uart.connection.setHubStatus({
             clientHasBeenSetup: true,
             encryptionRequired: true,
             clientHasInternet: true,
-          })
+          });
         }
         catch (e) {
           if (e === 401) {
@@ -97,7 +98,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
   async cleanupAndDestroy() {
     this.launched = false;
 
-    this.uart.uart.setHubStatus({ clientHasBeenSetup: false })
+    this.uart.connection.removeKey();
+    this.uart.connection.setHubStatus({ clientHasBeenSetup: false });
     await this.mesh.cleanup();
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();

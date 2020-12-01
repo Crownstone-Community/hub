@@ -25,7 +25,7 @@ export class Timekeeper {
 
   async setTime() {
     try {
-      await this.hubReference.uart.uart.setTime(Util.nowToCrownstoneTime());
+      await this.hubReference.uart.connection.setTime(Util.nowToCrownstoneTime());
     }
     catch (e) {
       log.warn("Error when trying to set time", e);

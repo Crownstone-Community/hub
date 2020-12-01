@@ -3,7 +3,7 @@ import { PromiseManager } from './PromiseManager';
 import { UartHubDataCommunication } from './UartHubDataCommunication';
 import { CrownstoneCloud } from 'crownstone-cloud';
 export declare class Uart implements UartInterface {
-    uart: CrownstoneUart;
+    connection: CrownstoneUart;
     queue: PromiseManager;
     hubDataHandler: UartHubDataCommunication;
     ready: boolean;

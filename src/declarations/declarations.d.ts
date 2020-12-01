@@ -7,8 +7,8 @@ interface stringMap { [key: string]: string }
 type PromiseCallback = (any?) => Promise<any>
 
 interface UartInterface {
-  uart     : CrownstoneUart;
-  ready    : boolean
+  connection : CrownstoneUart;
+  ready      : boolean
 }
 
 interface CrownstoneHub {

@@ -15,13 +15,13 @@ class Uart {
         this.ready = false;
         this.queue = new PromiseManager_1.PromiseManager();
         this.cloud = cloud;
-        this.uart = new crownstone_uart_1.CrownstoneUart();
-        this.uart.uart.setMode("HUB");
-        this.hubDataHandler = new UartHubDataCommunication_1.UartHubDataCommunication(this.uart);
+        this.connection = new crownstone_uart_1.CrownstoneUart();
+        this.connection.uart.setMode("HUB");
+        this.hubDataHandler = new UartHubDataCommunication_1.UartHubDataCommunication(this.connection);
         this.forwardEvents();
     }
     forwardEvents() {
-        // generate a list of topics that can be remapped from uart to lib.
+        // generate a list of topics that can be remapped from connection to lib.
         let eventsToForward = [
             { uartTopic: crownstone_uart_1.UartTopics.MeshServiceData, moduleTopic: topics_1.topics.MESH_SERVICE_DATA },
         ];
@@ -31,14 +31,19 @@ class Uart {
             if (!event.moduleTopic) {
                 moduleEvent = event.uartTopic;
             }
-            this.uart.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
+            this.connection.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
         });
-        this.uart.on(crownstone_uart_1.UartTopics.HubDataReceived, (data) => { this.hubDataHandler.handleIncomingHubData(data); });
-        this.uart.on(crownstone_uart_1.UartTopics.KeyRequested, () => { this.refreshUartEncryption(); });
+        this.connection.on(crownstone_uart_1.UartTopics.HubDataReceived, (data) => { this.hubDataHandler.handleIncomingHubData(data); });
+        this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => { this.refreshUartEncryption(); });
     }
     async initialize() {
         try {
-            await this.uart.start(config_1.CONFIG.uartPort);
+            await this.connection.start(config_1.CONFIG.uartPort);
+            await this.connection.uart.setHubStatus({
+                clientHasBeenSetup: false,
+                encryptionRequired: false,
+                clientHasInternet: false,
+            });
             log.info("Uart is ready");
             this.ready = true;
         }
@@ -54,16 +59,16 @@ class Uart {
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub) {
             if (hub.uartKey) {
-                this.uart.uart.setKey(hub.uartKey);
+                this.connection.uart.setKey(hub.uartKey);
             }
             // this is done regardless since we might require a new key.
-            let macAddress = await this.uart.getMacAddress();
+            let macAddress = await this.connection.getMacAddress();
             let uartKey = await this.cloud.hub().getUartKey(macAddress);
             if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
                 hub.uartKey = uartKey;
                 await DbReference_1.Dbs.hub.save(hub);
             }
-            this.uart.uart.setKey(uartKey);
+            this.connection.uart.setKey(uartKey);
         }
     }
     async switchCrownstones(switchPairs) {
@@ -72,7 +77,7 @@ class Uart {
         }
         return this.queue.register(() => {
             log.info("Dispatching switchAction", switchPairs);
-            return this.uart.switchCrownstones(switchPairs);
+            return this.connection.switchCrownstones(switchPairs);
         }, "switchCrownstones from Uart" + JSON.stringify(switchPairs));
     }
     registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes) {
@@ -80,7 +85,7 @@ class Uart {
             throw "NOT_READY";
         }
         this.queue.register(() => {
-            return this.uart.registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes);
+            return this.connection.registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes);
         });
     }
 }
