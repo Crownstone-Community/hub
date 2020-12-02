@@ -1,6 +1,7 @@
 interface Crownstone {
     name: string;
     uid: number;
+    macAddress: string;
     switchState: number | null;
     locked: boolean;
     dimming: boolean;
@@ -36,5 +37,6 @@ export declare function fillWithStoneData(uid: number | string): {
     cloudId: string | null;
     locationName: string | null;
 };
+export declare function getStoneIdFromMacAdddress(macAddress: string): string | null;
 export declare const MemoryDb: MemoryDbClass;
 export {};

@@ -5,15 +5,11 @@
 import {repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
 import {HubRepository} from '../repositories/hub.repository';
-import {Hub} from '../models/hub.model';
-import {DataObject} from '@loopback/repository/src/common-types';
-import {eventBus} from '../crownstone/HubEventBus';
-import {topics} from '../crownstone/topics';
 import {UserRepository} from '../repositories';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
-import {HubStatus, resetHubStatus} from '../crownstone/HubStatus';
+import {HubStatus,} from '../crownstone/HubStatus';
 import {BOOT_TIME} from '../application';
-import {CrownstoneCloud} from 'crownstone-cloud';
+import {CrownstoneUtil} from '../crownstone/CrownstoneUtil';
 
 /**
  * This controller will echo the state of the hub.
@@ -115,15 +111,7 @@ export class HubController {
     if (YesImSure !== 'YesImSure') {
       throw new HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
     }
-    if (await this.hubRepo.isSet() === true) {
-      resetHubStatus();
-      eventBus.emit(topics.HUB_DELETED);
-      await CrownstoneHub.cleanupAndDestroy();
-      return "Success."
-    }
-    else {
-      throw new HttpErrors.NotFound("No Hub to delete..");
-    }
+    return await CrownstoneUtil.deleteCrownstoneHub();
   }
 
   @get('/hubStatus')

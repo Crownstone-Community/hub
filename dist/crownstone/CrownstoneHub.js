@@ -11,6 +11,7 @@ const Logger_1 = require("../Logger");
 const HubStatus_1 = require("./HubStatus");
 const HubEventBus_1 = require("./HubEventBus");
 const topics_1 = require("./topics");
+const CrownstoneUtil_1 = require("./CrownstoneUtil");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
@@ -31,14 +32,17 @@ class CrownstoneHubClass {
         if (hub && hub.cloudId !== 'null') {
             log.info("Launching Modules");
             if (this.launched === false) {
+                clearInterval(this.linkedStoneCheckInterval);
+                this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId(); }, 30 * 60 * 1000);
                 // load the key if we already have it.
                 if (hub.uartKey) {
-                    this.uart.connection.setKey(hub.uartKey);
-                    this.uart.connection.setHubStatus({ clientHasBeenSetup: true });
+                    this.uart.connection.encryption.setKey(hub.uartKey);
+                    this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
                 }
                 try {
                     await this.cloud.initialize();
                     log.info("Cloud initialized");
+                    await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
                     try {
                         log.info("Setting up UART encryption...");
                         await this.uart.refreshUartEncryption();
@@ -51,7 +55,7 @@ class CrownstoneHubClass {
                     this.timeKeeper.init();
                     this.launched = true;
                     HubStatus_1.HubStatus.initialized = true;
-                    await this.uart.connection.setHubStatus({
+                    await this.uart.connection.hub.setStatus({
                         clientHasBeenSetup: true,
                         encryptionRequired: true,
                         clientHasInternet: true,
@@ -78,8 +82,9 @@ class CrownstoneHubClass {
     }
     async cleanupAndDestroy() {
         this.launched = false;
-        this.uart.connection.removeKey();
-        this.uart.connection.setHubStatus({ clientHasBeenSetup: false });
+        clearInterval(this.linkedStoneCheckInterval);
+        this.uart.connection.encryption.removeKey();
+        this.uart.connection.hub.setStatus({ clientHasBeenSetup: false });
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();

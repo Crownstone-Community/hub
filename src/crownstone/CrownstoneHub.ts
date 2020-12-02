@@ -8,6 +8,8 @@ import {Logger} from '../Logger';
 import {HubStatus, resetHubStatus} from './HubStatus';
 import {eventBus} from './HubEventBus';
 import {topics} from './topics';
+import Timeout = NodeJS.Timeout;
+import {CrownstoneUtil} from './CrownstoneUtil';
 
 const log = Logger(__filename);
 
@@ -19,6 +21,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   timeKeeper  : Timekeeper;
 
   launched = false
+  linkedStoneCheckInterval : Timeout
 
   constructor() {
     this.cloud = new CloudManager()
@@ -38,19 +41,24 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
   async initialize() {
     resetHubStatus();
+
     let hub = await Dbs.hub.get();
     if (hub && hub.cloudId !== 'null') {
       log.info("Launching Modules");
       if (this.launched === false) {
+        clearInterval(this.linkedStoneCheckInterval);
+        this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil.checkLinkedStoneId(); }, 30*60*1000);
         // load the key if we already have it.
         if (hub.uartKey) {
-          this.uart.connection.setKey(hub.uartKey);
-          this.uart.connection.setHubStatus({ clientHasBeenSetup: true });
+          this.uart.connection.encryption.setKey(hub.uartKey);
+          this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
         }
 
         try {
           await this.cloud.initialize();
           log.info("Cloud initialized");
+
+          await CrownstoneUtil.checkLinkedStoneId();
 
           try {
             log.info("Setting up UART encryption...")
@@ -61,13 +69,14 @@ export class CrownstoneHubClass implements CrownstoneHub {
             log.warn("Could not obtain connection key.")
           }
 
+
           this.mesh.init()
           this.timeKeeper.init()
 
           this.launched = true;
           HubStatus.initialized = true;
 
-          await this.uart.connection.setHubStatus({
+          await this.uart.connection.hub.setStatus({
             clientHasBeenSetup: true,
             encryptionRequired: true,
             clientHasInternet: true,
@@ -95,11 +104,13 @@ export class CrownstoneHubClass implements CrownstoneHub {
     HubStatus.belongsToSphere = hub?.sphereId || "none";
   }
 
+
   async cleanupAndDestroy() {
     this.launched = false;
+    clearInterval(this.linkedStoneCheckInterval);
 
-    this.uart.connection.removeKey();
-    this.uart.connection.setHubStatus({ clientHasBeenSetup: false });
+    this.uart.connection.encryption.removeKey();
+    this.uart.connection.hub.setStatus({ clientHasBeenSetup: false });
     await this.mesh.cleanup();
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();

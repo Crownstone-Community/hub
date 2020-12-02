@@ -9,4 +9,5 @@ export declare class Hub extends Entity {
     accessTokenExpiration: Date;
     cloudId: string;
     sphereId: string;
+    linkedStoneId: string | null;
 }

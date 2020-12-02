@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MemoryDb = exports.fillWithStoneData = void 0;
+exports.MemoryDb = exports.getStoneIdFromMacAdddress = exports.fillWithStoneData = void 0;
 class MemoryDbClass {
     constructor() {
         // the key of the stones is the UID, the short-uint8 id.
@@ -60,6 +60,7 @@ class MemoryDbClass {
                 this.stones[uid] = {
                     name: cloudStone.name,
                     uid: cloudStone.uid,
+                    macAddress: cloudStone.address,
                     locked: cloudStone.locked,
                     locationCloudId: cloudStone.locationId,
                     cloudId: cloudStone.id,
@@ -132,5 +133,15 @@ function fillWithStoneData(uid) {
     return object;
 }
 exports.fillWithStoneData = fillWithStoneData;
+function getStoneIdFromMacAdddress(macAddress) {
+    let mac = macAddress.toUpperCase();
+    for (const [key, value] of Object.entries(exports.MemoryDb.stones)) {
+        if (value.macAddress.toUpperCase() === mac) {
+            return value.cloudId;
+        }
+    }
+    return null;
+}
+exports.getStoneIdFromMacAdddress = getStoneIdFromMacAdddress;
 exports.MemoryDb = new MemoryDbClass();
 //# sourceMappingURL=MemoryDb.js.map

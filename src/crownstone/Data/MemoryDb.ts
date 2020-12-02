@@ -1,8 +1,7 @@
-import {CrownstoneHub} from '../CrownstoneHub';
-
 interface Crownstone {
   name: string,
   uid: number,
+  macAddress: string,
   switchState: number | null,
   locked: boolean,
   dimming: boolean,
@@ -90,6 +89,7 @@ class MemoryDbClass {
         this.stones[uid] = {
           name:            cloudStone.name,
           uid:             cloudStone.uid,
+          macAddress:      cloudStone.address,
           locked:          cloudStone.locked,
           locationCloudId: cloudStone.locationId,
           cloudId:         cloudStone.id,
@@ -172,5 +172,16 @@ export function fillWithStoneData(uid : number | string) : {
     
   return object;
 }
+
+export function getStoneIdFromMacAdddress(macAddress:string) {
+  let mac = macAddress.toUpperCase();
+  for (const [key, value] of Object.entries(MemoryDb.stones)) {
+    if (value.macAddress.toUpperCase() === mac) {
+      return value.cloudId;
+    }
+  }
+  return null;
+}
+
 
 export const MemoryDb = new MemoryDbClass()

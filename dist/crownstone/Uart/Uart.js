@@ -9,6 +9,7 @@ const Logger_1 = require("../../Logger");
 const topics_1 = require("../topics");
 const UartHubDataCommunication_1 = require("./UartHubDataCommunication");
 const DbReference_1 = require("../Data/DbReference");
+const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
@@ -16,7 +17,7 @@ class Uart {
         this.queue = new PromiseManager_1.PromiseManager();
         this.cloud = cloud;
         this.connection = new crownstone_uart_1.CrownstoneUart();
-        this.connection.uart.setMode("HUB");
+        this.connection.hub.setMode("HUB");
         this.hubDataHandler = new UartHubDataCommunication_1.UartHubDataCommunication(this.connection);
         this.forwardEvents();
     }
@@ -39,7 +40,7 @@ class Uart {
     async initialize() {
         try {
             await this.connection.start(config_1.CONFIG.uartPort);
-            await this.connection.uart.setHubStatus({
+            await this.connection.hub.setStatus({
                 clientHasBeenSetup: false,
                 encryptionRequired: false,
                 clientHasInternet: false,
@@ -59,16 +60,16 @@ class Uart {
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub) {
             if (hub.uartKey) {
-                this.connection.uart.setKey(hub.uartKey);
+                this.connection.encryption.setKey(hub.uartKey);
             }
+            await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
             // this is done regardless since we might require a new key.
-            let macAddress = await this.connection.getMacAddress();
-            let uartKey = await this.cloud.hub().getUartKey(macAddress);
+            let uartKey = await this.cloud.hub().getUartKey();
             if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
                 hub.uartKey = uartKey;
                 await DbReference_1.Dbs.hub.save(hub);
             }
-            this.connection.uart.setKey(uartKey);
+            this.connection.encryption.setKey(uartKey);
         }
     }
     async switchCrownstones(switchPairs) {
@@ -85,7 +86,7 @@ class Uart {
             throw "NOT_READY";
         }
         this.queue.register(() => {
-            return this.connection.registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes);
+            return this.connection.control.registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes);
         });
     }
 }

@@ -6,8 +6,9 @@ import {CONFIG} from '../../config';
 import {Logger} from '../../Logger';
 import {topics} from '../topics';
 import {UartHubDataCommunication} from './UartHubDataCommunication';
-import {CrownstoneCloud} from 'crownstone-cloud';
 import {Dbs} from '../Data/DbReference';
+import {CrownstoneUtil} from '../CrownstoneUtil';
+import {CrownstoneCloud} from 'crownstone-cloud';
 const log = Logger(__filename);
 
 
@@ -23,7 +24,7 @@ export class Uart implements UartInterface {
     this.cloud = cloud;
 
     this.connection  = new CrownstoneUart();
-    this.connection.uart.setMode("HUB");
+    this.connection.hub.setMode("HUB");
 
     this.hubDataHandler = new UartHubDataCommunication(this.connection);
     this.forwardEvents();
@@ -55,7 +56,7 @@ export class Uart implements UartInterface {
   async initialize() {
     try {
       await this.connection.start(CONFIG.uartPort);
-      await this.connection.uart.setHubStatus({
+      await this.connection.hub.setStatus({
         clientHasBeenSetup: false,
         encryptionRequired: false,
         clientHasInternet: false,
@@ -75,18 +76,19 @@ export class Uart implements UartInterface {
     let hub = await Dbs.hub.get();
     if (hub) {
       if (hub.uartKey) {
-        this.connection.uart.setKey(hub.uartKey);
+        this.connection.encryption.setKey(hub.uartKey);
       }
 
+      await CrownstoneUtil.checkLinkedStoneId();
+
       // this is done regardless since we might require a new key.
-      let macAddress = await this.connection.getMacAddress();
-      let uartKey = await this.cloud.hub().getUartKey(macAddress);
+      let uartKey = await this.cloud.hub().getUartKey();
 
       if (uartKey !== hub?.uartKey && hub) {
         hub.uartKey = uartKey;
         await Dbs.hub.save(hub);
       }
-      this.connection.uart.setKey(uartKey);
+      this.connection.encryption.setKey(uartKey);
     }
   }
 
@@ -113,7 +115,7 @@ export class Uart implements UartInterface {
     if (!this.ready) { throw "NOT_READY"; }
 
     this.queue.register(() => {
-      return this.connection.registerTrackedDevice(
+      return this.connection.control.registerTrackedDevice(
         trackingNumber,
         locationUID,
         profileId,

@@ -34,4 +34,7 @@ export class Hub extends Entity {
 
   @property({type: 'string', required: true})
   sphereId: string;
+
+  @property({type: 'string'})
+  linkedStoneId: string | null;
 }

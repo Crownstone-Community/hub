@@ -7,12 +7,10 @@ const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const hub_repository_1 = require("../repositories/hub.repository");
-const HubEventBus_1 = require("../crownstone/HubEventBus");
-const topics_1 = require("../crownstone/topics");
 const repositories_1 = require("../repositories");
-const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const HubStatus_1 = require("../crownstone/HubStatus");
 const application_1 = require("../application");
+const CrownstoneUtil_1 = require("../crownstone/CrownstoneUtil");
 /**
  * This controller will echo the state of the hub.
  */
@@ -103,15 +101,7 @@ let HubController = class HubController {
         if (YesImSure !== 'YesImSure') {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
         }
-        if (await this.hubRepo.isSet() === true) {
-            HubStatus_1.resetHubStatus();
-            HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
-            await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
-            return "Success.";
-        }
-        else {
-            throw new rest_1.HttpErrors.NotFound("No Hub to delete..");
-        }
+        return await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub();
     }
     async getHubSatus() {
         let currentHub = await this.hubRepo.get();

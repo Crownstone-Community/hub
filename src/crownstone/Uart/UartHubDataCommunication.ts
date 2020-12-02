@@ -38,7 +38,7 @@ export class UartHubDataCommunication {
       catch (e) {
         // could not log in.
         log.warn("Could not setup, Login failed.",e);
-        return this.uart.uart.hubDataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN));
       }
       try {
         let hubCloudData = await cloud.hub().data();
@@ -49,17 +49,17 @@ export class UartHubDataCommunication {
           sphereId: hubCloudData.sphereId,
         });
         eventBus.emit(topics.HUB_CREATED);
-        return this.uart.uart.hubDataReply(HubDataReplySuccess());
+        return this.uart.hub.dataReply(HubDataReplySuccess());
       }
       catch (e) {
         // could not log in.
         log.warn("Could not setup, something went wrong.",e);
-        return this.uart.uart.hubDataReply(HubDataReplyError(HubReplyError.UNKNOWN));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN));
       }
     }
     else {
       log.info("Could not setup, this hub is already owned.");
-      this.uart.uart.hubDataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
     }
   }
 
@@ -68,15 +68,15 @@ export class UartHubDataCommunication {
   async handleDataRequest(requestPacket: HubData_requestData) {
     if (requestPacket.requestedType === HubRequestDataType.CLOUD_ID) {
       if (await Dbs.hub.isSet() === false) {
-        return this.uart.uart.hubDataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE))
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE))
       }
       else {
         let hub = await Dbs.hub.get();
         if (hub?.cloudId) {
-          return this.uart.uart.hubDataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)));
+          return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)));
         }
         // no hub or no cloudId.
-        return this.uart.uart.hubDataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE));
       }
     }
   }

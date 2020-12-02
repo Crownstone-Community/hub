@@ -134,11 +134,13 @@ export class CloudManager {
             }
 
             this.interval_ip   = setInterval(() => { this.updateLocalIp(); }, 15*60*1000); // every 15 minutes
-            this.interval_sync = setInterval(() => { this.sync().catch(async (err) => {
-              if (err === 401) {
-                await (this.recover(2000));
-              }
-            })}, 60*60*1000); // every 60 minutes
+            this.interval_sync = setInterval(async () => {
+              await this.sync().catch(async (err) => {
+                if (err === 401) {
+                  await (this.recover(2000));
+                }
+              })
+            }, 60*60*1000); // every 60 minutes
 
           }
 
