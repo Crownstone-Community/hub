@@ -7,13 +7,12 @@ import {
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
-import path from 'path';
 import {CrownstoneSequence} from './sequence';
 import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {AuthorizationComponent} from '@loopback/authorization';
 import {CsTokenStrategy} from './security/authentication-strategies/csToken-strategy';
 import {UserService} from './services';
-import {getHubConfig} from './util/ConfigUtil';
+import {getHttpsPort, getHubConfig} from './util/ConfigUtil';
 import {LogController} from './controllers/logging/log.controller';
 import {CsAdminTokenStrategy} from './security/authentication-strategies/csAdminToken-strategy';
 import {Logger} from './Logger';
@@ -30,10 +29,13 @@ const log = Logger(__filename);
 export let BOOT_TIME = Date.now();
 
 export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
+
   constructor(options: ApplicationConfig = {}) {
     let executionPath = __dirname;
     if (options.customPath !== undefined) { executionPath = options.customPath; }
-    let customPort = process.env.PORT || 5050;
+
+    let customPort = getHttpsPort();
+
     if (options.rest && options.rest.port !== undefined) {
       customPort = options.rest.port;
     }
@@ -65,9 +67,6 @@ export class CrownstoneHubApplication extends BootMixin(ServiceMixin(RepositoryM
 
     // Set up the custom sequence
     this.sequence(CrownstoneSequence);
-
-    // Set up default home page
-    this.static('/', path.join(executionPath, '../public'));
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({ path: '/explorer' });

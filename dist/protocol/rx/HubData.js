@@ -19,6 +19,8 @@ class HubDataParser {
                 return HubDataParsers_1.parseHubSetup(this, stepper);
             case hubProtocol_1.HubDataType.REQUEST_DATA:
                 return HubDataParsers_1.parseRequestData(this, stepper);
+            case hubProtocol_1.HubDataType.FACTORY_RESET:
+                return HubDataParsers_1.parseFactoryResetData(this, stepper);
         }
     }
 }

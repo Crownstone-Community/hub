@@ -1,13 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateLoggingBasedOnConfig = exports.updateControllersBasedOnConfig = exports.CrownstoneHubApplication = exports.BOOT_TIME = void 0;
-const tslib_1 = require("tslib");
 const boot_1 = require("@loopback/boot");
 const rest_explorer_1 = require("@loopback/rest-explorer");
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const service_proxy_1 = require("@loopback/service-proxy");
-const path_1 = tslib_1.__importDefault(require("path"));
 const sequence_1 = require("./sequence");
 const authentication_1 = require("@loopback/authentication");
 const authorization_1 = require("@loopback/authorization");
@@ -27,7 +25,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         if (options.customPath !== undefined) {
             executionPath = options.customPath;
         }
-        let customPort = process.env.PORT || 5050;
+        let customPort = ConfigUtil_1.getHttpsPort();
         if (options.rest && options.rest.port !== undefined) {
             customPort = options.rest.port;
         }
@@ -53,8 +51,6 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         authentication_1.registerAuthenticationStrategy(this, csAdminToken_strategy_1.CsAdminTokenStrategy);
         // Set up the custom sequence
         this.sequence(sequence_1.CrownstoneSequence);
-        // Set up default home page
-        this.static('/', path_1.default.join(executionPath, '../public'));
         // Customize @loopback/rest-explorer configuration here
         this.configure(rest_explorer_1.RestExplorerBindings.COMPONENT).to({ path: '/explorer' });
         this.component(rest_explorer_1.RestExplorerComponent);

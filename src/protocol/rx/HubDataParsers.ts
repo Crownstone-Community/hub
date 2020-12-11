@@ -29,3 +29,17 @@ export function parseRequestData(dataRef: HubDataParser, stepper: DataStepper) {
     dataRef.valid = false;
   }
 }
+
+
+export function parseFactoryResetData(dataRef: HubDataParser, stepper: DataStepper) {
+  try {
+    let deadbeef = stepper.getUInt32();
+    if (deadbeef != 0xdeadbeef) {
+      dataRef.valid = false;
+    }
+    dataRef.result = { type: dataRef.dataType as any };
+  }
+  catch (e) {
+    dataRef.valid = false;
+  }
+}

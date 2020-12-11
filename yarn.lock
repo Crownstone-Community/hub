@@ -2360,10 +2360,10 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crownstone-cloud@^0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.24.1.tgz#84fdf7293f1bcca91f2479e43be57100720d62f2"
-  integrity sha512-38bJz2g1Yg9IrHWg4DAkQghAX4xYGHqDgD1WByE/SwxoP6ivv13DaJw8IavdhXRhb2ytQmz04Px9sbFGYSnZ9g==
+crownstone-cloud@^0.24.2:
+  version "0.24.2"
+  resolved "https://registry.yarnpkg.com/crownstone-cloud/-/crownstone-cloud-0.24.2.tgz#f8a2510a85837ccd86252b016f6942e665a68584"
+  integrity sha512-WudcBNxyHpM0rq5gk/iud/mJTPjfujtOvv5KmsPq5Bj+t/kkb/rYWfBKLXkenHkwoyo/vXVNJO2OPLB6UBBydA==
   dependencies:
     cross-fetch "^3.0.4"
     crownstone-core "^0.8.3"
@@ -2396,10 +2396,10 @@ crownstone-logger@^0.1.4:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-crownstone-sse@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-4.1.0.tgz#f7a6b597505b3454325434293db82daf48a26f98"
-  integrity sha512-XOM7PDgPjXVBD697rbLSQPs8Og5+53g5NHaeR+gpkTKXEvqXzWVuxqUBkTyu7VrwDdoH+mktBsOImu0UPe7e6w==
+crownstone-sse@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crownstone-sse/-/crownstone-sse-4.2.0.tgz#f359aa031380d7b57683c0d2e16387fc60b0bf90"
+  integrity sha512-2DfipXkDSjCL+5+IlsPdSccopETrzs05bz+6Z7AC1HwtWkj4+vOJDLtRHxZGhtk+Pn0/ldn7SiVCz/hNT4OHSg==
   dependencies:
     cross-fetch "^3.0.4"
     crownstone-logger "^0.1.4"
@@ -2407,10 +2407,10 @@ crownstone-sse@^4.1.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.13.0.tgz#5094e05ea498cdd2bfb661fd78c4ff611abc6adf"
-  integrity sha512-AM7l0UvvgQTMFBmNItfdZmV3V5g+U3quH1zr+izFW7krKL3qc1V+p96kcFJrjI90PLe6iWgOLMdxPKVj/8Dfag==
+crownstone-uart@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.15.0.tgz#832896324b1717e602c0867467cc24c5de3eb6ce"
+  integrity sha512-Ygt4UZ9mqrXnk5v6jn/laO6QQ1STMj2oChTK6jPv1K6eQ+pBMKvxsxfU+r1UkehuTDE4k/9WZ44E0AkzuZGiMg==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.12.0"

@@ -9,7 +9,7 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from './repositories';
-import {Dbs, EMPTY_DATABASE} from './crownstone/Data/DbReference';
+import {Dbs} from './crownstone/Data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 
@@ -17,6 +17,8 @@ import {ApplicationConfig, ExpressServer} from './server';
 import {Logger} from './Logger';
 import {EnergyDataProcessedRepository} from './repositories/energy-data-processed.repository';
 import {MongoDbConnector} from './datasources/mongoDriver';
+import {PublicExpressServer} from './server_public';
+import {getPortConfig} from './util/ConfigUtil';
 
 const log = Logger(__filename);
 
@@ -33,6 +35,13 @@ export async function main(options: ApplicationConfig = {}) {
   log.info(`Server starting...`);
   await server.start();
   log.info(`Server started.`);
+
+  let portConfig = getPortConfig();
+
+  if (portConfig.enableHttp !== false) {
+    const httpServer = new PublicExpressServer();
+    await httpServer.start();
+  }
 
   log.info(`Creating Database References...`);
   Dbs.dbInfo            = await server.lbApp.getRepository(DatabaseInfoRepository)

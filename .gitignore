@@ -68,6 +68,7 @@ typings/
 key.pem
 cert.pem
 hub_config.json
+port_config.json
 
 __*.js
 __development/

@@ -12,6 +12,13 @@ interface HubConfig {
   logging: HubLogConfig
 }
 
+
+interface HubPortConfig {
+  httpPort?: number,
+  enableHttp?: boolean,
+  httpsPort?: number
+}
+
 interface HubLogConfig {
   [loggerId: string] : {console: TransportLevel, file: TransportLevel}
 }
@@ -21,6 +28,12 @@ const defaultConfig : HubConfig = {
   useLogControllers: false,
 
   logging: {}
+}
+
+const defaultPortConfig : HubPortConfig = {
+  httpPort: 80,
+  enableHttp: true,
+  httpsPort: 443,
 }
 
 function checkObject(candidate : any, example : any) {
@@ -55,14 +68,44 @@ export function getHubConfig() : HubConfig {
   return dataObject;
 }
 
+export function getPortConfig() : HubPortConfig {
+  let configPath = getPortConfigPath();
+  let dataObject: any = {};
+  if (fs.existsSync(configPath)) {
+    let data = fs.readFileSync(configPath, 'utf-8');
+    if (data && typeof data === 'string') {
+      dataObject = JSON.parse(data);
+    }
+  }
+  return dataObject;
+}
+
+export function getHttpsPort() : number {
+  let portConfig = getPortConfig();
+  return Number(portConfig.httpsPort ?? process.env.PORT ?? 443);
+}
+export function getHttpPort() : number {
+  let portConfig = getPortConfig();
+  return Number(portConfig.httpPort ?? process.env.HTTP_PORT ?? 80);
+}
+
 function getConfigPath() {
+  return path.join(prepareConfigPath(), 'hub_config.json');
+}
+
+function getPortConfigPath() {
+  return path.join(prepareConfigPath(), 'port_config.json');
+}
+
+function prepareConfigPath() {
   let configPath = Util.stripTrailingSlash(CONFIG.configPath || (Util.stripTrailingSlash(__dirname) + "/config"));
 
   let pathExists = fs.existsSync(configPath)
   if (!pathExists) {
     fs.mkdirSync(configPath);
   }
-  return path.join(configPath, 'hub_config.json');
+
+  return configPath;
 }
 
 export function storeHubConfig(config : HubConfig) {

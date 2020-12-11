@@ -14,6 +14,7 @@ import fs from "fs";
 import {verifyCertificate} from './security/VerifyCertificates';
 import {Logger} from './Logger';
 import {applyCustomRoutes} from './customRoutes/ApplyCustomRoutes';
+import {getIpAddress} from './util/HubUtil';
 
 export {ApplicationConfig};
 
@@ -31,6 +32,7 @@ export class ExpressServer {
   public readonly lbApp: CrownstoneHubApplication;
   private server?: https.Server;
 
+
   constructor(options: ApplicationConfig = {}) {
     this.app = express();
     this.lbApp = new CrownstoneHubApplication(config);
@@ -44,12 +46,11 @@ export class ExpressServer {
 
     // Custom Express routes
     this.app.get('/', function (_req: Request, res: Response) {
-      res.sendFile(path.join(__dirname, '../public/index.html'));
+      res.sendFile(path.join(__dirname, '../public/https/index.html'));
     });
 
-    
     // Serve static files in the public folder
-    this.app.use(express.static(path.join(__dirname, '../public')));
+    this.app.use(express.static(path.join(__dirname, '../public/https')));
   }
 
   public async boot() {
@@ -59,7 +60,7 @@ export class ExpressServer {
   public async start() {
     await this.lbApp.start();
     updateControllersBasedOnConfig(this.lbApp);
-    const port = this.lbApp.restServer.config.port ?? 3000;
+    const port = this.lbApp.restServer.config.port;
 
     let path = await verifyCertificate();
 
@@ -70,7 +71,8 @@ export class ExpressServer {
     };
 
     this.server = https.createServer(httpsOptions, this.app).listen(port, () => {
-      log.info("Hub is available at https://<hub-ip-address>:5050")
+      let ipAddress = getIpAddress();
+      log.info(`Hub is available at https://${ipAddress}:${port}`)
     });
     await once(this.server, 'listening');
   }

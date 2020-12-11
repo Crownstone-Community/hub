@@ -8,4 +8,5 @@ export declare class HubRepository extends DefaultCrudRepository<Hub, typeof Hub
     isSphereSet(): Promise<boolean>;
     isSet(): Promise<boolean>;
     get(): Promise<Hub | null>;
+    partialDelete(): Promise<void>;
 }

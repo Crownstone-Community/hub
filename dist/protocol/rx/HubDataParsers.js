@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseRequestData = exports.parseHubSetup = void 0;
+exports.parseFactoryResetData = exports.parseRequestData = exports.parseHubSetup = void 0;
 function parseHubSetup(dataRef, stepper) {
     try {
         let tokenLength = stepper.getUInt16();
@@ -26,4 +26,17 @@ function parseRequestData(dataRef, stepper) {
     }
 }
 exports.parseRequestData = parseRequestData;
+function parseFactoryResetData(dataRef, stepper) {
+    try {
+        let deadbeef = stepper.getUInt32();
+        if (deadbeef != 0xdeadbeef) {
+            dataRef.valid = false;
+        }
+        dataRef.result = { type: dataRef.dataType };
+    }
+    catch (e) {
+        dataRef.valid = false;
+    }
+}
+exports.parseFactoryResetData = parseFactoryResetData;
 //# sourceMappingURL=HubDataParsers.js.map

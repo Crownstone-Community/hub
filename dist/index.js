@@ -11,6 +11,8 @@ const server_1 = require("./server");
 const Logger_1 = require("./Logger");
 const energy_data_processed_repository_1 = require("./repositories/energy-data-processed.repository");
 const mongoDriver_1 = require("./datasources/mongoDriver");
+const server_public_1 = require("./server_public");
+const ConfigUtil_1 = require("./util/ConfigUtil");
 const log = Logger_1.Logger(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
@@ -22,6 +24,11 @@ async function main(options = {}) {
     log.info(`Server starting...`);
     await server.start();
     log.info(`Server started.`);
+    let portConfig = ConfigUtil_1.getPortConfig();
+    if (portConfig.enableHttp !== false) {
+        const httpServer = new server_public_1.PublicExpressServer();
+        await httpServer.start();
+    }
     log.info(`Creating Database References...`);
     DbReference_1.Dbs.dbInfo = await server.lbApp.getRepository(repositories_1.DatabaseInfoRepository);
     DbReference_1.Dbs.hub = await server.lbApp.getRepository(repositories_1.HubRepository);

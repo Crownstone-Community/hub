@@ -7,6 +7,7 @@ import {eventBus} from '../HubEventBus';
 import {topics} from '../topics';
 import {CrownstoneUart} from 'crownstone-uart';
 import {Logger} from '../../Logger';
+import {CrownstoneUtil} from '../CrownstoneUtil';
 
 const log = Logger(__filename);
 
@@ -20,11 +21,14 @@ export class UartHubDataCommunication {
   handleIncomingHubData(data: Buffer) {
     let parsed = new HubDataParser(data);
     if (parsed.valid) {
-      if      (parsed.result.type === HubDataType.SETUP) {
+      if (parsed.result.type === HubDataType.SETUP) {
         this.handleSetup(parsed.result)
       }
       else if (parsed.result.type === HubDataType.REQUEST_DATA) {
         this.handleDataRequest(parsed.result)
+      }
+      else if (parsed.result.type === HubDataType.FACTORY_RESET) {
+        this.handleFactoryResetRequest(parsed.result)
       }
     }
   }
@@ -58,7 +62,7 @@ export class UartHubDataCommunication {
       }
     }
     else {
-      log.info("Could not setup, this hub is already owned.");
+      log.warn("Could not setup, this hub is already owned.");
       this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
     }
   }
@@ -71,13 +75,24 @@ export class UartHubDataCommunication {
         return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE))
       }
       else {
-        let hub = await Dbs.hub.get();
-        if (hub?.cloudId) {
+        if (await Dbs.hub.isSet()) {
+          let hub = await Dbs.hub.get();
           return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)));
         }
         // no hub or no cloudId.
         return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE));
       }
+    }
+  }
+
+  async handleFactoryResetRequest(requestPacket: HubData_factoryReset) {
+    try {
+      await CrownstoneUtil.deleteCrownstoneHub(true);
+      return this.uart.hub.dataReply(HubDataReplySuccess());
+    }
+    catch(e) {
+      log.warn("Could not factory reset this hub.", e);
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
     }
   }
 }

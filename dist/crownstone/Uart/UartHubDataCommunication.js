@@ -9,6 +9,7 @@ const HubDataReply_1 = require("../../protocol/tx/HubDataReply");
 const HubEventBus_1 = require("../HubEventBus");
 const topics_1 = require("../topics");
 const Logger_1 = require("../../Logger");
+const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const log = Logger_1.Logger(__filename);
 class UartHubDataCommunication {
     constructor(uart) {
@@ -22,6 +23,9 @@ class UartHubDataCommunication {
             }
             else if (parsed.result.type === HubProtocol_1.HubDataType.REQUEST_DATA) {
                 this.handleDataRequest(parsed.result);
+            }
+            else if (parsed.result.type === HubProtocol_1.HubDataType.FACTORY_RESET) {
+                this.handleFactoryResetRequest(parsed.result);
             }
         }
     }
@@ -54,7 +58,7 @@ class UartHubDataCommunication {
             }
         }
         else {
-            log.info("Could not setup, this hub is already owned.");
+            log.warn("Could not setup, this hub is already owned.");
             this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE));
         }
     }
@@ -64,13 +68,23 @@ class UartHubDataCommunication {
                 return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE));
             }
             else {
-                let hub = await DbReference_1.Dbs.hub.get();
-                if (hub === null || hub === void 0 ? void 0 : hub.cloudId) {
+                if (await DbReference_1.Dbs.hub.isSet()) {
+                    let hub = await DbReference_1.Dbs.hub.get();
                     return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub === null || hub === void 0 ? void 0 : hub.cloudId)));
                 }
                 // no hub or no cloudId.
                 return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE));
             }
+        }
+    }
+    async handleFactoryResetRequest(requestPacket) {
+        try {
+            await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
+            return this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess());
+        }
+        catch (e) {
+            log.warn("Could not factory reset this hub.", e);
+            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE));
         }
     }
 }

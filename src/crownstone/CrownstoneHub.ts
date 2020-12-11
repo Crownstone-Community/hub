@@ -1,6 +1,6 @@
 import {Uart} from './Uart/Uart';
 import {CloudManager} from './Cloud/CloudManager';
-import {Dbs, EMPTY_DATABASE} from './Data/DbReference';
+import {Dbs} from './Data/DbReference';
 import {MeshMonitor} from './MeshMonitor/MeshMonitor';
 import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
 import {Timekeeper} from './Actions/Timekeeper';
@@ -10,6 +10,8 @@ import {eventBus} from './HubEventBus';
 import {topics} from './topics';
 import Timeout = NodeJS.Timeout;
 import {CrownstoneUtil} from './CrownstoneUtil';
+import {CONFIG} from '../config';
+import {EMPTY_DATABASE} from './Data/DbUtil';
 
 const log = Logger(__filename);
 
@@ -33,8 +35,11 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
     eventBus.on(topics.HUB_CREATED,() => { this.initialize(); });
 
-    this.uart.initialize();
-    log.info("Uart initialized");
+
+    if (CONFIG.enableUart) {
+      this.uart.initialize();
+      log.info("Uart initialized");
+    }
 
     HubStatus.uartReady = true;
   }

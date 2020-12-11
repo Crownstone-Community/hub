@@ -10,12 +10,11 @@ import {topics} from '../topics';
 import Timeout = NodeJS.Timeout;
 import {Logger} from '../../Logger';
 import {HubStatus} from '../HubStatus';
+import {getIpAddress} from '../../util/HubUtil';
+import {getHttpPort, getHttpsPort} from '../../util/ConfigUtil';
 
-const os = require('os');
 const log = Logger(__filename);
-
 const RETRY_INTERVAL_MS = 5000;
-
 
 export class CloudManager {
   cloud           : CrownstoneCloud;
@@ -63,7 +62,7 @@ export class CloudManager {
       await Util.wait(100);
     }
 
-    this.initialized = false;
+    this.initialized    = false;
     this.resetTriggered = false;
     // @ts-ignore
     this.sphereId = null;
@@ -89,6 +88,7 @@ export class CloudManager {
       this.retryInitialization = true;
       return;
     }
+    log.info("CloudManager initialization starting...");
     this.initialized          = false;
     this.retryInitialization  = false;
     this.initializeInProgress = true;
@@ -97,21 +97,23 @@ export class CloudManager {
     HubStatus.loggedIntoSSE   = false;
     HubStatus.syncedWithCloud = false;
     // The hub can never be not trying to connect unless it has no database reference to the hub itself.
-    let hub = await Dbs.hub.get();
-    if (hub) {
-
+    if (await Dbs.hub.isSet() !== false) {
       // we have a hub database entry. We will continue to retry to initialize until we either succeed or the hub
       let iterations = 0;
       while (this.initialized === false) {
         let hub = await Dbs.hub.get();
         if (!hub) { break }
         if (hub.cloudId === 'null') { throw 401; }
+
         log.info("Cloudmanager initialize started.", iterations);
+        iterations++;
+
         try {
           try {
             await this.login(hub);
           }
           catch (e) {
+            log.warn("Could not log into the cloud...", e);
             if (e === 401) {
               hub.cloudId = 'null';
               hub.token = 'null';
@@ -155,7 +157,6 @@ export class CloudManager {
             throw err;
           }
         }
-        iterations++;
       }
     }
     else {
@@ -301,7 +302,11 @@ export class CloudManager {
 
     let sseLoggedIn = false;
     while (sseLoggedIn == false && this.resetTriggered === false) {
-      try      { await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true; }
+      try {
+        log.info("Logging into the SSE...");
+        await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true;
+        log.info("Login to SSE sucessful:", this.sse.accessToken);
+      }
       catch(e) {
         log.warn("Error in SSE", e);
         HubStatus.loggedIntoSSE = false;
@@ -312,6 +317,7 @@ export class CloudManager {
       }
     }
 
+    log.info("Initializing the SSE with accessToken", this.sse.accessToken);
     this.sse.start(this.sseEventHandler.handleSseEvent)
     log.info("Cloudmanager SSE setup finished.");
     HubStatus.loggedIntoSSE = true;
@@ -325,37 +331,13 @@ export class CloudManager {
     log.info("Cloudmanager IP update started.");
     this.ipUpdateInprogress = true;
 
-    let ifaces = os.networkInterfaces();
-    let ips = ''
-    Object.keys(ifaces).forEach(function(ifname) {
-      let alias = 0;
-
-      ifaces[ifname].forEach(function(iface: any) {
-        if ('IPv4' !== iface.family || iface.internal !== false) {
-          // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-          return;
-        }
-
-        // avoid self allocated ip address
-        if (iface.address && iface.address.indexOf("169.254.") === -1) {
-          ips += iface.address + ';'
-        }
-
-        ++alias;
-      });
-    });
-
-    // remove trailing ;
-    if (ips.length > 0) {
-      ips = ips.substr(0, ips.length - 1)
-    }
-
-    if (ips && this.storedIpAddress !== ips) {
+    let ipAddress = getIpAddress();
+    if (ipAddress && this.storedIpAddress !== ipAddress) {
       let ipUpdated = false;
       while (ipUpdated == false && this.resetTriggered === false) {
         try {
-          await this.cloud.hub().setLocalIpAddress(ips);
-          this.storedIpAddress = ips;
+          await this.cloud.hub().setLocalIpAddress(ipAddress, getHttpPort(), getHttpsPort());
+          this.storedIpAddress = ipAddress;
           ipUpdated = true;
         } catch (e) {
           log.warn("Error updating local IP address", e);

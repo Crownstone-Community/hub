@@ -57,20 +57,24 @@ class Uart {
         if (!DbReference_1.Dbs.hub) {
             return;
         }
-        let hub = await DbReference_1.Dbs.hub.get();
-        if (hub) {
-            if (hub.uartKey) {
-                this.connection.encryption.setKey(hub.uartKey);
-            }
-            await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
-            // this is done regardless since we might require a new key.
-            let uartKey = await this.cloud.hub().getUartKey();
-            if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
-                hub.uartKey = uartKey;
-                await DbReference_1.Dbs.hub.save(hub);
-            }
-            this.connection.encryption.setKey(uartKey);
+        if (await DbReference_1.Dbs.hub.isSet() === false) {
+            return;
         }
+        let hub = await DbReference_1.Dbs.hub.get();
+        if (!hub) {
+            return;
+        }
+        if (hub.uartKey) {
+            this.connection.encryption.setKey(hub.uartKey);
+        }
+        await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
+        // this is done regardless since we might require a new key.
+        let uartKey = await this.cloud.hub().getUartKey();
+        if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
+            hub.uartKey = uartKey;
+            await DbReference_1.Dbs.hub.save(hub);
+        }
+        this.connection.encryption.setKey(uartKey);
     }
     async switchCrownstones(switchPairs) {
         if (!this.ready) {

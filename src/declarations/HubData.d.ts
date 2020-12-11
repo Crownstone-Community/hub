@@ -1,4 +1,4 @@
-type HubData = HubData_setup | HubData_requestData;
+type HubData = HubData_setup | HubData_requestData | HubData_factoryReset;
 
 interface HubData_setup {
   type: 0,
@@ -9,6 +9,10 @@ interface HubData_setup {
 interface HubData_requestData {
   type: 10,
   requestedType: number
+}
+
+interface HubData_factoryReset {
+  type: 2,
 }
 
 

@@ -5,7 +5,7 @@ const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
 const core_1 = require("@loopback/core");
 const hub_model_1 = require("../models/hub.model");
-const DbReference_1 = require("../crownstone/Data/DbReference");
+const DbUtil_1 = require("../crownstone/Data/DbUtil");
 let HubRepository = class HubRepository extends repository_1.DefaultCrudRepository {
     constructor(datasource) {
         super(hub_model_1.Hub, datasource);
@@ -17,14 +17,14 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
                 let partialHub = await this.get();
                 if (partialHub) {
                     if (entity.sphereId !== (partialHub === null || partialHub === void 0 ? void 0 : partialHub.sphereId)) {
-                        await DbReference_1.EMPTY_DATABASE();
+                        await DbUtil_1.EMPTY_DATABASE();
                     }
                     else {
                         await this.delete(partialHub);
                     }
                 }
                 else {
-                    await DbReference_1.EMPTY_DATABASE();
+                    await DbUtil_1.EMPTY_DATABASE();
                 }
             }
             return super.create(entity, options);
@@ -40,7 +40,7 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
     }
     async isSet() {
         let hub = await this.get();
-        if (hub && hub.cloudId !== 'null') {
+        if (hub && hub.cloudId && hub.cloudId !== 'null') {
             return true;
         }
         return false;
@@ -48,6 +48,19 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
     async get() {
         let hub = await this.findOne();
         return hub;
+    }
+    async partialDelete() {
+        let hub = await this.findOne();
+        if (hub) {
+            hub.token = '';
+            hub.cloudId = '';
+            hub.name = '';
+            hub.uartKey = '';
+            hub.accessToken = '';
+            hub.accessTokenExpiration = new Date(0);
+            hub.linkedStoneId = '';
+            await this.update(hub);
+        }
     }
 };
 HubRepository = tslib_1.__decorate([

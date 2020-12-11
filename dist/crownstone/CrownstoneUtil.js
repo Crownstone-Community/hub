@@ -13,7 +13,7 @@ const log = Logger_1.Logger(__filename);
 class CrownstoneUtil {
     static async checkLinkedStoneId() {
         let hub = await DbReference_1.Dbs.hub.get();
-        if (hub && CrownstoneHub_1.CrownstoneHub.cloud.initialized) {
+        if (hub && CrownstoneHub_1.CrownstoneHub.cloud.initialized && await DbReference_1.Dbs.hub.isSet() !== false) {
             try {
                 let macAddress = await CrownstoneHub_1.CrownstoneHub.uart.connection.config.getMacAddress();
                 let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
@@ -29,7 +29,7 @@ class CrownstoneUtil {
             }
         }
     }
-    static async deleteCrownstoneHub() {
+    static async deleteCrownstoneHub(partial = false) {
         if (await DbReference_1.Dbs.hub.isSet() === true) {
             let hub = await DbReference_1.Dbs.hub.get();
             HubStatus_1.resetHubStatus();
@@ -44,9 +44,16 @@ class CrownstoneUtil {
             console.log("Deleting hub");
             await CrownstoneHub_1.CrownstoneHub.cloud.cloud.hub().deleteHub();
             console.log("Deleting hub DONE");
-            console.log("Deleting hub database");
-            await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
-            console.log("Deleting hub database. DONE");
+            if (partial) {
+                console.log("Crippling hub instance...");
+                await DbReference_1.Dbs.hub.partialDelete();
+                console.log("Crippling hub instance. DONE!");
+            }
+            else {
+                console.log("Deleting hub database...");
+                await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy();
+                console.log("Deleting hub database. DONE!");
+            }
             HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
             return "Success.";
         }

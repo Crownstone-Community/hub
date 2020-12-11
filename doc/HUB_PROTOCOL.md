@@ -17,7 +17,7 @@ Value | Name |  Payload | Reply (other than error)
 --- | --- | --- | ---
 | 0  | setup | SetupPayload | Success
 | 1  | command | tbd | tbd
-| 2  | factoryReset | tdb | tbd
+| 2  | factoryReset | 0xDEADBEEF | Success
 | 10 | requestData | RequestDataPayload | DataReply
 
 ## Payloads

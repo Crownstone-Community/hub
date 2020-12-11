@@ -6,4 +6,5 @@ export declare class UartHubDataCommunication {
     handleIncomingHubData(data: Buffer): void;
     handleSetup(setupPacket: HubData_setup): Promise<void>;
     handleDataRequest(requestPacket: HubData_requestData): Promise<void>;
+    handleFactoryResetRequest(requestPacket: HubData_factoryReset): Promise<void>;
 }

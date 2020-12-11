@@ -2,7 +2,7 @@ import { DefaultCrudRepository, juggler } from '@loopback/repository';
 import { inject } from '@loopback/core';
 import { Hub } from '../models/hub.model';
 import {DataObject, Options} from '@loopback/repository/src/common-types';
-import {EMPTY_DATABASE} from '../crownstone/Data/DbReference';
+import {EMPTY_DATABASE} from '../crownstone/Data/DbUtil';
 
 
 export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototype.id> {
@@ -41,7 +41,7 @@ export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototyp
 
   async isSet() : Promise<boolean> {
     let hub = await this.get();
-    if (hub && hub.cloudId !== 'null') {
+    if (hub && hub.cloudId && hub.cloudId !== 'null') {
       return true;
     }
     return false;
@@ -50,6 +50,20 @@ export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototyp
   async get() : Promise<Hub | null> {
     let hub = await this.findOne()
     return hub;
+  }
+
+  async partialDelete() : Promise<void> {
+    let hub = await this.findOne()
+    if (hub) {
+      hub.token = '';
+      hub.cloudId = '';
+      hub.name = '';
+      hub.uartKey = '';
+      hub.accessToken = '';
+      hub.accessTokenExpiration = new Date(0);
+      hub.linkedStoneId = '';
+      await this.update(hub);
+    }
   }
 }
 

@@ -1,4 +1,4 @@
 export declare class CrownstoneUtil {
     static checkLinkedStoneId(): Promise<void>;
-    static deleteCrownstoneHub(): Promise<string>;
+    static deleteCrownstoneHub(partial?: boolean): Promise<string>;
 }

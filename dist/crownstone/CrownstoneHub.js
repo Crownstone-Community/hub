@@ -12,6 +12,8 @@ const HubStatus_1 = require("./HubStatus");
 const HubEventBus_1 = require("./HubEventBus");
 const topics_1 = require("./topics");
 const CrownstoneUtil_1 = require("./CrownstoneUtil");
+const config_1 = require("../config");
+const DbUtil_1 = require("./Data/DbUtil");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
@@ -22,8 +24,10 @@ class CrownstoneHubClass {
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
-        this.uart.initialize();
-        log.info("Uart initialized");
+        if (config_1.CONFIG.enableUart) {
+            this.uart.initialize();
+            log.info("Uart initialized");
+        }
         HubStatus_1.HubStatus.uartReady = true;
     }
     async initialize() {
@@ -88,7 +92,7 @@ class CrownstoneHubClass {
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
-        await DbReference_1.EMPTY_DATABASE();
+        await DbUtil_1.EMPTY_DATABASE();
     }
 }
 exports.CrownstoneHubClass = CrownstoneHubClass;

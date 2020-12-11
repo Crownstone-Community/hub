@@ -45,6 +45,7 @@ export class SseEventHandler {
     switch (event.subType) {
       case 'COULD_NOT_REFRESH_TOKEN':
         // login again
+        log.notice("Could not refresh hub sse token!");
         eventBus.emit(topics.TOKEN_EXPIRED);
         break;
       case 'NO_ACCESS_TOKEN':

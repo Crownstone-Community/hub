@@ -16,6 +16,7 @@ const fs_1 = tslib_1.__importDefault(require("fs"));
 const VerifyCertificates_1 = require("./security/VerifyCertificates");
 const Logger_1 = require("./Logger");
 const ApplyCustomRoutes_1 = require("./customRoutes/ApplyCustomRoutes");
+const HubUtil_1 = require("./util/HubUtil");
 const log = Logger_1.Logger(__filename);
 const config = {
     rest: {
@@ -33,19 +34,18 @@ class ExpressServer {
         ApplyCustomRoutes_1.applyCustomRoutes(this.app, this.lbApp);
         // Custom Express routes
         this.app.get('/', function (_req, res) {
-            res.sendFile(path_1.default.join(__dirname, '../public/index.html'));
+            res.sendFile(path_1.default.join(__dirname, '../public/https/index.html'));
         });
         // Serve static files in the public folder
-        this.app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
+        this.app.use(express_1.default.static(path_1.default.join(__dirname, '../public/https')));
     }
     async boot() {
         await this.lbApp.boot();
     }
     async start() {
-        var _a;
         await this.lbApp.start();
         application_1.updateControllersBasedOnConfig(this.lbApp);
-        const port = (_a = this.lbApp.restServer.config.port) !== null && _a !== void 0 ? _a : 3000;
+        const port = this.lbApp.restServer.config.port;
         let path = await VerifyCertificates_1.verifyCertificate();
         let httpsOptions = {
             protocol: 'https',
@@ -53,7 +53,8 @@ class ExpressServer {
             cert: fs_1.default.readFileSync(path + '/cert.pem'),
         };
         this.server = https_1.default.createServer(httpsOptions, this.app).listen(port, () => {
-            log.info("Hub is available at https://<hub-ip-address>:5050");
+            let ipAddress = HubUtil_1.getIpAddress();
+            log.info(`Hub is available at https://${ipAddress}:${port}`);
         });
         await events_1.once(this.server, 'listening');
     }
