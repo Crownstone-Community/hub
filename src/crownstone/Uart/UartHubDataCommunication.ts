@@ -8,6 +8,7 @@ import {topics} from '../topics';
 import {CrownstoneUart} from 'crownstone-uart';
 import {Logger} from '../../Logger';
 import {CrownstoneUtil} from '../CrownstoneUtil';
+import {ResultValue} from 'crownstone-core';
 
 const log = Logger(__filename);
 
@@ -42,7 +43,7 @@ export class UartHubDataCommunication {
       catch (e) {
         // could not log in.
         log.warn("Could not setup, Login failed.",e);
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN), ResultValue.SUCCESS);
       }
       try {
         let hubCloudData = await cloud.hub().data();
@@ -53,17 +54,17 @@ export class UartHubDataCommunication {
           sphereId: hubCloudData.sphereId,
         });
         eventBus.emit(topics.HUB_CREATED);
-        return this.uart.hub.dataReply(HubDataReplySuccess());
+        return this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS);
       }
       catch (e) {
         // could not log in.
         log.warn("Could not setup, something went wrong.",e);
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN), ResultValue.SUCCESS);
       }
     }
     else {
       log.warn("Could not setup, this hub is already owned.");
-      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS);
     }
   }
 
@@ -72,15 +73,15 @@ export class UartHubDataCommunication {
   async handleDataRequest(requestPacket: HubData_requestData) {
     if (requestPacket.requestedType === HubRequestDataType.CLOUD_ID) {
       if (await Dbs.hub.isSet() === false) {
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE))
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS)
       }
       else {
         if (await Dbs.hub.isSet()) {
           let hub = await Dbs.hub.get();
-          return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)));
+          return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)), ResultValue.SUCCESS);
         }
         // no hub or no cloudId.
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE));
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS);
       }
     }
   }
@@ -88,11 +89,11 @@ export class UartHubDataCommunication {
   async handleFactoryResetRequest(requestPacket: HubData_factoryReset) {
     try {
       await CrownstoneUtil.deleteCrownstoneHub(true);
-      return this.uart.hub.dataReply(HubDataReplySuccess());
+      return this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS);
     }
     catch(e) {
       log.warn("Could not factory reset this hub.", e);
-      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE));
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS);
     }
   }
 }

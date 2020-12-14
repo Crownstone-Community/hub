@@ -8,8 +8,9 @@ const PREFIX_SIZE = 5;
 function HubDataReplyError(type, message = '') {
     let headerBuffer = new crownstone_core_1.DataWriter(PREFIX_SIZE + 2); // 5 * prefix + 2
     headerBuffer.putUInt16(crownstone_core_1.ResultValue.SUCCESS);
-    headerBuffer.putUInt8(PROTOCOL_VERSION);
     headerBuffer.putUInt16(HubProtocol_1.HubReplyCode.ERROR);
+    headerBuffer.putUInt8(PROTOCOL_VERSION);
+    headerBuffer.putUInt16(type);
     let stringBuffer = Buffer.from(message, 'ascii');
     let result = Buffer.concat([headerBuffer.getBuffer(), stringBuffer]);
     if (result.length > 100) {

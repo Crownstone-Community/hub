@@ -7,8 +7,9 @@ const PREFIX_SIZE = 5;
 export function HubDataReplyError(type: number, message: string = '') {
   let headerBuffer = new DataWriter(PREFIX_SIZE + 2); // 5 * prefix + 2
   headerBuffer.putUInt16(ResultValue.SUCCESS);
-  headerBuffer.putUInt8(PROTOCOL_VERSION);
   headerBuffer.putUInt16(HubReplyCode.ERROR);
+  headerBuffer.putUInt8(PROTOCOL_VERSION);
+  headerBuffer.putUInt16(type);
 
   let stringBuffer = Buffer.from(message, 'ascii');
 
