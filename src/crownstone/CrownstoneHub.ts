@@ -22,7 +22,6 @@ export class CrownstoneHubClass implements CrownstoneHub {
   mesh        : MeshMonitor;
   timeKeeper  : Timekeeper;
 
-  launched = false
   linkedStoneCheckInterval : Timeout
 
   constructor() {
@@ -50,54 +49,51 @@ export class CrownstoneHubClass implements CrownstoneHub {
     let hub = await Dbs.hub.get();
     if (hub && hub.cloudId !== 'null') {
       log.info("Launching Modules");
-      if (this.launched === false) {
-        clearInterval(this.linkedStoneCheckInterval);
-        this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil.checkLinkedStoneId(); }, 30*60*1000);
-        // load the key if we already have it.
-        if (hub.uartKey) {
-          this.uart.connection.encryption.setKey(hub.uartKey);
-          this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
-        }
+
+      clearInterval(this.linkedStoneCheckInterval);
+      this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil.checkLinkedStoneId(); }, 30*60*1000);
+      // load the key if we already have it.
+      if (hub.uartKey) {
+        this.uart.connection.encryption.setKey(hub.uartKey);
+        this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
+      }
+
+      try {
+        await this.cloud.initialize();
+        log.info("Cloud initialized");
+
+        log.info("Checking linked StoneId");
+        await CrownstoneUtil.checkLinkedStoneId();
+        log.info("Checked linked StoneId.");
 
         try {
-          await this.cloud.initialize();
-          log.info("Cloud initialized");
-
-          await CrownstoneUtil.checkLinkedStoneId();
-
-          try {
-            log.info("Setting up UART encryption...")
-            await this.uart.refreshUartEncryption();
-            log.info("UART key loaded.")
-          }
-          catch (e) {
-            log.warn("Could not obtain connection key.")
-          }
-
-
-          this.mesh.init()
-          this.timeKeeper.init()
-
-          this.launched = true;
-          HubStatus.initialized = true;
-
-          await this.uart.connection.hub.setStatus({
-            clientHasBeenSetup: true,
-            encryptionRequired: true,
-            clientHasInternet: true,
-          });
+          log.info("Setting up UART encryption...")
+          await this.uart.refreshUartEncryption();
+          log.info("UART key loaded.")
         }
         catch (e) {
-          if (e === 401) {
-            log.info("Initialization failed. Cloud could not authenticate hub.");
-          }
-          else {
-            log.info("Initialization failed", e);
-          }
+          log.warn("Could not obtain connection key.")
         }
+
+
+        this.mesh.init()
+        this.timeKeeper.init()
+
+        HubStatus.initialized = true;
+
+        await this.uart.connection.hub.setStatus({
+          clientHasBeenSetup: true,
+          encryptionRequired: true,
+          clientHasInternet: true,
+        });
       }
-      else {
-        log.info("Modules already launched. No need to launch again...")
+      catch (e) {
+        if (e === 401) {
+          log.info("Initialization failed. Cloud could not authenticate hub.");
+        }
+        else {
+          log.info("Initialization failed", e);
+        }
       }
     }
     else {
@@ -110,8 +106,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   }
 
 
-  async cleanupAndDestroy() {
-    this.launched = false;
+  async cleanupAndDestroy(partial = false) {
     clearInterval(this.linkedStoneCheckInterval);
 
     this.uart.connection.encryption.removeKey();
@@ -120,7 +115,16 @@ export class CrownstoneHubClass implements CrownstoneHub {
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();
 
-    await EMPTY_DATABASE();
+    if (partial) {
+      console.log("Crippling hub instance...");
+      await Dbs.hub.partialDelete();
+      console.log("Crippling hub instance. DONE!");
+    }
+    else {
+      console.log("Deleting hub database...");
+      await EMPTY_DATABASE();
+      console.log("Deleting hub database. DONE!");
+    }
   }
 
 }

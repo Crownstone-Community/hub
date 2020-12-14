@@ -8,6 +8,7 @@ export declare class Uart implements UartInterface {
     hubDataHandler: UartHubDataCommunication;
     ready: boolean;
     cloud: CrownstoneCloud;
+    initializing: false;
     constructor(cloud: CrownstoneCloud);
     forwardEvents(): void;
     initialize(): Promise<void>;

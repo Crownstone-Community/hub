@@ -16,7 +16,8 @@ export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototyp
       if (await this.isSphereSet()) {
         let partialHub = await this.get();
         if (partialHub) {
-          if (entity.sphereId !== partialHub?.sphereId) {
+          // casting to string here is important because mongo Ids are not strings...
+          if (String(entity.sphereId) !== String(partialHub?.sphereId)) {
             await EMPTY_DATABASE();
           } else {
             await this.delete(partialHub)

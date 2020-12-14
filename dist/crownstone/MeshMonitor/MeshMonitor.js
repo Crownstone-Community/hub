@@ -19,6 +19,7 @@ class MeshMonitor {
         this.topology = new TopologyMonitor_1.TopologyMonitor();
     }
     init() {
+        this.cleanup();
         this.energy.init();
         this.power.init();
         this.setupEvents();
@@ -27,6 +28,7 @@ class MeshMonitor {
         this.unsubscribeEventListener();
         this.energy.stop();
         this.power.stop();
+        this.eventsRegistered = false;
     }
     setupEvents() {
         if (this.eventsRegistered === false) {

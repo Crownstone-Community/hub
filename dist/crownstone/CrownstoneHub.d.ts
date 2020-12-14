@@ -9,10 +9,9 @@ export declare class CrownstoneHubClass implements CrownstoneHub {
     cloud: CloudManager;
     mesh: MeshMonitor;
     timeKeeper: Timekeeper;
-    launched: boolean;
     linkedStoneCheckInterval: Timeout;
     constructor();
     initialize(): Promise<void>;
-    cleanupAndDestroy(): Promise<void>;
+    cleanupAndDestroy(partial?: boolean): Promise<void>;
 }
 export declare const CrownstoneHub: CrownstoneHubClass;

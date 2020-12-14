@@ -19,6 +19,9 @@ export class Uart implements UartInterface {
   ready           : boolean = false
   cloud           : CrownstoneCloud;
 
+  initializing    : false;
+
+
   constructor(cloud: CrownstoneCloud) {
     this.queue = new PromiseManager();
     this.cloud = cloud;
@@ -48,7 +51,10 @@ export class Uart implements UartInterface {
     });
 
     this.connection.on(UartTopics.HubDataReceived, (data: Buffer) => { this.hubDataHandler.handleIncomingHubData(data) })
-    this.connection.on(UartTopics.KeyRequested,() => { this.refreshUartEncryption(); })
+    this.connection.on(UartTopics.KeyRequested,() => {
+      log.info("Uart is requesting a key");
+      this.refreshUartEncryption();
+    });
   }
 
 
@@ -87,6 +93,7 @@ export class Uart implements UartInterface {
     // this is done regardless since we might require a new key.
     let uartKey = await this.cloud.hub().getUartKey();
 
+    hub = await Dbs.hub.get();
     if (uartKey !== hub?.uartKey && hub) {
       hub.uartKey = uartKey;
       await Dbs.hub.save(hub);

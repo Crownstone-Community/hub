@@ -35,7 +35,10 @@ class Uart {
             this.connection.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
         });
         this.connection.on(crownstone_uart_1.UartTopics.HubDataReceived, (data) => { this.hubDataHandler.handleIncomingHubData(data); });
-        this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => { this.refreshUartEncryption(); });
+        this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => {
+            log.info("Uart is requesting a key");
+            this.refreshUartEncryption();
+        });
     }
     async initialize() {
         try {
@@ -70,6 +73,7 @@ class Uart {
         await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
         // this is done regardless since we might require a new key.
         let uartKey = await this.cloud.hub().getUartKey();
+        hub = await DbReference_1.Dbs.hub.get();
         if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
             hub.uartKey = uartKey;
             await DbReference_1.Dbs.hub.save(hub);

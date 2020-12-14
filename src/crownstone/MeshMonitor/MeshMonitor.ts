@@ -24,6 +24,7 @@ export class MeshMonitor {
   }
 
   init() {
+    this.cleanup();
     this.energy.init();
     this.power.init();
     this.setupEvents();
@@ -33,6 +34,7 @@ export class MeshMonitor {
     this.unsubscribeEventListener();
     this.energy.stop();
     this.power.stop();
+    this.eventsRegistered = false;
   }
 
   setupEvents() {

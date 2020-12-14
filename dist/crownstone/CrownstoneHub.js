@@ -17,7 +17,6 @@ const DbUtil_1 = require("./Data/DbUtil");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
-        this.launched = false;
         this.cloud = new CloudManager_1.CloudManager();
         this.uart = new Uart_1.Uart(this.cloud.cloud);
         this.mesh = new MeshMonitor_1.MeshMonitor();
@@ -35,47 +34,43 @@ class CrownstoneHubClass {
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub && hub.cloudId !== 'null') {
             log.info("Launching Modules");
-            if (this.launched === false) {
-                clearInterval(this.linkedStoneCheckInterval);
-                this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId(); }, 30 * 60 * 1000);
-                // load the key if we already have it.
-                if (hub.uartKey) {
-                    this.uart.connection.encryption.setKey(hub.uartKey);
-                    this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
-                }
+            clearInterval(this.linkedStoneCheckInterval);
+            this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId(); }, 30 * 60 * 1000);
+            // load the key if we already have it.
+            if (hub.uartKey) {
+                this.uart.connection.encryption.setKey(hub.uartKey);
+                this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
+            }
+            try {
+                await this.cloud.initialize();
+                log.info("Cloud initialized");
+                log.info("Checking linked StoneId");
+                await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
+                log.info("Checked linked StoneId.");
                 try {
-                    await this.cloud.initialize();
-                    log.info("Cloud initialized");
-                    await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
-                    try {
-                        log.info("Setting up UART encryption...");
-                        await this.uart.refreshUartEncryption();
-                        log.info("UART key loaded.");
-                    }
-                    catch (e) {
-                        log.warn("Could not obtain connection key.");
-                    }
-                    this.mesh.init();
-                    this.timeKeeper.init();
-                    this.launched = true;
-                    HubStatus_1.HubStatus.initialized = true;
-                    await this.uart.connection.hub.setStatus({
-                        clientHasBeenSetup: true,
-                        encryptionRequired: true,
-                        clientHasInternet: true,
-                    });
+                    log.info("Setting up UART encryption...");
+                    await this.uart.refreshUartEncryption();
+                    log.info("UART key loaded.");
                 }
                 catch (e) {
-                    if (e === 401) {
-                        log.info("Initialization failed. Cloud could not authenticate hub.");
-                    }
-                    else {
-                        log.info("Initialization failed", e);
-                    }
+                    log.warn("Could not obtain connection key.");
                 }
+                this.mesh.init();
+                this.timeKeeper.init();
+                HubStatus_1.HubStatus.initialized = true;
+                await this.uart.connection.hub.setStatus({
+                    clientHasBeenSetup: true,
+                    encryptionRequired: true,
+                    clientHasInternet: true,
+                });
             }
-            else {
-                log.info("Modules already launched. No need to launch again...");
+            catch (e) {
+                if (e === 401) {
+                    log.info("Initialization failed. Cloud could not authenticate hub.");
+                }
+                else {
+                    log.info("Initialization failed", e);
+                }
             }
         }
         else {
@@ -84,15 +79,23 @@ class CrownstoneHubClass {
         hub = await DbReference_1.Dbs.hub.get();
         HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
     }
-    async cleanupAndDestroy() {
-        this.launched = false;
+    async cleanupAndDestroy(partial = false) {
         clearInterval(this.linkedStoneCheckInterval);
         this.uart.connection.encryption.removeKey();
         this.uart.connection.hub.setStatus({ clientHasBeenSetup: false });
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
-        await DbUtil_1.EMPTY_DATABASE();
+        if (partial) {
+            console.log("Crippling hub instance...");
+            await DbReference_1.Dbs.hub.partialDelete();
+            console.log("Crippling hub instance. DONE!");
+        }
+        else {
+            console.log("Deleting hub database...");
+            await DbUtil_1.EMPTY_DATABASE();
+            console.log("Deleting hub database. DONE!");
+        }
     }
 }
 exports.CrownstoneHubClass = CrownstoneHubClass;

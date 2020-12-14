@@ -80,8 +80,12 @@ class UartHubDataCommunication {
     }
     async handleFactoryResetRequest(requestPacket) {
         try {
+            log.notice("Factory reset started, notifying dongle...");
+            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+            log.notice("State notified!");
+            log.notice("Initiating factory reset procedure...");
             await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
-            return this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+            log.notice("Initiated factory reset procedure. Done.");
         }
         catch (e) {
             log.warn("Could not factory reset this hub.", e);
