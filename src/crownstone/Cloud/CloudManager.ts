@@ -12,6 +12,7 @@ import {Logger} from '../../Logger';
 import {HubStatus} from '../HubStatus';
 import {getIpAddress} from '../../util/HubUtil';
 import {getHttpPort, getHttpsPort} from '../../util/ConfigUtil';
+import {CrownstoneUtil} from '../CrownstoneUtil';
 
 const log = Logger(__filename);
 const RETRY_INTERVAL_MS = 5000;
@@ -89,6 +90,7 @@ export class CloudManager {
       return;
     }
     log.info("CloudManager initialization starting...");
+    this.storedIpAddress      = null;
     this.initialized          = false;
     this.retryInitialization  = false;
     this.initializeInProgress = true;
@@ -115,9 +117,7 @@ export class CloudManager {
           catch (e) {
             log.warn("Could not log into the cloud...", e);
             if (e === 401) {
-              hub.cloudId = 'null';
-              hub.token = 'null';
-              await Dbs.hub.save(hub);
+              await CrownstoneUtil.deleteCrownstoneHub(true, true);
               throw e;
             }
           }

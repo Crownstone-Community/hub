@@ -43,3 +43,16 @@ export function parseFactoryResetData(dataRef: HubDataParser, stepper: DataStepp
     dataRef.valid = false;
   }
 }
+
+export function parseFactoryResetHubOnlyData(dataRef: HubDataParser, stepper: DataStepper) {
+  try {
+    let deadbeat = stepper.getUInt32();
+    if (deadbeat != 0xdeadbea7) {
+      dataRef.valid = false;
+    }
+    dataRef.result = { type: dataRef.dataType as any };
+  }
+  catch (e) {
+    dataRef.valid = false;
+  }
+}

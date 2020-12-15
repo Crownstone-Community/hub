@@ -1,4 +1,4 @@
-type HubData = HubData_setup | HubData_requestData | HubData_factoryReset;
+type HubData = HubData_setup | HubData_requestData | HubData_factoryReset | HubData_factoryResetHubOnly;
 
 interface HubData_setup {
   type: 0,
@@ -15,12 +15,17 @@ interface HubData_factoryReset {
   type: 2,
 }
 
+interface HubData_factoryResetHubOnly {
+  type: 3,
+}
+
 
 interface HubDataType {
-  SETUP:         0,
-  COMMAND:       1,
-  FACTORY_RESET: 2,
-  REQUEST_DATA:  10,
+  SETUP:                  0,
+  COMMAND:                1,
+  FACTORY_RESET:          2,
+  FACTORY_RESET_HUB_ONLY: 3,
+  REQUEST_DATA:           10,
 }
 
 interface HubReplyError {

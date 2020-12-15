@@ -10,6 +10,7 @@ export declare class CrownstoneHubClass implements CrownstoneHub {
     mesh: MeshMonitor;
     timeKeeper: Timekeeper;
     linkedStoneCheckInterval: Timeout;
+    setStatusBackupInterval: Timeout;
     constructor();
     initialize(): Promise<void>;
     cleanupAndDestroy(partial?: boolean): Promise<void>;

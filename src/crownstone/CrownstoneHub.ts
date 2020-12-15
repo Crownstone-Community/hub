@@ -12,6 +12,7 @@ import Timeout = NodeJS.Timeout;
 import {CrownstoneUtil} from './CrownstoneUtil';
 import {CONFIG} from '../config';
 import {EMPTY_DATABASE} from './Data/DbUtil';
+import {HubStatusManager} from './Uart/HubStatusManager';
 
 const log = Logger(__filename);
 
@@ -23,6 +24,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
   timeKeeper  : Timekeeper;
 
   linkedStoneCheckInterval : Timeout
+  setStatusBackupInterval : Timeout
 
   constructor() {
     this.cloud = new CloudManager()
@@ -51,11 +53,13 @@ export class CrownstoneHubClass implements CrownstoneHub {
       log.info("Launching Modules");
 
       clearInterval(this.linkedStoneCheckInterval);
+      clearInterval(this.setStatusBackupInterval);
       this.linkedStoneCheckInterval = setInterval(() => { CrownstoneUtil.checkLinkedStoneId(); }, 30*60*1000);
+      this.setStatusBackupInterval  = setInterval(() => { HubStatusManager.setActualStatus(); }, 5*60*1000);
       // load the key if we already have it.
       if (hub.uartKey) {
         this.uart.connection.encryption.setKey(hub.uartKey);
-        this.uart.connection.hub.setStatus({ clientHasBeenSetup: true });
+        HubStatusManager.setStatus({ clientHasBeenSetup: true });
       }
 
       try {
@@ -81,7 +85,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
         HubStatus.initialized = true;
 
-        await this.uart.connection.hub.setStatus({
+        await HubStatusManager.setStatus({
           clientHasBeenSetup: true,
           encryptionRequired: true,
           clientHasInternet: true,
@@ -110,7 +114,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
     clearInterval(this.linkedStoneCheckInterval);
 
     this.uart.connection.encryption.removeKey();
-    this.uart.connection.hub.setStatus({ clientHasBeenSetup: false });
+    HubStatusManager.setStatus({ clientHasBeenSetup: false });
     await this.mesh.cleanup();
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();

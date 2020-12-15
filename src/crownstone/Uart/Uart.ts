@@ -9,6 +9,7 @@ import {UartHubDataCommunication} from './UartHubDataCommunication';
 import {Dbs} from '../Data/DbReference';
 import {CrownstoneUtil} from '../CrownstoneUtil';
 import {CrownstoneCloud} from 'crownstone-cloud';
+import {HubStatusManager} from './HubStatusManager';
 const log = Logger(__filename);
 
 
@@ -62,7 +63,7 @@ export class Uart implements UartInterface {
   async initialize() {
     try {
       await this.connection.start(CONFIG.uartPort);
-      await this.connection.hub.setStatus({
+      await HubStatusManager.setStatus({
         clientHasBeenSetup: false,
         encryptionRequired: false,
         clientHasInternet: false,

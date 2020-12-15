@@ -32,28 +32,71 @@ export class CrownstoneUtil {
   }
 
 
-  static async deleteCrownstoneHub(partial: boolean = false) : Promise<string> {
+  static async deleteCrownstoneHub(partial: boolean = false, hubOnly: boolean = false) : Promise<string> {
     if (await Dbs.hub.isSet() === true) {
       let hub = await Dbs.hub.get();
       resetHubStatus();
 
-      if (hub?.linkedStoneId) {
-        log.notice("Deleting hub linked stone")
-        await CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
-        log.notice("Deleting hub linked DONE")
+      let hubExists = false;
+      if (hub) {
+        try {
+          await CrownstoneHub.cloud.cloud.hubLogin(hub.cloudId, hub.token);
+          hubExists = true;
+        }
+        catch (err) {
+          hubExists = false;
+          console.log("FAILED", err)
+        }
       }
 
-      log.notice("Factory resetting dongle.")
-      await CrownstoneHub.uart.connection.control.factoryResetCommand()
-      log.notice("Factory resetting dongle. DONE")
 
-      console.log("Deleting hub")
-      await CrownstoneHub.cloud.cloud.hub().deleteHub();
-      console.log("Deleting hub DONE")
+      if (hubExists && hub?.linkedStoneId && !hubOnly) {
+        try {
+          log.notice("Deleting hub linked stone")
+          await CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
+          log.notice("Deleting hub linked DONE")
+        }
+        catch (err) {
+          if (err?.statusCode !== 401) {
+            throw err;
+          }
+          else {
+            log.notice("Deleting hub linked stone failed. Hub permission is presumably revoked.")
+          }
+        }
+      }
 
+      if (!hubOnly) {
+        log.notice("Factory resetting dongle.")
+        await CrownstoneHub.uart.connection.control.factoryResetCommand()
+        log.notice("Factory resetting dongle. DONE")
+      }
+      else {
+        log.notice("Skipping stone factory reset. HubOnly is", hubOnly)
+      }
+
+      if (hubExists) {
+        try {
+          log.notice("Deleting from cloud hub")
+          await CrownstoneHub.cloud.cloud.hub().deleteHub();
+          log.notice("Deleting hub DONE")
+        }
+        catch (err) {
+          if (err?.statusCode !== 401) {
+            throw err;
+          }
+          else {
+            log.notice("Deleting hub in cloud. Hub permission is presumably revoked.")
+          }
+        }
+      }
+
+      log.notice("Starting cleanup and destroy with partial", partial," ...")
       await CrownstoneHub.cleanupAndDestroy(partial);
+      log.notice("Starting cleanup and destroy with partial", partial," ... DONE")
 
       eventBus.emit(topics.HUB_DELETED);
+      log.notice("deleteCrownstoneHub.. DONE", partial, hubOnly);
       return "Success."
     }
     else {

@@ -2,6 +2,7 @@ export const HubDataType : HubDataType = {
   SETUP:         0,
   COMMAND:       1,
   FACTORY_RESET: 2,
+  FACTORY_RESET_HUB_ONLY: 3,
   REQUEST_DATA:  10,
 }
 

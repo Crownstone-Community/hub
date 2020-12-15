@@ -28,6 +28,9 @@ class UartHubDataCommunication {
             else if (parsed.result.type === HubProtocol_1.HubDataType.FACTORY_RESET) {
                 this.handleFactoryResetRequest(parsed.result);
             }
+            else if (parsed.result.type === HubProtocol_1.HubDataType.FACTORY_RESET_HUB_ONLY) {
+                this.handleFactoryResetHubOnlyRequest(parsed.result);
+            }
         }
     }
     async handleSetup(setupPacket) {
@@ -84,6 +87,20 @@ class UartHubDataCommunication {
             await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
             log.notice("State notified!");
             log.notice("Initiating factory reset procedure...");
+            await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
+            log.notice("Initiated factory reset procedure. Done.");
+        }
+        catch (e) {
+            log.warn("Could not factory reset this hub.", e);
+            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+        }
+    }
+    async handleFactoryResetHubOnlyRequest(requestPacket) {
+        try {
+            log.notice("Factory reset hub only started, notifying dongle...");
+            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+            log.notice("State notified!");
+            log.notice("Initiating factory reset hub only procedure...");
             await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
             log.notice("Initiated factory reset procedure. Done.");
         }

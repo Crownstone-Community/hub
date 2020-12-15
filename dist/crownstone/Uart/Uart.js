@@ -10,6 +10,7 @@ const topics_1 = require("../topics");
 const UartHubDataCommunication_1 = require("./UartHubDataCommunication");
 const DbReference_1 = require("../Data/DbReference");
 const CrownstoneUtil_1 = require("../CrownstoneUtil");
+const HubStatusManager_1 = require("./HubStatusManager");
 const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
@@ -43,7 +44,7 @@ class Uart {
     async initialize() {
         try {
             await this.connection.start(config_1.CONFIG.uartPort);
-            await this.connection.hub.setStatus({
+            await HubStatusManager_1.HubStatusManager.setStatus({
                 clientHasBeenSetup: false,
                 encryptionRequired: false,
                 clientHasInternet: false,

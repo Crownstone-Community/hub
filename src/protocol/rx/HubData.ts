@@ -1,6 +1,6 @@
 import {DataStepper} from "crownstone-core";
 import {HubDataType} from '../hubProtocol';
-import {parseFactoryResetData, parseHubSetup, parseRequestData} from './HubDataParsers';
+import {parseFactoryResetData, parseFactoryResetHubOnlyData, parseHubSetup, parseRequestData} from './HubDataParsers';
 
 
 export class HubDataParser {
@@ -27,6 +27,8 @@ export class HubDataParser {
         return parseRequestData(this,stepper);
       case HubDataType.FACTORY_RESET:
         return parseFactoryResetData(this,stepper);
+      case HubDataType.FACTORY_RESET_HUB_ONLY:
+        return parseFactoryResetHubOnlyData(this,stepper);
     }
   }
 

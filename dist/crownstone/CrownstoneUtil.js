@@ -30,23 +30,64 @@ class CrownstoneUtil {
             }
         }
     }
-    static async deleteCrownstoneHub(partial = false) {
+    static async deleteCrownstoneHub(partial = false, hubOnly = false) {
         if (await DbReference_1.Dbs.hub.isSet() === true) {
             let hub = await DbReference_1.Dbs.hub.get();
             HubStatus_1.resetHubStatus();
-            if (hub === null || hub === void 0 ? void 0 : hub.linkedStoneId) {
-                log.notice("Deleting hub linked stone");
-                await CrownstoneHub_1.CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
-                log.notice("Deleting hub linked DONE");
+            let hubExists = false;
+            if (hub) {
+                try {
+                    await CrownstoneHub_1.CrownstoneHub.cloud.cloud.hubLogin(hub.cloudId, hub.token);
+                    hubExists = true;
+                }
+                catch (err) {
+                    hubExists = false;
+                    console.log("FAILED", err);
+                }
             }
-            log.notice("Factory resetting dongle.");
-            await CrownstoneHub_1.CrownstoneHub.uart.connection.control.factoryResetCommand();
-            log.notice("Factory resetting dongle. DONE");
-            console.log("Deleting hub");
-            await CrownstoneHub_1.CrownstoneHub.cloud.cloud.hub().deleteHub();
-            console.log("Deleting hub DONE");
+            if (hubExists && (hub === null || hub === void 0 ? void 0 : hub.linkedStoneId) && !hubOnly) {
+                try {
+                    log.notice("Deleting hub linked stone");
+                    await CrownstoneHub_1.CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
+                    log.notice("Deleting hub linked DONE");
+                }
+                catch (err) {
+                    if ((err === null || err === void 0 ? void 0 : err.statusCode) !== 401) {
+                        throw err;
+                    }
+                    else {
+                        log.notice("Deleting hub linked stone failed. Hub permission is presumably revoked.");
+                    }
+                }
+            }
+            if (!hubOnly) {
+                log.notice("Factory resetting dongle.");
+                await CrownstoneHub_1.CrownstoneHub.uart.connection.control.factoryResetCommand();
+                log.notice("Factory resetting dongle. DONE");
+            }
+            else {
+                log.notice("Skipping stone factory reset. HubOnly is", hubOnly);
+            }
+            if (hubExists) {
+                try {
+                    log.notice("Deleting from cloud hub");
+                    await CrownstoneHub_1.CrownstoneHub.cloud.cloud.hub().deleteHub();
+                    log.notice("Deleting hub DONE");
+                }
+                catch (err) {
+                    if ((err === null || err === void 0 ? void 0 : err.statusCode) !== 401) {
+                        throw err;
+                    }
+                    else {
+                        log.notice("Deleting hub in cloud. Hub permission is presumably revoked.");
+                    }
+                }
+            }
+            log.notice("Starting cleanup and destroy with partial", partial, " ...");
             await CrownstoneHub_1.CrownstoneHub.cleanupAndDestroy(partial);
+            log.notice("Starting cleanup and destroy with partial", partial, " ... DONE");
             HubEventBus_1.eventBus.emit(topics_1.topics.HUB_DELETED);
+            log.notice("deleteCrownstoneHub.. DONE", partial, hubOnly);
             return "Success.";
         }
         else {

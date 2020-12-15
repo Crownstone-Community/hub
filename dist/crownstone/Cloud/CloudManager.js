@@ -13,6 +13,7 @@ const Logger_1 = require("../../Logger");
 const HubStatus_1 = require("../HubStatus");
 const HubUtil_1 = require("../../util/HubUtil");
 const ConfigUtil_1 = require("../../util/ConfigUtil");
+const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const log = Logger_1.Logger(__filename);
 const RETRY_INTERVAL_MS = 5000;
 class CloudManager {
@@ -71,6 +72,7 @@ class CloudManager {
             return;
         }
         log.info("CloudManager initialization starting...");
+        this.storedIpAddress = null;
         this.initialized = false;
         this.retryInitialization = false;
         this.initializeInProgress = true;
@@ -98,9 +100,7 @@ class CloudManager {
                     catch (e) {
                         log.warn("Could not log into the cloud...", e);
                         if (e === 401) {
-                            hub.cloudId = 'null';
-                            hub.token = 'null';
-                            await DbReference_1.Dbs.hub.save(hub);
+                            await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true, true);
                             throw e;
                         }
                     }
