@@ -92,8 +92,14 @@ export class Uart implements UartInterface {
     await CrownstoneUtil.checkLinkedStoneId();
 
     // this is done regardless since we might require a new key.
-    let uartKey = await this.cloud.hub().getUartKey();
-
+    let uartKey
+    try {
+      uartKey = await this.cloud.hub().getUartKey();
+    }
+    catch (err) {
+      log.warn("Could not obtain the uart key from the cloud...", err);
+      return;
+    }
     hub = await Dbs.hub.get();
     if (uartKey !== hub?.uartKey && hub) {
       hub.uartKey = uartKey;

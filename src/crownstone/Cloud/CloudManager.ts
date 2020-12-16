@@ -59,8 +59,19 @@ export class CloudManager {
     log.debug("Cloudmanager cleanup started.");
     this.resetTriggered = true;
     // wait for everything to clean up.
+    let iteration = 0;
     while (this.initializeInProgress || this.loginInProgress || this.sseSetupInprogress || this.syncInProgress) {
+      if (this.initializeInProgress) { log.info("Waiting on this.initializeInProgress"); }
+      if (this.loginInProgress)      { log.info("Waiting on this.loginInProgress"); }
+      if (this.sseSetupInprogress)   { log.info("Waiting on this.sseSetupInprogress"); }
+      if (this.syncInProgress)       { log.info("Waiting on this.syncInProgress"); }
       await Util.wait(100);
+      iteration++;
+
+      if (iteration > 1000) {
+        log.critical("Destroy hub instance. Stuck in syncing loop.");
+        process.exit();
+      }
     }
 
     this.initialized    = false;
@@ -117,6 +128,7 @@ export class CloudManager {
           catch (e) {
             log.warn("Could not log into the cloud...", e);
             if (e === 401) {
+              this.initializeInProgress = false;
               await CrownstoneUtil.deleteCrownstoneHub(true, true);
               throw e;
             }
@@ -217,7 +229,7 @@ export class CloudManager {
       this.loginInProgress = false;
     }
     catch (e) {
-      log.warn("Login failed...");
+      log.warn("Login failed...", e);
       this.loginInProgress = false;
       await Util.wait(RETRY_INTERVAL_MS);
       throw e;
@@ -332,7 +344,8 @@ export class CloudManager {
     this.ipUpdateInprogress = true;
 
     let ipAddress = getIpAddress();
-    if (ipAddress && this.storedIpAddress !== ipAddress) {
+    // we update the ip regardless of local change. WE DO NOT CARE IF ITS THE SAME. this method also updates external ip address and the last seen.
+    if (ipAddress) {
       let ipUpdated = false;
       while (ipUpdated == false && this.resetTriggered === false) {
         try {
@@ -340,6 +353,7 @@ export class CloudManager {
           this.storedIpAddress = ipAddress;
           ipUpdated = true;
         } catch (e) {
+          if (e && e.statusCode && e.statusCode === 401) { throw 401; }
           log.warn("Error updating local IP address", e);
           await Util.wait(RETRY_INTERVAL_MS);
         }

@@ -25,8 +25,11 @@ export class CrownstoneUtil {
           await CrownstoneHub.cloud.cloud.hub().update({linkedStoneId: linkedStoneId});
           await Dbs.hub.update(hub);
         }
-      } catch (e) {
-        log.warn("Could not set linkedStoneId...", e);
+      } catch (err) {
+        if (err?.statusCode === 404) {
+          await CrownstoneHub.cloud.sync()
+        }
+        log.warn("Could not set linkedStoneId...", err);
       }
     }
   }
@@ -34,6 +37,9 @@ export class CrownstoneUtil {
 
   static async deleteCrownstoneHub(partial: boolean = false, hubOnly: boolean = false) : Promise<string> {
     if (await Dbs.hub.isSet() === true) {
+      // make sure all the pending cloud issues are finished before we remove everything.
+      await CrownstoneHub.cloud.cleanup();
+
       let hub = await Dbs.hub.get();
       resetHubStatus();
 

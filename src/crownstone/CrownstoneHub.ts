@@ -49,7 +49,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
     resetHubStatus();
 
     let hub = await Dbs.hub.get();
-    if (hub && hub.cloudId !== 'null') {
+    if (hub && hub.cloudId !== 'null' && hub.cloudId !== '') {
       log.info("Launching Modules");
 
       clearInterval(this.linkedStoneCheckInterval);
@@ -101,7 +101,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
       }
     }
     else {
-      log.info("Hub not configured yet.")
+      log.info("Hub not configured yet, setting status:");
+      await HubStatusManager.setStatus({clientHasBeenSetup:false, encryptionRequired:false})
     }
 
 
@@ -120,14 +121,14 @@ export class CrownstoneHubClass implements CrownstoneHub {
     await CrownstoneHub.cloud.cleanup();
 
     if (partial) {
-      console.log("Crippling hub instance...");
+      log.notice("Crippling hub instance...");
       await Dbs.hub.partialDelete();
-      console.log("Crippling hub instance. DONE!");
+      log.notice("Crippling hub instance. DONE!");
     }
     else {
-      console.log("Deleting hub database...");
+      log.notice("Deleting hub database...");
       await EMPTY_DATABASE();
-      console.log("Deleting hub database. DONE!");
+      log.notice("Deleting hub database. DONE!");
     }
   }
 

@@ -73,7 +73,14 @@ class Uart {
         }
         await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
         // this is done regardless since we might require a new key.
-        let uartKey = await this.cloud.hub().getUartKey();
+        let uartKey;
+        try {
+            uartKey = await this.cloud.hub().getUartKey();
+        }
+        catch (err) {
+            log.warn("Could not obtain the uart key from the cloud...", err);
+            return;
+        }
         hub = await DbReference_1.Dbs.hub.get();
         if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
             hub.uartKey = uartKey;

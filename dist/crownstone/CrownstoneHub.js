@@ -33,7 +33,7 @@ class CrownstoneHubClass {
     async initialize() {
         HubStatus_1.resetHubStatus();
         let hub = await DbReference_1.Dbs.hub.get();
-        if (hub && hub.cloudId !== 'null') {
+        if (hub && hub.cloudId !== 'null' && hub.cloudId !== '') {
             log.info("Launching Modules");
             clearInterval(this.linkedStoneCheckInterval);
             clearInterval(this.setStatusBackupInterval);
@@ -77,7 +77,8 @@ class CrownstoneHubClass {
             }
         }
         else {
-            log.info("Hub not configured yet.");
+            log.info("Hub not configured yet, setting status:");
+            await HubStatusManager_1.HubStatusManager.setStatus({ clientHasBeenSetup: false, encryptionRequired: false });
         }
         hub = await DbReference_1.Dbs.hub.get();
         HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
@@ -90,14 +91,14 @@ class CrownstoneHubClass {
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
         if (partial) {
-            console.log("Crippling hub instance...");
+            log.notice("Crippling hub instance...");
             await DbReference_1.Dbs.hub.partialDelete();
-            console.log("Crippling hub instance. DONE!");
+            log.notice("Crippling hub instance. DONE!");
         }
         else {
-            console.log("Deleting hub database...");
+            log.notice("Deleting hub database...");
             await DbUtil_1.EMPTY_DATABASE();
-            console.log("Deleting hub database. DONE!");
+            log.notice("Deleting hub database. DONE!");
         }
     }
 }
