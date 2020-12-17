@@ -1,34 +1,49 @@
 VERSION=$1
 
-echo "Releasing ${VERSION}..."
+if [ "$1" == "" ]; then
+  echo "No argument provided. Tag number required."
+  exit 0
+fi
 
-# replace version in the snapcraft yaml
-echo "Inject version ${VERSION} into snapcraft.yaml..."
-sed  -i "" -Ee "s/^version: .*/version: \'${VERSION}\'/" snap/snapcraft.yaml
+read -r -p "Are you sure you want to release ${VERSION}? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+      echo "Releasing ${VERSION}..."
 
-# replace version in the package json
-echo "Inject version ${VERSION} into package.json..."
-sed -i "" -Ee "s/\s*\"version\": .*/\"version\": \"${VERSION}\",/" package.json
+      npm run build
 
-# replace version in the package json
-echo "Inject version ${VERSION} into public index.html..."
-sed -i "" -Ee "s/\s*<p>Version .*<\/p>/\<p>Version ${VERSION}<\/p>/" public/http/index.html
+      # replace version in the snapcraft yaml
+      echo "Inject version ${VERSION} into snapcraft.yaml..."
+      sed  -i "" -Ee "s/^version: .*/version: \"${VERSION}\"/" snap/snapcraft.yaml
 
-# replace version in the package json
-echo "Inject version ${VERSION} into secure index.html..."
-sed -i "" -Ee "s/\s*<p>Version .*<\/p>/\<p>Version ${VERSION}<\/p>/" public/https/index.html
+      # replace version in the package json
+      echo "Inject version ${VERSION} into package.json..."
+      sed -i "" -Ee "s/\s*\"version\": .*/\"version\": \"${VERSION}\",/" package.json
 
-echo "Adding remaining files to repo"
-git add .
-git commit -m "version bump and dist commit for release ${VERSION}"
+      # replace version in the package json
+      echo "Inject version ${VERSION} into public index.html..."
+      sed -i "" -Ee "s/\s*<p>Version .*<\/p>/\<p>Version ${VERSION}<\/p>/" public/http/index.html
 
-echo "Tag and push"
-git tag VERSION
-git push
-git push --tags
+      # replace version in the package json
+      echo "Inject version ${VERSION} into secure index.html..."
+      sed -i "" -Ee "s/\s*<p>Version .*<\/p>/\<p>Version ${VERSION}<\/p>/" public/https/index.html
 
-echo "Running test... building packages (testing package.json)..."
-yarn
+      echo "Adding remaining files to repo"
+      git add .
+      git commit -m "version bump and dist commit for release ${VERSION}"
 
-echo "Running test... Launching hub execute"
-node execute.js
+      echo "Tag and push"
+      git tag ${VERSION}
+      git push
+      git push --tags
+
+      echo "Running test... building packages (testing package.json)..."
+      yarn
+
+      echo "Running test... Launching hub execute"
+      node execute.js
+        ;;
+    *)
+        exit 0
+        ;;
+esac

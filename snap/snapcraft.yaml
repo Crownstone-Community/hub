@@ -1,5 +1,5 @@
 name: crownstone-hub
-version: '0.9.3'
+version: "0.9.4"
 summary: Crownstone gateway.
 description: |
   Provides a REST API for your Crownstones: https://crownstone.rocks
