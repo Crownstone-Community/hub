@@ -64,7 +64,7 @@ export class CrownstoneUtil {
         }
         catch (err) {
           if (err?.statusCode !== 401) {
-            throw err;
+            log.notice("Deleting hub linked stone failed.", err)
           }
           else {
             log.notice("Deleting hub linked stone failed. Hub permission is presumably revoked.")
@@ -89,10 +89,10 @@ export class CrownstoneUtil {
         }
         catch (err) {
           if (err?.statusCode !== 401) {
-            throw err;
+            log.notice("Deleting hub in cloud failed.", err)
           }
           else {
-            log.notice("Deleting hub in cloud. Hub permission is presumably revoked.")
+            log.notice("Deleting hub in cloud failed. Hub permission is presumably revoked.")
           }
         }
       }

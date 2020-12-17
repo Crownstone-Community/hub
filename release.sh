@@ -8,6 +8,8 @@ fi
 read -r -p "Are you sure you want to release ${VERSION}? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
+      git pull
+
       echo "Releasing ${VERSION}..."
 
       npm run build

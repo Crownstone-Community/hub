@@ -116,7 +116,7 @@ export class UartHubDataCommunication {
       log.notice("State notified!");
 
       log.notice("Initiating factory reset hub only procedure...");
-      await CrownstoneUtil.deleteCrownstoneHub(true);
+      await CrownstoneUtil.deleteCrownstoneHub(true, true);
       log.notice("Initiated factory reset procedure. Done.");
     }
     catch(e) {
