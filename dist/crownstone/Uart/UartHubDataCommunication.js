@@ -20,7 +20,7 @@ class UartHubDataCommunication {
         this.uart = uart;
     }
     handleIncomingHubData(data) {
-        let parsed = new HubData_1.HubDataParser(data);
+        let parsed = new HubData_1.HubDataParser(data.payload);
         if (parsed.valid) {
             if (parsed.result.type === HubProtocol_1.HubDataType.SETUP) {
                 this.handleSetup(parsed.result);
@@ -45,7 +45,7 @@ class UartHubDataCommunication {
             catch (e) {
                 // could not log in.
                 log.warn("Could not setup, Login failed.", e);
-                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.INVALID_TOKEN), crownstone_core_1.ResultValue.SUCCESS);
+                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.INVALID_TOKEN), crownstone_core_1.ResultValue.SUCCESS, false);
             }
             try {
                 let hubCloudData = await cloud.hub().data();
@@ -56,38 +56,38 @@ class UartHubDataCommunication {
                     sphereId: hubCloudData.sphereId,
                 });
                 HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CREATED);
-                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS, false);
             }
             catch (e) {
                 // could not log in.
                 log.warn("Could not setup, something went wrong.", e);
-                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.UNKNOWN), crownstone_core_1.ResultValue.SUCCESS);
+                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.UNKNOWN), crownstone_core_1.ResultValue.SUCCESS, false);
             }
         }
         else {
             log.warn("Could not setup, this hub is already owned.");
-            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS, false);
         }
     }
     async handleDataRequest(requestPacket) {
         if (requestPacket.requestedType === HubProtocol_1.HubRequestDataType.CLOUD_ID) {
             if (await DbReference_1.Dbs.hub.isSet() === false) {
-                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS, false);
             }
             else {
                 if (await DbReference_1.Dbs.hub.isSet()) {
                     let hub = await DbReference_1.Dbs.hub.get();
-                    return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub === null || hub === void 0 ? void 0 : hub.cloudId)), crownstone_core_1.ResultValue.SUCCESS);
+                    return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub === null || hub === void 0 ? void 0 : hub.cloudId)), crownstone_core_1.ResultValue.SUCCESS, false);
                 }
                 // no hub or no cloudId.
-                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+                return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS, false);
             }
         }
     }
     async handleFactoryResetRequest(requestPacket) {
         try {
             log.notice("Factory reset started, notifying dongle...");
-            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS, false);
             log.notice("State notified!");
             log.notice("Initiating factory reset procedure...");
             await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
@@ -95,13 +95,13 @@ class UartHubDataCommunication {
         }
         catch (e) {
             log.warn("Could not factory reset this hub.", e);
-            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.UNKNOWN), crownstone_core_1.ResultValue.SUCCESS, false);
         }
     }
     async handleFactoryResetHubOnlyRequest(requestPacket) {
         try {
             log.notice("Factory reset hub only started, notifying dongle...");
-            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS);
+            await this.uart.hub.dataReply(HubDataReply_1.HubDataReplySuccess(), crownstone_core_1.ResultValue.SUCCESS, false);
             log.notice("State notified!");
             log.notice("Initiating factory reset hub only procedure...");
             await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true, true);
@@ -109,7 +109,7 @@ class UartHubDataCommunication {
         }
         catch (e) {
             log.warn("Could not factory reset this hub.", e);
-            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.NOT_IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS);
+            this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.UNKNOWN), crownstone_core_1.ResultValue.SUCCESS, false);
         }
     }
 }

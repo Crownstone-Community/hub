@@ -23,8 +23,8 @@ export class UartHubDataCommunication {
     this.uart = uart;
   }
 
-  handleIncomingHubData(data: Buffer) {
-    let parsed = new HubDataParser(data);
+  handleIncomingHubData(data: {payload: Buffer, wasEncrypted: boolean}) {
+    let parsed = new HubDataParser(data.payload);
     if (parsed.valid) {
       if (parsed.result.type === HubDataType.SETUP) {
         this.handleSetup(parsed.result)
@@ -50,7 +50,7 @@ export class UartHubDataCommunication {
       catch (e) {
         // could not log in.
         log.warn("Could not setup, Login failed.",e);
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN), ResultValue.SUCCESS);
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_TOKEN), ResultValue.SUCCESS, false);
       }
       try {
         let hubCloudData = await cloud.hub().data();
@@ -61,17 +61,17 @@ export class UartHubDataCommunication {
           sphereId: hubCloudData.sphereId,
         });
         eventBus.emit(topics.HUB_CREATED);
-        return this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS);
+        return this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS, false);
       }
       catch (e) {
         // could not log in.
         log.warn("Could not setup, something went wrong.",e);
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN), ResultValue.SUCCESS);
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN), ResultValue.SUCCESS, false);
       }
     }
     else {
       log.warn("Could not setup, this hub is already owned.");
-      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS);
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS, false);
     }
   }
 
@@ -80,15 +80,15 @@ export class UartHubDataCommunication {
   async handleDataRequest(requestPacket: HubData_requestData) {
     if (requestPacket.requestedType === HubRequestDataType.CLOUD_ID) {
       if (await Dbs.hub.isSet() === false) {
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS)
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS, false)
       }
       else {
         if (await Dbs.hub.isSet()) {
           let hub = await Dbs.hub.get();
-          return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)), ResultValue.SUCCESS);
+          return this.uart.hub.dataReply(HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)), ResultValue.SUCCESS, false);
         }
         // no hub or no cloudId.
-        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS);
+        return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.IN_SETUP_MODE), ResultValue.SUCCESS, false);
       }
     }
   }
@@ -96,7 +96,7 @@ export class UartHubDataCommunication {
   async handleFactoryResetRequest(requestPacket: HubData_factoryReset) {
     try {
       log.notice("Factory reset started, notifying dongle...");
-      await this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS);
+      await this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS, false);
       log.notice("State notified!");
 
       log.notice("Initiating factory reset procedure...");
@@ -105,14 +105,14 @@ export class UartHubDataCommunication {
     }
     catch(e) {
       log.warn("Could not factory reset this hub.", e);
-      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS);
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN), ResultValue.SUCCESS, false);
     }
   }
 
   async handleFactoryResetHubOnlyRequest(requestPacket: HubData_factoryResetHubOnly) {
     try {
       log.notice("Factory reset hub only started, notifying dongle...");
-      await this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS);
+      await this.uart.hub.dataReply(HubDataReplySuccess(), ResultValue.SUCCESS, false);
       log.notice("State notified!");
 
       log.notice("Initiating factory reset hub only procedure...");
@@ -121,7 +121,7 @@ export class UartHubDataCommunication {
     }
     catch(e) {
       log.warn("Could not factory reset this hub.", e);
-      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.NOT_IN_SETUP_MODE), ResultValue.SUCCESS);
+      this.uart.hub.dataReply(HubDataReplyError(HubReplyError.UNKNOWN), ResultValue.SUCCESS, false);
     }
   }
 }

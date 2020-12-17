@@ -13,13 +13,13 @@ uint16 | RequestType | 2 | Identifies the type of data in the payload.
 
 ## RequestTypes
 
-Value | Name |  Payload | Reply (other than error)
---- | --- | --- | ---
-| 0  | setup | SetupPayload | Success
-| 1  | command | tbd | tbd
-| 2  | factoryReset | 0xDEADBEEF | Success
-| 3  | factoryResetHubOnly | 0xDEADBEA7 | Success
-| 10 | requestData | RequestDataPayload | DataReply
+Value | Name | Encrypted | Payload | Reply (other than error)
+--- | --- | --- | --- | ---
+| 0  | setup | Never |  SetupPayload | Success
+| 1  | command | Depends | tbd | tbd
+| 2  | factoryReset | Never | 0xDEADBEEF | Success
+| 3  | factoryResetHubOnly | Never | 0xDEADBEA7 | Success
+| 10 | requestData | Depends | RequestDataPayload | DataReply
 
 ## Payloads
 

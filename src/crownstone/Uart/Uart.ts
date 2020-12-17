@@ -92,7 +92,7 @@ export class Uart implements UartInterface {
     await CrownstoneUtil.checkLinkedStoneId();
 
     // this is done regardless since we might require a new key.
-    let uartKey
+    let uartKey;
     try {
       uartKey = await this.cloud.hub().getUartKey();
     }

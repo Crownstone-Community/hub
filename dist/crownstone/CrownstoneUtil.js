@@ -17,6 +17,7 @@ class CrownstoneUtil {
         if (hub && CrownstoneHub_1.CrownstoneHub.cloud.initialized && await DbReference_1.Dbs.hub.isSet() !== false) {
             try {
                 let macAddress = await CrownstoneHub_1.CrownstoneHub.uart.connection.config.getMacAddress();
+                log.info("Obtained MAC Address", macAddress);
                 let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
                 if (String(hub.linkedStoneId) !== String(linkedStoneId)) {
                     hub.linkedStoneId = linkedStoneId;
