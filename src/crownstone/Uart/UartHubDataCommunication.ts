@@ -12,6 +12,10 @@ import {ResultValue} from 'crownstone-core';
 
 const log = Logger(__filename);
 
+
+/**
+ * This module handles incoming HubData via uart. It parses and handles the commands. It will also send replies over uart.
+ */
 export class UartHubDataCommunication {
   uart : CrownstoneUart;
 

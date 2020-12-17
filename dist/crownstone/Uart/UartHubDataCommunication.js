@@ -12,6 +12,9 @@ const Logger_1 = require("../../Logger");
 const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const crownstone_core_1 = require("crownstone-core");
 const log = Logger_1.Logger(__filename);
+/**
+ * This module handles incoming HubData via uart. It parses and handles the commands. It will also send replies over uart.
+ */
 class UartHubDataCommunication {
     constructor(uart) {
         this.uart = uart;
