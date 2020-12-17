@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HubDataParser = void 0;
 const crownstone_core_1 = require("crownstone-core");
-const hubProtocol_1 = require("../hubProtocol");
+const HubProtocol_1 = require("../HubProtocol");
 const HubDataParsers_1 = require("./HubDataParsers");
 class HubDataParser {
     constructor(data) {
@@ -15,13 +15,13 @@ class HubDataParser {
         this.protocol = stepper.getUInt8();
         this.dataType = stepper.getUInt16();
         switch (this.dataType) {
-            case hubProtocol_1.HubDataType.SETUP:
+            case HubProtocol_1.HubDataType.SETUP:
                 return HubDataParsers_1.parseHubSetup(this, stepper);
-            case hubProtocol_1.HubDataType.REQUEST_DATA:
+            case HubProtocol_1.HubDataType.REQUEST_DATA:
                 return HubDataParsers_1.parseRequestData(this, stepper);
-            case hubProtocol_1.HubDataType.FACTORY_RESET:
+            case HubProtocol_1.HubDataType.FACTORY_RESET:
                 return HubDataParsers_1.parseFactoryResetData(this, stepper);
-            case hubProtocol_1.HubDataType.FACTORY_RESET_HUB_ONLY:
+            case HubProtocol_1.HubDataType.FACTORY_RESET_HUB_ONLY:
                 return HubDataParsers_1.parseFactoryResetHubOnlyData(this, stepper);
         }
     }

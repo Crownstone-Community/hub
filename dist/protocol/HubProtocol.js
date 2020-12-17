@@ -22,4 +22,4 @@ exports.HubReplyCode = {
 exports.HubRequestDataType = {
     CLOUD_ID: 0
 };
-//# sourceMappingURL=hubProtocol.js.map
+//# sourceMappingURL=HubProtocol.js.map

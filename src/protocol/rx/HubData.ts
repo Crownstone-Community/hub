@@ -1,5 +1,5 @@
 import {DataStepper} from "crownstone-core";
-import {HubDataType} from '../hubProtocol';
+import {HubDataType} from '../HubProtocol';
 import {parseFactoryResetData, parseFactoryResetHubOnlyData, parseHubSetup, parseRequestData} from './HubDataParsers';
 
 
