@@ -16,9 +16,11 @@ checkError() {
 }
 
 if [ "$ARCH" = "aarch64" ]; then
-        snapcraft clean --use-lxd
+	rm *_arm64.snap
+	snapcraft clean --use-lxd
 else
-        snapcraft clean
+	rm *_amd64.snap
+	snapcraft clean
 fi
 checkError "snapcraft"
 
