@@ -35,6 +35,9 @@ class UartHubDataCommunication {
                 this.handleFactoryResetHubOnlyRequest(parsed.result);
             }
         }
+        else {
+            return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.INVALID_MESSAGE), crownstone_core_1.ResultValue.SUCCESS, false);
+        }
     }
     async handleSetup(setupPacket) {
         if (await DbReference_1.Dbs.hub.isSet() === false) {

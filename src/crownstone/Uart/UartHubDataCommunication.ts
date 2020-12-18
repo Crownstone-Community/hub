@@ -39,6 +39,9 @@ export class UartHubDataCommunication {
         this.handleFactoryResetHubOnlyRequest(parsed.result)
       }
     }
+    else {
+      return this.uart.hub.dataReply(HubDataReplyError(HubReplyError.INVALID_MESSAGE), ResultValue.SUCCESS, false);
+    }
   }
 
   async handleSetup(setupPacket: HubData_setup) {

@@ -52,7 +52,8 @@ uint16 | ErrorCode | code of the error |
 
 Value | Name |  Description
 --- | --- | ---
-| 0 | NOT_IN_SETUP_MODE     | This hub is NOT in setup mode |
-| 1 | IN_SETUP_MODE         | This hub IS in setup mode |
-| 2 | INVALID_TOKEN         | The provided token (or cloud id) is incorrect. |
-| 60000 | UNKNOWN           | Something else went wrong.. |
+| 0 | NOT_IN_SETUP_MODE | This hub is NOT in setup mode |
+| 1 | IN_SETUP_MODE     | This hub IS in setup mode |
+| 2 | INVALID_TOKEN     | The provided token (or cloud id) is incorrect. |
+| 100 | INVALID_MESSAGE | The unpacking of the payload failed. This packet is ignored. |
+| 60000 | UNKNOWN       | Something else went wrong.. |
