@@ -20,7 +20,8 @@ export class Uart implements UartInterface {
   ready           : boolean = false
   cloud           : CrownstoneCloud;
 
-  initializing    : false;
+  refreshingKey   = false
+  timeLastRefreshed = 0;
 
 
   constructor(cloud: CrownstoneCloud) {
@@ -51,11 +52,9 @@ export class Uart implements UartInterface {
       this.connection.on(event.uartTopic, (data) => { eventBus.emit(moduleEvent, data); })
     });
 
-    this.connection.on(UartTopics.HubDataReceived, (data: Buffer) => { this.hubDataHandler.handleIncomingHubData(data) })
-    this.connection.on(UartTopics.KeyRequested,() => {
-      log.info("Uart is requesting a key");
-      this.refreshUartEncryption();
-    });
+    this.connection.on(UartTopics.HubDataReceived, (data: {payload: Buffer, wasEncrypted: boolean}) => { this.hubDataHandler.handleIncomingHubData(data) })
+    this.connection.on(UartTopics.KeyRequested,    () => { log.info("Uart is requesting a key");             this.refreshUartEncryption(); });
+    this.connection.on(UartTopics.DecryptionFailed,() => { log.info("Uart failed to decrypt. Refresh key."); this.refreshUartEncryption(); });
   }
 
 
@@ -79,33 +78,52 @@ export class Uart implements UartInterface {
 
 
   async refreshUartEncryption() {
-    if (!Dbs.hub) { return; }
-    if (await Dbs.hub.isSet() === false) { return; }
-
-    let hub = await Dbs.hub.get();
-    if (!hub) { return; }
-
-    if (hub.uartKey) {
-      this.connection.encryption.setKey(hub.uartKey);
-    }
-
-    await CrownstoneUtil.checkLinkedStoneId();
-
-    // this is done regardless since we might require a new key.
-    let uartKey;
     try {
-      uartKey = await this.cloud.hub().getUartKey();
+      if (this.refreshingKey === true) { return; }
+      // throttle the refreshes...
+      if (Date.now() - this.timeLastRefreshed < 5000) {
+        return;
+      }
+
+      this.timeLastRefreshed = Date.now();
+
+      if (!Dbs.hub) { return; }
+      if (await Dbs.hub.isSet() === false) { return; }
+
+      this.refreshingKey = true;
+
+      let hub = await Dbs.hub.get();
+      if (!hub) { this.refreshingKey = false; return; }
+
+      if (hub.uartKey) {
+        this.connection.encryption.setKey(hub.uartKey);
+      }
+
+      await CrownstoneUtil.checkLinkedStoneId();
+
+      // this is done regardless since we might require a new key.
+      let uartKey;
+      try {
+        uartKey = await this.cloud.hub().getUartKey();
+      }
+      catch (err) {
+        log.warn("Could not obtain the uart key from the cloud...", err);
+        this.refreshingKey = false;
+        return;
+      }
+
+      hub = await Dbs.hub.get();
+      if (uartKey !== hub?.uartKey && hub) {
+        hub.uartKey = uartKey;
+        await Dbs.hub.save(hub);
+      }
+      this.connection.encryption.setKey(uartKey);
+      this.refreshingKey = false;
     }
     catch (err) {
-      log.warn("Could not obtain the uart key from the cloud...", err);
-      return;
+      this.refreshingKey = false;
+      throw err;
     }
-    hub = await Dbs.hub.get();
-    if (uartKey !== hub?.uartKey && hub) {
-      hub.uartKey = uartKey;
-      await Dbs.hub.save(hub);
-    }
-    this.connection.encryption.setKey(uartKey);
   }
 
 

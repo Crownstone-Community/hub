@@ -14,7 +14,6 @@ export class Hub extends Entity {
   name: string;
 
 
-
   @property({type: 'string', required: true})
   token: string;
 

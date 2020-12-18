@@ -15,8 +15,9 @@ class CrownstoneUtil {
         let hub = await DbReference_1.Dbs.hub.get();
         log.info("Checking linked stoneId...", CrownstoneHub_1.CrownstoneHub.cloud.initialized, await DbReference_1.Dbs.hub.isSet(), hub);
         if (hub && CrownstoneHub_1.CrownstoneHub.cloud.initialized && await DbReference_1.Dbs.hub.isSet() !== false) {
+            let macAddress;
             try {
-                let macAddress = await CrownstoneHub_1.CrownstoneHub.uart.connection.config.getMacAddress();
+                macAddress = await CrownstoneHub_1.CrownstoneHub.uart.connection.config.getMacAddress();
                 log.info("Obtained MAC Address", macAddress);
                 let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
                 if (String(hub.linkedStoneId) !== String(linkedStoneId)) {
@@ -29,6 +30,13 @@ class CrownstoneUtil {
             catch (err) {
                 if ((err === null || err === void 0 ? void 0 : err.statusCode) === 404) {
                     await CrownstoneHub_1.CrownstoneHub.cloud.sync();
+                    // if we synced, and still cant find the dongle, we will reset the hub
+                    let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
+                    if (!linkedStoneId) {
+                        log.warn("Crownstone USB Instance does not exist in the cloud anymore. Resetting hub...");
+                        await CrownstoneUtil.deleteCrownstoneHub(true);
+                        throw "RESET";
+                    }
                 }
                 log.warn("Could not set linkedStoneId...", err);
             }

@@ -15,6 +15,8 @@ const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
         this.ready = false;
+        this.refreshingKey = false;
+        this.timeLastRefreshed = 0;
         this.queue = new PromiseManager_1.PromiseManager();
         this.cloud = cloud;
         this.connection = new crownstone_uart_1.CrownstoneUart();
@@ -36,10 +38,8 @@ class Uart {
             this.connection.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
         });
         this.connection.on(crownstone_uart_1.UartTopics.HubDataReceived, (data) => { this.hubDataHandler.handleIncomingHubData(data); });
-        this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => {
-            log.info("Uart is requesting a key");
-            this.refreshUartEncryption();
-        });
+        this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => { log.info("Uart is requesting a key"); this.refreshUartEncryption(); });
+        this.connection.on(crownstone_uart_1.UartTopics.DecryptionFailed, () => { log.info("Uart failed to decrypt. Refresh key."); this.refreshUartEncryption(); });
     }
     async initialize() {
         try {
@@ -58,35 +58,53 @@ class Uart {
         }
     }
     async refreshUartEncryption() {
-        if (!DbReference_1.Dbs.hub) {
-            return;
-        }
-        if (await DbReference_1.Dbs.hub.isSet() === false) {
-            return;
-        }
-        let hub = await DbReference_1.Dbs.hub.get();
-        if (!hub) {
-            return;
-        }
-        if (hub.uartKey) {
-            this.connection.encryption.setKey(hub.uartKey);
-        }
-        await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
-        // this is done regardless since we might require a new key.
-        let uartKey;
         try {
-            uartKey = await this.cloud.hub().getUartKey();
+            if (this.refreshingKey === true) {
+                return;
+            }
+            // throttle the refreshes...
+            if (Date.now() - this.timeLastRefreshed < 5000) {
+                return;
+            }
+            this.timeLastRefreshed = Date.now();
+            if (!DbReference_1.Dbs.hub) {
+                return;
+            }
+            if (await DbReference_1.Dbs.hub.isSet() === false) {
+                return;
+            }
+            this.refreshingKey = true;
+            let hub = await DbReference_1.Dbs.hub.get();
+            if (!hub) {
+                this.refreshingKey = false;
+                return;
+            }
+            if (hub.uartKey) {
+                this.connection.encryption.setKey(hub.uartKey);
+            }
+            await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
+            // this is done regardless since we might require a new key.
+            let uartKey;
+            try {
+                uartKey = await this.cloud.hub().getUartKey();
+            }
+            catch (err) {
+                log.warn("Could not obtain the uart key from the cloud...", err);
+                this.refreshingKey = false;
+                return;
+            }
+            hub = await DbReference_1.Dbs.hub.get();
+            if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
+                hub.uartKey = uartKey;
+                await DbReference_1.Dbs.hub.save(hub);
+            }
+            this.connection.encryption.setKey(uartKey);
+            this.refreshingKey = false;
         }
         catch (err) {
-            log.warn("Could not obtain the uart key from the cloud...", err);
-            return;
+            this.refreshingKey = false;
+            throw err;
         }
-        hub = await DbReference_1.Dbs.hub.get();
-        if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
-            hub.uartKey = uartKey;
-            await DbReference_1.Dbs.hub.save(hub);
-        }
-        this.connection.encryption.setKey(uartKey);
     }
     async switchCrownstones(switchPairs) {
         if (!this.ready) {
