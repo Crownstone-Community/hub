@@ -1,3 +1,7 @@
+import {CONFIG} from '../../src/config';
+CONFIG.enableUart = false;
+
+
 import {CrownstoneHubApplication} from '../../src';
 import {testdb} from "../fixtures/datasources/testdb.datasource";
 import {Dbs} from '../../src/crownstone/Data/DbReference';
@@ -11,7 +15,7 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from '../../src/repositories';
-import {CONFIG} from '../../src/config';
+
 
 jest.mock('../../src/crownstone/Data/DbUtil', () => {
   return { EMPTY_DATABASE: jest.fn() }
@@ -20,7 +24,7 @@ jest.mock('../../src/crownstone/Data/DbUtil', () => {
 export async function createApp() : Promise<CrownstoneHubApplication> {
   Error.stackTraceLimit = 100;
 
-  CONFIG.enableUart = false;
+
 
   let app = new CrownstoneHubApplication({
     rest: {port: 0},

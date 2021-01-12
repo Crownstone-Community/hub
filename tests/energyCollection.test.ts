@@ -236,3 +236,23 @@ test("check duplicate handling", async () => {
   let processedPoints = await Dbs.energyProcessed.find()
   expect(processedPoints.length).toBe(3)
 });
+
+
+
+test("check correct handling of small decreases in energy", async () => {
+  let monitor = new EnergyMonitor();
+
+  function m(x,a) { return new Date('2020-01-01 01:00:00Z').valueOf() + x*60*1000 + a*1000}
+
+  await monitor.collect(1, 100100, 5, m(1,0))
+  await monitor.collect(1, 100000, 5, m(3,6))
+  await monitor.collect(1, 100000, 5, m(4,6))
+  await monitor.collect(1, 100100, 5, m(5,6))
+
+  await monitor.processMeasurements()
+  let processedPoints = await Dbs.energyProcessed.find()
+  expect(processedPoints[0].energyUsage).toBe(100100)
+  expect(processedPoints[1].energyUsage).toBe(100100)
+  expect(processedPoints[2].energyUsage).toBe(100100)
+  expect(processedPoints[3].energyUsage).toBe(100100)
+});

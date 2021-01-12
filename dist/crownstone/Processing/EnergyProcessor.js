@@ -52,6 +52,12 @@ async function processDataPairSingleNew(previouslyProcessedPoint, nextDatapoint,
     else {
         nextValue += offsetValue;
     }
+    // if after the initial correction above the nextValue is still lower than the previous value, ignore the decrease and make them equal.
+    // We do not support decreases in energy at this point. Doing this here is important, since it is also sort of handled below in the dJ calculation,
+    // because nextValue is used to store the correctedEnergyUsage in the wrap up method.
+    if (nextValue < previousValue) {
+        nextValue = previousValue;
+    }
     async function wrapUp() {
         nextDatapoint.processed = true;
         nextDatapoint.correctedEnergyUsage = nextValue;
