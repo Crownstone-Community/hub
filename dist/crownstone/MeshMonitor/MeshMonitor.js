@@ -39,10 +39,15 @@ class MeshMonitor {
     gather(data) {
         let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
         log.debug("Received data from", crownstoneUid);
-        this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
-        this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
-        this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
         this.topology.collect(crownstoneUid);
+        if (data.timeIsSet) {
+            this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
+            this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
+            this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
+        }
+        else {
+            log.debug("Ignoring data from", crownstoneUid, " for switch, energy and power measurement because time is not set.");
+        }
     }
 }
 exports.MeshMonitor = MeshMonitor;
