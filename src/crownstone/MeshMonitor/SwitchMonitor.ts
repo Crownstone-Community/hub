@@ -13,23 +13,23 @@ export class SwitchMonitor {
   lastSwitchStates : {[stoneUID : string]: number} = {};
 
   collect( crownstoneUid: number, switchState: number, timestamp: number, upload: boolean = true) {
-    // let switchStateConverted = Math.min(100, Math.max(switchState));
-    //
-    // if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
-    //   Dbs.switches.create({
-    //     stoneUID: crownstoneUid,
-    //     percentage: switchStateConverted,
-    //     timestamp: new Date(Util.crownstoneTimeToTimestamp(timestamp))
-    //   });
-    //   this.lastSwitchStates[crownstoneUid] = switchStateConverted;
-    //
-    //   if (MemoryDb.stones[crownstoneUid] && upload) {
-    //     let cloudId = MemoryDb.stones[crownstoneUid].cloudId;
-    //     CloudCommandHandler.addToQueue((CM) => {
-    //       return CM.cloud.crownstone(cloudId).setCurrentSwitchState(switchStateConverted).catch()
-    //     })
-    //   }
-    //
-    // }
+    let switchStateConverted = Math.min(100, Math.max(switchState));
+
+    if (switchStateConverted !== this.lastSwitchStates[crownstoneUid]) {
+      Dbs.switches.create({
+        stoneUID: crownstoneUid,
+        percentage: switchStateConverted,
+        timestamp: new Date(Util.crownstoneTimeToTimestamp(timestamp))
+      });
+      this.lastSwitchStates[crownstoneUid] = switchStateConverted;
+
+      if (MemoryDb.stones[crownstoneUid] && upload) {
+        let cloudId = MemoryDb.stones[crownstoneUid].cloudId;
+        CloudCommandHandler.addToQueue((CM) => {
+          return CM.cloud.crownstone(cloudId).setCurrentSwitchState(switchStateConverted).catch()
+        })
+      }
+
+    }
   }
 }
