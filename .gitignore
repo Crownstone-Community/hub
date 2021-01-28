@@ -72,8 +72,8 @@ port_config.json
 
 __*.js
 __development/
-/tests/data
-
+/tests/data_input
+/tests/data_result
 coverage
 
 .DS_Store
