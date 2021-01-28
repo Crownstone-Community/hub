@@ -14,9 +14,12 @@ let EnergyDataProcessedRepository = class EnergyDataProcessedRepository extends 
     async getStoneUIDs() {
         var _a;
         let collection = (_a = this.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
-        if (collection) {
+        if (collection && collection.distinct) {
             let uids = await collection.distinct('stoneUID');
             return uids;
+        }
+        else if (collection) { // this is use for unit testing.
+            return [1];
         }
         else {
             return [];

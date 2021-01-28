@@ -22,7 +22,7 @@ afterAll(async () => { await app.stop(); })
 const fs = require('fs')
 const path = require('path')
 test("try to process data", async () => {
-  let data = require("./data/input.json");
+  let data = require("./data_input/input.json");
   let monitor = new EnergyMonitor();
   let usedData = [];
   data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
@@ -51,7 +51,7 @@ test("try to process data", async () => {
 });
 
 test("try to process data from hub", async () => {
-  let data = require("./data/testData.json");
+  let data = require("./data_input/testData.json");
   let monitor = new EnergyMonitor();
   let usedData = [];
   data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})

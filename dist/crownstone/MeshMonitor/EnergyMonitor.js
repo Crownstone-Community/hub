@@ -133,7 +133,9 @@ class EnergyMonitor {
         let iterationSize = 500;
         let samples = [];
         while (iterationRequired) {
+            samples = [];
             let processedPoints = await DbReference_1.Dbs.energyProcessed.find({ where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: { gt: fromDate } }, limit: iterationSize, order: ['timestamp ASC'] });
+            log.debug("Aggregating stone", stoneUID, " at ", intervalData.targetInterval, "from", fromDate, ":", processedPoints.length);
             if (processedPoints.length === iterationSize) {
                 iterationRequired = true;
             }
@@ -178,8 +180,8 @@ class EnergyMonitor {
             if (previousPoint) {
                 fromDate = previousPoint.timestamp;
             }
+            await DbReference_1.Dbs.energyProcessed.createAll(samples);
         }
-        await DbReference_1.Dbs.energyProcessed.createAll(samples);
     }
     async uploadProcessed() {
         let processedData = await DbReference_1.Dbs.energyProcessed.find({ where: { uploaded: false } });

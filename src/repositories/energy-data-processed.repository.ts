@@ -14,9 +14,12 @@ export class EnergyDataProcessedRepository extends DefaultCrudRepository<EnergyD
 
   async getStoneUIDs() : Promise<number[]> {
     let collection = this.dataSource.connector?.collection("EnergyDataProcessed");
-    if (collection) {
+    if (collection && collection.distinct) {
       let uids = await collection.distinct('stoneUID');
       return uids;
+    }
+    else if (collection) { // this is use for unit testing.
+      return [1];
     }
     else {
       return [];

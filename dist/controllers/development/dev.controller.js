@@ -36,7 +36,7 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(120);
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(600);
         await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.updateAll({ processed: false });
         setTimeout(async () => {
@@ -51,12 +51,13 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(120);
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(600);
         let count = await this.energyDataProcessedRepo.deleteAll({ interval: { neq: '1m' } });
         setTimeout(async () => {
             await CrownstoneHub_1.CrownstoneHub.mesh.energy.processAggregations();
             CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeAggregationProcessing();
         });
+        return count;
     }
     async reprocessEnergyDataStatus(userProfile) {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {
