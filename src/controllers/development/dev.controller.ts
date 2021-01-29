@@ -1,8 +1,4 @@
 // Uncomment these imports to begin using these cool features!
-
-// import {inject} from '@loopback/context';
-
-
 import {del, get, getModelSchemaRef, HttpErrors, oas, param, post, requestBody, Response, RestBindings} from '@loopback/rest';
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
@@ -12,7 +8,9 @@ import {SecurityTypes} from '../../constants/Constants';
 import {repository} from '@loopback/repository';
 import {EnergyDataProcessedRepository, EnergyDataRepository} from '../../repositories';
 import {CrownstoneHub} from '../../crownstone/CrownstoneHub';
+import {Logger} from '../../Logger';
 
+const log = Logger(__filename);
 
 export class DevController {
 
@@ -41,7 +39,7 @@ export class DevController {
   }
 
 
-  @get('/reprocessEnergyData')
+  @post('/reprocessEnergyData')
   @authenticate(SecurityTypes.admin)
   async reprocessEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
@@ -52,7 +50,7 @@ export class DevController {
     if (CrownstoneHub.mesh.energy.energyIsAggregating) {
       throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
     }
-    CrownstoneHub.mesh.energy.pauseProcessing(600);
+    CrownstoneHub.mesh.energy.pauseProcessing(3600);
     await this.energyDataProcessedRepo.deleteAll();
     await this.energyDataRepo.updateAll({processed:false});
     setTimeout(async() => {
@@ -62,23 +60,27 @@ export class DevController {
   }
 
 
-  @get('/reprocessEnergyAggregates')
+  @post('/reprocessEnergyAggregates')
   @authenticate(SecurityTypes.admin)
   async reprocessEnergyAggregates(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) {
+    log.debug("Invoked reprocessEnergyAggregates!")
     if (CrownstoneHub.mesh.energy.energyIsProcessing) {
       throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
     }
     if (CrownstoneHub.mesh.energy.energyIsAggregating) {
       throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
     }
-    CrownstoneHub.mesh.energy.pauseAggregationProcessing(600);
+
+    CrownstoneHub.mesh.energy.pauseAggregationProcessing(3600);
+    log.debug("Deleting all aggregated items...")
     let count = await this.energyDataProcessedRepo.deleteAll({interval:{neq:'1m'}});
+    log.debug("Deleting all aggregated items... DONE")
     setTimeout(async () => {
       await CrownstoneHub.mesh.energy.processAggregations();
       CrownstoneHub.mesh.energy.resumeAggregationProcessing();
-    });
+    },3000);
     return count;
   }
 

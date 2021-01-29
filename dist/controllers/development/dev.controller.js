@@ -1,9 +1,8 @@
 "use strict";
-// Uncomment these imports to begin using these cool features!
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DevController = void 0;
 const tslib_1 = require("tslib");
-// import {inject} from '@loopback/context';
+// Uncomment these imports to begin using these cool features!
 const rest_1 = require("@loopback/rest");
 const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");
@@ -12,6 +11,8 @@ const Constants_1 = require("../../constants/Constants");
 const repository_1 = require("@loopback/repository");
 const repositories_1 = require("../../repositories");
 const CrownstoneHub_1 = require("../../crownstone/CrownstoneHub");
+const Logger_1 = require("../../Logger");
+const log = Logger_1.Logger(__filename);
 let DevController = class DevController {
     constructor(energyDataProcessedRepo, energyDataRepo) {
         this.energyDataProcessedRepo = energyDataProcessedRepo;
@@ -36,7 +37,7 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(600);
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(3600);
         await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.updateAll({ processed: false });
         setTimeout(async () => {
@@ -45,18 +46,21 @@ let DevController = class DevController {
         });
     }
     async reprocessEnergyAggregates(userProfile) {
+        log.debug("Invoked reprocessEnergyAggregates!");
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsProcessing) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.");
         }
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(600);
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(3600);
+        log.debug("Deleting all aggregated items...");
         let count = await this.energyDataProcessedRepo.deleteAll({ interval: { neq: '1m' } });
+        log.debug("Deleting all aggregated items... DONE");
         setTimeout(async () => {
             await CrownstoneHub_1.CrownstoneHub.mesh.energy.processAggregations();
             CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeAggregationProcessing();
-        });
+        }, 3000);
         return count;
     }
     async reprocessEnergyDataStatus(userProfile) {
@@ -108,7 +112,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "getRawEnergyData", null);
 tslib_1.__decorate([
-    rest_1.get('/reprocessEnergyData'),
+    rest_1.post('/reprocessEnergyData'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
@@ -116,7 +120,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyData", null);
 tslib_1.__decorate([
-    rest_1.get('/reprocessEnergyAggregates'),
+    rest_1.post('/reprocessEnergyAggregates'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),

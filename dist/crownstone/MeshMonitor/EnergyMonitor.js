@@ -109,6 +109,7 @@ class EnergyMonitor {
         this.energyIsProcessing = false;
     }
     async processAggregations() {
+        log.debug("Start processing Aggregations...");
         if (this.energyIsProcessing || this.energyIsAggregating) {
             return;
         }
@@ -128,6 +129,7 @@ class EnergyMonitor {
     }
     async _processAggregations(stoneUID, intervalData) {
         let lastPoint = await DbReference_1.Dbs.energyProcessed.findOne({ where: { stoneUID: stoneUID, interval: intervalData.targetInterval }, order: ['timestamp DESC'] });
+        log.debug("Last point to start processing ", intervalData.targetInterval, "from:", lastPoint);
         let fromDate = lastPoint && lastPoint.timestamp || new Date(0);
         let iterationRequired = true;
         let iterationSize = 500;
@@ -135,7 +137,7 @@ class EnergyMonitor {
         while (iterationRequired) {
             samples = [];
             let processedPoints = await DbReference_1.Dbs.energyProcessed.find({ where: { stoneUID: stoneUID, interval: intervalData.basedOnInterval, timestamp: { gt: fromDate } }, limit: iterationSize, order: ['timestamp ASC'] });
-            log.debug("Aggregating stone", stoneUID, " at ", intervalData.targetInterval, "from", fromDate, ":", processedPoints.length);
+            log.debug("Aggregating stone", stoneUID, "at", intervalData.targetInterval, "based on", intervalData.basedOnInterval, "from", fromDate, ":", processedPoints.length);
             if (processedPoints.length === iterationSize) {
                 iterationRequired = true;
             }
