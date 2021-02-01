@@ -79,18 +79,36 @@ export class EnergyController {
   async deleteStoneEnergy(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.number('crownstoneUID', {required:true}) crownstoneUID: number,
+    @param.query.dateTime('from', {required:false}) from: Date,
+    @param.query.dateTime('until', {required:false}) until: Date,
   ) : Promise<Count> {
-    await this.energyDataRepo.deleteAll({stoneUID: crownstoneUID})
-    return this.energyDataProcessedRepo.deleteAll({stoneUID: crownstoneUID})
+    let filters : any[] = [{stoneUID:crownstoneUID}];
+    if (from)  { filters.push({timestamp:{gte: from}})  }
+    if (until) { filters.push({timestamp:{lte: until}}) }
+    let query = {and: filters};
+
+    let deleteCountRaw       = await this.energyDataRepo.deleteAll(query);
+    let deleteCountProcessed = await this.energyDataProcessedRepo.deleteAll(query);
+
+    return deleteCountProcessed;
   }
 
   @del('/energyData')
   @authenticate(SecurityTypes.admin)
   async deleteAllEnergyData(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @param.query.dateTime('from', {required:false}) from: Date,
+    @param.query.dateTime('until', {required:false}) until: Date,
   ) : Promise<Count> {
-    await this.energyDataRepo.deleteAll();
-    return this.energyDataProcessedRepo.deleteAll();
+    let filters : any[] = [];
+    if (from)  { filters.push({timestamp:{gte: from}})  }
+    if (until) { filters.push({timestamp:{lte: until}}) }
+    let query = {and: filters};
+
+    let deleteCountRaw       = await this.energyDataRepo.deleteAll(query);
+    let deleteCountProcessed = await this.energyDataProcessedRepo.deleteAll(query);
+
+    return deleteCountProcessed;
   }
 
 

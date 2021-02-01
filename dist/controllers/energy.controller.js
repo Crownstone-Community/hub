@@ -58,13 +58,31 @@ let EnergyController = class EnergyController {
         // @ts-ignore
         return await this.energyDataProcessedRepo.find(query);
     }
-    async deleteStoneEnergy(userProfile, crownstoneUID) {
-        await this.energyDataRepo.deleteAll({ stoneUID: crownstoneUID });
-        return this.energyDataProcessedRepo.deleteAll({ stoneUID: crownstoneUID });
+    async deleteStoneEnergy(userProfile, crownstoneUID, from, until) {
+        let filters = [{ stoneUID: crownstoneUID }];
+        if (from) {
+            filters.push({ timestamp: { gte: from } });
+        }
+        if (until) {
+            filters.push({ timestamp: { lte: until } });
+        }
+        let query = { and: filters };
+        let deleteCountRaw = await this.energyDataRepo.deleteAll(query);
+        let deleteCountProcessed = await this.energyDataProcessedRepo.deleteAll(query);
+        return deleteCountProcessed;
     }
-    async deleteAllEnergyData(userProfile) {
-        await this.energyDataRepo.deleteAll();
-        return this.energyDataProcessedRepo.deleteAll();
+    async deleteAllEnergyData(userProfile, from, until) {
+        let filters = [];
+        if (from) {
+            filters.push({ timestamp: { gte: from } });
+        }
+        if (until) {
+            filters.push({ timestamp: { lte: until } });
+        }
+        let query = { and: filters };
+        let deleteCountRaw = await this.energyDataRepo.deleteAll(query);
+        let deleteCountProcessed = await this.energyDataProcessedRepo.deleteAll(query);
+        return deleteCountProcessed;
     }
 };
 tslib_1.__decorate([
@@ -94,16 +112,22 @@ tslib_1.__decorate([
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
+    tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
+    tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object, Number]),
+    tslib_1.__metadata("design:paramtypes", [Object, Number, Date,
+        Date]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "deleteStoneEnergy", null);
 tslib_1.__decorate([
     rest_1.del('/energyData'),
     authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, rest_1.param.query.dateTime('from', { required: false })),
+    tslib_1.__param(2, rest_1.param.query.dateTime('until', { required: false })),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, Date,
+        Date]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "deleteAllEnergyData", null);
 EnergyController = tslib_1.__decorate([

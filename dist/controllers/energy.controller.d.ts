@@ -15,6 +15,6 @@ export declare class EnergyController {
         count: number;
     }[]>;
     getEnergyData(userProfile: UserProfileDescription, crownstoneUID: number, from: Date, until: Date, limit: number, interval: Interval): Promise<import("../models").EnergyDataProcessed[]>;
-    deleteStoneEnergy(userProfile: UserProfileDescription, crownstoneUID: number): Promise<Count>;
-    deleteAllEnergyData(userProfile: UserProfileDescription): Promise<Count>;
+    deleteStoneEnergy(userProfile: UserProfileDescription, crownstoneUID: number, from: Date, until: Date): Promise<Count>;
+    deleteAllEnergyData(userProfile: UserProfileDescription, from: Date, until: Date): Promise<Count>;
 }
