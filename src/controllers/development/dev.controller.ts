@@ -50,11 +50,14 @@ export class DevController {
     if (CrownstoneHub.mesh.energy.energyIsAggregating) {
       throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
     }
-    CrownstoneHub.mesh.energy.pauseProcessing(3600);
+    if (CrownstoneHub.mesh.energy.aggregationProcessingPaused) {
+      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later. Currently clearing database...");
+    }
+    CrownstoneHub.mesh.energy.pauseProcessing(36000);
     await this.energyDataProcessedRepo.deleteAll();
     await this.energyDataRepo.updateAll({processed:false});
     setTimeout(async() => {
-      await CrownstoneHub.mesh.energy.processMeasurements();
+      await CrownstoneHub.mesh.energy.processMeasurements(true);
       CrownstoneHub.mesh.energy.resumeProcessing();
     });
   }
@@ -67,13 +70,15 @@ export class DevController {
   ) {
     log.debug("Invoked reprocessEnergyAggregates!")
     if (CrownstoneHub.mesh.energy.energyIsProcessing) {
-      throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.")
+      throw new HttpErrors.PreconditionFailed("Energy is being processed at the moment. Please try again later.");
     }
     if (CrownstoneHub.mesh.energy.energyIsAggregating) {
-      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.")
+      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
     }
-
-    CrownstoneHub.mesh.energy.pauseAggregationProcessing(3600);
+    if (CrownstoneHub.mesh.energy.aggregationProcessingPaused) {
+      throw new HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later. Currently clearing database...");
+    }
+    CrownstoneHub.mesh.energy.pauseAggregationProcessing(36000);
     log.debug("Deleting all aggregated items...")
     let count = await this.energyDataProcessedRepo.deleteAll({interval:{neq:'1m'}});
     log.debug("Deleting all aggregated items... DONE", count);
@@ -103,7 +108,7 @@ export class DevController {
 
 
     setTimeout(async () => {
-      await CrownstoneHub.mesh.energy.processAggregations();
+      await CrownstoneHub.mesh.energy.processAggregations(true);
       CrownstoneHub.mesh.energy.resumeAggregationProcessing();
     }, 1000);
     return count;

@@ -84,8 +84,13 @@ export class EnergyMonitor {
     // await this.uploadProcessed();
   }
 
-  async processMeasurements() {
+  async processMeasurements(force : boolean = false) {
     if (this.energyIsProcessing || this.energyIsAggregating) {
+      log.debug("Aggregation is already in progress. Aborting...");
+      return;
+    }
+    if (this.processingPaused && !force) {
+      log.debug("Reprocessing is being prepared. Aborting...");
       return;
     }
 
@@ -136,9 +141,14 @@ export class EnergyMonitor {
     this.energyIsProcessing = false;
   }
 
-  async processAggregations() {
+  async processAggregations(force : boolean = false) {
     log.debug("Start processing Aggregations...")
     if (this.energyIsProcessing || this.energyIsAggregating) {
+      log.debug("Processing is already running. Aborting...");
+      return;
+    }
+    if (this.aggregationProcessingPaused && !force) {
+      log.debug("Re-aggregation is being prepared. Aborting...");
       return;
     }
 
@@ -170,7 +180,7 @@ export class EnergyMonitor {
     let fromDate = lastPoint && lastPoint.timestamp || new Date(0);
 
     let iterationRequired = true;
-    let iterationSize = 500;
+    let iterationSize = 1000;
 
     let samples : DataObject<EnergyDataProcessed>[] = [];
     while (iterationRequired) {
