@@ -37,11 +37,14 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(3600);
+        if (CrownstoneHub_1.CrownstoneHub.mesh.energy.aggregationProcessingPaused) {
+            throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later. Currently clearing database...");
+        }
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseProcessing(36000);
         await this.energyDataProcessedRepo.deleteAll();
         await this.energyDataRepo.updateAll({ processed: false });
         setTimeout(async () => {
-            await CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements();
+            await CrownstoneHub_1.CrownstoneHub.mesh.energy.processMeasurements(true);
             CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeProcessing();
         });
     }
@@ -53,7 +56,10 @@ let DevController = class DevController {
         if (CrownstoneHub_1.CrownstoneHub.mesh.energy.energyIsAggregating) {
             throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later.");
         }
-        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(3600);
+        if (CrownstoneHub_1.CrownstoneHub.mesh.energy.aggregationProcessingPaused) {
+            throw new rest_1.HttpErrors.PreconditionFailed("Energy is being aggregated at the moment. Please try again later. Currently clearing database...");
+        }
+        CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(36000);
         log.debug("Deleting all aggregated items...");
         let count = await this.energyDataProcessedRepo.deleteAll({ interval: { neq: '1m' } });
         log.debug("Deleting all aggregated items... DONE", count);
@@ -70,7 +76,7 @@ let DevController = class DevController {
         let remainderCount1w = await this.energyDataProcessedRepo.count({ interval: '1w' });
         log.debug("All counts:", "\n5m", remainderCount5m, "\n10m", remainderCount10m, "\n15m", remainderCount15m, "\n30m", remainderCount30m, "\n1h", remainderCount1h, "\n3h", remainderCount3h, "\n6h", remainderCount6h, "\n12h", remainderCount12h, "\n1d", remainderCount1d, "\n1w", remainderCount1w);
         setTimeout(async () => {
-            await CrownstoneHub_1.CrownstoneHub.mesh.energy.processAggregations();
+            await CrownstoneHub_1.CrownstoneHub.mesh.energy.processAggregations(true);
             CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeAggregationProcessing();
         }, 1000);
         return count;

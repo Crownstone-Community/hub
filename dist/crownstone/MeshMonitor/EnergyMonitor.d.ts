@@ -20,8 +20,8 @@ export declare class EnergyMonitor {
     resumeProcessing(): void;
     resumeAggregationProcessing(): void;
     processing(): Promise<void>;
-    processMeasurements(): Promise<void>;
-    processAggregations(): Promise<void>;
+    processMeasurements(force?: boolean): Promise<void>;
+    processAggregations(force?: boolean): Promise<void>;
     _processAggregations(stoneUID: number, intervalData: IntervalData): Promise<void>;
     uploadProcessed(): Promise<void>;
     _uploadStoneEnergy(processedData: EnergyDataProcessed[]): Promise<void>;
