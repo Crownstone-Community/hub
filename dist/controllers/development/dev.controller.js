@@ -55,12 +55,24 @@ let DevController = class DevController {
         }
         CrownstoneHub_1.CrownstoneHub.mesh.energy.pauseAggregationProcessing(3600);
         log.debug("Deleting all aggregated items...");
-        let count = await this.energyDataProcessedRepo.deleteAll({ interval: { neq: '1m' } });
-        log.debug("Deleting all aggregated items... DONE");
+        let count = await this.energyDataProcessedRepo.deleteAll({ interval: { neq: '1m' }, stoneUID: 68 });
+        log.debug("Deleting all aggregated items... DONE", count);
+        log.debug("Checking how many entries are left:");
+        let remainderCount5m = await this.energyDataProcessedRepo.count({ interval: '5m', stoneUID: 68 });
+        let remainderCount10m = await this.energyDataProcessedRepo.count({ interval: '10m', stoneUID: 68 });
+        let remainderCount15m = await this.energyDataProcessedRepo.count({ interval: '15m', stoneUID: 68 });
+        let remainderCount30m = await this.energyDataProcessedRepo.count({ interval: '30m', stoneUID: 68 });
+        let remainderCount1h = await this.energyDataProcessedRepo.count({ interval: '1h', stoneUID: 68 });
+        let remainderCount3h = await this.energyDataProcessedRepo.count({ interval: '3h', stoneUID: 68 });
+        let remainderCount6h = await this.energyDataProcessedRepo.count({ interval: '6h', stoneUID: 68 });
+        let remainderCount12h = await this.energyDataProcessedRepo.count({ interval: '12h', stoneUID: 68 });
+        let remainderCount1d = await this.energyDataProcessedRepo.count({ interval: '1d', stoneUID: 68 });
+        let remainderCount1w = await this.energyDataProcessedRepo.count({ interval: '1w', stoneUID: 68 });
+        log.debug("All counts:", "\n5m", remainderCount5m, "\n10m", remainderCount10m, "\n15m", remainderCount15m, "\n30m", remainderCount30m, "\n1h", remainderCount1h, "\n3h", remainderCount3h, "\n6h", remainderCount6h, "\n12h", remainderCount12h, "\n1d", remainderCount1d, "\n1w", remainderCount1w);
         setTimeout(async () => {
             await CrownstoneHub_1.CrownstoneHub.mesh.energy.processAggregations();
             CrownstoneHub_1.CrownstoneHub.mesh.energy.resumeAggregationProcessing();
-        }, 3000);
+        }, 1000);
         return count;
     }
     async reprocessEnergyDataStatus(userProfile) {
