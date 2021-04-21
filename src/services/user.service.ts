@@ -1,5 +1,5 @@
 import {repository} from '@loopback/repository';
-import {UserRepository} from '../repositories';
+import {UserRepository} from '../repositories/';
 import {User} from '../models';
 import {HttpErrors} from '@loopback/rest/dist';
 

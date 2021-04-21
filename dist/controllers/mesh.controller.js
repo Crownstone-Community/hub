@@ -1,9 +1,7 @@
 "use strict";
-// Uncomment these imports to begin using these cool features!
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MeshController = void 0;
 const tslib_1 = require("tslib");
-// import {inject} from '@loopback/context';
 const rest_1 = require("@loopback/rest");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const authentication_1 = require("@loopback/authentication");

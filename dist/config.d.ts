@@ -5,4 +5,5 @@ export declare const CONFIG: {
     uartPort: string | undefined;
     useHttp: string | boolean;
     enableUart: string | boolean;
+    generateCustomIds: string | boolean;
 };

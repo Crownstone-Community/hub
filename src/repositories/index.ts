@@ -1,14 +1,9 @@
-// Copyright IBM Corp. 2019,2020. All Rights Reserved.
-// Node module: loopback4-example-shopping
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-
-export * from './database-info.repository';
-export * from './energy-data.repository';
-export * from './energy-data-processed.repository';
-export * from './power-data.repository';
-export * from './switch-data.repository';
-export * from './sphere-feature.repository';
-export * from './hub.repository';
-export * from './user.repository';
-export * from './user-permission.repository';
+export * from './/hub-specific/database-info.repository';
+export * from './/hub-specific/energy-data.repository';
+export * from './/hub-specific/energy-data-processed.repository';
+export * from './/hub-specific/power-data.repository';
+export * from './/hub-specific/switch-data.repository';
+export * from './/hub-specific/sphere-feature.repository';
+export * from './/hub-specific/hub.repository';
+export * from './/hub-specific/user.repository';
+export * from './/hub-specific/user-permission.repository';

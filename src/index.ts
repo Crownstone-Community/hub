@@ -15,7 +15,7 @@ import {CrownstoneHub} from './crownstone/CrownstoneHub';
 
 import {ApplicationConfig, ExpressServer} from './server';
 import {Logger} from './Logger';
-import {EnergyDataProcessedRepository} from './repositories/energy-data-processed.repository';
+import {EnergyDataProcessedRepository} from './repositories/hub-specific/energy-data-processed.repository';
 import {MongoDbConnector} from './datasources/mongoDriver';
 import {PublicExpressServer} from './server_public';
 import {getPortConfig} from './util/ConfigUtil';

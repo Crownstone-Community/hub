@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DevController = void 0;
 const tslib_1 = require("tslib");
-// Uncomment these imports to begin using these cool features!
 const rest_1 = require("@loopback/rest");
 const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");

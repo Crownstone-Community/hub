@@ -1,7 +1,7 @@
 import {CrownstoneCloud, REST} from 'crownstone-cloud';
 import {CrownstoneSSE} from 'crownstone-sse';
 import {Dbs} from '../Data/DbReference';
-import {Hub} from '../../models/hub.model';
+import {Hub} from '../../models/hub-specific/hub.model';
 import {MemoryDb} from '../Data/MemoryDb';
 import {Util} from '../../util/Util';
 import {SseEventHandler} from './SseEventHandler';

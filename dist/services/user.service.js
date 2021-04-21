@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkAccessToken = exports.UserService = void 0;
 const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
-const repositories_1 = require("../repositories");
+const repositories_1 = require("../repositories/");
 const dist_1 = require("@loopback/rest/dist");
 let UserService = class UserService {
     constructor(userRepository) {

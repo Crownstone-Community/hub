@@ -1,5 +1,5 @@
 import { DataObject } from '@loopback/repository';
-import { HubRepository } from '../repositories/hub.repository';
+import { HubRepository } from '../repositories/hub-specific/hub.repository';
 import { UserRepository } from '../repositories';
 import { Hub } from '../models';
 /**

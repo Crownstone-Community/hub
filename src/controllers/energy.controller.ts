@@ -1,7 +1,3 @@
-// Uncomment these imports to begin using these cool features!
-
-// import {inject} from '@loopback/context';
-
 import {Count, repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
 import { EnergyDataProcessedRepository, EnergyDataRepository, UserRepository} from '../repositories';

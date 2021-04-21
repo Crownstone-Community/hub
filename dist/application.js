@@ -60,7 +60,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
             controllers: {
                 // Customize ControllerBooter Conventions here
                 dirs: ['controllers'],
-                extensions: ['.controller.js'],
+                extensions: ['.controller.ts', '.controller.js'],
                 nested: false,
             },
             repositories: {

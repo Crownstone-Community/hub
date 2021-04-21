@@ -8,7 +8,7 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from '../../repositories';
-import {EnergyDataProcessedRepository} from '../../repositories/energy-data-processed.repository';
+import {EnergyDataProcessedRepository} from '../../repositories/hub-specific/energy-data-processed.repository';
 
 
 class DbReferenceClass {

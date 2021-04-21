@@ -1,4 +1,3 @@
-// Uncomment these imports to begin using these cool features!
 import {del, get, getModelSchemaRef, HttpErrors, oas, param, post, requestBody, Response, RestBindings} from '@loopback/rest';
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';

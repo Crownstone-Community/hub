@@ -1,12 +1,7 @@
-// Uncomment these imports to begin using these cool features!
-
-// import {inject} from '@loopback/context';
-
 import {DataObject, repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, requestBody} from '@loopback/rest';
-import {HubRepository} from '../repositories/hub.repository';
+import {HubRepository} from '../repositories/hub-specific/hub.repository';
 import {UserRepository} from '../repositories';
-import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {HubStatus,} from '../crownstone/HubStatus';
 import {BOOT_TIME} from '../application';
 import {CrownstoneUtil} from '../crownstone/CrownstoneUtil';
@@ -57,57 +52,6 @@ export class HubController {
       throw new HttpErrors.Forbidden("Hub already created and initialized.");
     }
   }
-
-  // @post('/uartKey')
-  // @authenticate(SecurityTypes.admin)
-  // async setUartKey(
-  //   @param.query.string('uartKey', {required:true}) uartKey: string,
-  // ): Promise<void> {
-  //   let currentHub = await this.hubRepo.get()
-  //   if (currentHub === null) {
-  //     throw new HttpErrors.NotFound("No hub configured.");
-  //   }
-  //   else {
-  //     if (uartKey.length !== 32) {
-  //       throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
-  //     }
-  //     currentHub.uartKey = uartKey;
-  //     return this.hubRepo.update(currentHub)
-  //       .then(() => {
-  //         eventBus.emit(topics.HUB_UART_KEY_UPDATED);
-  //       })
-  //   }
-  // }
-
-  // @patch('/hub')
-  // @authenticate(SecurityTypes.admin)
-  // async updateHub(
-  //   @requestBody({
-  //     content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
-  //   })
-  //     editedHub: DataObject<Hub>,
-  // ): Promise<void> {
-  //   let currentHub = await this.hubRepo.get()
-  //   if (currentHub === null) {
-  //
-  //
-  //     return this.hubRepo.create(editedHub)
-  //       .then(() => {
-  //         eventBus.emit(topics.HUB_CREATED);
-  //       })
-  //   }
-  //   else {
-  //     if (editedHub.cloudId) { currentHub.cloudId = editedHub.cloudId; }
-  //     if (editedHub.name)    { currentHub.name    = editedHub.name;    }
-  //     if (editedHub.token)   { currentHub.token   = editedHub.token;   }
-  //
-  //     return this.hubRepo.update(currentHub)
-  //       .then(() => {
-  //         eventBus.emit(topics.HUB_CREATED);
-  //       })
-  //   }
-  // }
-
 
   @del('/hub/')
   @authenticate(SecurityTypes.admin)

@@ -1,7 +1,3 @@
-// Uncomment these imports to begin using these cool features!
-
-// import {inject} from '@loopback/context';
-
 
 import {get, post, requestBody} from '@loopback/rest';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';

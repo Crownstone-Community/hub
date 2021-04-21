@@ -1,12 +1,10 @@
 "use strict";
-// Uncomment these imports to begin using these cool features!
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HubController = void 0;
 const tslib_1 = require("tslib");
-// import {inject} from '@loopback/context';
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
-const hub_repository_1 = require("../repositories/hub.repository");
+const hub_repository_1 = require("../repositories/hub-specific/hub.repository");
 const repositories_1 = require("../repositories");
 const HubStatus_1 = require("../crownstone/HubStatus");
 const application_1 = require("../application");
@@ -48,54 +46,6 @@ let HubController = class HubController {
             throw new rest_1.HttpErrors.Forbidden("Hub already created and initialized.");
         }
     }
-    // @post('/uartKey')
-    // @authenticate(SecurityTypes.admin)
-    // async setUartKey(
-    //   @param.query.string('uartKey', {required:true}) uartKey: string,
-    // ): Promise<void> {
-    //   let currentHub = await this.hubRepo.get()
-    //   if (currentHub === null) {
-    //     throw new HttpErrors.NotFound("No hub configured.");
-    //   }
-    //   else {
-    //     if (uartKey.length !== 32) {
-    //       throw new HttpErrors.BadRequest("UART key should be a hexstring key of 32 characters.");
-    //     }
-    //     currentHub.uartKey = uartKey;
-    //     return this.hubRepo.update(currentHub)
-    //       .then(() => {
-    //         eventBus.emit(topics.HUB_UART_KEY_UPDATED);
-    //       })
-    //   }
-    // }
-    // @patch('/hub')
-    // @authenticate(SecurityTypes.admin)
-    // async updateHub(
-    //   @requestBody({
-    //     content: {'application/json': { schema: getModelSchemaRef(Hub, { title: 'newHub', exclude: ['id','uartKey','accessToken','accessTokenExpiration'] })}},
-    //   })
-    //     editedHub: DataObject<Hub>,
-    // ): Promise<void> {
-    //   let currentHub = await this.hubRepo.get()
-    //   if (currentHub === null) {
-    //
-    //
-    //     return this.hubRepo.create(editedHub)
-    //       .then(() => {
-    //         eventBus.emit(topics.HUB_CREATED);
-    //       })
-    //   }
-    //   else {
-    //     if (editedHub.cloudId) { currentHub.cloudId = editedHub.cloudId; }
-    //     if (editedHub.name)    { currentHub.name    = editedHub.name;    }
-    //     if (editedHub.token)   { currentHub.token   = editedHub.token;   }
-    //
-    //     return this.hubRepo.update(currentHub)
-    //       .then(() => {
-    //         eventBus.emit(topics.HUB_CREATED);
-    //       })
-    //   }
-    // }
     async delete(YesImSure) {
         if (YesImSure !== 'YesImSure') {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");

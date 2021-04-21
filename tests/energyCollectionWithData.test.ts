@@ -28,7 +28,7 @@ test("try to process data", async () => {
   data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
   for (let i = 0; i < data.length; i++) {
     usedData.push(data[i]);
-    // if (i === 4000) { break; }
+    if (i === 10) { break; }
   }
 
   // for (let i = 0; i < usedData.length; i++) {

@@ -9,7 +9,7 @@ const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 // import {MongoDbConnector} from './datasources/mongoDriver';
 const server_1 = require("./server");
 const Logger_1 = require("./Logger");
-const energy_data_processed_repository_1 = require("./repositories/energy-data-processed.repository");
+const energy_data_processed_repository_1 = require("./repositories/hub-specific/energy-data-processed.repository");
 const mongoDriver_1 = require("./datasources/mongoDriver");
 const server_public_1 = require("./server_public");
 const ConfigUtil_1 = require("./util/ConfigUtil");

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { CrownstoneCloud } from 'crownstone-cloud';
 import { CrownstoneSSE } from 'crownstone-sse';
-import { Hub } from '../../models/hub.model';
+import { Hub } from '../../models/hub-specific/hub.model';
 import { SseEventHandler } from './SseEventHandler';
 import Timeout = NodeJS.Timeout;
 export declare class CloudManager {
