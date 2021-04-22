@@ -25,7 +25,7 @@ async function generateSelfSignedCertificatePair(dir: string) {
   console.log("Generating self-signed certificate pair...")
   let confPath = CONFIG.sslConfigPath;
   let command = "req -config " + confPath + "/openssl-hub.conf -new -nodes -x509 -days 18500 -keyout " + dir + "/key.pem -out " + dir + "/cert.pem";
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     // @ts-ignore
     runOpenSSLCommand(command,(something, other) => {
       console.log("Generated self-signed certificate pair!", something, other)

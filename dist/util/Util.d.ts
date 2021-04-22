@@ -25,8 +25,8 @@ export declare const Util: {
     deepCopy(object: any): any;
     deepExtend: (a: any, b: any, protoExtend?: boolean, allowDeletion?: boolean) => any;
     deepCompare: (a: any, b: any, d?: number) => boolean;
-    promiseBatchPerformer: (arr: any[], method: PromiseCallback) => Promise<unknown>;
-    _promiseBatchPerformer: (arr: any[], index: number, method: PromiseCallback) => Promise<unknown>;
+    promiseBatchPerformer: (arr: any[], method: PromiseCallback) => Promise<void>;
+    _promiseBatchPerformer: (arr: any[], index: number, method: PromiseCallback) => Promise<void>;
     capitalize: (inputStr: string) => string;
     getLocalIps: () => string[];
     stripTrailingSlash: (path: string) => string;

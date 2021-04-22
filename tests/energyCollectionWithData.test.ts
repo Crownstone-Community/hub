@@ -22,23 +22,23 @@ afterAll(async () => { await app.stop(); })
 const fs = require('fs')
 const path = require('path')
 test("try to process data", async () => {
-  let data = require("./data_input/input.json");
-  let monitor = new EnergyMonitor();
-  let usedData = [];
-  data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
-  for (let i = 0; i < data.length; i++) {
-    usedData.push(data[i]);
-    if (i === 10) { break; }
-  }
+  // let data = require("./data_input/input.json");
+  // let monitor = new EnergyMonitor();
+  // let usedData = [];
+  // data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
+  // for (let i = 0; i < data.length; i++) {
+  //   usedData.push(data[i]);
+  //   if (i === 10) { break; }
+  // }
 
   // for (let i = 0; i < usedData.length; i++) {
   //   let dp = usedData[i];
   //   await monitor.collect(dp.stoneUID, dp.energyUsage, dp.pointPowerUsage, new Date(dp.timestamp).valueOf() + 3600000*2);
   // }
 
-  console.time("process")
-  await monitor.processMeasurements()
-  console.timeEnd("process")
+  // console.time("process")
+  // await monitor.processMeasurements()
+  // console.timeEnd("process")
 
   // let processedPoints = await Dbs.energyProcessed.find()
   // processedPoints.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
@@ -61,16 +61,16 @@ test("try to process data from hub", async () => {
   }
 
 
-  console.time("Load")
+  // console.time("Load")
   for (let i = 0; i < usedData.length; i++) {
     let dp = usedData[i];
     await monitor.collect(dp.stoneUID, dp.energyUsage, dp.pointPowerUsage, new Date(dp.timestamp).valueOf() + 3600000*2);
   }
-  console.timeEnd("Load")
+  // console.timeEnd("Load")
 
-  console.time("process")
+  // console.time("process")
   await monitor.processMeasurements()
-  console.timeEnd("process")
+  // console.timeEnd("process")
 
   let processedPoints = await Dbs.energyProcessed.find()
   processedPoints.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})

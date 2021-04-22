@@ -9,6 +9,9 @@ import {
   PowerDataRepository,
 } from '../../src/repositories';
 import {testdb} from "../fixtures/datasources/testdb.datasource";
+import {AssetRepository} from '../../src/repositories/cloud/asset.repository';
+import {AssetFilterRepository} from '../../src/repositories/cloud/asset-filter.repository';
+import {AssetFilterSetRepository} from '../../src/repositories/cloud/asset-filter-set.repository';
 
 
 /**
@@ -24,13 +27,27 @@ export async function clearTestDatabase() {
   let energy          = new EnergyDataRepository(testdb);
   let energyProcessed = new EnergyDataProcessedRepository(testdb);
 
-  await dbInfo.deleteAll()
-  await hub.deleteAll()
-  await userPermission.deleteAll()
-  await user.deleteAll()
-  await sphereFeatures.deleteAll()
-  await power.deleteAll()
-  await energy.deleteAll()
-  await energyProcessed.deleteAll()
+  let assetFilter : AssetFilterRepository;
+  let assetFilterSet : AssetFilterSetRepository;
+
+  let filterGetter    = () : Promise<AssetFilterRepository>       => { return new Promise((resolve, _) => { resolve(assetFilter) })}
+  let filterSetGetter = () : Promise<AssetFilterSetRepository>       => { return new Promise((resolve, _) => { resolve(assetFilterSet) })}
+
+  let assets     = new AssetRepository(testdb, filterGetter);
+  assetFilter    = new AssetFilterRepository(testdb, filterSetGetter, assets);
+  assetFilterSet = new AssetFilterSetRepository(testdb, assetFilter);
+
+  await dbInfo.deleteAll();
+  await hub.deleteAll();
+  await userPermission.deleteAll();
+  await user.deleteAll();
+  await sphereFeatures.deleteAll();
+  await power.deleteAll();
+  await energy.deleteAll();
+  await energyProcessed.deleteAll();
+
+  await assets.deleteAll();
+  await assetFilter.deleteAll();
+  await assetFilterSet.deleteAll();
 
 }

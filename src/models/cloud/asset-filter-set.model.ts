@@ -1,10 +1,10 @@
 import {hasMany, model, property} from '@loopback/repository';
 import {AddTimestamps}            from '../bases/timestamp-mixin';
 import {BaseEntity}               from '../bases/base-entity';
-import {Filter} from './filter.model';
+import {AssetFilter} from './asset-filter.model';
 
 @model()
-export class FilterSet extends AddTimestamps(BaseEntity) {
+export class AssetFilterSet extends AddTimestamps(BaseEntity) {
 
   @property({type: 'string', id: true})
   id: string;
@@ -15,6 +15,6 @@ export class FilterSet extends AddTimestamps(BaseEntity) {
   @property({type: 'number', required: true})
   masterVersion: number;
 
-  @hasMany(() => Filter, {keyTo: 'filterSetId'})
-  filters: Filter[];
+  @hasMany(() => AssetFilter, {keyTo: 'filterSetId'})
+  filters: AssetFilter[];
 }

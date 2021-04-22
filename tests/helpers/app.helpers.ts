@@ -15,6 +15,9 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from '../../src/repositories';
+import {AssetFilterSetRepository} from '../../src/repositories/cloud/asset-filter-set.repository';
+import {AssetFilterRepository} from '../../src/repositories/cloud/asset-filter.repository';
+import {AssetRepository} from '../../src/repositories/cloud/asset.repository';
 
 
 jest.mock('../../src/crownstone/Data/DbUtil', () => {
@@ -23,8 +26,6 @@ jest.mock('../../src/crownstone/Data/DbUtil', () => {
 
 export async function createApp() : Promise<CrownstoneHubApplication> {
   Error.stackTraceLimit = 100;
-
-
 
   let app = new CrownstoneHubApplication({
     rest: {port: 0},
@@ -47,4 +48,7 @@ async function setupDbRef(app : CrownstoneHubApplication) {
   Dbs.power           = await app.getRepository(PowerDataRepository);
   Dbs.energy          = await app.getRepository(EnergyDataRepository);
   Dbs.energyProcessed = await app.getRepository(EnergyDataProcessedRepository);
+  Dbs.assets          = await app.getRepository(AssetRepository);
+  Dbs.assetFilters    = await app.getRepository(AssetFilterRepository);
+  Dbs.assetFilterSets = await app.getRepository(AssetFilterSetRepository);
 }

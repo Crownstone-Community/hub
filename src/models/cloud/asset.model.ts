@@ -6,8 +6,8 @@ import {InputAdData} from './filterSubModels/input-ad-data.model';
 import {OutputDescriptionReport} from './filterSubModels/output-description-report.model';
 import {OutputDescriptionTrackMacAddress} from './filterSubModels/output-description-track-mac-address.model';
 import {OutputDescriptionTrackAdData} from './filterSubModels/output-description-track-ad-data.model';
-import {Filter} from './filter.model';
-import {AssetPresence} from './filterSubModels/asset-presence.model';
+import {AssetFilter} from './asset-filter.model';
+// import {AssetPresence} from './filterSubModels/asset-presence.model';
 
 @model()
 export class Asset extends AddTimestamps(BaseEntity) {
@@ -36,10 +36,13 @@ export class Asset extends AddTimestamps(BaseEntity) {
                      OutputDescriptionTrackMacAddress |
                      OutputDescriptionTrackAdData;
 
+  @property({required: true})
+  data: string // hexString
+
   // @hasOne(() => AssetPresence, {name: 'presence', keyTo:'assetId', keyFrom:'presenceId'})
   // presence: AssetPresence;
 
-  @belongsTo(() => Filter, {name:'filter'})
+  @belongsTo(() => AssetFilter, {name:'filter'})
   filterId: string;
 
 

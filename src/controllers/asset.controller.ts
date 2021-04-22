@@ -1,8 +1,8 @@
 import {DataObject, repository} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody} from '@loopback/rest';
 import {AssetRepository} from '../repositories/cloud/asset.repository';
-import {FilterRepository} from '../repositories/cloud/filter.repository';
-import {FilterSetRepository} from '../repositories/cloud/filter-set.repository';
+import {AssetFilterRepository} from '../repositories/cloud/asset-filter.repository';
+import {AssetFilterSetRepository} from '../repositories/cloud/asset-filter-set.repository';
 import {authenticate} from '@loopback/authentication';
 import {SecurityTypes} from '../constants/Constants';
 import {inject} from '@loopback/core';
@@ -16,9 +16,9 @@ import {Asset} from '../models/cloud/asset.model';
 export class AssetController {
 
   constructor(
-    @repository(AssetRepository) protected assetRepo: AssetRepository,
-    @repository(FilterRepository) protected filterRepo: FilterRepository,
-    @repository(FilterSetRepository) protected filterSetRepo: FilterSetRepository,
+    @repository(AssetRepository)          protected assetRepo: AssetRepository,
+    @repository(AssetFilterRepository)    protected filterRepo: AssetFilterRepository,
+    @repository(AssetFilterSetRepository) protected filterSetRepo: AssetFilterSetRepository,
   ) {}
 
 
@@ -26,7 +26,7 @@ export class AssetController {
   @authenticate(SecurityTypes.sphere)
   async createAsset(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    newAsset: DataObject<Asset>,
+    @requestBody({required: true}) newAsset: DataObject<Asset>,
   ): Promise<Asset> {
     return this.assetRepo.create(newAsset);
   }
@@ -65,7 +65,7 @@ export class AssetController {
   async updateAsset(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.path.string('id') id: string,
-    updatedModel: DataObject<Asset>,
+    @requestBody({required: true}) updatedModel: DataObject<Asset>,
   ): Promise<void> {
     return this.assetRepo.updateById(id, updatedModel)
   }

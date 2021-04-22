@@ -13,6 +13,9 @@ const energy_data_processed_repository_1 = require("./repositories/hub-specific/
 const mongoDriver_1 = require("./datasources/mongoDriver");
 const server_public_1 = require("./server_public");
 const ConfigUtil_1 = require("./util/ConfigUtil");
+const asset_repository_1 = require("./repositories/cloud/asset.repository");
+const asset_filter_repository_1 = require("./repositories/cloud/asset-filter.repository");
+const asset_filter_set_repository_1 = require("./repositories/cloud/asset-filter-set.repository");
 const log = Logger_1.Logger(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
@@ -39,6 +42,9 @@ async function main(options = {}) {
     DbReference_1.Dbs.userPermission = await server.lbApp.getRepository(repositories_1.UserPermissionRepository);
     DbReference_1.Dbs.switches = await server.lbApp.getRepository(repositories_1.SwitchDataRepository);
     DbReference_1.Dbs.sphereFeatures = await server.lbApp.getRepository(repositories_1.SphereFeatureRepository);
+    DbReference_1.Dbs.assets = await server.lbApp.getRepository(asset_repository_1.AssetRepository);
+    DbReference_1.Dbs.assetFilters = await server.lbApp.getRepository(asset_filter_repository_1.AssetFilterRepository);
+    DbReference_1.Dbs.assetFilterSets = await server.lbApp.getRepository(asset_filter_set_repository_1.AssetFilterSetRepository);
     await migrate();
     await maintainIndexes();
     log.info(`Initializing CrownstoneHub...`);

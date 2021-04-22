@@ -36,15 +36,15 @@ test("check processing energy data without interpolation", async () => {
   for (let item of arr) {
     store.push({stoneUID: 1, energyUsage: item.energyUsage, timestamp: new Date(item.timestamp), uploaded: false})
     counter += 1;
-    if (counter > 3000) {
+    if (counter > 1000) {
       break
     }
   }
   await Dbs.energyProcessed.createAll(store)
   let count_1m = (await Dbs.energyProcessed.count()).count
-  console.time("processAggregations")
+  // console.time("processAggregations")
   await monitor.processAggregations()
-  console.timeEnd("processAggregations")
+  // console.timeEnd("processAggregations")
   let count_5m  = (await Dbs.energyProcessed.count({interval:'5m'})).count;
   let count_10m = (await Dbs.energyProcessed.count({interval:'10m'})).count;
   let count_15m = (await Dbs.energyProcessed.count({interval:'15m'})).count;
@@ -66,24 +66,24 @@ test("check processing energy data without interpolation", async () => {
   expect(count_12h).toBeGreaterThanOrEqual(Math.floor(count_6h/2));
   expect(count_1d).toBeGreaterThanOrEqual(Math.floor(count_12h/2));
   expect(count_1w).toBeGreaterThanOrEqual(Math.floor(count_1d/7));
-
-  console.log(
-    count_1m,
-    count_5m,
-    count_10m,
-    count_15m,
-    count_30m,
-    count_1h,
-    count_3h,
-    count_6h,
-    count_12h,
-    count_1d,
-    count_1w,
-  );
+  //
+  // console.log(
+  //   count_1m,
+  //   count_5m,
+  //   count_10m,
+  //   count_15m,
+  //   count_30m,
+  //   count_1h,
+  //   count_3h,
+  //   count_6h,
+  //   count_12h,
+  //   count_1d,
+  //   count_1w,
+  // );
 });
 
 async function saveData(interval: string) {
-  console.time("Store"+interval);
+  // console.time("Store"+interval);
   let crownstoneUID = 1;
   let from = new Date("2020").toISOString()
   let until = new Date("2022").toISOString()
@@ -101,12 +101,12 @@ async function saveData(interval: string) {
   let query = {where: {and: filters}, limit: limit, fields:{energyUsage: true, timestamp: true}, order: 'timestamp ASC'}
 
   // @ts-ignore
-  let processed = await Dbs.energyProcessed.find(query);
-  let str = '[\n';
-  for (let data of processed) {
-    str += "  " + JSON.stringify(data) + ",\n"
-  }
-  str += "\n]"
-  fs.writeFileSync(path.join(__dirname, 'data_result', `data_${interval}.json`), str)
-  console.timeEnd("Store"+interval);
+  // let processed = await Dbs.energyProcessed.find(query);
+  // let str = '[\n';
+  // for (let data of processed) {
+  //   str += "  " + JSON.stringify(data) + ",\n"
+  // }
+  // str += "\n]"
+  // fs.writeFileSync(path.join(__dirname, 'data_result', `data_${interval}.json`), str)
+  // console.timeEnd("Store"+interval);
 }

@@ -23,10 +23,10 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     servers: <T_3 extends import("@loopback/core").Server>(ctors: import("@loopback/core").Constructor<T_3>[]) => import("@loopback/boot").Binding<any>[];
     getServer: <T_4 extends import("@loopback/core").Server>(target: string | import("@loopback/core").Constructor<T_4>) => Promise<T_4>;
     init: () => Promise<void>;
-    onInit: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
-    onStart: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onInit: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStart: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     stop: () => Promise<void>;
-    onStop: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStop: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     setMetadata: (metadata: import("@loopback/core").ApplicationMetadata) => void;
     lifeCycleObserver: <T_5 extends import("@loopback/core").LifeCycleObserver>(ctor: import("@loopback/core").Constructor<T_5>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_5>;
     service: <S>(cls: import("@loopback/core").ServiceOrProviderClass<S>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S>;
@@ -197,11 +197,11 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     servers: <T_3_2 extends import("@loopback/core").Server>(ctors: import("@loopback/core").Constructor<T_3_2>[]) => import("@loopback/boot").Binding<any>[];
     getServer: <T_4_2 extends import("@loopback/core").Server>(target: string | import("@loopback/core").Constructor<T_4_2>) => Promise<T_4_2>;
     init: () => Promise<void>;
-    onInit: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onInit: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     start: () => Promise<void>;
-    onStart: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStart: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     stop: () => Promise<void>;
-    onStop: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStop: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     setMetadata: (metadata: import("@loopback/core").ApplicationMetadata) => void;
     lifeCycleObserver: <T_5_2 extends import("@loopback/core").LifeCycleObserver>(ctor: import("@loopback/core").Constructor<T_5_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_5_2>;
     service: <S_3>(cls: import("@loopback/core").ServiceOrProviderClass<S_3>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S_3>;

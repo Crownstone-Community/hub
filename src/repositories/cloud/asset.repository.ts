@@ -2,16 +2,16 @@ import {BelongsToAccessor, Count, DataObject, Getter, juggler, Options, reposito
 import { inject } from '@loopback/core';
 import {TimestampedCrudRepository} from '../bases/timestamped-crud-repository';
 import {Asset} from '../../models/cloud/asset.model';
-import {Filter} from '../../models/cloud/filter.model';
-import {FilterRepository} from './filter.repository';
+import {AssetFilter} from '../../models/cloud/asset-filter.model';
+import {AssetFilterRepository} from './asset-filter.repository';
 
 
 export class AssetRepository extends TimestampedCrudRepository<Asset,typeof Asset.prototype.id> {
-  public readonly filter: BelongsToAccessor<Filter, typeof Filter.prototype.id>;
+  public readonly filter: BelongsToAccessor<AssetFilter, typeof AssetFilter.prototype.id>;
 
   constructor(
     @inject('datasources.mongo') protected datasource: juggler.DataSource,
-    @repository.getter('FilterRepository') filterRepoGetter: Getter<FilterRepository>,
+    @repository.getter('FilterRepository') filterRepoGetter: Getter<AssetFilterRepository>,
   ) {
     super(Asset, datasource);
 
