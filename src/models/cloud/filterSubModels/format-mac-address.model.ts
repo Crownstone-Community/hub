@@ -1,9 +1,9 @@
 import { Entity, model, property } from '@loopback/repository';
 
 @model()
-export class InputMacAddress extends Entity {
+export class FormatMacAddress extends Entity {
 
   @property({required: true})
-  type: filter_macAddressType;
+  type: filterFormat_macAddressType_t;
 
 }

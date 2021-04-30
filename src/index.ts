@@ -22,6 +22,7 @@ import {getPortConfig} from './util/ConfigUtil';
 import {AssetRepository} from './repositories/cloud/asset.repository';
 import {AssetFilterRepository} from './repositories/cloud/asset-filter.repository';
 import {AssetFilterSetRepository} from './repositories/cloud/asset-filter-set.repository';
+import {WebhookRepository} from './repositories/hub-specific/webhook.repository';
 
 const log = Logger(__filename);
 
@@ -47,18 +48,19 @@ export async function main(options: ApplicationConfig = {}) {
   }
 
   log.info(`Creating Database References...`);
-  Dbs.dbInfo            = await server.lbApp.getRepository(DatabaseInfoRepository);
-  Dbs.hub               = await server.lbApp.getRepository(HubRepository);
-  Dbs.power             = await server.lbApp.getRepository(PowerDataRepository);
-  Dbs.energy            = await server.lbApp.getRepository(EnergyDataRepository);
-  Dbs.energyProcessed   = await server.lbApp.getRepository(EnergyDataProcessedRepository);
-  Dbs.user              = await server.lbApp.getRepository(UserRepository);
-  Dbs.userPermission    = await server.lbApp.getRepository(UserPermissionRepository);
-  Dbs.switches          = await server.lbApp.getRepository(SwitchDataRepository);
-  Dbs.sphereFeatures    = await server.lbApp.getRepository(SphereFeatureRepository);
-  Dbs.assets            = await server.lbApp.getRepository(AssetRepository);
-  Dbs.assetFilters      = await server.lbApp.getRepository(AssetFilterRepository);
-  Dbs.assetFilterSets   = await server.lbApp.getRepository(AssetFilterSetRepository);
+  Dbs.dbInfo          = await server.lbApp.getRepository(DatabaseInfoRepository);
+  Dbs.hub             = await server.lbApp.getRepository(HubRepository);
+  Dbs.power           = await server.lbApp.getRepository(PowerDataRepository);
+  Dbs.energy          = await server.lbApp.getRepository(EnergyDataRepository);
+  Dbs.energyProcessed = await server.lbApp.getRepository(EnergyDataProcessedRepository);
+  Dbs.user            = await server.lbApp.getRepository(UserRepository);
+  Dbs.userPermission  = await server.lbApp.getRepository(UserPermissionRepository);
+  Dbs.switches        = await server.lbApp.getRepository(SwitchDataRepository);
+  Dbs.sphereFeatures  = await server.lbApp.getRepository(SphereFeatureRepository);
+  Dbs.assets          = await server.lbApp.getRepository(AssetRepository);
+  Dbs.assetFilters    = await server.lbApp.getRepository(AssetFilterRepository);
+  Dbs.assetFilterSets = await server.lbApp.getRepository(AssetFilterSetRepository);
+  Dbs.webhooks        = await server.lbApp.getRepository(WebhookRepository);
 
   await migrate();
   await maintainIndexes();

@@ -6,7 +6,6 @@ const repository_1 = require("@loopback/repository");
 const timestamp_mixin_1 = require("../bases/timestamp-mixin");
 const base_entity_1 = require("../bases/base-entity");
 const asset_filter_model_1 = require("./asset-filter.model");
-// import {AssetPresence} from './filterSubModels/asset-presence.model';
 let Asset = class Asset extends timestamp_mixin_1.AddTimestamps(base_entity_1.BaseEntity) {
 };
 tslib_1.__decorate([
@@ -29,6 +28,10 @@ tslib_1.__decorate([
     repository_1.property({ type: 'string' }),
     tslib_1.__metadata("design:type", String)
 ], Asset.prototype, "cloudId", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'number' }),
+    tslib_1.__metadata("design:type", Number)
+], Asset.prototype, "profileId", void 0);
 tslib_1.__decorate([
     repository_1.property({ required: true }),
     tslib_1.__metadata("design:type", Object)

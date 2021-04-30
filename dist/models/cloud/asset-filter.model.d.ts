@@ -1,10 +1,5 @@
 import { BaseEntity } from '../bases/base-entity';
-import { InputMacAddress } from './filterSubModels/input-mac-address.model';
-import { InputAdData } from './filterSubModels/input-ad-data.model';
-import { OutputDescriptionReport } from './filterSubModels/output-description-report.model';
-import { OutputDescriptionTrackMacAddress } from './filterSubModels/output-description-track-mac-address.model';
-import { OutputDescriptionTrackAdData } from './filterSubModels/output-description-track-ad-data.model';
-import { Asset } from './asset.model';
+import { Asset, filterFormat, filterOutputDescription } from './asset.model';
 declare const AssetFilter_base: {
     new (...args: any[]): {
         updatedAt: Date;
@@ -16,11 +11,13 @@ declare const AssetFilter_base: {
 export declare class AssetFilter extends AssetFilter_base {
     id: string;
     cloudId: string;
-    filterVersion: number;
-    filterId: number;
-    filterCRC: string;
-    inputData: InputMacAddress | InputAdData;
-    outputDescription: OutputDescriptionReport | OutputDescriptionTrackMacAddress | OutputDescriptionTrackAdData;
+    type: number;
+    idOnCrownstone: number;
+    profileId: number;
+    inputData: filterFormat;
+    outputDescription: filterOutputDescription;
+    data: string;
+    dataCRC: string;
     assets: Asset[];
     filterSetId: string;
 }

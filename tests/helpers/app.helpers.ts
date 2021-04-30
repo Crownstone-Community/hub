@@ -18,6 +18,7 @@ import {
 import {AssetFilterSetRepository} from '../../src/repositories/cloud/asset-filter-set.repository';
 import {AssetFilterRepository} from '../../src/repositories/cloud/asset-filter.repository';
 import {AssetRepository} from '../../src/repositories/cloud/asset.repository';
+import {WebhookRepository} from '../../src/repositories/hub-specific/webhook.repository';
 
 
 jest.mock('../../src/crownstone/Data/DbUtil', () => {
@@ -51,4 +52,5 @@ async function setupDbRef(app : CrownstoneHubApplication) {
   Dbs.assets          = await app.getRepository(AssetRepository);
   Dbs.assetFilters    = await app.getRepository(AssetFilterRepository);
   Dbs.assetFilterSets = await app.getRepository(AssetFilterSetRepository);
+  Dbs.webhooks        = await app.getRepository(WebhookRepository);
 }

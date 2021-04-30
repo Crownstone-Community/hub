@@ -1,9 +1,11 @@
 import { BaseEntity } from '../bases/base-entity';
-import { InputMacAddress } from './filterSubModels/input-mac-address.model';
-import { InputAdData } from './filterSubModels/input-ad-data.model';
-import { OutputDescriptionReport } from './filterSubModels/output-description-report.model';
-import { OutputDescriptionTrackMacAddress } from './filterSubModels/output-description-track-mac-address.model';
-import { OutputDescriptionTrackAdData } from './filterSubModels/output-description-track-ad-data.model';
+import { FormatMaskedAdData } from './filterSubModels/format-masked-ad-data.model';
+import { FormatAdData } from './filterSubModels/format-ad-data.model';
+import { FormatMacAddress } from './filterSubModels/format-mac-address.model';
+import { OutputDescription_shortId_track } from './filterSubModels/output-description-shortId-track.model';
+import { OutputDescription_mac_report } from './filterSubModels/output-description-mac-report.model';
+export declare type filterFormat = FormatMacAddress | FormatAdData | FormatMaskedAdData;
+export declare type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report;
 declare const Asset_base: {
     new (...args: any[]): {
         updatedAt: Date;
@@ -18,8 +20,9 @@ export declare class Asset extends Asset_base {
     description: string;
     type: string;
     cloudId: string;
-    inputData: InputMacAddress | InputAdData;
-    outputDescription: OutputDescriptionReport | OutputDescriptionTrackMacAddress | OutputDescriptionTrackAdData;
+    profileId: number;
+    inputData: filterFormat;
+    outputDescription: filterOutputDescription;
     data: string;
     filterId: string;
 }

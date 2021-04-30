@@ -1,13 +1,10 @@
 import { Entity, model, property } from '@loopback/repository';
 
 @model()
-export class OutputDescriptionTrackMacAddress extends Entity {
+export class FormatMaskedAdData extends Entity {
 
   @property({required: true})
-  type: filter_outputTrackType;
-
-  @property({required: true})
-  representation: filter_outputTrackRepresentationAdType
+  type: filterFormat_maskedAdDataType_t;
 
   @property({type: 'number', required: true})
   adType: number;

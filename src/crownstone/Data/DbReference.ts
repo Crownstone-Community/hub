@@ -12,6 +12,7 @@ import {EnergyDataProcessedRepository} from '../../repositories/hub-specific/ene
 import {AssetRepository} from '../../repositories/cloud/asset.repository';
 import {AssetFilterRepository} from '../../repositories/cloud/asset-filter.repository';
 import {AssetFilterSetRepository} from '../../repositories/cloud/asset-filter-set.repository';
+import {WebhookRepository} from '../../repositories/hub-specific/webhook.repository';
 
 
 class DbReferenceClass {
@@ -28,5 +29,7 @@ class DbReferenceClass {
   assets               : AssetRepository
   assetFilters         : AssetFilterRepository
   assetFilterSets      : AssetFilterSetRepository
+
+  webhooks             : WebhookRepository
 }
 export const Dbs = new DbReferenceClass();

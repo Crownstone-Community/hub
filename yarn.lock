@@ -2372,26 +2372,16 @@ crownstone-cloud@^0.24.2:
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-crownstone-core@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.12.0.tgz#32a4f1a67441ede8c3cd986d9c900c9bf716e5f9"
-  integrity sha512-KLBZJHYtss0jrWJq7A+s0zfkQliHw5cK94mDCjxN4iP9GvyJc8seVzSgi3oLQYfHGp7rdzJgFq8J9D5KktQpZg==
-  dependencies:
-    aes-js "^3.1.1"
-    crownstone-logger "^0.1.4"
-
-crownstone-core@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.13.0.tgz#ce274ffed04b9e87b009ce85c330419211970fd8"
-  integrity sha512-/rkm+r0Dm/fJZvPrfSgzBUgz/k4JKbOmQNou3Fl+bSEHOddoVMLwReuJVPWRFzxOlfDbXSiwnObweUrqT6io4g==
-  dependencies:
-    aes-js "^3.1.1"
-    crownstone-logger "^0.1.4"
-
 crownstone-core@^0.8.3:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.8.4.tgz#9bf4f34a38de649220c775abbd898b9fef199cb0"
   integrity sha512-rflNxgTzLn2FVIUiZ1/R7cX/T4zIgPc4zw4ucKTKu4m0gqSgnIXzT4nMhvCtJ6TMoykc57lZ3ko/aXDVoEJNlg==
+  dependencies:
+    aes-js "^3.1.1"
+    crownstone-logger "^0.1.4"
+
+"crownstone-core@file:../crownstone-lib-nodejs-core":
+  version "0.13.1"
   dependencies:
     aes-js "^3.1.1"
     crownstone-logger "^0.1.4"
@@ -2415,13 +2405,11 @@ crownstone-sse@^4.2.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@0.18.0:
+"crownstone-uart@file:../crownstone-lib-nodejs-uart":
   version "0.18.0"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.18.0.tgz#ff5f4f60cd32dc4a952eb83fa560f91d045fb7ec"
-  integrity sha512-Q17T+8n8sKprcMfe6fzfJCPEvVZbGRcKWK1X4Ho8OElsTNG72GUjNiT7xBeb61OFg0pqJedv2b3jMTuxcanJuQ==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "^0.12.0"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.18.0-e7fa25e5-d88a-407e-989e-be967ec0bd55-1619788876267/node_modules/crownstone-lib-nodejs-core"
     crownstone-logger "^0.1.4"
     serialport "9.0.0"
 
@@ -4404,6 +4392,11 @@ jest-config@^26.6.3:
     jest-validate "^26.6.2"
     micromatch "^4.0.2"
     pretty-format "^26.6.2"
+
+jest-date-mock@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/jest-date-mock/-/jest-date-mock-1.0.8.tgz#13468c0352c5a3614c6b356dbc6b88eb37d9e0b3"
+  integrity sha512-0Lyp+z9xvuNmLbK+5N6FOhSiBeux05Lp5bbveFBmYo40Aggl2wwxFoIrZ+rOWC8nDNcLeBoDd2miQdEDSf3iQw==
 
 jest-diff@^26.0.0, jest-diff@^26.6.2:
   version "26.6.2"

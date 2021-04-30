@@ -13,6 +13,7 @@ import {CrownstoneUtil} from './CrownstoneUtil';
 import {CONFIG} from '../config';
 import {EMPTY_DATABASE} from './Data/DbUtil';
 import {HubStatusManager} from './Uart/HubStatusManager';
+import {WebhookManager} from './Webhooks/WebhookManager';
 
 const log = Logger(__filename);
 
@@ -22,14 +23,16 @@ export class CrownstoneHubClass implements CrownstoneHub {
   cloud       : CloudManager;
   mesh        : MeshMonitor;
   timeKeeper  : Timekeeper;
+  webhooks    : WebhookManager;
 
   linkedStoneCheckInterval : Timeout
   setStatusBackupInterval : Timeout
 
   constructor() {
-    this.cloud = new CloudManager()
-    this.uart  = new Uart(this.cloud.cloud);
-    this.mesh  = new MeshMonitor();
+    this.cloud    = new CloudManager()
+    this.uart     = new Uart(this.cloud.cloud);
+    this.mesh     = new MeshMonitor();
+    this.webhooks = new WebhookManager();
 
     this.timeKeeper = new Timekeeper(this);
     CloudCommandHandler.loadManager(this.cloud);

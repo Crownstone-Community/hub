@@ -1,12 +1,33 @@
+type filterFormat_macAddressType_t   = "MAC_ADDRESS"
+type filterFormat_adDataType_t       = "AD_DATA"
+type filterFormat_maskedAdDataType_t = "MASKED_AD_DATA"
 
+type filterFormat_macAddress_report_t  = "MAC_ADDRESS_REPORT"
+type filterFormat_shortAssetId_track_t = "SHORT_ASSET_ID_TRACK"
 
-type filter_macAddressType = "MAC_ADDRESS"
-type filter_adDataType     = "AD_DATA"
+interface FormatMacAddress {
+  type: filterFormat_macAddressType_t
+}
 
-type filter_outputReportType     = "REPORT"
-type filter_outputReportDataType = "FULL_MAC_ADDRESS_RSSI"
+interface FormatAdData {
+  type:   filterFormat_adDataType_t,
+  adType: number,
+}
 
-type filter_outputTrackType                         = "TRACK"
-type filter_outputTrackRepresentationMacAddressType = "MAC_ADDRESS"
-type filter_outputTrackRepresentationAdType         = "AD_DATA"
+interface FormatMaskedAdData {
+  type:   filterFormat_maskedAdDataType_t,
+  adType: number,
+  mask:   number
+}
 
+type filterHubFormat = FormatMacAddress | FormatAdData | FormatMaskedAdData;
+
+interface FilterOutputDescription_macAddress {
+  type: filterFormat_macAddress_report_t
+}
+interface FilterOutputDescription_shortAssetId{
+  type:      filterFormat_shortAssetId_track_t,
+  inputData: filterHubFormat
+}
+
+type filterHubOutputDescription = FilterOutputDescription_macAddress | FilterOutputDescription_shortAssetId

@@ -13,7 +13,6 @@ let AssetRepository = class AssetRepository extends timestamped_crud_repository_
         this.filter = this.createBelongsToAccessorFor('filter', filterRepoGetter);
     }
     async updateAll(data, where, options) {
-        data.filterId = undefined;
         return super.updateAll(data, where, options);
     }
 };

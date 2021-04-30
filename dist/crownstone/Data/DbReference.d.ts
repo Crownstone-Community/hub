@@ -3,6 +3,7 @@ import { EnergyDataProcessedRepository } from '../../repositories/hub-specific/e
 import { AssetRepository } from '../../repositories/cloud/asset.repository';
 import { AssetFilterRepository } from '../../repositories/cloud/asset-filter.repository';
 import { AssetFilterSetRepository } from '../../repositories/cloud/asset-filter-set.repository';
+import { WebhookRepository } from '../../repositories/hub-specific/webhook.repository';
 declare class DbReferenceClass {
     dbInfo: DatabaseInfoRepository;
     hub: HubRepository;
@@ -16,6 +17,7 @@ declare class DbReferenceClass {
     assets: AssetRepository;
     assetFilters: AssetFilterRepository;
     assetFilterSets: AssetFilterSetRepository;
+    webhooks: WebhookRepository;
 }
 export declare const Dbs: DbReferenceClass;
 export {};

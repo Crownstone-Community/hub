@@ -23,7 +23,6 @@ export class AssetRepository extends TimestampedCrudRepository<Asset,typeof Asse
     where?: Where<Asset>,
     options?: Options,
   ): Promise<Count> {
-    data.filterId = undefined;
     return super.updateAll(data, where, options);
   }
 

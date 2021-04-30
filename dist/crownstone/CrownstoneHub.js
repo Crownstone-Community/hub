@@ -15,12 +15,14 @@ const CrownstoneUtil_1 = require("./CrownstoneUtil");
 const config_1 = require("../config");
 const DbUtil_1 = require("./Data/DbUtil");
 const HubStatusManager_1 = require("./Uart/HubStatusManager");
+const WebhookManager_1 = require("./Webhooks/WebhookManager");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
         this.cloud = new CloudManager_1.CloudManager();
         this.uart = new Uart_1.Uart(this.cloud.cloud);
         this.mesh = new MeshMonitor_1.MeshMonitor();
+        this.webhooks = new WebhookManager_1.WebhookManager();
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });

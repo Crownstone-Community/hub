@@ -1,13 +1,16 @@
-import {belongsTo, hasOne, model, property} from '@loopback/repository';
-import {AddTimestamps}                          from '../bases/timestamp-mixin';
-import {BaseEntity}                             from '../bases/base-entity';
-import {InputMacAddress} from './filterSubModels/input-mac-address.model';
-import {InputAdData} from './filterSubModels/input-ad-data.model';
-import {OutputDescriptionReport} from './filterSubModels/output-description-report.model';
-import {OutputDescriptionTrackMacAddress} from './filterSubModels/output-description-track-mac-address.model';
-import {OutputDescriptionTrackAdData} from './filterSubModels/output-description-track-ad-data.model';
+import {belongsTo,  model, property} from '@loopback/repository';
+import {AddTimestamps}               from '../bases/timestamp-mixin';
+import {BaseEntity}                  from '../bases/base-entity';
 import {AssetFilter} from './asset-filter.model';
-// import {AssetPresence} from './filterSubModels/asset-presence.model';
+import {FormatMaskedAdData} from './filterSubModels/format-masked-ad-data.model';
+import {FormatAdData} from './filterSubModels/format-ad-data.model';
+import {FormatMacAddress} from './filterSubModels/format-mac-address.model';
+import {OutputDescription_shortId_track} from './filterSubModels/output-description-shortId-track.model';
+import {OutputDescription_mac_report} from './filterSubModels/output-description-mac-report.model';
+
+export type filterFormat = FormatMacAddress | FormatAdData | FormatMaskedAdData;
+export type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report
+
 
 @model()
 export class Asset extends AddTimestamps(BaseEntity) {
@@ -27,14 +30,14 @@ export class Asset extends AddTimestamps(BaseEntity) {
   @property({type: 'string'})
   cloudId: string;
 
-  @property({required: true})
-  inputData: InputMacAddress |
-             InputAdData;
+  @property({type: 'number'})
+  profileId: number;
 
   @property({required: true})
-  outputDescription: OutputDescriptionReport          |
-                     OutputDescriptionTrackMacAddress |
-                     OutputDescriptionTrackAdData;
+  inputData: filterFormat
+
+  @property({required: true})
+  outputDescription: filterOutputDescription
 
   @property({required: true})
   data: string // hexString

@@ -1,12 +1,7 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {AddTimestamps}                          from '../bases/timestamp-mixin';
 import {BaseEntity}                             from '../bases/base-entity';
-import {InputMacAddress} from './filterSubModels/input-mac-address.model';
-import {InputAdData} from './filterSubModels/input-ad-data.model';
-import {OutputDescriptionReport} from './filterSubModels/output-description-report.model';
-import {OutputDescriptionTrackMacAddress} from './filterSubModels/output-description-track-mac-address.model';
-import {OutputDescriptionTrackAdData} from './filterSubModels/output-description-track-ad-data.model';
-import {Asset} from './asset.model';
+import {Asset, filterFormat, filterOutputDescription} from './asset.model';
 import {AssetFilterSet} from './asset-filter-set.model';
 
 @model()
@@ -19,26 +14,29 @@ export class AssetFilter extends AddTimestamps(BaseEntity) {
   cloudId: string;
 
   @property({type: 'number', required: true})
-  filterVersion: number;
+  type: number; // this relates to the metadata type
 
-  @property({type: 'number', required: true})
-  filterId: number;
+  @property({type: 'number'})
+  idOnCrownstone: number;
 
-  @property({type: 'string', required: true})
-  filterCRC: string;
-
-  @property({required: true})
-  inputData: InputMacAddress |
-             InputAdData;
+  @property({type: 'number'})
+  profileId: number;
 
   @property({required: true})
-  outputDescription: OutputDescriptionReport          |
-                     OutputDescriptionTrackMacAddress |
-                     OutputDescriptionTrackAdData;
+  inputData: filterFormat
+
+  @property({required: true})
+  outputDescription: filterOutputDescription
+
+  @property({type: 'string', required:true})
+  data: string // this is the full metaData + filterData byte representation of the filter in hexstring format
+
+  @property({type: 'string', required:true})
+  dataCRC: string
 
   @hasMany(() => Asset, {keyTo: 'filterId'})
   assets: Asset[];
 
-  @belongsTo(() => AssetFilter, {name:'filterSet'})
+  @belongsTo(() => AssetFilterSet, {name:'filterSet'})
   filterSetId: string;
 }

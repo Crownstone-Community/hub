@@ -56,3 +56,50 @@ export function auth(url, token?) {
   token ??= lastSeenToken;
   return url + "?access_token=" + token
 }
+
+
+export async function createAsset_mac_report(data = null) {
+  if (data === null) {
+    data = Math.floor(Math.random()*1e8).toString(16)
+  }
+  let asset = await Dbs.assets.create({
+    inputData: {type:'MAC_ADDRESS'},
+    outputDescription: {type:'MAC_ADDRESS_REPORT'},
+    data: data,
+    profileId: 0
+  })
+  return asset;
+}
+export async function createAsset_ad_report(adType = 23, mask = 523465324, data = null) {
+  if (data === null) {
+    data = Math.floor(Math.random()*1e8).toString(16)
+  }
+  return await Dbs.assets.create({
+    inputData: {type:'AD_DATA', adType: adType, mask: mask},
+    outputDescription: {type:'MAC_ADDRESS_REPORT'},
+    data: data,
+    profileId: 0
+  })
+}
+export async function createAsset_ad_track_mac(adType = 23, mask = 523465324, data = null) {
+  if (data === null) {
+    data = Math.floor(Math.random()*1e8).toString(16)
+  }
+  return await Dbs.assets.create({
+    inputData: {type:'AD_DATA', adType: adType, mask: mask},
+    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData:{type:'MAC_ADDRESS'}},
+    data: data,
+    profileId: 0
+  })
+}
+export async function createAsset_ad_track_ad(adType = 23, mask = 523465324, data = null) {
+  if (data === null) {
+    data = Math.floor(Math.random()*1e8).toString(16)
+  }
+  return await Dbs.assets.create({
+    inputData: {type:'AD_DATA', adType: adType, mask: mask},
+    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData: {type:'AD_DATA', adType: adType, mask: mask}},
+    data: data,
+    profileId: 0
+  })
+}

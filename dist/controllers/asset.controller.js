@@ -11,6 +11,7 @@ const authentication_1 = require("@loopback/authentication");
 const Constants_1 = require("../constants/Constants");
 const core_1 = require("@loopback/core");
 const security_1 = require("@loopback/security");
+const Filters_1 = require("../crownstone/Filters/Filters");
 /**
  * This controller will echo the state of the hub.
  */
@@ -27,6 +28,12 @@ let AssetController = class AssetController {
         return this.assetRepo.find({});
     }
     async commitChanges(userProfile) {
+        let allAssets = await this.assetRepo.find();
+        let allFilters = await this.filterRepo.find();
+        let changeRequired = await Filters_1.UpdateFilters(allAssets, allFilters);
+        if (changeRequired) {
+            // TODO: actually update the filters.
+        }
     }
     async getAsset(userProfile, id) {
         return this.assetRepo.findById(id);
