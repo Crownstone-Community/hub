@@ -11,7 +11,9 @@ const authentication_1 = require("@loopback/authentication");
 const Constants_1 = require("../constants/Constants");
 const core_1 = require("@loopback/core");
 const security_1 = require("@loopback/security");
+const asset_model_1 = require("../models/cloud/asset.model");
 const Filters_1 = require("../crownstone/Filters/Filters");
+const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 /**
  * This controller will echo the state of the hub.
  */
@@ -30,9 +32,9 @@ let AssetController = class AssetController {
     async commitChanges(userProfile) {
         let allAssets = await this.assetRepo.find();
         let allFilters = await this.filterRepo.find();
-        let changeRequired = await Filters_1.UpdateFilters(allAssets, allFilters);
+        let changeRequired = await Filters_1.reconstructFilters(allAssets, allFilters);
         if (changeRequired) {
-            // TODO: actually update the filters.
+            CrownstoneHub_1.CrownstoneHub.filters.refreshFilterSets();
         }
     }
     async getAsset(userProfile, id) {
@@ -58,7 +60,18 @@ tslib_1.__decorate([
     rest_1.post('/assets'),
     authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.requestBody({ required: true })),
+    tslib_1.__param(1, rest_1.requestBody({
+        required: true,
+        content: {
+            'application/json': {
+                schema: rest_1.getModelSchemaRef(asset_model_1.Asset, {
+                    title: 'newAsset',
+                    exclude: ['id', 'updatedAt', 'createdAt'],
+                }),
+            },
+        },
+        description: "Create a new asset to be tracked."
+    })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
@@ -93,7 +106,18 @@ tslib_1.__decorate([
     authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.path.string('id')),
-    tslib_1.__param(2, rest_1.requestBody({ required: true })),
+    tslib_1.__param(2, rest_1.requestBody({
+        required: true,
+        content: {
+            'application/json': {
+                schema: rest_1.getModelSchemaRef(asset_model_1.Asset, {
+                    title: 'UpdatedAsset',
+                    exclude: ["createdAt"]
+                }),
+            },
+        },
+        description: "update the asset"
+    })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, String, Object]),
     tslib_1.__metadata("design:returntype", Promise)

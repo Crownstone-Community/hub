@@ -16,4 +16,5 @@ export declare class Uart implements UartInterface {
     refreshUartEncryption(): Promise<void>;
     switchCrownstones(switchPairs: SwitchData[]): Promise<any>;
     registerTrackedDevice(trackingNumber: number, locationUID: number, profileId: number, rssiOffset: number, ignoreForPresence: boolean, tapToToggleEnabled: boolean, deviceToken: number, ttlMinutes: number): void;
+    syncFilters(): Promise<void>;
 }

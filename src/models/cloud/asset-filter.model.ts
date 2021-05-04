@@ -32,7 +32,7 @@ export class AssetFilter extends AddTimestamps(BaseEntity) {
   data: string // this is the full metaData + filterData byte representation of the filter in hexstring format
 
   @property({type: 'string', required:true})
-  dataCRC: string
+  dataCRC: string // hexstring format
 
   @hasMany(() => Asset, {keyTo: 'filterId'})
   assets: Asset[];

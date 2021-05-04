@@ -28,9 +28,9 @@ parts:
 #    npm-node-version: "12.18.3"
 
     plugin: nodejs
-    nodejs-version: "12.18.3"
+    nodejs-version: "14.16.1"
     nodejs-package-manager: yarn
-    nodejs-yarn-version: "v1.22.4"
+    nodejs-yarn-version: "v1.22.10"
     source: .
     source-type: local
 

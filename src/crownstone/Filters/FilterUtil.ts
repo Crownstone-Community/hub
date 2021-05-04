@@ -1,6 +1,11 @@
 import {FilterFormatAdData, FilterFormatMacAddress, FilterFormatMaskedAdData, FilterMetaData, FilterOutputDescription, FilterOutputDescriptionType} from 'crownstone-core';
+import {AssetFilter} from '../../models/cloud/asset-filter.model';
 
 export const FilterUtil = {
+
+  getMetaData: function(filter: AssetFilter) {
+    return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
+  },
 
   getFilterMetaData: function(
     type : number,
@@ -45,4 +50,5 @@ export const FilterUtil = {
 
     return meta;
   }
+
 }

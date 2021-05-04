@@ -15,6 +15,9 @@ export class AssetFilterSet extends AddTimestamps(BaseEntity) {
   @property({type: 'number', required: true})
   masterVersion: number;
 
+  @property({type: 'number', required: true})
+  masterCRC: number;
+
   @hasMany(() => AssetFilter, {keyTo: 'filterSetId'})
   filters: AssetFilter[];
 }

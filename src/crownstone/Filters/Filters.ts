@@ -22,9 +22,14 @@ interface FilterRequirements {
   [typeDescription: string]: FilterRequirement
 }
 
-
-export async function UpdateFilters(allAssets: Asset[], allFilters: AssetFilter[]) : Promise<boolean> {
-  let filterUpdateRequired = false;
+/**
+ * This does and add or delete of the filters.
+ * Filters are not updated.
+ * @param allAssets
+ * @param allFilters
+ */
+export async function reconstructFilters(allAssets: Asset[], allFilters: AssetFilter[]) : Promise<boolean> {
+  let filterChangeRequired = false;
   let filterRequirements : FilterRequirements = {};
 
   // summarize the filters we need to construct
@@ -81,7 +86,7 @@ export async function UpdateFilters(allAssets: Asset[], allFilters: AssetFilter[
     }
     else {
       // Delete this filter.
-      filterUpdateRequired = true;
+      filterChangeRequired = true;
       await Dbs.assetFilters.delete(filter).catch((err) => { console.log("Error while removing filter", err); })
     }
   }
@@ -91,7 +96,7 @@ export async function UpdateFilters(allAssets: Asset[], allFilters: AssetFilter[
     let requirement = filterRequirements[description];
     if (requirement.exists === false) {
       // create filter.
-      filterUpdateRequired = true;
+      filterChangeRequired = true;
       let newFilter = await Dbs.assetFilters.create({
         type: requirement.filterType,
         profileId: requirement.profileId,
@@ -106,7 +111,7 @@ export async function UpdateFilters(allAssets: Asset[], allFilters: AssetFilter[
   }
 
 
-  return filterUpdateRequired;
+  return filterChangeRequired;
 }
 
 async function updateAssetFilterIds(assets: Asset[], filterId: string) {

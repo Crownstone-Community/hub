@@ -14,6 +14,7 @@ import {CONFIG} from '../config';
 import {EMPTY_DATABASE} from './Data/DbUtil';
 import {HubStatusManager} from './Uart/HubStatusManager';
 import {WebhookManager} from './Webhooks/WebhookManager';
+import {FilterManager} from './Filters/FilterManager';
 
 const log = Logger(__filename);
 
@@ -24,17 +25,19 @@ export class CrownstoneHubClass implements CrownstoneHub {
   mesh        : MeshMonitor;
   timeKeeper  : Timekeeper;
   webhooks    : WebhookManager;
+  filters     : FilterManager;
 
   linkedStoneCheckInterval : Timeout
   setStatusBackupInterval : Timeout
 
   constructor() {
-    this.cloud    = new CloudManager()
-    this.uart     = new Uart(this.cloud.cloud);
-    this.mesh     = new MeshMonitor();
-    this.webhooks = new WebhookManager();
-
+    this.cloud     = new CloudManager()
+    this.uart      = new Uart(this.cloud.cloud);
+    this.mesh      = new MeshMonitor();
+    this.webhooks  = new WebhookManager();
+    this.filters   = new FilterManager(this.uart);
     this.timeKeeper = new Timekeeper(this);
+
     CloudCommandHandler.loadManager(this.cloud);
 
     eventBus.on(topics.HUB_CREATED,() => { this.initialize(); });
@@ -49,6 +52,9 @@ export class CrownstoneHubClass implements CrownstoneHub {
   }
 
   async initialize() {
+    this.webhooks.init();
+    this.filters.init();
+
     resetHubStatus();
 
     let hub = await Dbs.hub.get();
@@ -122,6 +128,10 @@ export class CrownstoneHubClass implements CrownstoneHub {
     await this.mesh.cleanup();
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();
+
+    this.filters.cleanup();
+    this.webhooks.cleanup();
+
 
     if (partial) {
       log.notice("Crippling hub instance...");

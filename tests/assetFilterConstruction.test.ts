@@ -6,7 +6,7 @@ import {EMPTY_DATABASE} from '../src/crownstone/Data/DbUtil';
 import { mocked } from 'ts-jest/utils'
 import {auth, createAsset_ad_track_ad, createAsset_mac_report, createHub, createUser} from './dataGenerators';
 import {Dbs} from '../src/crownstone/Data/DbReference';
-import {getMetaDataDescriptionFromAsset, getMetaDataDescriptionFromFilter, UpdateFilters} from '../src/crownstone/Filters/filters';
+import {getMetaDataDescriptionFromAsset, getMetaDataDescriptionFromFilter, reconstructFilters} from '../src/crownstone/Filters/filters';
 
 
 
@@ -71,7 +71,7 @@ test("Create assets directly", async () => {
   let assets = await Dbs.assets.find();
   let filters = await Dbs.assetFilters.find();
 
-  let changeRequired = await UpdateFilters(assets, filters);
+  let changeRequired = await reconstructFilters(assets, filters);
   expect(changeRequired).toBeTruthy();
 
   let assetsNow = await Dbs.assets.find();

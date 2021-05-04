@@ -4,12 +4,14 @@ import {eventBus} from '../HubEventBus';
 import {CONFIG} from '../../config';
 
 import {Logger} from '../../Logger';
-import {topics} from '../topics';
+import {topics, WebhookInternalTopics, WebhookTopics} from '../topics';
 import {UartHubDataCommunication} from './UartHubDataCommunication';
 import {Dbs} from '../Data/DbReference';
 import {CrownstoneUtil} from '../CrownstoneUtil';
 import {CrownstoneCloud} from 'crownstone-cloud';
 import {HubStatusManager} from './HubStatusManager';
+import {FilterData, FilterSycingCommunicationInterface, FilterSyncer, FilterSyncingTargetData} from 'crownstone-core/dist/util/FilterSyncer';
+import {FilterUtil} from '../Filters/FilterUtil';
 const log = Logger(__filename);
 
 
@@ -38,7 +40,10 @@ export class Uart implements UartInterface {
   forwardEvents() {
     // generate a list of topics that can be remapped from connection to lib.
     let eventsToForward = [
-      {uartTopic: UartTopics.MeshServiceData, moduleTopic: topics.MESH_SERVICE_DATA},
+      {uartTopic: UartTopics.MeshServiceData,                 moduleTopic: topics.MESH_SERVICE_DATA},
+      {uartTopic: UartTopics.AssetMacReport,                  moduleTopic: WebhookInternalTopics.__ASSET_REPORT},
+      {uartTopic: UartTopics.NearstCrownstoneTrackingUpdate,  moduleTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE},
+      {uartTopic: UartTopics.NearstCrownstoneTrackingTimeout, moduleTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE_TIMEOUT},
     ];
 
 
@@ -160,5 +165,86 @@ export class Uart implements UartInterface {
         ttlMinutes,
       )
     })
+  }
+
+  async syncFilters() : Promise<void> {
+    let filterSet  = await Dbs.assetFilterSets.findOne();
+    if (!filterSet) { throw "NO_FILTER_SET"; }
+
+    let filtersInSet = await Dbs.assetFilters.find({where: {filterSetId: filterSet.id}});
+    let data: FilterSyncingTargetData = {
+      masterVersion: filterSet.masterVersion,
+      masterCRC: filterSet.masterCRC,
+      filters: []
+    }
+    for (let filter of filtersInSet) {
+      data.filters.push({
+        idOnCrownstone: filter.idOnCrownstone,
+        crc: parseInt(filter.dataCRC),
+        metaData: FilterUtil.getMetaData(filter),
+        filter: Buffer.from(filter.data, 'hex')
+      })
+    }
+
+    let receivedMasterVersion = null;
+    let receivedMasterCRC     = null;
+
+    let commandInterface: FilterSycingCommunicationInterface = {
+      getSummaries: async () => {
+        return this.queue.register(async () => {
+          log.info("Getting filter summaries");
+          let summaries = await this.connection.control.getFilterSummaries();
+          receivedMasterVersion = summaries.masterVersion;
+          receivedMasterCRC     = summaries.masterCRC;
+
+          return summaries;
+        }, "syncFilters from Uart");
+      },
+      remove: async (protocol: number, filterId: number) => {
+        return this.queue.register(async () => {
+          log.info("Removing filter", filterId);
+          return this.connection.control.removeFilter(filterId);
+        }, "syncFilters from Uart");
+      },
+      upload: async (protocol: number, filterData: FilterData) => {
+        return this.queue.register(async () => {
+          log.info("uploading filter");
+          return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.metaData, filterData.filter);
+        }, "syncFilters from Uart");
+      },
+      commit: async (protocol: number) => {
+        return this.queue.register(async () => {
+          log.info("commiting filter changes");
+          // @ts-ignore
+          return this.connection.control.commitFilterChanges(filterSet.masterVersion, filterSet.masterCRC)
+        }, "syncFilters from Uart");
+      },
+    }
+
+    let syncer = new FilterSyncer(commandInterface, data);
+    try {
+      await syncer.syncToCrownstone();
+    }
+    catch (err) {
+      switch (err) {
+        case "TARGET_HAS_HIGHER_VERSION":
+          if (receivedMasterVersion) {
+            // set our version one higher than the one on the Crownstone.
+            filterSet.masterVersion = receivedMasterVersion + 1;
+            await Dbs.assetFilterSets.update(filterSet)
+            return this.syncFilters()
+          }
+          else {
+            throw err;
+          }
+        case "TARGET_HAS_SAME_VERSION_DIFFERENT_CRC":
+          // bump our version.
+          filterSet.masterVersion = filterSet.masterVersion + 1;
+          await Dbs.assetFilterSets.update(filterSet)
+          return this.syncFilters();
+        default:
+          throw err;
+      }
+    }
   }
 }

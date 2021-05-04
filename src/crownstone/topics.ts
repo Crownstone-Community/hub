@@ -1,6 +1,6 @@
 
 
-export const topics = {
+export const topics : {[topicEnum: string]: string} = {
   CLOUD_SYNC_REQUIRED  : "CLOUD_SYNC_REQUIRED",
   TOKEN_EXPIRED        : "TOKEN_EXPIRED",
 
@@ -11,4 +11,14 @@ export const topics = {
   HUB_UART_KEY_UPDATED : "HUB_UART_KEY_UPDATED",
 
   MESH_SERVICE_DATA    : "MESH_SERVICE_DATA",
+}
+
+export const WebhookTopics : {[topicEnum: string]: string} = {
+  ASSET_REPORT:   "ASSET_REPORT",
+  ASSET_TRACKING: "ASSET_TRACKING",
+}
+export const WebhookInternalTopics : {[topicEnum: string]: string} = {
+  __ASSET_REPORT:           "__ASSET_REPORT",
+  __ASSET_TRACKING_UPDATE:  "__ASSET_TRACKING_UPDATE",
+  __ASSET_TRACKING_TIMEOUT: "__ASSET_TRACKING_TIMEOUT",
 }

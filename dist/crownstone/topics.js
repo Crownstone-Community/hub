@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.topics = void 0;
+exports.WebhookInternalTopics = exports.WebhookTopics = exports.topics = void 0;
 exports.topics = {
     CLOUD_SYNC_REQUIRED: "CLOUD_SYNC_REQUIRED",
     TOKEN_EXPIRED: "TOKEN_EXPIRED",
@@ -9,5 +9,14 @@ exports.topics = {
     HUB_DELETED: "HUB_DELETED",
     HUB_UART_KEY_UPDATED: "HUB_UART_KEY_UPDATED",
     MESH_SERVICE_DATA: "MESH_SERVICE_DATA",
+};
+exports.WebhookTopics = {
+    ASSET_REPORT: "ASSET_REPORT",
+    ASSET_TRACKING: "ASSET_TRACKING",
+};
+exports.WebhookInternalTopics = {
+    __ASSET_REPORT: "__ASSET_REPORT",
+    __ASSET_TRACKING_UPDATE: "__ASSET_TRACKING_UPDATE",
+    __ASSET_TRACKING_TIMEOUT: "__ASSET_TRACKING_TIMEOUT",
 };
 //# sourceMappingURL=topics.js.map

@@ -9,7 +9,8 @@ import {inject} from '@loopback/core';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 import {Asset} from '../models/cloud/asset.model';
-import {UpdateFilters} from '../crownstone/Filters/Filters';
+import {reconstructFilters} from '../crownstone/Filters/Filters';
+import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 
 /**
  * This controller will echo the state of the hub.
@@ -27,7 +28,17 @@ export class AssetController {
   @authenticate(SecurityTypes.sphere)
   async createAsset(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @requestBody({required: true}) newAsset: DataObject<Asset>,
+    @requestBody({
+      required: true,
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Asset, {
+            title: 'newAsset',
+            exclude: ['id','updatedAt','createdAt'],
+          }),
+        },
+      },
+      description: "Create a new asset to be tracked."}) newAsset: DataObject<Asset>,
   ): Promise<Asset> {
     return this.assetRepo.create(newAsset);
   }
@@ -50,9 +61,9 @@ export class AssetController {
     let allAssets = await this.assetRepo.find();
     let allFilters = await this.filterRepo.find();
 
-    let changeRequired = await UpdateFilters(allAssets, allFilters);
+    let changeRequired = await reconstructFilters(allAssets, allFilters);
     if (changeRequired) {
-      // TODO: actually update the filters.
+      CrownstoneHub.filters.refreshFilterSets()
     }
   }
 
@@ -72,7 +83,17 @@ export class AssetController {
   async updateAsset(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.path.string('id') id: string,
-    @requestBody({required: true}) updatedModel: DataObject<Asset>,
+    @requestBody({
+      required: true,
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Asset, {
+            title: 'UpdatedAsset',
+            exclude: ["createdAt"]
+          }),
+        },
+      },
+      description: "update the asset"}) updatedModel: DataObject<Asset>,
   ): Promise<void> {
     return this.assetRepo.updateById(id, updatedModel)
   }

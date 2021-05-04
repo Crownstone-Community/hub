@@ -16,6 +16,7 @@ const config_1 = require("../config");
 const DbUtil_1 = require("./Data/DbUtil");
 const HubStatusManager_1 = require("./Uart/HubStatusManager");
 const WebhookManager_1 = require("./Webhooks/WebhookManager");
+const FilterManager_1 = require("./Filters/FilterManager");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {
@@ -23,6 +24,7 @@ class CrownstoneHubClass {
         this.uart = new Uart_1.Uart(this.cloud.cloud);
         this.mesh = new MeshMonitor_1.MeshMonitor();
         this.webhooks = new WebhookManager_1.WebhookManager();
+        this.filters = new FilterManager_1.FilterManager(this.uart);
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
@@ -33,6 +35,8 @@ class CrownstoneHubClass {
         HubStatus_1.HubStatus.uartReady = true;
     }
     async initialize() {
+        this.webhooks.init();
+        this.filters.init();
         HubStatus_1.resetHubStatus();
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub && hub.cloudId !== 'null' && hub.cloudId !== '') {
@@ -92,6 +96,8 @@ class CrownstoneHubClass {
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
+        this.filters.cleanup();
+        this.webhooks.cleanup();
         if (partial) {
             log.notice("Crippling hub instance...");
             await DbReference_1.Dbs.hub.partialDelete();

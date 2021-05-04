@@ -4,9 +4,11 @@ import {SecurityTypes} from '../constants/Constants';
 import {inject} from '@loopback/core';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
-import {del, get, HttpErrors, param, post, requestBody} from '@loopback/rest';
+import {del, get, getModelSchemaRef, HttpErrors, param, post, requestBody} from '@loopback/rest';
 import {Webhook} from '../models/hub-specific/webhook.model';
 import {WebhookRepository} from '../repositories/hub-specific/webhook.repository';
+import {CrownstoneHub} from '../crownstone/CrownstoneHub';
+import {WebhookTopics} from '../crownstone/topics';
 
 /**
  * This controller will echo the state of the hub.
@@ -22,17 +24,33 @@ export class WebhookController {
   @authenticate(SecurityTypes.sphere)
   async createWebhook(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @requestBody({required: true}) newHook: DataObject<Webhook>,
+    @requestBody({
+      required: true,
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Webhook, {
+            title: 'NewWebhook',
+            exclude: ['id'],
+          }),
+        },
+      },
+      description: "Create a webhook that will invoke an endpoint on certain event triggers."}) newHook: DataObject<Webhook>,
   ): Promise<Webhook> {
-    return this.webhookRepo.create(newHook);
+    if (!newHook) { throw new HttpErrors.BadRequest("Data required") }
+
+    // @ts-ignore
+    if (!WebhookTopics[newHook.event]) {
+      throw new HttpErrors.BadRequest("Invalid Event. Possiblities are: " + Object.keys(WebhookTopics).join(", "))
+    }
+
+    let hook = await this.webhookRepo.create(newHook);
+    await CrownstoneHub.webhooks.refreshHooks();
+    return hook;
   }
 
   @get('/webhooks')
   @authenticate(SecurityTypes.sphere)
-  async getWebhooks(
-    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
-    @requestBody({required: true}) newHook: DataObject<Webhook>,
-  ): Promise<Webhook[]> {
+  async getWebhooks(@inject(SecurityBindings.USER) userProfile : UserProfileDescription): Promise<Webhook[]> {
     return await this.webhookRepo.find()
   }
 
