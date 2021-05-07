@@ -9,7 +9,7 @@ import {
   UserPermissionRepository,
   UserRepository,
 } from './repositories';
-import {Dbs} from './crownstone/Data/DbReference';
+import {Dbs} from './crownstone/data/DbReference';
 import {CrownstoneHub} from './crownstone/CrownstoneHub';
 // import {MongoDbConnector} from './datasources/mongoDriver';
 

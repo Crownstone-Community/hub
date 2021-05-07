@@ -1,6 +1,6 @@
 import {HubDataParser} from '../../protocol/rx/HubData';
 import {HubDataType, HubReplyError, HubRequestDataType} from '../../protocol/HubProtocol';
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {CrownstoneCloud} from 'crownstone-cloud';
 import {HubDataReplyError, HubDataReplyString, HubDataReplySuccess} from '../../protocol/tx/HubDataReply';
 import {eventBus} from '../HubEventBus';

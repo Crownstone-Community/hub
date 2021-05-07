@@ -1,9 +1,9 @@
-import {Uart} from './Uart/Uart';
-import {CloudManager} from './Cloud/CloudManager';
-import {Dbs} from './Data/DbReference';
-import {MeshMonitor} from './MeshMonitor/MeshMonitor';
-import {CloudCommandHandler} from './Cloud/CloudCommandHandler';
-import {Timekeeper} from './Actions/Timekeeper';
+import {Uart} from './uart/Uart';
+import {CloudManager} from './cloud/CloudManager';
+import {Dbs} from './data/DbReference';
+import {MeshMonitor} from './meshMonitor/MeshMonitor';
+import {CloudCommandHandler} from './cloud/CloudCommandHandler';
+import {Timekeeper} from './actions/Timekeeper';
 import {Logger} from '../Logger';
 import {HubStatus, resetHubStatus} from './HubStatus';
 import {eventBus} from './HubEventBus';
@@ -11,10 +11,10 @@ import {topics} from './topics';
 import Timeout = NodeJS.Timeout;
 import {CrownstoneUtil} from './CrownstoneUtil';
 import {CONFIG} from '../config';
-import {EMPTY_DATABASE} from './Data/DbUtil';
-import {HubStatusManager} from './Uart/HubStatusManager';
-import {WebhookManager} from './Webhooks/WebhookManager';
-import {FilterManager} from './Filters/FilterManager';
+import {EMPTY_DATABASE} from './data/DbUtil';
+import {HubStatusManager} from './uart/HubStatusManager';
+import {WebhookManager} from './webhooks/WebhookManager';
+import {FilterManager} from './filters/FilterManager';
 
 const log = Logger(__filename);
 

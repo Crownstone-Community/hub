@@ -1,4 +1,4 @@
-import { Uart } from '../Uart/Uart';
+import { Uart } from '../uart/Uart';
 export declare class FilterManager {
     initialized: boolean;
     uartReference: Uart;

@@ -21,6 +21,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], AssetFilterSet.prototype, "masterVersion", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'number', required: true }),
+    tslib_1.__metadata("design:type", Number)
+], AssetFilterSet.prototype, "masterCRC", void 0);
+tslib_1.__decorate([
     repository_1.hasMany(() => asset_filter_model_1.AssetFilter, { keyTo: 'filterSetId' }),
     tslib_1.__metadata("design:type", Array)
 ], AssetFilterSet.prototype, "filters", void 0);

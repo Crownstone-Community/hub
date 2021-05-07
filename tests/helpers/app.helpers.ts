@@ -4,7 +4,7 @@ CONFIG.enableUart = false;
 
 import {CrownstoneHubApplication} from '../../src';
 import {testdb} from "../fixtures/datasources/testdb.datasource";
-import {Dbs} from '../../src/crownstone/Data/DbReference';
+import {Dbs} from '../../src/crownstone/data/DbReference';
 import {
   DatabaseInfoRepository,
   EnergyDataProcessedRepository,

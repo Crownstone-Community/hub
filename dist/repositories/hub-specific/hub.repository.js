@@ -5,7 +5,7 @@ const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
 const core_1 = require("@loopback/core");
 const hub_model_1 = require("../../models/hub-specific/hub.model");
-const DbUtil_1 = require("../../crownstone/Data/DbUtil");
+const DbUtil_1 = require("../../crownstone/data/DbUtil");
 let HubRepository = class HubRepository extends repository_1.DefaultCrudRepository {
     constructor(datasource) {
         super(hub_model_1.Hub, datasource);

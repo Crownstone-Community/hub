@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
 import {extractToken} from '../security/authentication-strategies/csToken-strategy';
 import {checkAccessToken} from '../services';
-import {Dbs} from '../crownstone/Data/DbReference';
+import {Dbs} from '../crownstone/data/DbReference';
 import {getHubConfig, storeHubConfig} from '../util/ConfigUtil';
 import {CrownstoneHubApplication, updateControllersBasedOnConfig} from '../application';
 import {HttpErrors} from '@loopback/rest';

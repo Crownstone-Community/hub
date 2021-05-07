@@ -1,22 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CrownstoneHub = exports.CrownstoneHubClass = void 0;
-const Uart_1 = require("./Uart/Uart");
-const CloudManager_1 = require("./Cloud/CloudManager");
-const DbReference_1 = require("./Data/DbReference");
-const MeshMonitor_1 = require("./MeshMonitor/MeshMonitor");
-const CloudCommandHandler_1 = require("./Cloud/CloudCommandHandler");
-const Timekeeper_1 = require("./Actions/Timekeeper");
+const Uart_1 = require("./uart/Uart");
+const CloudManager_1 = require("./cloud/CloudManager");
+const DbReference_1 = require("./data/DbReference");
+const MeshMonitor_1 = require("./meshMonitor/MeshMonitor");
+const CloudCommandHandler_1 = require("./cloud/CloudCommandHandler");
+const Timekeeper_1 = require("./actions/Timekeeper");
 const Logger_1 = require("../Logger");
 const HubStatus_1 = require("./HubStatus");
 const HubEventBus_1 = require("./HubEventBus");
 const topics_1 = require("./topics");
 const CrownstoneUtil_1 = require("./CrownstoneUtil");
 const config_1 = require("../config");
-const DbUtil_1 = require("./Data/DbUtil");
-const HubStatusManager_1 = require("./Uart/HubStatusManager");
-const WebhookManager_1 = require("./Webhooks/WebhookManager");
-const FilterManager_1 = require("./Filters/FilterManager");
+const DbUtil_1 = require("./data/DbUtil");
+const HubStatusManager_1 = require("./uart/HubStatusManager");
+const WebhookManager_1 = require("./webhooks/WebhookManager");
+const FilterManager_1 = require("./filters/FilterManager");
 const log = Logger_1.Logger(__filename);
 class CrownstoneHubClass {
     constructor() {

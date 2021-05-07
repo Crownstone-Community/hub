@@ -6,8 +6,8 @@ import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 import {SecurityTypes} from '../constants/Constants';
-import {fillWithStoneData, MemoryDb} from '../crownstone/Data/MemoryDb';
-import {IntervalData} from '../crownstone/Processing/IntervalData';
+import {fillWithStoneData, MemoryDb} from '../crownstone/data/MemoryDb';
+import {IntervalData} from '../crownstone/processing/IntervalData';
 
 /**
  * This controller will echo the state of the hub.

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import Timeout = NodeJS.Timeout;
 import { EnergyData, EnergyDataProcessed } from '../../models';
-import { InMemoryCache } from '../Data/InMemoryCache';
+import { InMemoryCache } from '../data/InMemoryCache';
 export declare class EnergyMonitor {
     timeInterval: Timeout | null;
     storeInterval: Timeout | null;

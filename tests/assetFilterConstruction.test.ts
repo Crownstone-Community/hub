@@ -2,11 +2,11 @@ import {resetMocks} from './mocks/suite.mock';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {EMPTY_DATABASE} from '../src/crownstone/Data/DbUtil';
+import {EMPTY_DATABASE} from '../src/crownstone/data/DbUtil';
 import { mocked } from 'ts-jest/utils'
 import {auth, createAsset_ad_track_ad, createAsset_mac_report, createHub, createUser} from './dataGenerators';
-import {Dbs} from '../src/crownstone/Data/DbReference';
-import {getMetaDataDescriptionFromAsset, getMetaDataDescriptionFromFilter, reconstructFilters} from '../src/crownstone/Filters/filters';
+import {Dbs} from '../src/crownstone/data/DbReference';
+import {getMetaDataDescriptionFromAsset, getMetaDataDescriptionFromFilter, reconstructFilters} from '../src/crownstone/filters/filters';
 
 
 

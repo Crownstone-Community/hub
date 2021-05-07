@@ -9,8 +9,8 @@ const authentication_1 = require("@loopback/authentication");
 const context_1 = require("@loopback/context");
 const security_1 = require("@loopback/security");
 const Constants_1 = require("../constants/Constants");
-const MemoryDb_1 = require("../crownstone/Data/MemoryDb");
-const IntervalData_1 = require("../crownstone/Processing/IntervalData");
+const MemoryDb_1 = require("../crownstone/data/MemoryDb");
+const IntervalData_1 = require("../crownstone/processing/IntervalData");
 /**
  * This controller will echo the state of the hub.
  */

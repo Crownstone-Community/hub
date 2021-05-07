@@ -15,6 +15,12 @@ export class Webhook extends Entity {
   @property({type: 'string', required: true})
   endPoint: string;
 
+  @property({type: 'boolean', required: true})
+  compressed: boolean;
+
+  @property({type: 'number'})
+  batchTimeSeconds: number;
+
   @property({type: 'string', required: false})
   apiKey: string;
 

@@ -1,7 +1,7 @@
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {AssetFilter} from '../../models/cloud/asset-filter.model';
 import {getMasterCRC} from 'crownstone-core';
-import {Uart} from '../Uart/Uart';
+import {Uart} from '../uart/Uart';
 
 export class FilterManager {
   initialized = false;

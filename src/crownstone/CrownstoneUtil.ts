@@ -1,9 +1,9 @@
-import {Dbs} from './Data/DbReference';
+import {Dbs} from './data/DbReference';
 import {Logger} from '../Logger';
 import {resetHubStatus} from './HubStatus';
 import {eventBus} from './HubEventBus';
 import {topics} from './topics';
-import {getStoneIdFromMacAdddress} from './Data/MemoryDb';
+import {getStoneIdFromMacAdddress} from './data/MemoryDb';
 import {HttpErrors} from '@loopback/rest';
 import {CrownstoneHub} from './CrownstoneHub';
 

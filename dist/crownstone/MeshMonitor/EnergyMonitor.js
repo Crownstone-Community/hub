@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EnergyMonitor = void 0;
-const DbReference_1 = require("../Data/DbReference");
-const MemoryDb_1 = require("../Data/MemoryDb");
-const CloudCommandHandler_1 = require("../Cloud/CloudCommandHandler");
+const DbReference_1 = require("../data/DbReference");
+const MemoryDb_1 = require("../data/MemoryDb");
+const CloudCommandHandler_1 = require("../cloud/CloudCommandHandler");
 const Logger_1 = require("../../Logger");
 const crownstone_core_1 = require("crownstone-core");
-const EnergyProcessor_1 = require("../Processing/EnergyProcessor");
-const IntervalData_1 = require("../Processing/IntervalData");
-const InMemoryCache_1 = require("../Data/InMemoryCache");
+const EnergyProcessor_1 = require("../processing/EnergyProcessor");
+const IntervalData_1 = require("../processing/IntervalData");
+const InMemoryCache_1 = require("../data/InMemoryCache");
 const log = Logger_1.Logger(__filename);
 const PROCESSING_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {

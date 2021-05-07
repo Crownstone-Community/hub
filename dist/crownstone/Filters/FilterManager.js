@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilterManager = void 0;
-const DbReference_1 = require("../Data/DbReference");
+const DbReference_1 = require("../data/DbReference");
 const crownstone_core_1 = require("crownstone-core");
 class FilterManager {
     constructor(uartReference) {

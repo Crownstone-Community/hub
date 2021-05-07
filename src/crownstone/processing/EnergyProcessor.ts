@@ -1,5 +1,5 @@
 import {EnergyData, EnergyDataProcessed} from '../../models';
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {DataObject} from '@loopback/repository/src/common-types';
 import {Logger} from '../../Logger';
 

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SwitchMonitor = void 0;
-const DbReference_1 = require("../Data/DbReference");
-const MemoryDb_1 = require("../Data/MemoryDb");
-const CloudCommandHandler_1 = require("../Cloud/CloudCommandHandler");
+const DbReference_1 = require("../data/DbReference");
+const MemoryDb_1 = require("../data/MemoryDb");
+const CloudCommandHandler_1 = require("../cloud/CloudCommandHandler");
 const crownstone_core_1 = require("crownstone-core");
 /**
  * This class will keep an in-memory cache of the known switch-states.

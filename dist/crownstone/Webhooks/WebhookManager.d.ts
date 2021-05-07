@@ -1,19 +1,25 @@
 import { Webhook } from '../../models/hub-specific/webhook.model';
-declare type fn = () => void;
+import { WebhookCollector, webhookDataType } from './WebhookCollector';
 export declare class WebhookManager {
-    initialized: boolean;
-    hooksByEvent: {
-        [eventTopic: string]: Webhook[];
-    };
-    subscriptions: fn[];
+    hookIntervals: () => {};
+    collectors: WebhookCollector[];
     init(): void;
     cleanup(): void;
     refreshHooks(): Promise<void>;
-    mapData(incomingTopic: string, data: any): {
-        topic: string;
-        data: any;
-    } | null;
-    evaluateHooks(incomingTopic: string, data: any): void;
-    invoke(hook: Webhook, data: any): Promise<void>;
+    invoke(hook: Webhook, data: webhookDataType[]): Promise<void>;
+    formatData(hook: Webhook, items: webhookDataType[]): ({
+        cid: number;
+        cm: string | null;
+        am: string;
+        r: number;
+        c: number;
+        t: number;
+    } | {
+        crownstoneId: number;
+        crownstoneMacAddress: string | null;
+        assetMacAddress: string;
+        assetRssi: number;
+        rssiChannel: number;
+        timestamp: number;
+    })[];
 }
-export {};

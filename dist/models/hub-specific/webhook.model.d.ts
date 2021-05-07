@@ -4,6 +4,8 @@ export declare class Webhook extends Entity {
     event: WebhookEvents;
     clientSecret: string;
     endPoint: string;
+    compressed: boolean;
+    batchTimeSeconds: number;
     apiKey: string;
     apiKeyHeader: string;
 }

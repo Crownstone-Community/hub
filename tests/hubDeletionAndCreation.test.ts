@@ -1,8 +1,8 @@
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {Dbs} from '../src/crownstone/Data/DbReference';
-import {EMPTY_DATABASE} from '../src/crownstone/Data/DbUtil';
+import {Dbs} from '../src/crownstone/data/DbReference';
+import {EMPTY_DATABASE} from '../src/crownstone/data/DbUtil';
 import { mocked } from 'ts-jest/utils'
 // import {Logger} from '../src/Logger';
 //

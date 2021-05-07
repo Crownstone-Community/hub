@@ -8,11 +8,11 @@ const config_1 = require("../../config");
 const Logger_1 = require("../../Logger");
 const topics_1 = require("../topics");
 const UartHubDataCommunication_1 = require("./UartHubDataCommunication");
-const DbReference_1 = require("../Data/DbReference");
+const DbReference_1 = require("../data/DbReference");
 const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const HubStatusManager_1 = require("./HubStatusManager");
 const FilterSyncer_1 = require("crownstone-core/dist/util/FilterSyncer");
-const FilterUtil_1 = require("../Filters/FilterUtil");
+const FilterUtil_1 = require("../filters/FilterUtil");
 const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
@@ -55,6 +55,8 @@ class Uart {
                 clientHasInternet: false,
             });
             log.info("Uart is ready");
+            // On initialization we check if the filters on the Crownstone match with the ones we expect.
+            await this.syncFilters();
             this.ready = true;
         }
         catch (err) {

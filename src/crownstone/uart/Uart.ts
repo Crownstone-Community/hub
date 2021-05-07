@@ -6,12 +6,12 @@ import {CONFIG} from '../../config';
 import {Logger} from '../../Logger';
 import {topics, WebhookInternalTopics, WebhookTopics} from '../topics';
 import {UartHubDataCommunication} from './UartHubDataCommunication';
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {CrownstoneUtil} from '../CrownstoneUtil';
 import {CrownstoneCloud} from 'crownstone-cloud';
 import {HubStatusManager} from './HubStatusManager';
 import {FilterData, FilterSycingCommunicationInterface, FilterSyncer, FilterSyncingTargetData} from 'crownstone-core/dist/util/FilterSyncer';
-import {FilterUtil} from '../Filters/FilterUtil';
+import {FilterUtil} from '../filters/FilterUtil';
 const log = Logger(__filename);
 
 
@@ -72,7 +72,10 @@ export class Uart implements UartInterface {
         encryptionRequired: false,
         clientHasInternet: false,
       });
-      log.info("Uart is ready")
+      log.info("Uart is ready");
+
+      // On initialization we check if the filters on the Crownstone match with the ones we expect.
+      await this.syncFilters();
       this.ready = true;
     }
     catch (err) {

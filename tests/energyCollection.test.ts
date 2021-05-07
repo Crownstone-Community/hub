@@ -1,8 +1,8 @@
-import {EnergyMonitor} from '../src/crownstone/MeshMonitor/EnergyMonitor';
+import {EnergyMonitor} from '../src/crownstone/meshMonitor/EnergyMonitor';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {Dbs} from '../src/crownstone/Data/DbReference';
+import {Dbs} from '../src/crownstone/data/DbReference';
 // import {Logger} from '../src/Logger';
 //
 // const log = Logger("EnergyCollectionTest");

@@ -1,7 +1,7 @@
 import { Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
 import { AssetFilter} from '../../models/cloud/asset-filter.model';
 import {CuckooFilter, FilterType, getFilterCRC} from 'crownstone-core';
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {FilterUtil} from './FilterUtil';
 
 
@@ -82,7 +82,7 @@ export async function reconstructFilters(allAssets: Asset[], allFilters: AssetFi
     let requiredMatchingVersion = filterRequirements[typeDescription];
     if (requiredMatchingVersion && requiredMatchingVersion.filterPacket === filter.data) {
       requiredMatchingVersion.exists = true;
-      await updateAssetFilterIds(requiredMatchingVersion.assets, filter.id).catch((err) => { console.log("@",err)})
+      await updateAssetFilterIds(requiredMatchingVersion.assets, filter.id).catch()
     }
     else {
       // Delete this filter.
@@ -106,7 +106,7 @@ export async function reconstructFilters(allAssets: Asset[], allFilters: AssetFi
         dataCRC: requirement.filterCRC,
       });
 
-      await updateAssetFilterIds(requirement.assets, newFilter.id).catch((err) => { console.log("@2",err)})
+      await updateAssetFilterIds(requirement.assets, newFilter.id).catch()
     }
   }
 

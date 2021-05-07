@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMetaDataDescription = exports.getMetaDataDescriptionFromFilter = exports.getMetaDataDescriptionFromAsset = exports.reconstructFilters = void 0;
 const crownstone_core_1 = require("crownstone-core");
-const DbReference_1 = require("../Data/DbReference");
+const DbReference_1 = require("../data/DbReference");
 const FilterUtil_1 = require("./FilterUtil");
 /**
  * This does and add or delete of the filters.
@@ -54,7 +54,7 @@ async function reconstructFilters(allAssets, allFilters) {
         let requiredMatchingVersion = filterRequirements[typeDescription];
         if (requiredMatchingVersion && requiredMatchingVersion.filterPacket === filter.data) {
             requiredMatchingVersion.exists = true;
-            await updateAssetFilterIds(requiredMatchingVersion.assets, filter.id).catch((err) => { console.log("@", err); });
+            await updateAssetFilterIds(requiredMatchingVersion.assets, filter.id).catch();
         }
         else {
             // Delete this filter.
@@ -75,7 +75,7 @@ async function reconstructFilters(allAssets, allFilters) {
                 data: requirement.filterPacket,
                 dataCRC: requirement.filterCRC,
             });
-            await updateAssetFilterIds(requirement.assets, newFilter.id).catch((err) => { console.log("@2", err); });
+            await updateAssetFilterIds(requirement.assets, newFilter.id).catch();
         }
     }
     return filterChangeRequired;

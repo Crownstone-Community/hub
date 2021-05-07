@@ -3,7 +3,7 @@ import {get, post, requestBody} from '@loopback/rest';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 import {authenticate} from '@loopback/authentication';
 import {SecurityTypes} from '../constants/Constants';
-import {fillWithStoneData, MemoryDb} from '../crownstone/Data/MemoryDb';
+import {fillWithStoneData, MemoryDb} from '../crownstone/data/MemoryDb';
 
 
 interface CrownstoneInMeshData {

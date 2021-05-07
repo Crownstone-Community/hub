@@ -6,7 +6,7 @@ const rest_1 = require("@loopback/rest");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 const authentication_1 = require("@loopback/authentication");
 const Constants_1 = require("../constants/Constants");
-const MemoryDb_1 = require("../crownstone/Data/MemoryDb");
+const MemoryDb_1 = require("../crownstone/data/MemoryDb");
 class MeshController {
     constructor() { }
     async getCrownstonesInMesh() {

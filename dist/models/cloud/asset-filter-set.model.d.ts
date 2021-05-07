@@ -12,6 +12,7 @@ export declare class AssetFilterSet extends AssetFilterSet_base {
     id: string;
     cloudId: string;
     masterVersion: number;
+    masterCRC: number;
     filters: AssetFilter[];
 }
 export {};

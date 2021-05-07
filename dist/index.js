@@ -4,7 +4,7 @@ exports.main = exports.CrownstoneHubApplication = void 0;
 const application_1 = require("./application");
 Object.defineProperty(exports, "CrownstoneHubApplication", { enumerable: true, get: function () { return application_1.CrownstoneHubApplication; } });
 const repositories_1 = require("./repositories");
-const DbReference_1 = require("./crownstone/Data/DbReference");
+const DbReference_1 = require("./crownstone/data/DbReference");
 const CrownstoneHub_1 = require("./crownstone/CrownstoneHub");
 // import {MongoDbConnector} from './datasources/mongoDriver';
 const server_1 = require("./server");

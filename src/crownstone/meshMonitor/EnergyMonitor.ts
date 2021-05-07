@@ -1,14 +1,14 @@
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import Timeout = NodeJS.Timeout;
 import {EnergyData, EnergyDataProcessed} from '../../models';
 import {DataObject} from '@loopback/repository/src/common-types';
-import {MemoryDb} from '../Data/MemoryDb';
-import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
+import {MemoryDb} from '../data/MemoryDb';
+import {CloudCommandHandler} from '../cloud/CloudCommandHandler';
 import {Logger} from '../../Logger';
 import { Util } from 'crownstone-core';
-import {minuteInterval, processPair} from '../Processing/EnergyProcessor';
-import {IntervalData} from '../Processing/IntervalData';
-import {InMemoryCache} from '../Data/InMemoryCache';
+import {minuteInterval, processPair} from '../processing/EnergyProcessor';
+import {IntervalData} from '../processing/IntervalData';
+import {InMemoryCache} from '../data/InMemoryCache';
 const log = Logger(__filename);
 
 const PROCESSING_INTERVAL = 60000; // 1 minute;

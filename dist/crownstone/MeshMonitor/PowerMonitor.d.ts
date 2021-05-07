@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { InMemoryCache } from '../Data/InMemoryCache';
+import { InMemoryCache } from '../data/InMemoryCache';
 import Timeout = NodeJS.Timeout;
 export declare class PowerMonitor {
     storeInterval: Timeout;

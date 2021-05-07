@@ -1,6 +1,6 @@
-import {Dbs} from '../Data/DbReference';
-import {MemoryDb} from '../Data/MemoryDb';
-import {CloudCommandHandler} from '../Cloud/CloudCommandHandler';
+import {Dbs} from '../data/DbReference';
+import {MemoryDb} from '../data/MemoryDb';
+import {CloudCommandHandler} from '../cloud/CloudCommandHandler';
 import {Util} from 'crownstone-core';
 
 

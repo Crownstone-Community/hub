@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addDeveloperRoutes = void 0;
 const csToken_strategy_1 = require("../security/authentication-strategies/csToken-strategy");
 const services_1 = require("../services");
-const DbReference_1 = require("../crownstone/Data/DbReference");
+const DbReference_1 = require("../crownstone/data/DbReference");
 const ConfigUtil_1 = require("../util/ConfigUtil");
 const application_1 = require("../application");
 const rest_1 = require("@loopback/rest");

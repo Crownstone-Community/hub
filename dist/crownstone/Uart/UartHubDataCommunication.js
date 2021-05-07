@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UartHubDataCommunication = void 0;
 const HubData_1 = require("../../protocol/rx/HubData");
 const HubProtocol_1 = require("../../protocol/HubProtocol");
-const DbReference_1 = require("../Data/DbReference");
+const DbReference_1 = require("../data/DbReference");
 const crownstone_cloud_1 = require("crownstone-cloud");
 const HubDataReply_1 = require("../../protocol/tx/HubDataReply");
 const HubEventBus_1 = require("../HubEventBus");

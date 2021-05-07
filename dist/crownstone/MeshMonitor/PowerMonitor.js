@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PowerMonitor = void 0;
-const DbReference_1 = require("../Data/DbReference");
+const DbReference_1 = require("../data/DbReference");
 const crownstone_core_1 = require("crownstone-core");
-const InMemoryCache_1 = require("../Data/InMemoryCache");
+const InMemoryCache_1 = require("../data/InMemoryCache");
 class PowerMonitor {
     constructor() {
         this.powerCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.Dbs.power.createAll(data); }, 'powerMonitor');

@@ -22,6 +22,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], Webhook.prototype, "endPoint", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'boolean', required: true }),
+    tslib_1.__metadata("design:type", Boolean)
+], Webhook.prototype, "compressed", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'number' }),
+    tslib_1.__metadata("design:type", Number)
+], Webhook.prototype, "batchTimeSeconds", void 0);
+tslib_1.__decorate([
     repository_1.property({ type: 'string', required: false }),
     tslib_1.__metadata("design:type", String)
 ], Webhook.prototype, "apiKey", void 0);

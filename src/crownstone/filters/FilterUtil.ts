@@ -16,7 +16,7 @@ export const FilterUtil = {
     let meta = new FilterMetaData();
 
     meta.type = type;
-    meta.profileId = profileId;
+    meta.profileId = profileId ?? 255;
 
     switch (inputData.type) {
       case "MAC_ADDRESS":    meta.input = new FilterFormatMacAddress(); break;

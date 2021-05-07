@@ -1,9 +1,9 @@
-import {EnergyMonitor} from '../src/crownstone/MeshMonitor/EnergyMonitor';
+import {EnergyMonitor} from '../src/crownstone/meshMonitor/EnergyMonitor';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
-import {Dbs} from '../src/crownstone/Data/DbReference';
-import {IntervalData} from '../src/crownstone/Processing/IntervalData';
+import {Dbs} from '../src/crownstone/data/DbReference';
+import {IntervalData} from '../src/crownstone/processing/IntervalData';
 
 const fs = require("fs");
 const path = require("path");

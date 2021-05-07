@@ -1,6 +1,6 @@
-import {Dbs} from '../Data/DbReference';
+import {Dbs} from '../data/DbReference';
 import {Util} from 'crownstone-core';
-import {InMemoryCache} from '../Data/InMemoryCache';
+import {InMemoryCache} from '../data/InMemoryCache';
 import Timeout = NodeJS.Timeout;
 
 

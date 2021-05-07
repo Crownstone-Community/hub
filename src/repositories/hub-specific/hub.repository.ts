@@ -2,7 +2,7 @@ import { DefaultCrudRepository, juggler } from '@loopback/repository';
 import { inject } from '@loopback/core';
 import { Hub } from '../../models/hub-specific/hub.model';
 import {DataObject, Options} from '@loopback/repository/src/common-types';
-import {EMPTY_DATABASE} from '../../crownstone/Data/DbUtil';
+import {EMPTY_DATABASE} from '../../crownstone/data/DbUtil';
 
 
 export class HubRepository extends DefaultCrudRepository<Hub,typeof Hub.prototype.id> {

@@ -12,7 +12,7 @@ const Constants_1 = require("../constants/Constants");
 const core_1 = require("@loopback/core");
 const security_1 = require("@loopback/security");
 const asset_model_1 = require("../models/cloud/asset.model");
-const Filters_1 = require("../crownstone/Filters/Filters");
+const Filters_1 = require("../crownstone/filters/Filters");
 const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
 /**
  * This controller will echo the state of the hub.

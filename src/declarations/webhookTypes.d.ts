@@ -1,1 +1,1 @@
-type WebhookEvents = "ASSETS"
+type WebhookEvents = "ASSET_REPORT" | "ASSET_TRACKING"

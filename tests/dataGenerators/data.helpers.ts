@@ -1,4 +1,4 @@
-import {Dbs} from '../../src/crownstone/Data/DbReference';
+import {Dbs} from '../../src/crownstone/data/DbReference';
 import {property} from '@loopback/repository';
 
 

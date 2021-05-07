@@ -9,7 +9,7 @@ exports.FilterUtil = {
     getFilterMetaData: function (type, profileId, inputData, outputDescription) {
         let meta = new crownstone_core_1.FilterMetaData();
         meta.type = type;
-        meta.profileId = profileId;
+        meta.profileId = profileId !== null && profileId !== void 0 ? profileId : 255;
         switch (inputData.type) {
             case "MAC_ADDRESS":
                 meta.input = new crownstone_core_1.FilterFormatMacAddress();

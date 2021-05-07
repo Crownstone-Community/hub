@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CrownstoneUtil = void 0;
-const DbReference_1 = require("./Data/DbReference");
+const DbReference_1 = require("./data/DbReference");
 const Logger_1 = require("../Logger");
 const HubStatus_1 = require("./HubStatus");
 const HubEventBus_1 = require("./HubEventBus");
 const topics_1 = require("./topics");
-const MemoryDb_1 = require("./Data/MemoryDb");
+const MemoryDb_1 = require("./data/MemoryDb");
 const rest_1 = require("@loopback/rest");
 const CrownstoneHub_1 = require("./CrownstoneHub");
 const log = Logger_1.Logger(__filename);

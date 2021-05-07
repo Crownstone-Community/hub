@@ -9,7 +9,7 @@ import {inject} from '@loopback/core';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 import {Asset} from '../models/cloud/asset.model';
-import {reconstructFilters} from '../crownstone/Filters/Filters';
+import {reconstructFilters} from '../crownstone/filters/Filters';
 import {CrownstoneHub} from '../crownstone/CrownstoneHub';
 
 /**

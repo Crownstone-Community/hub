@@ -1,11 +1,11 @@
 /// <reference types="node" />
-import { Uart } from './Uart/Uart';
-import { CloudManager } from './Cloud/CloudManager';
-import { MeshMonitor } from './MeshMonitor/MeshMonitor';
-import { Timekeeper } from './Actions/Timekeeper';
+import { Uart } from './uart/Uart';
+import { CloudManager } from './cloud/CloudManager';
+import { MeshMonitor } from './meshMonitor/MeshMonitor';
+import { Timekeeper } from './actions/Timekeeper';
 import Timeout = NodeJS.Timeout;
-import { WebhookManager } from './Webhooks/WebhookManager';
-import { FilterManager } from './Filters/FilterManager';
+import { WebhookManager } from './webhooks/WebhookManager';
+import { FilterManager } from './filters/FilterManager';
 export declare class CrownstoneHubClass implements CrownstoneHub {
     uart: Uart;
     cloud: CloudManager;
