@@ -205,7 +205,6 @@ class EnergyMonitor {
         }
     }
     async _uploadStoneEnergy(processedData) {
-        var _a;
         if (processedData.length > 0) {
             let hasData = false;
             let measurementData = {};
@@ -213,7 +212,7 @@ class EnergyMonitor {
             for (let i = 0; i < processedData.length; i++) {
                 let energy = processedData[i];
                 // console.log(energy.stoneUID, MemoryDb.stones[energy.stoneUID]?.cloudId)
-                let cloudId = (_a = MemoryDb_1.MemoryDb.stones[energy.stoneUID]) === null || _a === void 0 ? void 0 : _a.cloudId;
+                let cloudId = MemoryDb_1.MemoryDb.stones[energy.stoneUID]?.cloudId;
                 if (cloudId) {
                     if (measurementData[cloudId] === undefined) {
                         measurementData[cloudId] = [];

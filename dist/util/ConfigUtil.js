@@ -62,15 +62,13 @@ function getPortConfig() {
 }
 exports.getPortConfig = getPortConfig;
 function getHttpsPort() {
-    var _a, _b;
     let portConfig = getPortConfig();
-    return Number((_b = (_a = portConfig.httpsPort) !== null && _a !== void 0 ? _a : process.env.PORT) !== null && _b !== void 0 ? _b : 443);
+    return Number(portConfig.httpsPort ?? process.env.PORT ?? 443);
 }
 exports.getHttpsPort = getHttpsPort;
 function getHttpPort() {
-    var _a, _b;
     let portConfig = getPortConfig();
-    return Number((_b = (_a = portConfig.httpPort) !== null && _a !== void 0 ? _a : process.env.HTTP_PORT) !== null && _b !== void 0 ? _b : 80);
+    return Number(portConfig.httpPort ?? process.env.HTTP_PORT ?? 80);
 }
 exports.getHttpPort = getHttpPort;
 function getConfigPath() {

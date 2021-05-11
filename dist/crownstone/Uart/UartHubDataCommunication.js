@@ -80,7 +80,7 @@ class UartHubDataCommunication {
             else {
                 if (await DbReference_1.Dbs.hub.isSet()) {
                     let hub = await DbReference_1.Dbs.hub.get();
-                    return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub === null || hub === void 0 ? void 0 : hub.cloudId)), crownstone_core_1.ResultValue.SUCCESS, false);
+                    return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyString(requestPacket.requestedType, String(hub?.cloudId)), crownstone_core_1.ResultValue.SUCCESS, false);
                 }
                 // no hub or no cloudId.
                 return this.uart.hub.dataReply(HubDataReply_1.HubDataReplyError(HubProtocol_1.HubReplyError.IN_SETUP_MODE), crownstone_core_1.ResultValue.SUCCESS, false);

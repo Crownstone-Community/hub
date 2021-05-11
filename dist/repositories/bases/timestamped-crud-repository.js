@@ -34,9 +34,8 @@ class TimestampedCrudRepository extends repository_1.DefaultCrudRepository {
         }
     }
     __updateTimes(entity, options) {
-        var _a;
         entity.createdAt = CloudUtil_1.CloudUtil.getDate();
-        entity.updatedAt = (_a = entity.updatedAt) !== null && _a !== void 0 ? _a : CloudUtil_1.CloudUtil.getDate();
+        entity.updatedAt = entity.updatedAt ?? CloudUtil_1.CloudUtil.getDate();
     }
 }
 exports.TimestampedCrudRepository = TimestampedCrudRepository;

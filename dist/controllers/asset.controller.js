@@ -34,7 +34,7 @@ let AssetController = class AssetController {
         let allFilters = await this.filterRepo.find();
         let changeRequired = await Filters_1.reconstructFilters(allAssets, allFilters);
         if (changeRequired) {
-            CrownstoneHub_1.CrownstoneHub.filters.refreshFilterSets();
+            await CrownstoneHub_1.CrownstoneHub.filters.refreshFilterSets();
         }
     }
     async getAsset(userProfile, id) {

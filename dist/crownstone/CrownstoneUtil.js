@@ -28,7 +28,7 @@ class CrownstoneUtil {
                 }
             }
             catch (err) {
-                if ((err === null || err === void 0 ? void 0 : err.statusCode) === 404) {
+                if (err?.statusCode === 404) {
                     await CrownstoneHub_1.CrownstoneHub.cloud.sync();
                     // if we synced, and still cant find the dongle, we will reset the hub
                     let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
@@ -59,14 +59,14 @@ class CrownstoneUtil {
                     console.log("FAILED", err);
                 }
             }
-            if (hubExists && (hub === null || hub === void 0 ? void 0 : hub.linkedStoneId) && !hubOnly) {
+            if (hubExists && hub?.linkedStoneId && !hubOnly) {
                 try {
                     log.notice("Deleting hub linked stone");
                     await CrownstoneHub_1.CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
                     log.notice("Deleting hub linked DONE");
                 }
                 catch (err) {
-                    if ((err === null || err === void 0 ? void 0 : err.statusCode) !== 401) {
+                    if (err?.statusCode !== 401) {
                         log.notice("Deleting hub linked stone failed.", err);
                     }
                     else {
@@ -89,7 +89,7 @@ class CrownstoneUtil {
                     log.notice("Deleting hub DONE");
                 }
                 catch (err) {
-                    if ((err === null || err === void 0 ? void 0 : err.statusCode) !== 401) {
+                    if (err?.statusCode !== 401) {
                         log.notice("Deleting hub in cloud failed.", err);
                     }
                     else {

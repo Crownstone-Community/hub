@@ -63,7 +63,7 @@ export class AssetController {
 
     let changeRequired = await reconstructFilters(allAssets, allFilters);
     if (changeRequired) {
-      CrownstoneHub.filters.refreshFilterSets()
+      await CrownstoneHub.filters.refreshFilterSets()
     }
   }
 

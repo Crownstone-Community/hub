@@ -1,21 +1,21 @@
 import { Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
 import { AssetFilter} from '../../models/cloud/asset-filter.model';
-import {CuckooFilter, FilterType, getFilterCRC} from 'crownstone-core';
 import {Dbs} from '../data/DbReference';
 import {FilterUtil} from './FilterUtil';
+import {AssetFilter as AssetFilterCore, FilterType} from 'crownstone-core';
 
 
 interface FilterRequirement {
   inputData:         filterFormat
   outputDescription: filterOutputDescription,
-  profileId: number,
-  assets: Asset[],
-  data: string[],
-  dataMap: {[data: string] : boolean}
-  filterPacket?: string,
-  filterCRC?: string,
-  filterType: number,
-  exists: boolean
+  profileId:         number,
+  assets:            Asset[],
+  data:              string[],
+  dataMap:         {[data: string] : boolean}
+  filterPacket?:     string,
+  filterCRC?:        string,
+  filterType:        number,
+  exists:            boolean
 }
 
 interface FilterRequirements {
@@ -59,21 +59,21 @@ export async function reconstructFilters(allAssets: Asset[], allFilters: AssetFi
   // contruct filters from requirements
   for (let description in filterRequirements) {
     let requirement = filterRequirements[description];
-    let filter = new CuckooFilter(requirement.data.length);
-    for (let data of requirement.data) {
-      filter.add(Buffer.from(data, 'hex'));;
-    }
-
-    let filterPacket = filter.getPacket();
     let metaData = FilterUtil.getFilterMetaData(
       requirement.filterType,
       requirement.profileId,
       requirement.inputData,
       requirement.outputDescription
     );
+    let filter = new AssetFilterCore(metaData)
+    for (let data of requirement.data) {
+      filter.addToFilter(Buffer.from(data, 'hex'));;
+    }
+
+    let filterPacket         = filter.getFilterPacket();
     let metadataPacket       = metaData.getPacket()
     requirement.filterPacket = Buffer.concat([metadataPacket, filterPacket]).toString('hex');
-    requirement.filterCRC    = getFilterCRC(metaData, filter.getPacket()).toString(16);
+    requirement.filterCRC    = filter.getCRC().toString(16)
   }
 
   // match against the existing filters.
@@ -136,8 +136,8 @@ export function getMetaDataDescription(
     output: filterOutputDescription,
   ) : string {
 
-  let inputSet = input.type;
-  let outputSet = output.type;
+  let inputSet = '' + input.type;
+  let outputSet = '' + output.type;
   switch (input.type) {
     case 'MAC_ADDRESS':
       break;

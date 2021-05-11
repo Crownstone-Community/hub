@@ -38,7 +38,9 @@ let WebhookController = class WebhookController {
         if (!id) {
             throw new rest_1.HttpErrors.BadRequest("Invalid id");
         }
-        return this.webhookRepo.deleteAll({ id: id });
+        let count = this.webhookRepo.deleteAll({ id: id });
+        await CrownstoneHub_1.CrownstoneHub.webhooks.refreshHooks();
+        return count;
     }
 };
 tslib_1.__decorate([

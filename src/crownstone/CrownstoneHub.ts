@@ -42,9 +42,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
     eventBus.on(topics.HUB_CREATED,() => { this.initialize(); });
 
-
     if (CONFIG.enableUart) {
-      this.uart.initialize();
+      this.uart.initialize().catch((err) => { log.error("Failed to initialize uart.", err)})
       log.info("Uart initialized");
     }
 
@@ -86,6 +85,15 @@ export class CrownstoneHubClass implements CrownstoneHub {
         }
         catch (e) {
           log.warn("Could not obtain connection key.")
+        }
+
+        try {
+          log.info("Syncing uart filters...")
+          await this.uart.syncFilters();
+          log.info("Filters synced.")
+        }
+        catch (e) {
+          log.error("Could not sync filters.", e)
         }
 
 

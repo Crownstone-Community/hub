@@ -29,7 +29,7 @@ class CrownstoneHubClass {
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
         if (config_1.CONFIG.enableUart) {
-            this.uart.initialize();
+            this.uart.initialize().catch((err) => { log.error("Failed to initialize uart.", err); });
             log.info("Uart initialized");
         }
         HubStatus_1.HubStatus.uartReady = true;
@@ -64,6 +64,14 @@ class CrownstoneHubClass {
                 catch (e) {
                     log.warn("Could not obtain connection key.");
                 }
+                try {
+                    log.info("Syncing uart filters...");
+                    await this.uart.syncFilters();
+                    log.info("Filters synced.");
+                }
+                catch (e) {
+                    log.error("Could not sync filters.", e);
+                }
                 this.mesh.init();
                 this.timeKeeper.init();
                 HubStatus_1.HubStatus.initialized = true;
@@ -87,7 +95,7 @@ class CrownstoneHubClass {
             await HubStatusManager_1.HubStatusManager.setStatus({ clientHasBeenSetup: false, encryptionRequired: false });
         }
         hub = await DbReference_1.Dbs.hub.get();
-        HubStatus_1.HubStatus.belongsToSphere = (hub === null || hub === void 0 ? void 0 : hub.sphereId) || "none";
+        HubStatus_1.HubStatus.belongsToSphere = hub?.sphereId || "none";
     }
     async cleanupAndDestroy(partial = false) {
         clearInterval(this.linkedStoneCheckInterval);

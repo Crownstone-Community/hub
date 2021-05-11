@@ -55,8 +55,6 @@ class Uart {
                 clientHasInternet: false,
             });
             log.info("Uart is ready");
-            // On initialization we check if the filters on the Crownstone match with the ones we expect.
-            await this.syncFilters();
             this.ready = true;
         }
         catch (err) {
@@ -101,7 +99,7 @@ class Uart {
                 return;
             }
             hub = await DbReference_1.Dbs.hub.get();
-            if (uartKey !== (hub === null || hub === void 0 ? void 0 : hub.uartKey) && hub) {
+            if (uartKey !== hub?.uartKey && hub) {
                 hub.uartKey = uartKey;
                 await DbReference_1.Dbs.hub.save(hub);
             }
@@ -131,6 +129,7 @@ class Uart {
         });
     }
     async syncFilters() {
+        log.info("Preparing to sync filters over uart");
         let filterSet = await DbReference_1.Dbs.assetFilterSets.findOne();
         if (!filterSet) {
             throw "NO_FILTER_SET";
@@ -181,6 +180,7 @@ class Uart {
                 }, "syncFilters from Uart");
             },
         };
+        log.info("Starting to sync filters over uart");
         let syncer = new FilterSyncer_1.FilterSyncer(commandInterface, data);
         try {
             await syncer.syncToCrownstone();

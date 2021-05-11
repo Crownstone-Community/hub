@@ -17,7 +17,7 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
                 let partialHub = await this.get();
                 if (partialHub) {
                     // casting to string here is important because mongo Ids are not strings...
-                    if (String(entity.sphereId) !== String(partialHub === null || partialHub === void 0 ? void 0 : partialHub.sphereId)) {
+                    if (String(entity.sphereId) !== String(partialHub?.sphereId)) {
                         await DbUtil_1.EMPTY_DATABASE();
                     }
                     else {
@@ -34,7 +34,7 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
     }
     async isSphereSet() {
         let hub = await this.get();
-        if (hub === null || hub === void 0 ? void 0 : hub.sphereId) {
+        if (hub?.sphereId) {
             return true;
         }
         return false;

@@ -23,9 +23,8 @@ class LogController {
         let loggerIds = log.config.getLoggerIds();
         let data = {};
         loggerIds.forEach((loggerId) => {
-            var _a;
             let transport = log.config.getTransportForLogger(loggerId);
-            data[loggerId] = { console: (transport === null || transport === void 0 ? void 0 : transport.console.level) || "info", file: ((_a = transport === null || transport === void 0 ? void 0 : transport.file) === null || _a === void 0 ? void 0 : _a.level) || 'none' };
+            data[loggerId] = { console: transport?.console.level || "info", file: transport?.file?.level || 'none' };
         });
         return data;
     }

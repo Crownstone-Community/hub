@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMetaDataDescription = exports.getMetaDataDescriptionFromFilter = exports.getMetaDataDescriptionFromAsset = exports.reconstructFilters = void 0;
-const crownstone_core_1 = require("crownstone-core");
 const DbReference_1 = require("../data/DbReference");
 const FilterUtil_1 = require("./FilterUtil");
+const crownstone_core_1 = require("crownstone-core");
 /**
  * This does and add or delete of the filters.
  * Filters are not updated.
@@ -37,16 +37,16 @@ async function reconstructFilters(allAssets, allFilters) {
     // contruct filters from requirements
     for (let description in filterRequirements) {
         let requirement = filterRequirements[description];
-        let filter = new crownstone_core_1.CuckooFilter(requirement.data.length);
+        let metaData = FilterUtil_1.FilterUtil.getFilterMetaData(requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription);
+        let filter = new crownstone_core_1.AssetFilter(metaData);
         for (let data of requirement.data) {
-            filter.add(Buffer.from(data, 'hex'));
+            filter.addToFilter(Buffer.from(data, 'hex'));
             ;
         }
-        let filterPacket = filter.getPacket();
-        let metaData = FilterUtil_1.FilterUtil.getFilterMetaData(requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription);
+        let filterPacket = filter.getFilterPacket();
         let metadataPacket = metaData.getPacket();
         requirement.filterPacket = Buffer.concat([metadataPacket, filterPacket]).toString('hex');
-        requirement.filterCRC = crownstone_core_1.getFilterCRC(metaData, filter.getPacket()).toString(16);
+        requirement.filterCRC = filter.getCRC().toString(16);
     }
     // match against the existing filters.
     for (let filter of allFilters) {
@@ -98,8 +98,8 @@ function getMetaDataDescriptionFromFilter(filter) {
 }
 exports.getMetaDataDescriptionFromFilter = getMetaDataDescriptionFromFilter;
 function getMetaDataDescription(profileId, input, output) {
-    let inputSet = input.type;
-    let outputSet = output.type;
+    let inputSet = '' + input.type;
+    let outputSet = '' + output.type;
     switch (input.type) {
         case 'MAC_ADDRESS':
             break;

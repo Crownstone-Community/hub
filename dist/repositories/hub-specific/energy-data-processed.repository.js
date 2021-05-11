@@ -12,8 +12,7 @@ let EnergyDataProcessedRepository = class EnergyDataProcessedRepository extends 
         this.datasource.autoupdate();
     }
     async getStoneUIDs() {
-        var _a;
-        let collection = (_a = this.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
+        let collection = this.dataSource.connector?.collection("EnergyDataProcessed");
         if (collection && collection.distinct) {
             let uids = await collection.distinct('stoneUID');
             return uids;

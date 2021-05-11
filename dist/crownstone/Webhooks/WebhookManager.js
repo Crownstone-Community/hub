@@ -22,7 +22,7 @@ class WebhookManager {
         try {
             let hooks = await DbReference_1.Dbs.webhooks.find();
             for (let collector of this.collectors) {
-                await collector.finalize();
+                await collector.wrapUp();
             }
             this.collectors = [];
             for (let hook of hooks) {
@@ -36,18 +36,20 @@ class WebhookManager {
         }
     }
     async invoke(hook, data) {
-        var _a;
+        if (data.length === 0) {
+            return;
+        }
+        let headers = {};
+        if (hook.apiKey) {
+            headers[hook.apiKeyHeader ?? "apiKey"] = hook.apiKey;
+        }
+        let payload = {
+            event: hook.event,
+            clientSecret: hook.clientSecret,
+            data: this.formatData(hook, data),
+            timestamp: Date.now()
+        };
         try {
-            let headers = {};
-            if (hook.apiKey) {
-                headers[(_a = hook.apiKeyHeader) !== null && _a !== void 0 ? _a : "apiKey"] = hook.apiKey;
-            }
-            let payload = {
-                event: hook.event,
-                clientSecret: hook.clientSecret,
-                data: this.formatData(hook, data),
-                timestamp: Date.now()
-            };
             await request_1.req("POST", hook.endPoint, { headers: headers, json: payload });
         }
         catch (err) {

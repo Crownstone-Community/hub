@@ -41,6 +41,10 @@ class FilterManager {
             if (changeRequired) {
                 set.masterVersion = set.masterVersion + 1;
                 set.masterCRC = generateMasterCRC(allFilters);
+                // lollipop impementation of master version
+                if (set.masterVersion > 65535) {
+                    set.masterVersion = 1;
+                }
                 await updateFilterSetIds(allFilters, set.id);
                 await DbReference_1.Dbs.assetFilterSets.update(set);
                 await this.uartReference.syncFilters();

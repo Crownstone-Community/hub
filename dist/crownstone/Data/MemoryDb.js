@@ -115,7 +115,6 @@ function getAbilityData(type, abilities, stoneItem) {
     return false;
 }
 function fillWithStoneData(uid) {
-    var _a;
     let object = {};
     let stone = exports.MemoryDb.stones[uid];
     if (!stone) {
@@ -125,7 +124,7 @@ function fillWithStoneData(uid) {
         object.cloudId = null;
         return object;
     }
-    let locationName = ((_a = exports.MemoryDb.locationByCloudId[stone.locationCloudId]) === null || _a === void 0 ? void 0 : _a.name) || null;
+    let locationName = exports.MemoryDb.locationByCloudId[stone.locationCloudId]?.name || null;
     object.name = stone.name;
     object.locationName = locationName;
     object.uid = Number(uid);

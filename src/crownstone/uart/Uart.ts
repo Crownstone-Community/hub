@@ -74,8 +74,6 @@ export class Uart implements UartInterface {
       });
       log.info("Uart is ready");
 
-      // On initialization we check if the filters on the Crownstone match with the ones we expect.
-      await this.syncFilters();
       this.ready = true;
     }
     catch (err) {
@@ -171,6 +169,7 @@ export class Uart implements UartInterface {
   }
 
   async syncFilters() : Promise<void> {
+    log.info("Preparing to sync filters over uart");
     let filterSet  = await Dbs.assetFilterSets.findOne();
     if (!filterSet) { throw "NO_FILTER_SET"; }
 
@@ -183,9 +182,9 @@ export class Uart implements UartInterface {
     for (let filter of filtersInSet) {
       data.filters.push({
         idOnCrownstone: filter.idOnCrownstone,
-        crc: parseInt(filter.dataCRC),
-        metaData: FilterUtil.getMetaData(filter),
-        filter: Buffer.from(filter.data, 'hex')
+        crc:            parseInt(filter.dataCRC),
+        metaData:       FilterUtil.getMetaData(filter),
+        filter:         Buffer.from(filter.data, 'hex')
       })
     }
 
@@ -224,6 +223,7 @@ export class Uart implements UartInterface {
       },
     }
 
+    log.info("Starting to sync filters over uart")
     let syncer = new FilterSyncer(commandInterface, data);
     try {
       await syncer.syncToCrownstone();

@@ -2409,7 +2409,7 @@ crownstone-sse@^4.2.0:
   version "0.18.0"
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.18.0-f3947d96-4de3-4ee6-8d15-861165670c30-1620402315052/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.18.0-3420f4e3-9fea-440b-a8b4-6d3a551edd32-1620743123591/node_modules/crownstone-lib-nodejs-core"
     crownstone-logger "^0.1.4"
     serialport "9.0.0"
 

@@ -10,11 +10,10 @@ class HubStatusManagerClass {
         this.clientHasError = false;
     }
     async setStatus(hubStatus) {
-        var _a, _b, _c, _d;
-        this.encryptionRequired = (_a = hubStatus.encryptionRequired) !== null && _a !== void 0 ? _a : this.encryptionRequired;
-        this.clientHasBeenSetup = (_b = hubStatus.clientHasBeenSetup) !== null && _b !== void 0 ? _b : this.clientHasBeenSetup;
-        this.clientHasInternet = (_c = hubStatus.clientHasInternet) !== null && _c !== void 0 ? _c : this.clientHasInternet;
-        this.clientHasError = (_d = hubStatus.clientHasError) !== null && _d !== void 0 ? _d : this.clientHasError;
+        this.encryptionRequired = hubStatus.encryptionRequired ?? this.encryptionRequired;
+        this.clientHasBeenSetup = hubStatus.clientHasBeenSetup ?? this.clientHasBeenSetup;
+        this.clientHasInternet = hubStatus.clientHasInternet ?? this.clientHasInternet;
+        this.clientHasError = hubStatus.clientHasError ?? this.clientHasError;
         await CrownstoneHub_1.CrownstoneHub.uart.connection.hub.setStatus(hubStatus);
     }
     async setActualStatus() {

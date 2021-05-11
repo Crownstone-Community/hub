@@ -19,15 +19,17 @@ export class WebhookCollector{
   constructor(hook: Webhook, invocationCallback: invocator) {
     this._invocationCallback = invocationCallback;
     this._hook = hook;
-    if (hook.batchTimeSeconds) {
+    if (hook.batchTimeSeconds && hook.batchTimeSeconds > 0) {
       this._batched = true;
       this._interval = setInterval(() => {
-        this._invocationCallback(this.getData())
+        this._invocationCallback(this._getData())
       }, hook.batchTimeSeconds*1000)
     }
+    this._setListeners();
   }
 
-  setListeners() {
+  _setListeners() {
+    this._removeListeners();
     switch (this._hook.event) {
       case 'ASSET_REPORT':
         this.subscriptions.push(
@@ -53,25 +55,29 @@ export class WebhookCollector{
     }
   }
 
-  getData() {
+  _getData() {
      let data = this.collectedData;
      this.collectedData = [];
      return data;
   }
 
-  async finalize() {
+  async wrapUp() {
     clearInterval(this._interval);
     if (this.collectedData.length > 0) {
-      await this._invocationCallback(this.getData());
+      await this._invocationCallback(this._getData());
     }
     this.cleanup();
   }
 
-  cleanup() {
+  _removeListeners() {
     for (let unsub of this.subscriptions) {
       unsub();
     }
     this.subscriptions = [];
+  }
+
+  cleanup() {
+    this._removeListeners();
     this.collectedData = [];
     clearInterval(this._interval);
   }

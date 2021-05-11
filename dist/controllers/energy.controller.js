@@ -20,8 +20,7 @@ let EnergyController = class EnergyController {
         this.energyDataRepo = energyDataRepo;
     }
     async getEnergyAvailability(userProfile) {
-        var _a;
-        let collection = (_a = this.energyDataProcessedRepo.dataSource.connector) === null || _a === void 0 ? void 0 : _a.collection("EnergyDataProcessed");
+        let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
         if (collection) {
             let result = [];
             let uids = await collection.distinct('stoneUID');
