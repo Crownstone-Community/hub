@@ -9,8 +9,7 @@ import {inject} from '@loopback/core';
 import {SecurityBindings} from '@loopback/security';
 import {UserProfileDescription} from '../security/authentication-strategies/csToken-strategy';
 import {Asset} from '../models/cloud/asset.model';
-import {reconstructFilters} from '../crownstone/filters/Filters';
-import {CrownstoneHub} from '../crownstone/CrownstoneHub';
+import {FilterManager} from '../crownstone/filters/FilterManager';
 
 /**
  * This controller will echo the state of the hub.
@@ -58,12 +57,9 @@ export class AssetController {
   async commitChanges(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ): Promise<void> {
-    let allAssets = await this.assetRepo.find();
-    let allFilters = await this.filterRepo.find();
-
-    let changeRequired = await reconstructFilters(allAssets, allFilters);
+    let changeRequired = await FilterManager.reconstructFilters();
     if (changeRequired) {
-      await CrownstoneHub.filters.refreshFilterSets()
+      await FilterManager.refreshFilterSets();
     }
   }
 

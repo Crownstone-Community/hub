@@ -24,8 +24,8 @@ class CrownstoneHubClass {
         this.uart = new Uart_1.Uart(this.cloud.cloud);
         this.mesh = new MeshMonitor_1.MeshMonitor();
         this.webhooks = new WebhookManager_1.WebhookManager();
-        this.filters = new FilterManager_1.FilterManager(this.uart);
         this.timeKeeper = new Timekeeper_1.Timekeeper(this);
+        FilterManager_1.FilterManager.injectUartReference(this.uart);
         CloudCommandHandler_1.CloudCommandHandler.loadManager(this.cloud);
         HubEventBus_1.eventBus.on(topics_1.topics.HUB_CREATED, () => { this.initialize(); });
         if (config_1.CONFIG.enableUart) {
@@ -36,7 +36,6 @@ class CrownstoneHubClass {
     }
     async initialize() {
         this.webhooks.init();
-        this.filters.init();
         HubStatus_1.resetHubStatus();
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub && hub.cloudId !== 'null' && hub.cloudId !== '') {
@@ -56,22 +55,24 @@ class CrownstoneHubClass {
                 log.info("Checking linked StoneId");
                 await CrownstoneUtil_1.CrownstoneUtil.checkLinkedStoneId();
                 log.info("Checked linked StoneId.");
-                try {
-                    log.info("Setting up UART encryption...");
-                    await this.uart.refreshUartEncryption();
-                    log.info("UART key loaded.");
-                }
-                catch (e) {
-                    log.warn("Could not obtain connection key.");
-                }
-                try {
-                    log.info("Syncing uart filters...");
-                    await this.uart.syncFilters();
-                    log.info("Filters synced.");
-                }
-                catch (e) {
-                    log.error("Could not sync filters.", e);
-                }
+                this.uart._initialized.then(async () => {
+                    try {
+                        log.info("Setting up UART encryption...");
+                        await this.uart.refreshUartEncryption();
+                        log.info("UART key loaded.");
+                    }
+                    catch (e) {
+                        log.warn("Could not obtain connection key.");
+                    }
+                    try {
+                        log.info("Syncing uart filters...");
+                        await this.uart.syncFilters();
+                        log.info("Filters synced.");
+                    }
+                    catch (e) {
+                        log.error("Could not sync filters.", e);
+                    }
+                });
                 this.mesh.init();
                 this.timeKeeper.init();
                 HubStatus_1.HubStatus.initialized = true;
@@ -104,7 +105,6 @@ class CrownstoneHubClass {
         await this.mesh.cleanup();
         await this.timeKeeper.stop();
         await exports.CrownstoneHub.cloud.cleanup();
-        this.filters.cleanup();
         this.webhooks.cleanup();
         if (partial) {
             log.notice("Crippling hub instance...");

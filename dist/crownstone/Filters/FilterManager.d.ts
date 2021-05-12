@@ -1,9 +1,10 @@
 import { Uart } from '../uart/Uart';
-export declare class FilterManager {
+export declare class FilterManagerClass {
     initialized: boolean;
-    uartReference: Uart;
-    constructor(uartReference: Uart);
-    init(): void;
-    cleanup(): void;
-    refreshFilterSets(baseMasterVersion?: number): Promise<void>;
+    uartReference: Uart | null;
+    constructor();
+    injectUartReference(uartReference: Uart): void;
+    refreshFilterSets(baseMasterVersion?: number, allowSyncing?: boolean): Promise<void>;
+    reconstructFilters(): Promise<boolean>;
 }
+export declare const FilterManager: FilterManagerClass;

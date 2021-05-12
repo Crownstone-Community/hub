@@ -57,7 +57,7 @@ test("try to process data from hub", async () => {
   data.sort((a,b) => { return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()})
   for (let i = 0; i < data.length; i++) {
     usedData.push(data[i]);
-    // if (i === 10000) { break; }
+    if (i === 100) { break; }
   }
 
 

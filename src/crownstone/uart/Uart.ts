@@ -4,14 +4,15 @@ import {eventBus} from '../HubEventBus';
 import {CONFIG} from '../../config';
 
 import {Logger} from '../../Logger';
-import {topics, WebhookInternalTopics, WebhookTopics} from '../topics';
+import {topics, WebhookInternalTopics} from '../topics';
 import {UartHubDataCommunication} from './UartHubDataCommunication';
 import {Dbs} from '../data/DbReference';
 import {CrownstoneUtil} from '../CrownstoneUtil';
 import {CrownstoneCloud} from 'crownstone-cloud';
 import {HubStatusManager} from './HubStatusManager';
-import {FilterData, FilterSycingCommunicationInterface, FilterSyncer, FilterSyncingTargetData} from 'crownstone-core/dist/util/FilterSyncer';
-import {FilterUtil} from '../filters/FilterUtil';
+import {FilterSycingCommunicationInterface, FilterSyncer} from 'crownstone-core/dist/util/FilterSyncer';
+import {increaseMasterVersion, ResultValue} from 'crownstone-core';
+import {FilterManager} from '../filters/FilterManager';
 const log = Logger(__filename);
 
 
@@ -25,6 +26,7 @@ export class Uart implements UartInterface {
   refreshingKey   = false
   timeLastRefreshed = 0;
 
+  _initialized: Promise<void>
 
   constructor(cloud: CrownstoneCloud) {
     this.queue = new PromiseManager();
@@ -63,8 +65,7 @@ export class Uart implements UartInterface {
   }
 
 
-
-  async initialize() {
+  async _initialize() {
     try {
       await this.connection.start(CONFIG.uartPort);
       await HubStatusManager.setStatus({
@@ -80,6 +81,14 @@ export class Uart implements UartInterface {
       this.ready = false;
       throw err;
     }
+  }
+
+  /**
+   * This will directly return a promise, which will be resolved once uart is initialized.
+   */
+  async initialize() : Promise<void> {
+    this._initialized = this._initialize();
+    return this._initialized;
   }
 
 
@@ -168,7 +177,7 @@ export class Uart implements UartInterface {
     })
   }
 
-  async syncFilters() : Promise<void> {
+  async syncFilters(allowErrorRepair: boolean = true) : Promise<void> {
     log.info("Preparing to sync filters over uart");
     let filterSet  = await Dbs.assetFilterSets.findOne();
     if (!filterSet) { throw "NO_FILTER_SET"; }
@@ -182,8 +191,7 @@ export class Uart implements UartInterface {
     for (let filter of filtersInSet) {
       data.filters.push({
         idOnCrownstone: filter.idOnCrownstone,
-        crc:            parseInt(filter.dataCRC),
-        metaData:       FilterUtil.getMetaData(filter),
+        crc:            parseInt(filter.dataCRC, 16),
         filter:         Buffer.from(filter.data, 'hex')
       })
     }
@@ -211,7 +219,7 @@ export class Uart implements UartInterface {
       upload: async (protocol: number, filterData: FilterData) => {
         return this.queue.register(async () => {
           log.info("uploading filter");
-          return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.metaData, filterData.filter);
+          return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.filter);
         }, "syncFilters from Uart");
       },
       commit: async (protocol: number) => {
@@ -242,9 +250,22 @@ export class Uart implements UartInterface {
           }
         case "TARGET_HAS_SAME_VERSION_DIFFERENT_CRC":
           // bump our version.
-          filterSet.masterVersion = filterSet.masterVersion + 1;
+          filterSet.masterVersion = increaseMasterVersion(filterSet.masterVersion);
           await Dbs.assetFilterSets.update(filterSet)
           return this.syncFilters();
+        case ResultValue.WRONG_STATE:
+        case ResultValue.MISMATCH:
+          if (allowErrorRepair) {
+            log.error("Error during filterSync", err)
+            log.notice("Attempting to repair error...")
+            // reconstruct all filters and sets.
+            await Dbs.assetFilters.deleteAll();
+            await Dbs.assetFilterSets.deleteAll();
+            await FilterManager.reconstructFilters();
+            await FilterManager.refreshFilterSets(filterSet.masterVersion, false);
+            log.notice("Retrying sync...")
+            return this.syncFilters(false);
+          }
         default:
           throw err;
       }

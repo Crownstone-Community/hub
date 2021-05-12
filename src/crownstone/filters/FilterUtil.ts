@@ -1,5 +1,6 @@
-import {FilterFormatAdData, FilterFormatMacAddress, FilterFormatMaskedAdData, FilterMetaData, FilterOutputDescription, FilterOutputDescriptionType} from 'crownstone-core';
+import {FilterFormatAdData, FilterFormatMacAddress, FilterFormatMaskedAdData, FilterMetaData, FilterOutputDescription, FilterOutputDescriptionType, getMasterCRC} from 'crownstone-core';
 import {AssetFilter} from '../../models/cloud/asset-filter.model';
+import {Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
 
 export const FilterUtil = {
 
@@ -7,16 +8,14 @@ export const FilterUtil = {
     return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
   },
 
+
   getFilterMetaData: function(
     type : number,
     profileId : number,
     inputData: filterHubFormat,
     outputDescription: filterHubOutputDescription
   ) {
-    let meta = new FilterMetaData();
-
-    meta.type = type;
-    meta.profileId = profileId ?? 255;
+    let meta = new FilterMetaData(profileId, type);
 
     switch (inputData.type) {
       case "MAC_ADDRESS":    meta.input = new FilterFormatMacAddress(); break;
@@ -49,6 +48,69 @@ export const FilterUtil = {
     }
 
     return meta;
-  }
+  },
+
+
+  generateMasterCRC: function(filters: AssetFilter[]) : number {
+    let payload : Record<filterId, filterCRC> = {};
+    // map to required format.
+    for (let filter of filters) {
+      payload[filter.idOnCrownstone] = parseInt(filter.dataCRC, 16);
+    }
+    return getMasterCRC(payload)
+  },
+
+
+  getMetaDataDescriptionFromAsset: function(asset: Asset) {
+    return FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription);
+  },
+
+
+  getMetaDataDescriptionFromFilter: function(filter: AssetFilter) {
+    return FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription);
+  },
+
+
+  getMetaDataDescription: function(
+    profileId: number,
+    input : filterFormat,
+    output: filterOutputDescription,
+  ) : string {
+
+    let inputSet = '' + input.type;
+    let outputSet = '' + output.type;
+    switch (input.type) {
+      case 'MAC_ADDRESS':
+        break;
+      case 'AD_DATA':
+        inputSet += input.adType;
+        break;
+      case 'MASKED_AD_DATA':
+        inputSet += input.adType;
+        inputSet += input.mask;
+        break;
+    }
+
+
+    if (input.type === "AD_DATA") {
+      inputSet += input.adType;
+    }
+    if (output.type === 'SHORT_ASSET_ID_TRACK') {
+      outputSet += output.inputData.type;
+      switch (output.inputData.type) {
+        case 'MAC_ADDRESS':
+          break;
+        case 'AD_DATA':
+          outputSet += output.inputData.adType;
+          break;
+        case 'MASKED_AD_DATA':
+          outputSet += output.inputData.adType;
+          outputSet += output.inputData.mask;
+          break;
+      }
+    }
+
+    return `${inputSet}_${outputSet}_p${profileId}`;
+  },
 
 }

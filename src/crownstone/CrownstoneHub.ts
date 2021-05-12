@@ -25,7 +25,6 @@ export class CrownstoneHubClass implements CrownstoneHub {
   mesh        : MeshMonitor;
   timeKeeper  : Timekeeper;
   webhooks    : WebhookManager;
-  filters     : FilterManager;
 
   linkedStoneCheckInterval : Timeout
   setStatusBackupInterval : Timeout
@@ -35,8 +34,9 @@ export class CrownstoneHubClass implements CrownstoneHub {
     this.uart      = new Uart(this.cloud.cloud);
     this.mesh      = new MeshMonitor();
     this.webhooks  = new WebhookManager();
-    this.filters   = new FilterManager(this.uart);
     this.timeKeeper = new Timekeeper(this);
+
+    FilterManager.injectUartReference(this.uart);
 
     CloudCommandHandler.loadManager(this.cloud);
 
@@ -52,7 +52,6 @@ export class CrownstoneHubClass implements CrownstoneHub {
 
   async initialize() {
     this.webhooks.init();
-    this.filters.init();
 
     resetHubStatus();
 
@@ -78,23 +77,26 @@ export class CrownstoneHubClass implements CrownstoneHub {
         await CrownstoneUtil.checkLinkedStoneId();
         log.info("Checked linked StoneId.");
 
-        try {
-          log.info("Setting up UART encryption...")
-          await this.uart.refreshUartEncryption();
-          log.info("UART key loaded.")
-        }
-        catch (e) {
-          log.warn("Could not obtain connection key.")
-        }
+        this.uart._initialized.then(async () => {
+          try {
+            log.info("Setting up UART encryption...")
+            await this.uart.refreshUartEncryption();
+            log.info("UART key loaded.")
+          }
+          catch (e) {
+            log.warn("Could not obtain connection key.")
+          }
 
-        try {
-          log.info("Syncing uart filters...")
-          await this.uart.syncFilters();
-          log.info("Filters synced.")
-        }
-        catch (e) {
-          log.error("Could not sync filters.", e)
-        }
+          try {
+            log.info("Syncing uart filters...")
+            await this.uart.syncFilters();
+            log.info("Filters synced.")
+          }
+          catch (e) {
+            log.error("Could not sync filters.", e)
+          }
+        })
+
 
 
         this.mesh.init()
@@ -137,7 +139,6 @@ export class CrownstoneHubClass implements CrownstoneHub {
     await this.timeKeeper.stop();
     await CrownstoneHub.cloud.cleanup();
 
-    this.filters.cleanup();
     this.webhooks.cleanup();
 
 

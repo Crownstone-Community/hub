@@ -2372,16 +2372,18 @@ crownstone-cloud@^0.24.2:
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-crownstone-core@^0.8.3:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.8.4.tgz#9bf4f34a38de649220c775abbd898b9fef199cb0"
-  integrity sha512-rflNxgTzLn2FVIUiZ1/R7cX/T4zIgPc4zw4ucKTKu4m0gqSgnIXzT4nMhvCtJ6TMoykc57lZ3ko/aXDVoEJNlg==
+crownstone-core@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.14.0.tgz#80bc2ecd73f2517ba2af84c55c95cd1e87b15092"
+  integrity sha512-cHzPPCsYXyZKCd94wErfa61kJ4kXHyYl7TrDuERn5+1GVWNg53ukVjAVWGm8MZ7HTFehs5t+3dsCvDX6/YV7Ow==
   dependencies:
     aes-js "^3.1.1"
     crownstone-logger "^0.1.4"
 
-"crownstone-core@file:../crownstone-lib-nodejs-core":
-  version "0.13.1"
+crownstone-core@^0.8.3:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.8.4.tgz#9bf4f34a38de649220c775abbd898b9fef199cb0"
+  integrity sha512-rflNxgTzLn2FVIUiZ1/R7cX/T4zIgPc4zw4ucKTKu4m0gqSgnIXzT4nMhvCtJ6TMoykc57lZ3ko/aXDVoEJNlg==
   dependencies:
     aes-js "^3.1.1"
     crownstone-logger "^0.1.4"
@@ -2405,11 +2407,13 @@ crownstone-sse@^4.2.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-"crownstone-uart@file:../crownstone-lib-nodejs-uart":
-  version "0.18.0"
+crownstone-uart@0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.19.0.tgz#309d19be3f8c64bf696c99e0335eaa9a5f257ce3"
+  integrity sha512-8QnFky9+2z7VvvPaU1b1hNyCFPo/f6+APUF6x97E4DnJ6JYGn0Aj6+2DsAeFLkbk/C/heombYsXbCQARwYK7Kw==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "file:../../../../Library/Caches/Yarn/v6/npm-crownstone-uart-0.18.0-3420f4e3-9fea-440b-a8b4-6d3a551edd32-1620743123591/node_modules/crownstone-lib-nodejs-core"
+    crownstone-core "0.14.0"
     crownstone-logger "^0.1.4"
     serialport "9.0.0"
 
@@ -7350,10 +7354,10 @@ triple-beam@^1.2.0, triple-beam@^1.3.0:
   resolved "https://registry.yarnpkg.com/triple-beam/-/triple-beam-1.3.0.tgz#a595214c7298db8339eeeee083e4d10bd8cb8dd9"
   integrity sha512-XrHUvV5HpdLmIj4uVMxHggLbFSZYIn7HEWsqePZcI50pco+MPqJ50wMGY794X7AOOhxOBAjbkqfAbEe/QMp2Lw==
 
-ts-jest@^26.5.5:
-  version "26.5.5"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.5.tgz#e40481b6ee4dd162626ba481a2be05fa57160ea5"
-  integrity sha512-7tP4m+silwt1NHqzNRAPjW1BswnAhopTdc2K3HEkRZjF0ZG2F/e/ypVH0xiZIMfItFtD3CX0XFbwPzp9fIEUVg==
+ts-jest@^26.5.6:
+  version "26.5.6"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.6.tgz#c32e0746425274e1dfe333f43cd3c800e014ec35"
+  integrity sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"

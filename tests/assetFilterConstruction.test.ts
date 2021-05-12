@@ -6,7 +6,8 @@ import {EMPTY_DATABASE} from '../src/crownstone/data/DbUtil';
 import { mocked } from 'ts-jest/utils'
 import {auth, createAsset_ad_track_ad, createAsset_mac_report, createHub, createUser} from './dataGenerators';
 import {Dbs} from '../src/crownstone/data/DbReference';
-import {getMetaDataDescriptionFromAsset, getMetaDataDescriptionFromFilter, reconstructFilters} from '../src/crownstone/filters/filters';
+import {FilterManager} from '../src/crownstone/filters/FilterManager';
+import {FilterUtil} from '../src/crownstone/filters/FilterUtil';
 
 
 
@@ -37,7 +38,7 @@ test("Create assets via REST", async () => {
     .send({
       inputData: {type:'MAC_ADDRESS'},
       outputDescription: {type:'MAC_ADDRESS_REPORT'},
-      data: "8ca26201"
+      data: "8c62a201"
     })
     .expect(({body}) => {
      expect(body).toStrictEqual({
@@ -46,7 +47,7 @@ test("Create assets via REST", async () => {
        id: '1',
        inputData: { type: 'MAC_ADDRESS' },
        outputDescription: {type:'MAC_ADDRESS_REPORT'},
-       data: '8ca26201'
+       data: '8c62a201'
      })
     })
 
@@ -68,10 +69,7 @@ test("Create assets directly", async () => {
   await createAsset_ad_track_ad();
   await createAsset_ad_track_ad(51);
 
-  let assets = await Dbs.assets.find();
-  let filters = await Dbs.assetFilters.find();
-
-  let changeRequired = await reconstructFilters(assets, filters);
+  let changeRequired = await FilterManager.reconstructFilters();
   expect(changeRequired).toBeTruthy();
 
   let assetsNow = await Dbs.assets.find();
@@ -80,11 +78,11 @@ test("Create assets directly", async () => {
 
   let filterCategories = {}
   for (let filter of filtersNow) {
-    filterCategories[getMetaDataDescriptionFromFilter(filter)] = filter;
+    filterCategories[FilterUtil.getMetaDataDescriptionFromFilter(filter)] = filter;
   }
 
   for (let asset of assetsNow) {
-    let filterId = filterCategories[getMetaDataDescriptionFromAsset(asset)].id;
+    let filterId = filterCategories[FilterUtil.getMetaDataDescriptionFromAsset(asset)].id;
     expect(asset.filterId).toBe(filterId);
   }
 });

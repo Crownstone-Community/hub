@@ -12,8 +12,7 @@ const Constants_1 = require("../constants/Constants");
 const core_1 = require("@loopback/core");
 const security_1 = require("@loopback/security");
 const asset_model_1 = require("../models/cloud/asset.model");
-const Filters_1 = require("../crownstone/filters/Filters");
-const CrownstoneHub_1 = require("../crownstone/CrownstoneHub");
+const FilterManager_1 = require("../crownstone/filters/FilterManager");
 /**
  * This controller will echo the state of the hub.
  */
@@ -30,11 +29,9 @@ let AssetController = class AssetController {
         return this.assetRepo.find({});
     }
     async commitChanges(userProfile) {
-        let allAssets = await this.assetRepo.find();
-        let allFilters = await this.filterRepo.find();
-        let changeRequired = await Filters_1.reconstructFilters(allAssets, allFilters);
+        let changeRequired = await FilterManager_1.FilterManager.reconstructFilters();
         if (changeRequired) {
-            await CrownstoneHub_1.CrownstoneHub.filters.refreshFilterSets();
+            await FilterManager_1.FilterManager.refreshFilterSets();
         }
     }
     async getAsset(userProfile, id) {

@@ -12,7 +12,8 @@ const DbReference_1 = require("../data/DbReference");
 const CrownstoneUtil_1 = require("../CrownstoneUtil");
 const HubStatusManager_1 = require("./HubStatusManager");
 const FilterSyncer_1 = require("crownstone-core/dist/util/FilterSyncer");
-const FilterUtil_1 = require("../filters/FilterUtil");
+const crownstone_core_1 = require("crownstone-core");
+const FilterManager_1 = require("../filters/FilterManager");
 const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
@@ -46,7 +47,7 @@ class Uart {
         this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => { log.info("Uart is requesting a key"); this.refreshUartEncryption(); });
         this.connection.on(crownstone_uart_1.UartTopics.DecryptionFailed, () => { log.info("Uart failed to decrypt. Refresh key."); this.refreshUartEncryption(); });
     }
-    async initialize() {
+    async _initialize() {
         try {
             await this.connection.start(config_1.CONFIG.uartPort);
             await HubStatusManager_1.HubStatusManager.setStatus({
@@ -61,6 +62,13 @@ class Uart {
             this.ready = false;
             throw err;
         }
+    }
+    /**
+     * This will directly return a promise, which will be resolved once uart is initialized.
+     */
+    async initialize() {
+        this._initialized = this._initialize();
+        return this._initialized;
     }
     async refreshUartEncryption() {
         try {
@@ -128,7 +136,7 @@ class Uart {
             return this.connection.control.registerTrackedDevice(trackingNumber, locationUID, profileId, rssiOffset, ignoreForPresence, tapToToggleEnabled, deviceToken, ttlMinutes);
         });
     }
-    async syncFilters() {
+    async syncFilters(allowErrorRepair = true) {
         log.info("Preparing to sync filters over uart");
         let filterSet = await DbReference_1.Dbs.assetFilterSets.findOne();
         if (!filterSet) {
@@ -143,8 +151,7 @@ class Uart {
         for (let filter of filtersInSet) {
             data.filters.push({
                 idOnCrownstone: filter.idOnCrownstone,
-                crc: parseInt(filter.dataCRC),
-                metaData: FilterUtil_1.FilterUtil.getMetaData(filter),
+                crc: parseInt(filter.dataCRC, 16),
                 filter: Buffer.from(filter.data, 'hex')
             });
         }
@@ -169,7 +176,7 @@ class Uart {
             upload: async (protocol, filterData) => {
                 return this.queue.register(async () => {
                     log.info("uploading filter");
-                    return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.metaData, filterData.filter);
+                    return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.filter);
                 }, "syncFilters from Uart");
             },
             commit: async (protocol) => {
@@ -199,9 +206,22 @@ class Uart {
                     }
                 case "TARGET_HAS_SAME_VERSION_DIFFERENT_CRC":
                     // bump our version.
-                    filterSet.masterVersion = filterSet.masterVersion + 1;
+                    filterSet.masterVersion = crownstone_core_1.increaseMasterVersion(filterSet.masterVersion);
                     await DbReference_1.Dbs.assetFilterSets.update(filterSet);
                     return this.syncFilters();
+                case crownstone_core_1.ResultValue.WRONG_STATE:
+                case crownstone_core_1.ResultValue.MISMATCH:
+                    if (allowErrorRepair) {
+                        log.error("Error during filterSync", err);
+                        log.notice("Attempting to repair error...");
+                        // reconstruct all filters and sets.
+                        await DbReference_1.Dbs.assetFilters.deleteAll();
+                        await DbReference_1.Dbs.assetFilterSets.deleteAll();
+                        await FilterManager_1.FilterManager.reconstructFilters();
+                        await FilterManager_1.FilterManager.refreshFilterSets(filterSet.masterVersion, false);
+                        log.notice("Retrying sync...");
+                        return this.syncFilters(false);
+                    }
                 default:
                     throw err;
             }

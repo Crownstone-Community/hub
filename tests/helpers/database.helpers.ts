@@ -31,8 +31,8 @@ export async function clearTestDatabase() {
   let assetFilter    : AssetFilterRepository;
   let assetFilterSet : AssetFilterSetRepository;
 
-  let filterGetter    = () : Promise<AssetFilterRepository>       => { return new Promise((resolve, _) => { resolve(assetFilter) })}
-  let filterSetGetter = () : Promise<AssetFilterSetRepository>       => { return new Promise((resolve, _) => { resolve(assetFilterSet) })}
+  let filterGetter    = () : Promise<AssetFilterRepository>    => { return new Promise((resolve, _) => { resolve(assetFilter)    })}
+  let filterSetGetter = () : Promise<AssetFilterSetRepository> => { return new Promise((resolve, _) => { resolve(assetFilterSet) })}
 
   let assets     = new AssetRepository(testdb, filterGetter);
   assetFilter    = new AssetFilterRepository(testdb, filterSetGetter, assets);
