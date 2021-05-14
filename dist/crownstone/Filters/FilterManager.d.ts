@@ -4,7 +4,6 @@ export declare class FilterManagerClass {
     uartReference: Uart | null;
     constructor();
     injectUartReference(uartReference: Uart): void;
-    verifyMasterCrc(): void;
     refreshFilterSets(baseMasterVersion?: number, allowSyncing?: boolean): Promise<void>;
     reconstructFilters(): Promise<boolean>;
 }

@@ -12,9 +12,6 @@ class FilterManagerClass {
     }
     injectUartReference(uartReference) {
         this.uartReference = uartReference;
-        this.verifyMasterCrc();
-    }
-    verifyMasterCrc() {
     }
     async refreshFilterSets(baseMasterVersion = 1, allowSyncing = true) {
         if (this.uartReference === null) {
