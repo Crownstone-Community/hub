@@ -11,4 +11,5 @@ export declare class WebhookController {
     createWebhook(userProfile: UserProfileDescription, newHook: DataObject<Webhook>): Promise<Webhook>;
     getWebhooks(userProfile: UserProfileDescription): Promise<Webhook[]>;
     deleteWebhook(userProfile: UserProfileDescription, id: string): Promise<Count>;
+    deleteAllAssets(userProfile: UserProfileDescription, YesImSure: string): Promise<Count>;
 }

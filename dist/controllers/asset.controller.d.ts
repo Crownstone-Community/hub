@@ -17,6 +17,6 @@ export declare class AssetController {
     commitChanges(userProfile: UserProfileDescription): Promise<void>;
     getAsset(userProfile: UserProfileDescription, id: string): Promise<Asset>;
     updateAsset(userProfile: UserProfileDescription, id: string, updatedModel: DataObject<Asset>): Promise<void>;
-    deleteAsset(userProfile: UserProfileDescription, id: string): Promise<Count>;
-    deleteAllAssets(userProfile: UserProfileDescription, YesImSure: string): Promise<Count>;
+    deleteAsset(userProfile: UserProfileDescription, id: string): Promise<string>;
+    deleteAllAssets(userProfile: UserProfileDescription, YesImSure: string): Promise<string>;
 }

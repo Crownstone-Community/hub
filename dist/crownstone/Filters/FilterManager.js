@@ -12,6 +12,9 @@ class FilterManagerClass {
     }
     injectUartReference(uartReference) {
         this.uartReference = uartReference;
+        this.verifyMasterCrc();
+    }
+    verifyMasterCrc() {
     }
     async refreshFilterSets(baseMasterVersion = 1, allowSyncing = true) {
         if (this.uartReference === null) {
@@ -23,7 +26,7 @@ class FilterManagerClass {
             // create filterSet
             let newSet = await DbReference_1.Dbs.assetFilterSets.create({
                 masterVersion: baseMasterVersion,
-                masterCRC: FilterUtil_1.FilterUtil.generateMasterCRC(allFilters)
+                masterCRC: FilterUtil_1.FilterUtil.generateMasterCRC(allFilters),
             });
             await updateFilterSetIds(allFilters, newSet.id);
             if (allowSyncing) {
@@ -41,6 +44,10 @@ class FilterManagerClass {
                 }
             }
             let set = allSets[0];
+            let masterCRC = FilterUtil_1.FilterUtil.generateMasterCRC(allFilters);
+            if (masterCRC !== set.masterCRC) {
+                changeRequired = true;
+            }
             if (changeRequired) {
                 set.masterVersion = crownstone_core_1.increaseMasterVersion(set.masterVersion);
                 set.masterCRC = FilterUtil_1.FilterUtil.generateMasterCRC(allFilters);
@@ -65,7 +72,7 @@ class FilterManagerClass {
         }
     }
     async reconstructFilters() {
-        let allAssets = await DbReference_1.Dbs.assets.find();
+        let allAssets = await DbReference_1.Dbs.assets.find({ where: { committed: true } });
         let allFilters = await DbReference_1.Dbs.assetFilters.find();
         let filterChangeRequired = false;
         let filterRequirements = {};
@@ -104,9 +111,9 @@ class FilterManagerClass {
             requirement.filterCRC = filter.getCRC().toString(16);
         }
         // match against the existing filters.
-        let maxId = -1;
+        let ids = {};
         for (let filter of allFilters) {
-            maxId = Math.max(filter.idOnCrownstone, maxId);
+            ids[filter.idOnCrownstone] = true;
             let typeDescription = FilterUtil_1.FilterUtil.getMetaDataDescriptionFromFilter(filter);
             let requiredMatchingVersion = filterRequirements[typeDescription];
             if (requiredMatchingVersion && requiredMatchingVersion.filterPacket === filter.data) {
@@ -123,11 +130,12 @@ class FilterManagerClass {
             let requirement = filterRequirements[description];
             if (requirement.exists === false) {
                 // create filter.
+                let filterId = getFilterId(ids);
                 filterChangeRequired = true;
                 let newFilter = await DbReference_1.Dbs.assetFilters.create({
                     type: requirement.filterType,
                     profileId: requirement.profileId,
-                    idOnCrownstone: maxId + 1,
+                    idOnCrownstone: filterId,
                     inputData: requirement.inputData,
                     outputDescription: requirement.outputDescription,
                     data: requirement.filterPacket,
@@ -140,6 +148,15 @@ class FilterManagerClass {
     }
 }
 exports.FilterManagerClass = FilterManagerClass;
+function getFilterId(ids) {
+    for (let i = 0; i < 256; i++) {
+        if (ids[i] === undefined) {
+            ids[i] = true;
+            return i;
+        }
+    }
+    return 0;
+}
 async function updateFilterSetIds(filters, setId) {
     for (let filter of filters) {
         if (filter.filterSetId !== setId) {

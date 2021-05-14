@@ -68,4 +68,18 @@ export class WebhookController {
     await CrownstoneHub.webhooks.refreshHooks();
     return count;
   }
+
+  @del('/webhooks/all')
+  @authenticate(SecurityTypes.sphere)
+  async deleteAllAssets(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @param.query.string('YesImSure', {required:true}) YesImSure: string,
+  ): Promise<Count> {
+    if (YesImSure !== 'YesImSure') { throw new HttpErrors.BadRequest("YesImSure must be 'YesImSure'"); }
+
+    let count = this.webhookRepo.deleteAll();
+    await CrownstoneHub.webhooks.refreshHooks();
+    return count;
+  }
+
 }

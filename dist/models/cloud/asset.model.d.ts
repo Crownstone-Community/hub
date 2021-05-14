@@ -20,6 +20,8 @@ export declare class Asset extends Asset_base {
     description: string;
     type: string;
     cloudId: string;
+    committed: boolean;
+    markedForDeletion: boolean;
     profileId: number;
     inputData: filterFormat;
     outputDescription: filterOutputDescription;

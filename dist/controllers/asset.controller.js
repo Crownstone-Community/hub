@@ -29,6 +29,15 @@ let AssetController = class AssetController {
         return this.assetRepo.find({});
     }
     async commitChanges(userProfile) {
+        let uncomittedAssets = await this.assetRepo.find({ where: { or: [{ committed: false }, { markedForDeletion: true }] } });
+        for (let asset of uncomittedAssets) {
+            if (asset.markedForDeletion) {
+                await this.assetRepo.delete(asset);
+                continue;
+            }
+            asset.committed = true;
+            await this.assetRepo.save(asset);
+        }
         let changeRequired = await FilterManager_1.FilterManager.reconstructFilters();
         if (changeRequired) {
             await FilterManager_1.FilterManager.refreshFilterSets();
@@ -44,13 +53,42 @@ let AssetController = class AssetController {
         if (!id) {
             throw new rest_1.HttpErrors.BadRequest("Invalid id");
         }
-        return this.assetRepo.deleteAll({ id: id });
+        let asset = await this.assetRepo.findById(id);
+        if (asset.committed === false) {
+            await this.assetRepo.delete(asset);
+            return "Done.";
+        }
+        asset.markedForDeletion = true;
+        await this.assetRepo.save(asset);
+        return "Call commit to actually delete this asset.";
     }
     async deleteAllAssets(userProfile, YesImSure) {
         if (YesImSure !== 'YesImSure') {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
         }
-        return this.assetRepo.deleteAll();
+        let assets = await this.assetRepo.find();
+        let removed = 0;
+        let marked = 0;
+        for (let asset of assets) {
+            if (asset.committed === false) {
+                await this.assetRepo.delete(asset);
+                removed++;
+                continue;
+            }
+            asset.markedForDeletion = true;
+            await this.assetRepo.save(asset);
+            marked++;
+        }
+        if (marked > 0 && removed == 0) {
+            return "Call commit to actually delete all assets";
+        }
+        if (marked > 0 && removed > 0) {
+            return "Call commit to actually delete all assets. Some uncommitted assets have been removed.";
+        }
+        if (marked == 0 && removed > 0) {
+            return "All assets were uncomitted and are removed.";
+        }
+        return "Nothing to remove.";
     }
 };
 tslib_1.__decorate([
@@ -63,7 +101,7 @@ tslib_1.__decorate([
             'application/json': {
                 schema: rest_1.getModelSchemaRef(asset_model_1.Asset, {
                     title: 'newAsset',
-                    exclude: ['id', 'updatedAt', 'createdAt'],
+                    exclude: ['id', 'updatedAt', 'createdAt', 'committed', 'markedForDeletion'],
                 }),
             },
         },

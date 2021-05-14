@@ -42,6 +42,14 @@ let WebhookController = class WebhookController {
         await CrownstoneHub_1.CrownstoneHub.webhooks.refreshHooks();
         return count;
     }
+    async deleteAllAssets(userProfile, YesImSure) {
+        if (YesImSure !== 'YesImSure') {
+            throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
+        }
+        let count = this.webhookRepo.deleteAll();
+        await CrownstoneHub_1.CrownstoneHub.webhooks.refreshHooks();
+        return count;
+    }
 };
 tslib_1.__decorate([
     rest_1.post('/webhooks'),
@@ -80,6 +88,15 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], WebhookController.prototype, "deleteWebhook", null);
+tslib_1.__decorate([
+    rest_1.del('/webhooks/all'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, rest_1.param.query.string('YesImSure', { required: true })),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, String]),
+    tslib_1.__metadata("design:returntype", Promise)
+], WebhookController.prototype, "deleteAllAssets", null);
 WebhookController = tslib_1.__decorate([
     tslib_1.__param(0, repository_1.repository(webhook_repository_1.WebhookRepository)),
     tslib_1.__metadata("design:paramtypes", [webhook_repository_1.WebhookRepository])

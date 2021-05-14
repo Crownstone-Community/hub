@@ -45,7 +45,7 @@ export class FilterManagerClass {
       // create filterSet
       let newSet = await Dbs.assetFilterSets.create({
         masterVersion: baseMasterVersion,
-        masterCRC: FilterUtil.generateMasterCRC(allFilters)
+        masterCRC: FilterUtil.generateMasterCRC(allFilters),
       });
       await updateFilterSetIds(allFilters, newSet.id);
       if (allowSyncing) {
@@ -64,6 +64,8 @@ export class FilterManagerClass {
       }
 
       let set = allSets[0];
+      let masterCRC = FilterUtil.generateMasterCRC(allFilters);
+      if (masterCRC !== set.masterCRC) { changeRequired = true; }
 
       if (changeRequired) {
         set.masterVersion = increaseMasterVersion(set.masterVersion);
@@ -92,7 +94,7 @@ export class FilterManagerClass {
   }
 
   async reconstructFilters() : Promise<boolean> {
-    let allAssets  = await Dbs.assets.find();
+    let allAssets  = await Dbs.assets.find({where: {committed: true}});
     let allFilters = await Dbs.assetFilters.find();
 
     let filterChangeRequired = false;
@@ -143,9 +145,9 @@ export class FilterManagerClass {
     }
 
     // match against the existing filters.
-    let maxId = -1;
+    let ids : any = {};
     for (let filter of allFilters) {
-      maxId = Math.max(filter.idOnCrownstone, maxId);
+      ids[filter.idOnCrownstone] = true;
       let typeDescription = FilterUtil.getMetaDataDescriptionFromFilter(filter);
       let requiredMatchingVersion = filterRequirements[typeDescription];
       if (requiredMatchingVersion && requiredMatchingVersion.filterPacket === filter.data) {
@@ -164,11 +166,12 @@ export class FilterManagerClass {
       let requirement = filterRequirements[description];
       if (requirement.exists === false) {
         // create filter.
+        let filterId = getFilterId(ids);
         filterChangeRequired = true;
         let newFilter = await Dbs.assetFilters.create({
           type: requirement.filterType,
           profileId: requirement.profileId,
-          idOnCrownstone: maxId+1,
+          idOnCrownstone: filterId,
           inputData: requirement.inputData,
           outputDescription: requirement.outputDescription,
           data: requirement.filterPacket,
@@ -184,7 +187,15 @@ export class FilterManagerClass {
   }
 }
 
-
+function getFilterId(ids: Record<string, boolean>) : number {
+  for (let i = 0; i < 256; i++) {
+    if (ids[i] === undefined) {
+      ids[i] = true;
+      return i;
+    }
+  }
+  return 0;
+}
 
 async function updateFilterSetIds(filters: AssetFilter[], setId: string) {
   for (let filter of filters) {

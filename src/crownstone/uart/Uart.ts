@@ -206,7 +206,6 @@ export class Uart implements UartInterface {
           let summaries = await this.connection.control.getFilterSummaries();
           receivedMasterVersion = summaries.masterVersion;
           receivedMasterCRC     = summaries.masterCRC;
-
           return summaries;
         }, "syncFilters from Uart");
       },

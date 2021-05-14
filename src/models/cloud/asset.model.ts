@@ -30,6 +30,12 @@ export class Asset extends AddTimestamps(BaseEntity) {
   @property({type: 'string'})
   cloudId: string;
 
+  @property({type: 'boolean', required: true, default: false})
+  committed: boolean;
+
+  @property({type: 'boolean', required: true, default: false})
+  markedForDeletion: boolean;
+
   @property({type: 'number'})
   profileId: number;
 

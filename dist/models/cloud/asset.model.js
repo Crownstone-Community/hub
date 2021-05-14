@@ -29,6 +29,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], Asset.prototype, "cloudId", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'boolean', required: true, default: false }),
+    tslib_1.__metadata("design:type", Boolean)
+], Asset.prototype, "committed", void 0);
+tslib_1.__decorate([
+    repository_1.property({ type: 'boolean', required: true, default: false }),
+    tslib_1.__metadata("design:type", Boolean)
+], Asset.prototype, "markedForDeletion", void 0);
+tslib_1.__decorate([
     repository_1.property({ type: 'number' }),
     tslib_1.__metadata("design:type", Number)
 ], Asset.prototype, "profileId", void 0);
