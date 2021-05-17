@@ -20,6 +20,7 @@
     "coverage": "jest --collect-coverage --collectCoverageFrom=src/**/*",
     "migrate": "node ./dist/migrate",
     "start": "node execute.js",
+    "debug": "node --unhandled-rejections=strict execute.js",
     "prepublishOnly": "npm run test"
   },
   "repository": {
@@ -49,10 +50,10 @@
     "@loopback/service-proxy": "^3.0.4",
     "cors": "^2.8.5",
     "crownstone-cloud": "^0.24.2",
-    "crownstone-core": "0.15.0",
+    "crownstone-core": "0.15.2",
     "crownstone-logger": "^0.1.4",
     "crownstone-sse": "^4.2.0",
-    "crownstone-uart": "0.19.1",
+    "crownstone-uart": "0.19.3",
     "helmet": "^4.2.0",
     "loopback-connector-mongodb": "^5.4.0",
     "mongodb": "^3.6.2",
