@@ -46,7 +46,7 @@ class CrownstoneHubClass {
             this.setStatusBackupInterval = setInterval(() => { HubStatusManager_1.HubStatusManager.setActualStatus(); }, 5 * 60 * 1000);
             // load the key if we already have it.
             if (hub.uartKey) {
-                this.uart.connection.encryption.setKey(hub.uartKey);
+                this.uart.setUartKey(hub.uartKey);
                 HubStatusManager_1.HubStatusManager.setStatus({ clientHasBeenSetup: true });
             }
             try {

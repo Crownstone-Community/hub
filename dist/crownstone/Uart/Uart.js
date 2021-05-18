@@ -18,6 +18,7 @@ const log = Logger_1.Logger(__filename);
 class Uart {
     constructor(cloud) {
         this.ready = false;
+        this.keyWasSet = false;
         this.refreshingKey = false;
         this.timeLastRefreshed = 0;
         this.queue = new PromiseManager_1.PromiseManager();
@@ -26,6 +27,13 @@ class Uart {
         this.connection.hub.setMode("HUB");
         this.hubDataHandler = new UartHubDataCommunication_1.UartHubDataCommunication(this.connection);
         this.forwardEvents();
+        // in case we reconnect, and have booted the hub (so the key was set), we try to sync the filters.
+        this.connection.on(crownstone_uart_1.UartTopics.ConnectionEstablished, () => {
+            log.notice("UART connection established. Keys are set:", this.keyWasSet);
+            if (this.keyWasSet) {
+                this.syncFilters();
+            }
+        });
     }
     forwardEvents() {
         // generate a list of topics that can be remapped from connection to lib.
@@ -41,7 +49,9 @@ class Uart {
             if (!event.moduleTopic) {
                 moduleEvent = event.uartTopic;
             }
-            this.connection.on(event.uartTopic, (data) => { HubEventBus_1.eventBus.emit(moduleEvent, data); });
+            this.connection.on(event.uartTopic, (data) => {
+                HubEventBus_1.eventBus.emit(moduleEvent, data);
+            });
         });
         this.connection.on(crownstone_uart_1.UartTopics.HubDataReceived, (data) => { this.hubDataHandler.handleIncomingHubData(data); });
         this.connection.on(crownstone_uart_1.UartTopics.KeyRequested, () => { log.info("Uart is requesting a key"); this.refreshUartEncryption(); });
@@ -79,11 +89,12 @@ class Uart {
             if (Date.now() - this.timeLastRefreshed < 5000) {
                 return;
             }
-            this.timeLastRefreshed = Date.now();
             if (!DbReference_1.Dbs.hub) {
+                console.log("noHub Db");
                 return;
             }
             if (await DbReference_1.Dbs.hub.isSet() === false) {
+                console.log("noHub");
                 return;
             }
             this.refreshingKey = true;
@@ -111,13 +122,18 @@ class Uart {
                 hub.uartKey = uartKey;
                 await DbReference_1.Dbs.hub.save(hub);
             }
-            this.connection.encryption.setKey(uartKey);
+            this.setUartKey(uartKey);
             this.refreshingKey = false;
+            this.timeLastRefreshed = Date.now();
         }
         catch (err) {
             this.refreshingKey = false;
             throw err;
         }
+    }
+    setUartKey(key) {
+        this.connection.encryption.setKey(key);
+        this.keyWasSet = true;
     }
     async switchCrownstones(switchPairs) {
         if (!this.ready) {

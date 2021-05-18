@@ -1,4 +1,12 @@
-import {FilterFormatAdData, FilterFormatMacAddress, FilterFormatMaskedAdData, FilterMetaData, FilterOutputDescription, FilterOutputDescriptionType, getMasterCRC} from 'crownstone-core';
+import {
+  FilterFormatFullAdData,
+  FilterFormatMacAddress,
+  FilterFormatMaskedAdData,
+  FilterMetaData,
+  FilterOutputDescription,
+  FilterOutputDescriptionType,
+  getMasterCRC,
+} from 'crownstone-core';
 import {AssetFilter} from '../../models/cloud/asset-filter.model';
 import {Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
 
@@ -19,7 +27,7 @@ export const FilterUtil = {
 
     switch (inputData.type) {
       case "MAC_ADDRESS":    meta.input = new FilterFormatMacAddress(); break;
-      case "AD_DATA":        meta.input = new FilterFormatAdData( inputData.adType ); break;
+      case "FULL_AD_DATA":   meta.input = new FilterFormatFullAdData( inputData.adType ); break;
       case "MASKED_AD_DATA": meta.input = new FilterFormatMaskedAdData( inputData.adType, inputData.mask ); break;
     }
 
@@ -31,8 +39,8 @@ export const FilterUtil = {
           case "MAC_ADDRESS":
             meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatMacAddress());
             break;
-          case "AD_DATA":
-            meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatAdData( outputDescription.inputData.adType ));
+          case "FULL_AD_DATA":
+            meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatFullAdData( outputDescription.inputData.adType ));
             break;
           case "MASKED_AD_DATA":
             meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatMaskedAdData( outputDescription.inputData.adType, outputDescription.inputData.mask ));
@@ -82,7 +90,7 @@ export const FilterUtil = {
     switch (input.type) {
       case 'MAC_ADDRESS':
         break;
-      case 'AD_DATA':
+      case 'FULL_AD_DATA':
         inputSet += input.adType;
         break;
       case 'MASKED_AD_DATA':
@@ -92,7 +100,7 @@ export const FilterUtil = {
     }
 
 
-    if (input.type === "AD_DATA") {
+    if (input.type === "FULL_AD_DATA") {
       inputSet += input.adType;
     }
     if (output.type === 'SHORT_ASSET_ID_TRACK') {
@@ -100,7 +108,7 @@ export const FilterUtil = {
       switch (output.inputData.type) {
         case 'MAC_ADDRESS':
           break;
-        case 'AD_DATA':
+        case 'FULL_AD_DATA':
           outputSet += output.inputData.adType;
           break;
         case 'MASKED_AD_DATA':

@@ -1,8 +1,8 @@
-import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
-import {AddTimestamps}                          from '../bases/timestamp-mixin';
-import {BaseEntity}                             from '../bases/base-entity';
+import {belongsTo, hasMany, model, property}          from '@loopback/repository';
+import {AddTimestamps}                                from '../bases/timestamp-mixin';
+import {BaseEntity}                                   from '../bases/base-entity';
 import {Asset, filterFormat, filterOutputDescription} from './asset.model';
-import {AssetFilterSet} from './asset-filter-set.model';
+import {AssetFilterSet}                               from './asset-filter-set.model';
 
 @model()
 export class AssetFilter extends AddTimestamps(BaseEntity) {

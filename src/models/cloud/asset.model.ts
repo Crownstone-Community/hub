@@ -1,14 +1,14 @@
-import {belongsTo,  model, property} from '@loopback/repository';
-import {AddTimestamps}               from '../bases/timestamp-mixin';
-import {BaseEntity}                  from '../bases/base-entity';
-import {AssetFilter} from './asset-filter.model';
-import {FormatMaskedAdData} from './filterSubModels/format-masked-ad-data.model';
-import {FormatAdData} from './filterSubModels/format-ad-data.model';
-import {FormatMacAddress} from './filterSubModels/format-mac-address.model';
+import {belongsTo,  model, property}     from '@loopback/repository';
+import {AddTimestamps}                   from '../bases/timestamp-mixin';
+import {BaseEntity}                      from '../bases/base-entity';
+import {AssetFilter}                     from './asset-filter.model';
+import {FormatMaskedAdData}              from './filterSubModels/format-masked-ad-data.model';
+import {FormatFullAdData}                from './filterSubModels/format-full-ad-data.model';
+import {FormatMacAddress}                from './filterSubModels/format-mac-address.model';
 import {OutputDescription_shortId_track} from './filterSubModels/output-description-shortId-track.model';
-import {OutputDescription_mac_report} from './filterSubModels/output-description-mac-report.model';
+import {OutputDescription_mac_report}    from './filterSubModels/output-description-mac-report.model';
 
-export type filterFormat = FormatMacAddress | FormatAdData | FormatMaskedAdData;
+export type filterFormat            = FormatMacAddress | FormatFullAdData | FormatMaskedAdData;
 export type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report
 
 

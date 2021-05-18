@@ -12,8 +12,8 @@ exports.FilterUtil = {
             case "MAC_ADDRESS":
                 meta.input = new crownstone_core_1.FilterFormatMacAddress();
                 break;
-            case "AD_DATA":
-                meta.input = new crownstone_core_1.FilterFormatAdData(inputData.adType);
+            case "FULL_AD_DATA":
+                meta.input = new crownstone_core_1.FilterFormatFullAdData(inputData.adType);
                 break;
             case "MASKED_AD_DATA":
                 meta.input = new crownstone_core_1.FilterFormatMaskedAdData(inputData.adType, inputData.mask);
@@ -28,8 +28,8 @@ exports.FilterUtil = {
                     case "MAC_ADDRESS":
                         meta.outputDescription = new crownstone_core_1.FilterOutputDescription(crownstone_core_1.FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new crownstone_core_1.FilterFormatMacAddress());
                         break;
-                    case "AD_DATA":
-                        meta.outputDescription = new crownstone_core_1.FilterOutputDescription(crownstone_core_1.FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new crownstone_core_1.FilterFormatAdData(outputDescription.inputData.adType));
+                    case "FULL_AD_DATA":
+                        meta.outputDescription = new crownstone_core_1.FilterOutputDescription(crownstone_core_1.FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new crownstone_core_1.FilterFormatFullAdData(outputDescription.inputData.adType));
                         break;
                     case "MASKED_AD_DATA":
                         meta.outputDescription = new crownstone_core_1.FilterOutputDescription(crownstone_core_1.FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new crownstone_core_1.FilterFormatMaskedAdData(outputDescription.inputData.adType, outputDescription.inputData.mask));
@@ -66,7 +66,7 @@ exports.FilterUtil = {
         switch (input.type) {
             case 'MAC_ADDRESS':
                 break;
-            case 'AD_DATA':
+            case 'FULL_AD_DATA':
                 inputSet += input.adType;
                 break;
             case 'MASKED_AD_DATA':
@@ -74,7 +74,7 @@ exports.FilterUtil = {
                 inputSet += input.mask;
                 break;
         }
-        if (input.type === "AD_DATA") {
+        if (input.type === "FULL_AD_DATA") {
             inputSet += input.adType;
         }
         if (output.type === 'SHORT_ASSET_ID_TRACK') {
@@ -82,7 +82,7 @@ exports.FilterUtil = {
             switch (output.inputData.type) {
                 case 'MAC_ADDRESS':
                     break;
-                case 'AD_DATA':
+                case 'FULL_AD_DATA':
                     outputSet += output.inputData.adType;
                     break;
                 case 'MASKED_AD_DATA':

@@ -57,19 +57,25 @@ export class AssetController {
   async commitChanges(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ): Promise<void> {
-    let uncomittedAssets = await this.assetRepo.find({where: {or: [{committed: false},{markedForDeletion:true}]}});
-    for (let asset of uncomittedAssets) {
-      if (asset.markedForDeletion) {
-        await this.assetRepo.delete(asset);
-        continue;
+    try {
+      let uncomittedAssets = await this.assetRepo.find({where: {or: [{committed: false}, {markedForDeletion: true}]}});
+      for (let asset of uncomittedAssets) {
+        if (asset.markedForDeletion) {
+          await this.assetRepo.delete(asset);
+          continue;
+        }
+        asset.committed = true;
+        await this.assetRepo.save(asset);
       }
-      asset.committed = true;
-      await this.assetRepo.save(asset);
-    }
 
-    let changeRequired = await FilterManager.reconstructFilters();
-    if (changeRequired) {
-      await FilterManager.refreshFilterSets();
+      let changeRequired = await FilterManager.reconstructFilters();
+      if (changeRequired) {
+        await FilterManager.refreshFilterSets();
+      }
+    }
+    catch (err) {
+      console.error("Failed commit", err);
+      throw err;
     }
   }
 
@@ -149,9 +155,9 @@ export class AssetController {
       marked++;
     }
 
-    if (marked > 0 && removed == 0) { return "Call commit to actually delete all assets"; }
-    if (marked > 0 && removed > 0)  { return "Call commit to actually delete all assets. Some uncommitted assets have been removed."; }
-    if (marked == 0 && removed > 0) { return "All assets were uncomitted and are removed."; }
+    if (marked > 0  && removed == 0) { return "Call commit to actually delete all assets"; }
+    if (marked > 0  && removed > 0)  { return "Call commit to actually delete all assets. Some uncommitted assets have been removed."; }
+    if (marked == 0 && removed > 0)  { return "All assets were uncomitted and are removed."; }
 
     return "Nothing to remove.";
   }

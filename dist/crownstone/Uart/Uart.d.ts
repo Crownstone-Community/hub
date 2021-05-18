@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { CrownstoneUart } from 'crownstone-uart';
 import { PromiseManager } from './PromiseManager';
 import { UartHubDataCommunication } from './UartHubDataCommunication';
@@ -8,6 +9,7 @@ export declare class Uart implements UartInterface {
     hubDataHandler: UartHubDataCommunication;
     ready: boolean;
     cloud: CrownstoneCloud;
+    keyWasSet: boolean;
     refreshingKey: boolean;
     timeLastRefreshed: number;
     _initialized: Promise<void>;
@@ -19,6 +21,7 @@ export declare class Uart implements UartInterface {
      */
     initialize(): Promise<void>;
     refreshUartEncryption(): Promise<void>;
+    setUartKey(key: string | Buffer): void;
     switchCrownstones(switchPairs: SwitchData[]): Promise<any>;
     registerTrackedDevice(trackingNumber: number, locationUID: number, profileId: number, rssiOffset: number, ignoreForPresence: boolean, tapToToggleEnabled: boolean, deviceToken: number, ttlMinutes: number): void;
     syncFilters(allowErrorRepair?: boolean): Promise<void>;

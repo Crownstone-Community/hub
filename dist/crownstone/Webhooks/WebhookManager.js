@@ -50,7 +50,7 @@ class WebhookManager {
             timestamp: Date.now()
         };
         try {
-            await request_1.req("POST", hook.endPoint, { headers: headers, json: payload });
+            await request_1.req("POST", hook.endPoint, { headers: headers, json: payload }, true);
         }
         catch (err) {
             log.error("Something went wrong during invocation of ", hook.id, err);

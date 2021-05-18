@@ -56,7 +56,7 @@ export class WebhookManager {
     };
 
     try {
-      await req("POST", hook.endPoint, { headers: headers, json: payload });
+      await req("POST", hook.endPoint, { headers: headers, json: payload }, true);
     }
     catch (err) {
       log.error("Something went wrong during invocation of ", hook.id, err);

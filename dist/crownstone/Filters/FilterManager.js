@@ -101,7 +101,6 @@ class FilterManagerClass {
             let filter = new AssetFilter_1.AssetFilter(metaData);
             for (let data of requirement.data) {
                 filter.addToFilter(Buffer.from(data, 'hex'));
-                ;
             }
             let filterPacket = filter.getFilterPacket();
             requirement.filterPacket = filterPacket.toString('hex');

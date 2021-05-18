@@ -23,7 +23,8 @@ export class Uart implements UartInterface {
   ready           : boolean = false
   cloud           : CrownstoneCloud;
 
-  refreshingKey   = false
+  keyWasSet         = false;
+  refreshingKey     = false;
   timeLastRefreshed = 0;
 
   _initialized: Promise<void>
@@ -37,6 +38,14 @@ export class Uart implements UartInterface {
 
     this.hubDataHandler = new UartHubDataCommunication(this.connection);
     this.forwardEvents();
+
+    // in case we reconnect, and have booted the hub (so the key was set), we try to sync the filters.
+    this.connection.on(UartTopics.ConnectionEstablished, () => {
+      log.notice("UART connection established. Keys are set:", this.keyWasSet);
+      if (this.keyWasSet) {
+        this.syncFilters();
+      }
+    })
   }
 
   forwardEvents() {
@@ -56,7 +65,9 @@ export class Uart implements UartInterface {
         moduleEvent = event.uartTopic;
       }
 
-      this.connection.on(event.uartTopic, (data) => { eventBus.emit(moduleEvent, data); })
+      this.connection.on(event.uartTopic, (data) => {
+        eventBus.emit(moduleEvent, data);
+      });
     });
 
     this.connection.on(UartTopics.HubDataReceived, (data: {payload: Buffer, wasEncrypted: boolean}) => { this.hubDataHandler.handleIncomingHubData(data) })
@@ -71,7 +82,7 @@ export class Uart implements UartInterface {
       await HubStatusManager.setStatus({
         clientHasBeenSetup: false,
         encryptionRequired: false,
-        clientHasInternet: false,
+        clientHasInternet:  false,
       });
       log.info("Uart is ready");
 
@@ -100,10 +111,8 @@ export class Uart implements UartInterface {
         return;
       }
 
-      this.timeLastRefreshed = Date.now();
-
-      if (!Dbs.hub) { return; }
-      if (await Dbs.hub.isSet() === false) { return; }
+      if (!Dbs.hub) { console.log("noHub Db"); return; }
+      if (await Dbs.hub.isSet() === false) { console.log("noHub"); return; }
 
       this.refreshingKey = true;
 
@@ -132,13 +141,19 @@ export class Uart implements UartInterface {
         hub.uartKey = uartKey;
         await Dbs.hub.save(hub);
       }
-      this.connection.encryption.setKey(uartKey);
+      this.setUartKey(uartKey)
       this.refreshingKey = false;
+      this.timeLastRefreshed = Date.now();
     }
     catch (err) {
       this.refreshingKey = false;
       throw err;
     }
+  }
+
+  setUartKey(key : string | Buffer) {
+    this.connection.encryption.setKey(key);
+    this.keyWasSet = true;
   }
 
 

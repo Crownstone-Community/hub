@@ -65,7 +65,7 @@ export class CrownstoneHubClass implements CrownstoneHub {
       this.setStatusBackupInterval  = setInterval(() => { HubStatusManager.setActualStatus(); }, 5*60*1000);
       // load the key if we already have it.
       if (hub.uartKey) {
-        this.uart.connection.encryption.setKey(hub.uartKey);
+        this.uart.setUartKey(hub.uartKey);
         HubStatusManager.setStatus({ clientHasBeenSetup: true });
       }
 
@@ -97,10 +97,8 @@ export class CrownstoneHubClass implements CrownstoneHub {
           }
         })
 
-
-
-        this.mesh.init()
-        this.timeKeeper.init()
+        this.mesh.init();
+        this.timeKeeper.init();
 
         HubStatus.initialized = true;
 

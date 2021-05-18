@@ -1,10 +1,10 @@
 import { BaseEntity } from '../bases/base-entity';
 import { FormatMaskedAdData } from './filterSubModels/format-masked-ad-data.model';
-import { FormatAdData } from './filterSubModels/format-ad-data.model';
+import { FormatFullAdData } from './filterSubModels/format-full-ad-data.model';
 import { FormatMacAddress } from './filterSubModels/format-mac-address.model';
 import { OutputDescription_shortId_track } from './filterSubModels/output-description-shortId-track.model';
 import { OutputDescription_mac_report } from './filterSubModels/output-description-mac-report.model';
-export declare type filterFormat = FormatMacAddress | FormatAdData | FormatMaskedAdData;
+export declare type filterFormat = FormatMacAddress | FormatFullAdData | FormatMaskedAdData;
 export declare type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report;
 declare const Asset_base: {
     new (...args: any[]): {

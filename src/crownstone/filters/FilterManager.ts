@@ -136,7 +136,7 @@ export class FilterManagerClass {
 
       let filter = new AssetFilterCore(metaData)
       for (let data of requirement.data) {
-        filter.addToFilter(Buffer.from(data, 'hex'));;
+        filter.addToFilter(Buffer.from(data, 'hex'));
       }
 
       let filterPacket         = filter.getFilterPacket();

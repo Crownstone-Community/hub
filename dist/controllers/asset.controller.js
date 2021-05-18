@@ -29,18 +29,24 @@ let AssetController = class AssetController {
         return this.assetRepo.find({});
     }
     async commitChanges(userProfile) {
-        let uncomittedAssets = await this.assetRepo.find({ where: { or: [{ committed: false }, { markedForDeletion: true }] } });
-        for (let asset of uncomittedAssets) {
-            if (asset.markedForDeletion) {
-                await this.assetRepo.delete(asset);
-                continue;
+        try {
+            let uncomittedAssets = await this.assetRepo.find({ where: { or: [{ committed: false }, { markedForDeletion: true }] } });
+            for (let asset of uncomittedAssets) {
+                if (asset.markedForDeletion) {
+                    await this.assetRepo.delete(asset);
+                    continue;
+                }
+                asset.committed = true;
+                await this.assetRepo.save(asset);
             }
-            asset.committed = true;
-            await this.assetRepo.save(asset);
+            let changeRequired = await FilterManager_1.FilterManager.reconstructFilters();
+            if (changeRequired) {
+                await FilterManager_1.FilterManager.refreshFilterSets();
+            }
         }
-        let changeRequired = await FilterManager_1.FilterManager.reconstructFilters();
-        if (changeRequired) {
-            await FilterManager_1.FilterManager.refreshFilterSets();
+        catch (err) {
+            console.error("Failed commit", err);
+            throw err;
         }
     }
     async getAsset(userProfile, id) {
