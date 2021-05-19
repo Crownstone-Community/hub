@@ -63,12 +63,12 @@ function getPortConfig() {
 exports.getPortConfig = getPortConfig;
 function getHttpsPort() {
     let portConfig = getPortConfig();
-    return Number(portConfig.httpsPort ?? process.env.PORT ?? 443);
+    return Number(portConfig.httpsPort ?? config_1.CONFIG.httpsPort ?? 443);
 }
 exports.getHttpsPort = getHttpsPort;
 function getHttpPort() {
     let portConfig = getPortConfig();
-    return Number(portConfig.httpPort ?? process.env.HTTP_PORT ?? 80);
+    return Number(portConfig.httpPort ?? config_1.CONFIG.httpPort ?? 80);
 }
 exports.getHttpPort = getHttpPort;
 function getConfigPath() {

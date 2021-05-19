@@ -6,8 +6,9 @@ exports.CONFIG = {
     sslConfigPath: process.env.CS_HUB_SLL_CONFIG_PATH ?? "config",
     httpsCertificatePath: process.env.CS_HUB_HTTPS_CERTIFICATE_PATH,
     uartPort: process.env.CS_HUB_UART_PORT,
-    useHttp: process.env.CS_HUB_USE_HTTP ?? true,
     enableUart: process.env.ENABLE_UART ?? true,
     generateCustomIds: process.env.GENERATE_CUSTOM_IDS ?? false,
+    httpsPort: process.env.PORT ?? 443,
+    httpPort: process.env.HTTP_PORT ?? 80,
 };
 //# sourceMappingURL=config.js.map

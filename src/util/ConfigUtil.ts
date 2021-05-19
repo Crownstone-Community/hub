@@ -82,11 +82,11 @@ export function getPortConfig() : HubPortConfig {
 
 export function getHttpsPort() : number {
   let portConfig = getPortConfig();
-  return Number(portConfig.httpsPort ?? process.env.PORT ?? 443);
+  return Number(portConfig.httpsPort ?? CONFIG.httpsPort ?? 443);
 }
 export function getHttpPort() : number {
   let portConfig = getPortConfig();
-  return Number(portConfig.httpPort ?? process.env.HTTP_PORT ?? 80);
+  return Number(portConfig.httpPort ?? CONFIG.httpPort ?? 80);
 }
 
 function getConfigPath() {
