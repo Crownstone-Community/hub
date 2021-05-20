@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilterUtil = void 0;
 const crownstone_core_1 = require("crownstone-core");
+const FilterMetaDataPackets_1 = require("crownstone-core/dist/packets/AssetFilters/FilterMetaDataPackets");
 exports.FilterUtil = {
     getMetaData: function (filter) {
         return exports.FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter.outputDescription);
@@ -14,6 +15,9 @@ exports.FilterUtil = {
                 break;
             case "FULL_AD_DATA":
                 meta.input = new crownstone_core_1.FilterFormatFullAdData(inputData.adType);
+                break;
+            case "MANUFACTURER_ID":
+                meta.input = new FilterMetaDataPackets_1.FilterInputManufacturerId();
                 break;
             case "MASKED_AD_DATA":
                 meta.input = new crownstone_core_1.FilterFormatMaskedAdData(inputData.adType, inputData.mask);
@@ -73,6 +77,8 @@ exports.FilterUtil = {
                 inputSet += input.adType;
                 inputSet += input.mask;
                 break;
+            case 'MANUFACTURER_ID':
+                inputSet += "MANUFACTURER_ID";
         }
         if (input.type === "FULL_AD_DATA") {
             inputSet += input.adType;

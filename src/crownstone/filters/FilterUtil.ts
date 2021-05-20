@@ -9,6 +9,7 @@ import {
 } from 'crownstone-core';
 import {AssetFilter} from '../../models/cloud/asset-filter.model';
 import {Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
+import {FilterInputManufacturerId} from 'crownstone-core/dist/packets/AssetFilters/FilterMetaDataPackets';
 
 export const FilterUtil = {
 
@@ -26,9 +27,10 @@ export const FilterUtil = {
     let meta = new FilterMetaData(profileId, type);
 
     switch (inputData.type) {
-      case "MAC_ADDRESS":    meta.input = new FilterFormatMacAddress(); break;
-      case "FULL_AD_DATA":   meta.input = new FilterFormatFullAdData( inputData.adType ); break;
-      case "MASKED_AD_DATA": meta.input = new FilterFormatMaskedAdData( inputData.adType, inputData.mask ); break;
+      case "MAC_ADDRESS":     meta.input = new FilterFormatMacAddress(); break;
+      case "FULL_AD_DATA":    meta.input = new FilterFormatFullAdData( inputData.adType ); break;
+      case "MANUFACTURER_ID": meta.input = new FilterInputManufacturerId(); break;
+      case "MASKED_AD_DATA":  meta.input = new FilterFormatMaskedAdData( inputData.adType, inputData.mask ); break;
     }
 
     switch (outputDescription.type) {
@@ -97,6 +99,8 @@ export const FilterUtil = {
         inputSet += input.adType;
         inputSet += input.mask;
         break;
+      case 'MANUFACTURER_ID':
+        inputSet += "MANUFACTURER_ID"
     }
 
 
