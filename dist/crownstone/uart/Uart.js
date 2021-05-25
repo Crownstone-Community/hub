@@ -38,15 +38,16 @@ class Uart {
     forwardEvents() {
         // generate a list of topics that can be remapped from connection to lib.
         let eventsToForward = [
-            { uartTopic: crownstone_uart_1.UartTopics.MeshServiceData, moduleTopic: topics_1.topics.MESH_SERVICE_DATA },
-            { uartTopic: crownstone_uart_1.UartTopics.AssetMacReport, moduleTopic: topics_1.WebhookInternalTopics.__ASSET_REPORT },
-            { uartTopic: crownstone_uart_1.UartTopics.NearstCrownstoneTrackingUpdate, moduleTopic: topics_1.WebhookInternalTopics.__ASSET_TRACKING_UPDATE },
-            { uartTopic: crownstone_uart_1.UartTopics.NearstCrownstoneTrackingTimeout, moduleTopic: topics_1.WebhookInternalTopics.__ASSET_TRACKING_UPDATE_TIMEOUT },
+            { uartTopic: crownstone_uart_1.UartTopics.MeshServiceData, hubTopic: topics_1.topics.MESH_SERVICE_DATA },
+            { uartTopic: crownstone_uart_1.UartTopics.TopologyUpdate, hubTopic: topics_1.topics.MESH_TOPOLOGY },
+            { uartTopic: crownstone_uart_1.UartTopics.AssetMacReport, hubTopic: topics_1.WebhookInternalTopics.__ASSET_REPORT },
+            { uartTopic: crownstone_uart_1.UartTopics.NearstCrownstoneTrackingUpdate, hubTopic: topics_1.WebhookInternalTopics.__ASSET_TRACKING_UPDATE },
+            { uartTopic: crownstone_uart_1.UartTopics.NearstCrownstoneTrackingTimeout, hubTopic: topics_1.WebhookInternalTopics.__ASSET_TRACKING_UPDATE_TIMEOUT },
         ];
         // forward all required events to the module eventbus.
         eventsToForward.forEach((event) => {
-            let moduleEvent = event.moduleTopic;
-            if (!event.moduleTopic) {
+            let moduleEvent = event.hubTopic;
+            if (!event.hubTopic) {
                 moduleEvent = event.uartTopic;
             }
             this.connection.on(event.uartTopic, (data) => {
@@ -134,6 +135,12 @@ class Uart {
     setUartKey(key) {
         this.connection.encryption.setKey(key);
         this.keyWasSet = true;
+    }
+    async refreshMeshTopology() {
+        return this.queue.register(() => {
+            log.info("Dispatching refreshMeshTopology");
+            return this.connection.control.refreshTopology();
+        }, "refreshMeshTopology from Uart");
     }
     async switchCrownstones(switchPairs) {
         if (!this.ready) {

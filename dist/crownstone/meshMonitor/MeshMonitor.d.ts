@@ -1,17 +1,19 @@
 import { PowerMonitor } from './PowerMonitor';
 import { EnergyMonitor } from './EnergyMonitor';
-import { TopologyMonitor } from './TopologyMonitor';
+import { NetworkMonitor } from './NetworkMonitor';
 import { SwitchMonitor } from './SwitchMonitor';
+declare type callback = () => void;
 export declare class MeshMonitor {
     eventsRegistered: boolean;
-    unsubscribeEventListener: () => void;
+    unsubscribeEventListeners: callback[];
     power: PowerMonitor;
     energy: EnergyMonitor;
     switch: SwitchMonitor;
-    topology: TopologyMonitor;
+    network: NetworkMonitor;
     constructor();
     init(): void;
     cleanup(): void;
     setupEvents(): void;
     gather(data: ServiceDataJson): void;
 }
+export {};

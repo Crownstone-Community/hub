@@ -11,7 +11,7 @@ declare const AssetFilter_base: {
 export declare class AssetFilter extends AssetFilter_base {
     id: string;
     cloudId: string;
-    type: number;
+    type: filterType_t;
     idOnCrownstone: number;
     profileId: number;
     inputData: filterFormat;

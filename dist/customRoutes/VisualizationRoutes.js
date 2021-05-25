@@ -7,6 +7,9 @@ function addVisualizationRoutes(app, loopbackApp) {
     app.get('/energy', async (req, res) => {
         res.sendFile(path_1.default.join(__dirname, '../../public/https/energyViewer/index.html'));
     });
+    app.get('/topology', async (req, res) => {
+        res.sendFile(path_1.default.join(__dirname, '../../public/https/topologyViewer/index.html'));
+    });
 }
 exports.addVisualizationRoutes = addVisualizationRoutes;
 //# sourceMappingURL=VisualizationRoutes.js.map

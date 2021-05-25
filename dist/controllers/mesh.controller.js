@@ -10,7 +10,7 @@ const MemoryDb_1 = require("../crownstone/data/MemoryDb");
 class MeshController {
     constructor() { }
     async getCrownstonesInMesh() {
-        let topology = { ...CrownstoneHub_1.CrownstoneHub.mesh.topology.crownstonesInMesh };
+        let topology = { ...CrownstoneHub_1.CrownstoneHub.mesh.network.crownstonesInMesh };
         let result = [];
         Object.keys(topology).forEach((uid) => {
             let data = MemoryDb_1.fillWithStoneData(uid);
@@ -30,6 +30,13 @@ class MeshController {
         });
         return result;
     }
+    async getTopology() {
+        return Object.values(CrownstoneHub_1.CrownstoneHub.mesh.network.topology);
+    }
+    async refreshTopology() {
+        await CrownstoneHub_1.CrownstoneHub.uart.refreshMeshTopology();
+        CrownstoneHub_1.CrownstoneHub.mesh.network.resetTopology();
+    }
 }
 tslib_1.__decorate([
     rest_1.get('/crownstonesInMesh'),
@@ -38,5 +45,19 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeshController.prototype, "getCrownstonesInMesh", null);
+tslib_1.__decorate([
+    rest_1.get('/network'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeshController.prototype, "getTopology", null);
+tslib_1.__decorate([
+    rest_1.post('/refreshTopology'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeshController.prototype, "refreshTopology", null);
 exports.MeshController = MeshController;
 //# sourceMappingURL=mesh.controller.js.map

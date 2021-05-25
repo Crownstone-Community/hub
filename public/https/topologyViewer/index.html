@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TopologyViewer</title>
+    <link href="./topologyViewer/css/vis.css" rel="stylesheet" type="text/css" />
+    <link href="./topologyViewer/css/groups.css" rel="stylesheet" type="text/css" />
+    <link href="./topologyViewer/css/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <script src="./topologyViewer/js/lib/vis.js"></script>
+    <script src="./topologyViewer/js/util.js"></script>
+    <script src="./topologyViewer/js/visHandler.js"></script>
+    <script src="./topologyViewer/js/init.js"></script>
+
+    <style>
+        #meshTopology {
+            width:  800px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+
+    </style>
+</head>
+<body onload="init()">
+<div id="tokenInputWrapper" style="display:block">
+    <p>Please input your sphereAuthorizationToken here:</p>
+    <input id="tokenInput" style="width:500px" onchange="validateTokenInput()"/>
+    <p><i>It has to be 64 characters long. Press enter to continue.</i></p>
+</div>
+
+<div id="networkContainer" style="display:none">
+    <input type="button" value="Refresh Topology" style="width:200px" onclick="refreshTopology()"/>
+    <input type="button" value="Get topology data" style="width:200px" onclick="getTopology()"/>
+    <div id="meshTopology"></div>
+</div>
+</body>
+</html>

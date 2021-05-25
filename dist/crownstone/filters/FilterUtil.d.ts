@@ -1,11 +1,18 @@
-import { FilterMetaData } from 'crownstone-core';
+import { AssetFilter as AssetFilterCore } from 'crownstone-core';
 import { AssetFilter } from '../../models/cloud/asset-filter.model';
 import { Asset, filterFormat, filterOutputDescription } from '../../models/cloud/asset.model';
 export declare const FilterUtil: {
-    getMetaData: (filter: AssetFilter) => FilterMetaData;
-    getFilterMetaData: (type: number, profileId: number, inputData: filterHubFormat, outputDescription: filterHubOutputDescription) => FilterMetaData;
+    setFilterMetaData: (filter: AssetFilterCore, type: string, profileId: number, inputData: filterHubFormat, outputDescription: filterHubOutputDescription) => import("crownstone-core").FilterMetaData;
+    getFilterSizeOverhead(asset: Asset): number;
     generateMasterCRC: (filters: AssetFilter[]) => number;
-    getMetaDataDescriptionFromAsset: (asset: Asset) => string;
-    getMetaDataDescriptionFromFilter: (filter: AssetFilter) => string;
-    getMetaDataDescription: (profileId: number, input: filterFormat, output: filterOutputDescription) => string;
+    getMetaDataDescriptionFromAsset: (asset: Asset, filterType: string) => string;
+    getMetaDataDescriptionFromFilter: (filter: AssetFilter) => Promise<string>;
+    /**
+     * In the case of filter types which depend on an exact amount of bytes, the type is appended with ":<bytelength>", ie: ":2"
+     * @param profileId
+     * @param input
+     * @param output
+     * @param type
+     */
+    getMetaDataDescription: (profileId: number, input: filterFormat, output: filterOutputDescription, type: string) => string;
 };

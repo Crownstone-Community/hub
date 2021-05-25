@@ -3,7 +3,7 @@
 export class NetworkMonitor {
 
   crownstonesInMesh : { [stoneUID : string] : number } = {};
-  topology : { [lookupId: string]: Edge }
+  topology : { [lookupId: string]: Edge } = {};
 
   updateLastSeen(crownstoneId: number) {
     this.crownstonesInMesh[crownstoneId] = Date.now();

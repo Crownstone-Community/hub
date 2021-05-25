@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MeshMonitor = void 0;
 const PowerMonitor_1 = require("./PowerMonitor");
 const EnergyMonitor_1 = require("./EnergyMonitor");
-const TopologyMonitor_1 = require("./TopologyMonitor");
+const NetworkMonitor_1 = require("./NetworkMonitor");
 const SwitchMonitor_1 = require("./SwitchMonitor");
 const HubEventBus_1 = require("../HubEventBus");
 const topics_1 = require("../topics");
@@ -12,11 +12,11 @@ const log = Logger_1.Logger(__filename);
 class MeshMonitor {
     constructor() {
         this.eventsRegistered = false;
-        this.unsubscribeEventListener = () => { };
+        this.unsubscribeEventListeners = [];
         this.power = new PowerMonitor_1.PowerMonitor();
         this.energy = new EnergyMonitor_1.EnergyMonitor();
         this.switch = new SwitchMonitor_1.SwitchMonitor();
-        this.topology = new TopologyMonitor_1.TopologyMonitor();
+        this.network = new NetworkMonitor_1.NetworkMonitor();
     }
     init() {
         this.cleanup();
@@ -25,21 +25,23 @@ class MeshMonitor {
         this.setupEvents();
     }
     cleanup() {
-        this.unsubscribeEventListener();
+        this.unsubscribeEventListeners.forEach((unsub) => { unsub(); });
+        this.unsubscribeEventListeners = [];
         this.energy.stop();
         this.power.stop();
         this.eventsRegistered = false;
     }
     setupEvents() {
         if (this.eventsRegistered === false) {
-            this.unsubscribeEventListener = HubEventBus_1.eventBus.on(topics_1.topics.MESH_SERVICE_DATA, (data) => { this.gather(data); });
+            this.unsubscribeEventListeners.push(HubEventBus_1.eventBus.on(topics_1.topics.MESH_SERVICE_DATA, (data) => { this.gather(data); }));
+            this.unsubscribeEventListeners.push(HubEventBus_1.eventBus.on(topics_1.topics.MESH_TOPOLOGY, (data) => { this.network.updateTopology(data); }));
             this.eventsRegistered = true;
         }
     }
     gather(data) {
         let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
         log.debug("Received data from", crownstoneUid);
-        this.topology.collect(crownstoneUid);
+        this.network.updateLastSeen(crownstoneUid);
         if (data.timeIsSet) {
             this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
             this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);

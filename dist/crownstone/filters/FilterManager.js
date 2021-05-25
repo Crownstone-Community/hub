@@ -4,7 +4,6 @@ exports.FilterManager = exports.FilterManagerClass = void 0;
 const DbReference_1 = require("../data/DbReference");
 const crownstone_core_1 = require("crownstone-core");
 const FilterUtil_1 = require("./FilterUtil");
-const AssetFilter_1 = require("crownstone-core/dist/filters/AssetFilter");
 class FilterManagerClass {
     constructor() {
         this.initialized = false;
@@ -70,37 +69,100 @@ class FilterManagerClass {
     }
     async reconstructFilters() {
         let allAssets = await DbReference_1.Dbs.assets.find({ where: { committed: true } });
-        let allFilters = await DbReference_1.Dbs.assetFilters.find();
+        let allFilters = await DbReference_1.Dbs.assetFilters.find({ include: [{ relation: "assets" }] });
         let filterChangeRequired = false;
         let filterRequirements = {};
-        // summarize the filters we need to construct
-        for (let asset of allAssets) {
-            let typeDescription = FilterUtil_1.FilterUtil.getMetaDataDescriptionFromAsset(asset);
+        // amount of defined filters used to determine which type of filter to use for the assets without desiredFilterType
+        const maxAmountOfFiltersAllowed = 8;
+        let amountOfRequiredFilters = 0;
+        // this size estimate can be used to determine which type of filter to use for the assets without desiredFilterType
+        const maxSizeAllowed = 500;
+        let definedSizeEstimate = 0;
+        // this closure will place an asset in the filterRequirements summary
+        function placeAssetInSet(asset, filterType) {
+            let typeDescription = FilterUtil_1.FilterUtil.getMetaDataDescriptionFromAsset(asset, filterType);
+            let overhead = FilterUtil_1.FilterUtil.getFilterSizeOverhead(asset);
             if (filterRequirements[typeDescription] === undefined) {
                 filterRequirements[typeDescription] = {
+                    filterType: filterType,
                     inputData: asset.inputData,
                     outputDescription: asset.outputDescription,
                     profileId: asset.profileId,
                     data: [],
                     dataMap: {},
                     assets: [],
-                    filterType: crownstone_core_1.FilterType.CUCKCOO_V1,
+                    sizeEstimate: overhead,
                     exists: false,
                 };
+                if (filterType) {
+                    amountOfRequiredFilters++;
+                }
             }
             filterRequirements[typeDescription].assets.push(asset);
+            let dataBytes = Buffer.from(asset.data, 'hex');
             if (filterRequirements[typeDescription].dataMap[asset.data] === undefined) {
                 filterRequirements[typeDescription].dataMap[asset.data] = true;
-                filterRequirements[typeDescription].data.push(asset.data);
+                filterRequirements[typeDescription].data.push(dataBytes);
+                // keep track of how much data we plan to use on the Crownstone for these filters
+                // this estimate is without overhead.
+                if (filterType === 'CUCKOO') {
+                    filterRequirements[typeDescription].sizeEstimate += 2;
+                    definedSizeEstimate += 2;
+                }
+                else if (filterType === 'EXACT_MATCH') {
+                    filterRequirements[typeDescription].sizeEstimate += dataBytes.length;
+                    definedSizeEstimate += dataBytes.length;
+                }
             }
         }
+        // Look through all of the assets and determine which sort of filter is required for them.
+        for (let asset of allAssets) {
+            placeAssetInSet(asset, asset.desiredFilterType ?? "UNSPECIFIED");
+        }
+        // check if the defined assets can be loaded onto the Crownstone.
+        let remainingSpace = maxSizeAllowed - definedSizeEstimate;
+        if (remainingSpace < 0) {
+            throw "NOT_ENOUGH_MEMORY_FOR_ALL_ASSETS";
+        }
+        let remainingFilterSpaces = maxAmountOfFiltersAllowed - amountOfRequiredFilters;
+        if (remainingFilterSpaces < 0) {
+            throw "NOT_ENOUGH_FILTER_SLOTS_TO_CREATE_FILTERS";
+        }
+        let unspecifiedType = null;
+        if (remainingFilterSpaces - getAmountOfUnspecifiedFiltersIfExact(filterRequirements) < 0) {
+            if (remainingFilterSpaces - getAmountOfUnspecifiedFiltersIfCuckoo(filterRequirements) < 0) {
+                throw "NOT_ENOUGH_FILTER_SLOTS_AVAILABLE_FOR_UNSPECIFIED_FILTERS";
+            }
+            else {
+                unspecifiedType = "CUCKOO";
+            }
+        }
+        // first check which filters we want to use for the unspecified filter types
+        // the selection process is as follows:
+        // 1 - is there space available to store the assets without compression?
+        //     - sort the filters based on data length
+        //     - see if we can join them in an existing EXACT MATCH filter
+        //     - determine if we have room for the amount of required extra filters
+        if (remainingSpace - getUnspecifiedExactSpaceRequirements(filterRequirements) > 0) {
+            // there is space for the filters uncompressed.
+            unspecifiedType = unspecifiedType ?? "EXACT_MATCH";
+        }
+        else if (remainingSpace - getUnspecifiedCompressedSpaceRequirements(filterRequirements) > 0) {
+            // it fits if we compress it.
+            unspecifiedType = unspecifiedType ?? "CUCKOO";
+        }
+        else {
+            throw "NO_MEMORY_AVAILABLE_FOR_ALL_ASSETS";
+        }
+        // place all unspecified assets in a type of filter.
+        markUnspecifiedAs(unspecifiedType, filterRequirements, placeAssetInSet);
         // contruct filters from requirements
         for (let description in filterRequirements) {
             let requirement = filterRequirements[description];
-            let metaData = FilterUtil_1.FilterUtil.getFilterMetaData(requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription);
-            let filter = new AssetFilter_1.AssetFilter(metaData);
+            let filter = new crownstone_core_1.AssetFilter();
+            FilterUtil_1.FilterUtil.setFilterMetaData(filter, requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription);
             for (let data of requirement.data) {
-                filter.addToFilter(Buffer.from(data, 'hex'));
+                filter.addToFilter(data);
             }
             let filterPacket = filter.getFilterPacket();
             requirement.filterPacket = filterPacket.toString('hex');
@@ -110,14 +172,15 @@ class FilterManagerClass {
         let ids = {};
         for (let filter of allFilters) {
             ids[filter.idOnCrownstone] = true;
-            let typeDescription = FilterUtil_1.FilterUtil.getMetaDataDescriptionFromFilter(filter);
+            let typeDescription = await FilterUtil_1.FilterUtil.getMetaDataDescriptionFromFilter(filter);
             let requiredMatchingVersion = filterRequirements[typeDescription];
             if (requiredMatchingVersion && requiredMatchingVersion.filterPacket === filter.data) {
+                // this covers the case if there are assets whose data is already housed in a different filter.
                 requiredMatchingVersion.exists = true;
                 await updateAssetFilterIds(requiredMatchingVersion.assets, filter.id).catch();
             }
             else {
-                // Delete this filter.
+                // Delete this filter since it is not required by any of the available assets.
                 filterChangeRequired = true;
                 await DbReference_1.Dbs.assetFilters.delete(filter).catch((err) => { console.log("Error while removing filter", err); });
             }
@@ -167,6 +230,73 @@ async function updateAssetFilterIds(assets, filterId) {
             asset.filterId = filterId;
             await DbReference_1.Dbs.assets.update(asset);
         }
+    }
+}
+function getUnspecifiedExactSpaceRequirements(filterRequirements) {
+    let total = 0;
+    for (let typeDescription in filterRequirements) {
+        let r = filterRequirements[typeDescription];
+        if (r.filterType !== "UNSPECIFIED") {
+            continue;
+        }
+        total += r.sizeEstimate;
+        for (let datapoint of r.data) {
+            total += datapoint.length;
+        }
+    }
+    return total;
+}
+function getAmountOfUnspecifiedFiltersIfExact(filterRequirements) {
+    let total = 0;
+    for (let typeDescription in filterRequirements) {
+        let r = filterRequirements[typeDescription];
+        if (r.filterType !== "UNSPECIFIED") {
+            continue;
+        }
+        let sizeMap = {};
+        for (let datapoint of r.data) {
+            sizeMap[String(datapoint.length)] = true;
+        }
+        total += Object.keys(sizeMap).length;
+    }
+    return total;
+}
+function getAmountOfUnspecifiedFiltersIfCuckoo(filterRequirements) {
+    let total = 0;
+    for (let typeDescription in filterRequirements) {
+        let r = filterRequirements[typeDescription];
+        if (r.filterType !== "UNSPECIFIED") {
+            continue;
+        }
+        total += 1;
+    }
+    return total;
+}
+function getUnspecifiedCompressedSpaceRequirements(filterRequirements, size = 2) {
+    let total = 0;
+    for (let typeDescription in filterRequirements) {
+        let r = filterRequirements[typeDescription];
+        if (r.filterType !== "UNSPECIFIED") {
+            continue;
+        }
+        total += r.sizeEstimate;
+        for (let datapoint of r.data) {
+            total += size;
+        }
+    }
+    return total;
+}
+function markUnspecifiedAs(filterType, filterRequirements, allocationClosure) {
+    for (let typeDescription in filterRequirements) {
+        let r = filterRequirements[typeDescription];
+        if (r.filterType !== "UNSPECIFIED") {
+            continue;
+        }
+        for (let asset of r.assets) {
+            allocationClosure(asset, filterType);
+        }
+        ;
+        delete filterRequirements[typeDescription];
     }
 }
 exports.FilterManager = new FilterManagerClass();

@@ -48,7 +48,7 @@ export class MeshController {
     return Object.values(CrownstoneHub.mesh.network.topology);
   }
 
-  @post('/network')
+  @post('/refreshTopology')
   @authenticate(SecurityTypes.sphere)
   async refreshTopology() : Promise<void> {
     await CrownstoneHub.uart.refreshMeshTopology();
