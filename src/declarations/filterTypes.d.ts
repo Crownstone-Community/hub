@@ -6,6 +6,8 @@ type filterFormat_manufacturerId_t   = "MANUFACTURER_ID"
 type filterFormat_macAddress_report_t  = "MAC_ADDRESS_REPORT"
 type filterFormat_shortAssetId_track_t = "SHORT_ASSET_ID_TRACK"
 
+type filterType_t = "CUCKOO" | "EXACT_MATCH"
+
 interface FormatMacAddress {
   type: filterFormat_macAddressType_t
 }

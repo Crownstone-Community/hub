@@ -40,6 +40,9 @@ export class Asset extends AddTimestamps(BaseEntity) {
   @property({type: 'number'})
   profileId: number;
 
+  @property({type: 'string'})
+  desiredFilterType: filterType_t;
+
   @property({required: true})
   inputData: filterFormat
 

@@ -1,51 +1,49 @@
 import {
-  FilterFormatFullAdData,
-  FilterFormatMacAddress,
-  FilterFormatMaskedAdData,
-  FilterMetaData,
-  FilterOutputDescription,
-  FilterOutputDescriptionType,
+  FilterType,
   getMasterCRC,
 } from 'crownstone-core';
+import {AssetFilter as AssetFilterCore} from 'crownstone-core';
 import {AssetFilter} from '../../models/cloud/asset-filter.model';
 import {Asset, filterFormat, filterOutputDescription} from '../../models/cloud/asset.model';
-import {FilterInputManufacturerId} from 'crownstone-core/dist/packets/AssetFilters/FilterMetaDataPackets';
 
 export const FilterUtil = {
 
-  getMetaData: function(filter: AssetFilter) {
-    return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
-  },
+  // getMetaData: function(filter: AssetFilter) {
+  //   return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
+  // },
 
 
-  getFilterMetaData: function(
-    type : number,
+  setFilterMetaData: function(
+    filter: AssetFilterCore,
+    type : string,
     profileId : number,
     inputData: filterHubFormat,
     outputDescription: filterHubOutputDescription
   ) {
-    let meta = new FilterMetaData(profileId, type);
+
+    filter.setFilterType(type === "CUCKOO" ? FilterType.CUCKCOO_V1 : FilterType.EXACT_MATCH)
+    filter.useAsProfileId(profileId)
 
     switch (inputData.type) {
-      case "MAC_ADDRESS":     meta.input = new FilterFormatMacAddress(); break;
-      case "FULL_AD_DATA":    meta.input = new FilterFormatFullAdData( inputData.adType ); break;
-      case "MANUFACTURER_ID": meta.input = new FilterInputManufacturerId(); break;
-      case "MASKED_AD_DATA":  meta.input = new FilterFormatMaskedAdData( inputData.adType, inputData.mask ); break;
+      case "MAC_ADDRESS":     filter.filterOnMacAddress();                                    break;
+      case "MANUFACTURER_ID": filter.filterOnManufacturerId();                                break;
+      case "FULL_AD_DATA":    filter.filterOnFullAdData(inputData.adType);                    break;
+      case "MASKED_AD_DATA":  filter.filterOnMaskedAdData(inputData.adType, inputData.mask ); break;
     }
 
     switch (outputDescription.type) {
       case "MAC_ADDRESS_REPORT":
-        meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.MAC_ADDRESS_REPORT); break;
+        filter.outputMacRssiReport(); break;
       case "SHORT_ASSET_ID_TRACK":
         switch (outputDescription.inputData.type) {
           case "MAC_ADDRESS":
-            meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatMacAddress());
+            filter.outputTrackableShortIdBasedOnMacAddress()
             break;
           case "FULL_AD_DATA":
-            meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatFullAdData( outputDescription.inputData.adType ));
+            filter.outputTrackableShortIdBasedOnFullAdType(outputDescription.inputData.adType)
             break;
           case "MASKED_AD_DATA":
-            meta.outputDescription = new FilterOutputDescription(FilterOutputDescriptionType.SHORT_ASSET_ID_TRACK, new FilterFormatMaskedAdData( outputDescription.inputData.adType, outputDescription.inputData.mask ));
+            filter.outputTrackableShortIdBasedOnMaskedAdType(outputDescription.inputData.adType, outputDescription.inputData.mask)
             break;
           default:
             console.log("Invalid input data type received", outputDescription.inputData)
@@ -57,7 +55,13 @@ export const FilterUtil = {
         throw "INVALID_OUTPUT_DESCRIPTION_TYPE"
     }
 
-    return meta;
+    return filter.metaData;
+  },
+
+  getFilterSizeOverhead(asset: Asset) : number {
+    // it does not matter here whether it is EXACT_MATCH or something else.
+    let filter = new AssetFilterCore();
+    return FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription).getPacket().length;
   },
 
 
@@ -71,26 +75,48 @@ export const FilterUtil = {
   },
 
 
-  getMetaDataDescriptionFromAsset: function(asset: Asset) {
-    return FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription);
+  getMetaDataDescriptionFromAsset: function(asset: Asset, filterType: string) {
+    if (filterType === "EXACT_MATCH") {
+      let dataBytes = Buffer.from(asset.data, 'hex');
+      filterType = "EXACT_MATCH:" + dataBytes.length;
+    }
+    return FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription, filterType);
   },
 
 
-  getMetaDataDescriptionFromFilter: function(filter: AssetFilter) {
-    return FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription);
+  getMetaDataDescriptionFromFilter: async function(filter: AssetFilter) : Promise<string> {
+    let filterType = filter.type as string;
+    if (filter.type === "EXACT_MATCH") {
+      // we have to get the dataLength from the assets in the filter.
+      let assets = filter.assets;
+      if (assets.length > 0) {
+        let dataBytes = Buffer.from(assets[0].data, 'hex');
+        filterType = "EXACT_MATCH:" + dataBytes.length;
+      }
+    }
+    return FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription, filterType);
   },
 
 
+  /**
+   * In the case of filter types which depend on an exact amount of bytes, the type is appended with ":<bytelength>", ie: ":2"
+   * @param profileId
+   * @param input
+   * @param output
+   * @param type
+   */
   getMetaDataDescription: function(
     profileId: number,
     input : filterFormat,
     output: filterOutputDescription,
+    type: string
   ) : string {
 
     let inputSet = '' + input.type;
     let outputSet = '' + output.type;
     switch (input.type) {
       case 'MAC_ADDRESS':
+      case 'MANUFACTURER_ID':
         break;
       case 'FULL_AD_DATA':
         inputSet += input.adType;
@@ -99,8 +125,6 @@ export const FilterUtil = {
         inputSet += input.adType;
         inputSet += input.mask;
         break;
-      case 'MANUFACTURER_ID':
-        inputSet += "MANUFACTURER_ID"
     }
 
 
@@ -122,7 +146,9 @@ export const FilterUtil = {
       }
     }
 
-    return `${inputSet}_${outputSet}_p${profileId}`;
+
+
+    return `${type}_${inputSet}_${outputSet}_p${profileId}`;
   },
 
 }

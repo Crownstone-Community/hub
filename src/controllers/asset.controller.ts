@@ -57,6 +57,7 @@ export class AssetController {
   async commitChanges(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ): Promise<void> {
+    let committedAssets = [];
     try {
       let uncomittedAssets = await this.assetRepo.find({where: {or: [{committed: false}, {markedForDeletion: true}]}});
       for (let asset of uncomittedAssets) {
@@ -64,6 +65,7 @@ export class AssetController {
           await this.assetRepo.delete(asset);
           continue;
         }
+        committedAssets.push(asset);
         asset.committed = true;
         await this.assetRepo.save(asset);
       }
@@ -74,6 +76,18 @@ export class AssetController {
       }
     }
     catch (err) {
+      // revert the assets which were comitted to pending. This *should* resolve any issues.
+      // Deleting assets should not cause problems so this is not reverted.
+      for (let asset of committedAssets) {
+        asset.committed = false;
+        await this.assetRepo.save(asset);
+      }
+
+      let changeRequired = await FilterManager.reconstructFilters();
+      if (changeRequired) {
+        await FilterManager.refreshFilterSets();
+      }
+
       console.error("Failed commit", err);
       throw err;
     }

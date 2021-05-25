@@ -13,8 +13,8 @@ export class AssetFilter extends AddTimestamps(BaseEntity) {
   @property({type: 'string'})
   cloudId: string;
 
-  @property({type: 'number', required: true})
-  type: number; // this relates to the metadata type
+  @property({type: 'string', required: true})
+  type: filterType_t; // this relates to the metadata type
 
   @property({type: 'number'})
   idOnCrownstone: number;

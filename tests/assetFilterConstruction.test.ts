@@ -81,11 +81,11 @@ test("Create assets directly", async () => {
 
   let filterCategories = {}
   for (let filter of filtersNow) {
-    filterCategories[FilterUtil.getMetaDataDescriptionFromFilter(filter)] = filter;
+    filterCategories[await FilterUtil.getMetaDataDescriptionFromFilter(filter)] = filter;
   }
 
   for (let asset of assetsNow) {
-    let filterId = filterCategories[FilterUtil.getMetaDataDescriptionFromAsset(asset)].id;
+    let filterId = filterCategories[FilterUtil.getMetaDataDescriptionFromAsset(asset, asset.desiredFilterType ?? "UNSPECIFIED")].id;
     expect(asset.filterId).toBe(filterId);
   }
 });
@@ -124,4 +124,23 @@ test("Create assets and remove them after, see if filtersets are updated when ev
   expect(setsNow.length).toBe(1);
   expect(setsNow[0].masterVersion).toBe(2);
   expect(setsNow[0].masterCRC).toBe(65535);
+});
+
+test("Create assets and check if the filters are constructed correctly.", async () => {
+  await createAsset_mac_report(0xfdea, "CUCKOO")
+  await createAsset_mac_report(0xfd1a, "CUCKOO")
+  await createAsset_mac_report(0xfde4, "CUCKOO")
+  await createAsset_mac_report(0xfde2, "EXACT_MATCH")
+  await createAsset_mac_report(0xfde2DE, "EXACT_MATCH")
+  await createAsset_mac_report(0xfd6a)
+  await createAsset_mac_report(0x7dea)
+
+  let changesRequired = await FilterManager.reconstructFilters();
+  expect(changesRequired).toBeTruthy();
+
+  let filters = await Dbs.assetFilters.find();
+  expect(filters.length).toBe(3)
+
+  changesRequired = await FilterManager.reconstructFilters();
+  expect(changesRequired).toBeFalsy();
 });

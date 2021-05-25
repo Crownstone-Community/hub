@@ -58,14 +58,15 @@ export function auth(url, token?) {
 }
 
 
-export async function createAsset_mac_report(data = null) {
+export async function createAsset_mac_report(data = null, filterType?) {
   if (data === null) {
     data = Math.floor(Math.random()*1e8).toString(16)
   }
   let asset = await Dbs.assets.create({
-    inputData: {type:'MAC_ADDRESS'},
+    inputData: {type:'MANUFACTURER_ID'},
     outputDescription: {type:'MAC_ADDRESS_REPORT'},
     committed: true,
+    desiredFilterType: filterType,
     markedForDeletion: false,
     data: data,
     profileId: 0
@@ -77,7 +78,7 @@ export async function createAsset_ad_report(adType = 23, mask = 523465324, data 
     data = Math.floor(Math.random()*1e8).toString(16)
   }
   return await Dbs.assets.create({
-    inputData: {type:'AD_DATA', adType: adType, mask: mask},
+    inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask},
     outputDescription: {type:'MAC_ADDRESS_REPORT'},
     committed: true,
     markedForDeletion: false,
@@ -90,7 +91,7 @@ export async function createAsset_ad_track_mac(adType = 23, mask = 523465324, da
     data = Math.floor(Math.random()*1e8).toString(16)
   }
   return await Dbs.assets.create({
-    inputData: {type:'AD_DATA', adType: adType, mask: mask},
+    inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask},
     outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData:{type:'MAC_ADDRESS'}},
     data: data,
     committed: true,
@@ -103,8 +104,8 @@ export async function createAsset_ad_track_ad(adType = 23, mask = 523465324, dat
     data = Math.floor(Math.random()*1e8).toString(16)
   }
   return await Dbs.assets.create({
-    inputData: {type:'AD_DATA', adType: adType, mask: mask},
-    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData: {type:'AD_DATA', adType: adType, mask: mask}},
+    inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask},
+    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask}},
     data: data,
     committed: true,
     markedForDeletion: false,
