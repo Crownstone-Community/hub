@@ -1,26 +1,28 @@
 import { PowerMonitor }    from './PowerMonitor';
 import { EnergyMonitor }   from './EnergyMonitor';
-import { TopologyMonitor } from './TopologyMonitor';
+import { NetworkMonitor } from './NetworkMonitor';
 import { SwitchMonitor }   from './SwitchMonitor';
 import {eventBus} from '../HubEventBus';
 import {topics} from '../topics';
 import {Logger} from '../../Logger';
 const log = Logger(__filename);
 
+
+type callback = () => void;
 export class MeshMonitor {
   eventsRegistered = false;
-  unsubscribeEventListener : () => void = () => {};
+  unsubscribeEventListeners : callback[] = [];
 
   power:    PowerMonitor;
   energy:   EnergyMonitor;
   switch:   SwitchMonitor;
-  topology: TopologyMonitor;
+  network:  NetworkMonitor;
 
   constructor() {
     this.power    = new PowerMonitor();
     this.energy   = new EnergyMonitor();
     this.switch   = new SwitchMonitor();
-    this.topology = new TopologyMonitor();
+    this.network  = new NetworkMonitor();
   }
 
   init() {
@@ -31,7 +33,8 @@ export class MeshMonitor {
   }
 
   cleanup() {
-    this.unsubscribeEventListener();
+    this.unsubscribeEventListeners.forEach((unsub) => { unsub()});
+    this.unsubscribeEventListeners = [];
     this.energy.stop();
     this.power.stop();
     this.eventsRegistered = false;
@@ -39,7 +42,8 @@ export class MeshMonitor {
 
   setupEvents() {
     if (this.eventsRegistered === false) {
-      this.unsubscribeEventListener = eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); });
+      this.unsubscribeEventListeners.push(eventBus.on(topics.MESH_SERVICE_DATA, (data: ServiceDataJson) => { this.gather(data); }));
+      this.unsubscribeEventListeners.push(eventBus.on(topics.MESH_TOPOLOGY,     (data: TopologyUpdateData) => { this.network.updateTopology(data); }));
       this.eventsRegistered = true;
     }
   }
@@ -47,7 +51,7 @@ export class MeshMonitor {
   gather(data: ServiceDataJson) {
     let crownstoneUid = data.crownstoneId; // the id in the advertisement is the short-uid
     log.debug("Received data from", crownstoneUid);
-    this.topology.collect(crownstoneUid);
+    this.network.updateLastSeen(crownstoneUid);
 
     if (data.timeIsSet) {
       this.switch.collect(crownstoneUid, data.switchState, data.timestamp);

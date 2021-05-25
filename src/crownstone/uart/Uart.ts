@@ -51,17 +51,18 @@ export class Uart implements UartInterface {
   forwardEvents() {
     // generate a list of topics that can be remapped from connection to lib.
     let eventsToForward = [
-      {uartTopic: UartTopics.MeshServiceData,                 moduleTopic: topics.MESH_SERVICE_DATA},
-      {uartTopic: UartTopics.AssetMacReport,                  moduleTopic: WebhookInternalTopics.__ASSET_REPORT},
-      {uartTopic: UartTopics.NearstCrownstoneTrackingUpdate,  moduleTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE},
-      {uartTopic: UartTopics.NearstCrownstoneTrackingTimeout, moduleTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE_TIMEOUT},
+      {uartTopic: UartTopics.MeshServiceData,                 hubTopic: topics.MESH_SERVICE_DATA},
+      {uartTopic: UartTopics.TopologyUpdate,                  hubTopic: topics.MESH_TOPOLOGY},
+      {uartTopic: UartTopics.AssetMacReport,                  hubTopic: WebhookInternalTopics.__ASSET_REPORT},
+      {uartTopic: UartTopics.NearstCrownstoneTrackingUpdate,  hubTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE},
+      {uartTopic: UartTopics.NearstCrownstoneTrackingTimeout, hubTopic: WebhookInternalTopics.__ASSET_TRACKING_UPDATE_TIMEOUT},
     ];
 
 
     // forward all required events to the module eventbus.
     eventsToForward.forEach((event) => {
-      let moduleEvent = event.moduleTopic;
-      if (!event.moduleTopic) {
+      let moduleEvent = event.hubTopic;
+      if (!event.hubTopic) {
         moduleEvent = event.uartTopic;
       }
 
@@ -156,6 +157,12 @@ export class Uart implements UartInterface {
     this.keyWasSet = true;
   }
 
+  async refreshMeshTopology() {
+    return this.queue.register(() => {
+      log.info("Dispatching refreshMeshTopology");
+      return this.connection.control.refreshTopology();
+    }, "refreshMeshTopology from Uart");
+  }
 
   async switchCrownstones(switchPairs : SwitchData[]) {
     if (!this.ready) { throw "NOT_READY"; }

@@ -40,3 +40,15 @@ interface IntervalData {
 }
 
 type Interval = '1m' | '5m' | '10m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '1d' | '1w'
+
+
+interface Edge {
+  to: number,
+  from: number,
+  rssi: {37: number, 38: number, 39: number},
+  lastSeen: number,
+  history: {
+    rssi: {37: number, 38: number, 39: number},
+    lastSeen: number
+  }[]
+}

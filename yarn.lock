@@ -2372,7 +2372,15 @@ crownstone-cloud@^0.25.5:
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-crownstone-core@0.19.5, crownstone-core@^0.19.5:
+crownstone-core@0.19.6:
+  version "0.19.6"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.19.6.tgz#a13f13ad620bbc31f604f497a8364ec6953af957"
+  integrity sha512-eYItV4EmbTtOHOuQasn1qllSbGVGay7X3NHifhkjlU5MU4LwoHdGC+JHXsnevyMn2smhIPoMI4byvrxXUnv+KA==
+  dependencies:
+    aes-js "^3.1.1"
+    crownstone-logger "^0.1.4"
+
+crownstone-core@^0.19.5:
   version "0.19.5"
   resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.19.5.tgz#3e772c29cd58ca2b30dbd482fc1babd0e1c579f5"
   integrity sha512-OuXskh9WEIrYVPfNiVPnk68lGQXfYaZgxccxdc1lvvd+y7t6zK6CQM61xNRQWqNpxK8p+M1eN1cv9eHvATdCvg==

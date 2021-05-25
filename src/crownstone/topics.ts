@@ -11,6 +11,7 @@ export const topics : {[topicEnum: string]: string} = {
   HUB_UART_KEY_UPDATED : "HUB_UART_KEY_UPDATED",
 
   MESH_SERVICE_DATA    : "MESH_SERVICE_DATA",
+  MESH_TOPOLOGY        : "MESH_TOPOLOGY",
 }
 
 export const WebhookTopics : {[topicEnum: string]: string} = {

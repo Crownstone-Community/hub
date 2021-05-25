@@ -21,7 +21,7 @@ export class MeshController {
   @get('/crownstonesInMesh')
   @authenticate(SecurityTypes.sphere)
   async getCrownstonesInMesh() : Promise<CrownstoneInMeshData[]> {
-    let topology = {...CrownstoneHub.mesh.topology.crownstonesInMesh};
+    let topology = {...CrownstoneHub.mesh.network.crownstonesInMesh};
     let result : CrownstoneInMeshData[] = [];
     Object.keys(topology).forEach((uid) => {
         let data : any = fillWithStoneData(uid);
@@ -40,5 +40,19 @@ export class MeshController {
     })
 
     return result;
+  }
+
+  @get('/network')
+  @authenticate(SecurityTypes.sphere)
+  async getTopology() : Promise<Edge[]> {
+    return Object.values(CrownstoneHub.mesh.network.topology);
+  }
+
+  @post('/network')
+  @authenticate(SecurityTypes.sphere)
+  async refreshTopology() : Promise<void> {
+    await CrownstoneHub.uart.refreshMeshTopology();
+
+    CrownstoneHub.mesh.network.resetTopology();
   }
 }
