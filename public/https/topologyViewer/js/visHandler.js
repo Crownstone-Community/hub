@@ -50,18 +50,18 @@ function initVis() {
     nodes: {
       shape: "dot",
     },
-    // configure: {
-    //   filter: function (option, path) {
-    //     if (path.indexOf("physics") !== -1) {
-    //       return true;
-    //     }
-    //     if (path.indexOf("smooth") !== -1 || option === "smooth") {
-    //       return true;
-    //     }
-    //     return false;
-    //   },
-    //   container: document.getElementById("config"),
-    // },
+    configure: {
+      filter: function (option, path) {
+        if (path.indexOf("physics") !== -1) {
+          return true;
+        }
+        if (path.indexOf("smooth") !== -1 || option === "smooth") {
+          return true;
+        }
+        return false;
+      },
+      container: document.getElementById("config"),
+    },
     edges: {
       smooth: {
         forceDirection: 'none'
