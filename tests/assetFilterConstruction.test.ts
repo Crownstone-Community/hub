@@ -143,4 +143,11 @@ test("Create assets and check if the filters are constructed correctly.", async 
 
   changesRequired = await FilterManager.reconstructFilters();
   expect(changesRequired).toBeFalsy();
+
+  await Dbs.assets.deleteAll({});
+  let assets = await Dbs.assets.find();
+  expect(assets.length).toBe(0);
+
+  changesRequired = await FilterManager.reconstructFilters();
+  expect(changesRequired).toBeTruthy();
 });

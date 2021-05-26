@@ -182,7 +182,7 @@ class FilterManagerClass {
             else {
                 // Delete this filter since it is not required by any of the available assets.
                 filterChangeRequired = true;
-                await DbReference_1.Dbs.assetFilters.delete(filter).catch((err) => { console.log("Error while removing filter", err); });
+                await DbReference_1.Dbs.assetFilters.deleteById(filter.id).catch((err) => { console.log("Error while removing filter", err); });
             }
         }
         for (let description in filterRequirements) {
