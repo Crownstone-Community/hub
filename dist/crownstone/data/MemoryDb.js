@@ -62,6 +62,7 @@ class MemoryDbClass {
                     uid: cloudStone.uid,
                     macAddress: cloudStone.address,
                     locked: cloudStone.locked,
+                    type: cloudStone.type,
                     locationCloudId: cloudStone.locationId,
                     cloudId: cloudStone.id,
                     updatedAt: cloudDataUpdateTime,
