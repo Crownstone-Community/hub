@@ -44,8 +44,15 @@ export class MeshController {
 
   @get('/network')
   @authenticate(SecurityTypes.sphere)
-  async getTopology() : Promise<Edge[]> {
-    return Object.values(CrownstoneHub.mesh.network.topology);
+  async getTopology() : Promise<{
+    edges: Edge[],
+    nodes: {[shortUid: string]: Crownstone },
+    locations: {[cloudId: string]: Location_t}
+  }> {
+    let edges = Object.values(CrownstoneHub.mesh.network.topology);
+    let nodes = MemoryDb.stones;
+    let locations = MemoryDb.locationByCloudId;
+    return {edges, nodes, locations}
   }
 
   @post('/refreshTopology')

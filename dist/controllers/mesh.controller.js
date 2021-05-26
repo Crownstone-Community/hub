@@ -31,7 +31,10 @@ class MeshController {
         return result;
     }
     async getTopology() {
-        return Object.values(CrownstoneHub_1.CrownstoneHub.mesh.network.topology);
+        let edges = Object.values(CrownstoneHub_1.CrownstoneHub.mesh.network.topology);
+        let nodes = MemoryDb_1.MemoryDb.stones;
+        let locations = MemoryDb_1.MemoryDb.locationByCloudId;
+        return { edges, nodes, locations };
     }
     async refreshTopology() {
         await CrownstoneHub_1.CrownstoneHub.uart.refreshMeshTopology();

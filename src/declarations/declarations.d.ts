@@ -47,8 +47,27 @@ interface Edge {
   from: number,
   rssi: {37: number, 38: number, 39: number},
   lastSeen: number,
-  history: {
-    rssi: {37: number, 38: number, 39: number},
-    lastSeen: number
-  }[]
+}
+
+interface Crownstone {
+  name: string,
+  uid: number,
+  macAddress: string,
+  type: string,
+  switchState: number | null,
+  locked: boolean,
+  dimming: boolean,
+  switchcraft: boolean,
+  tapToToggle: boolean,
+  cloudId: string,
+  locationCloudId: string,
+  updatedAt: number,
+}
+
+interface Location_t {
+  name: string,
+  uid:  number,
+  icon: string,
+  cloudId: string,
+  updatedAt: number
 }

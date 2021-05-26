@@ -1,34 +1,12 @@
-interface Crownstone {
-  name: string,
-  uid: number,
-  macAddress: string,
-  switchState: number | null,
-  locked: boolean,
-  dimming: boolean,
-  switchcraft: boolean,
-  tapToToggle: boolean,
-  cloudId: string,
-  locationCloudId: string,
-  updatedAt: number,
-}
-
-interface Location {
-  name: string,
-  uid:  number,
-  icon: string,
-  cloudId: string,
-  updatedAt: number
-}
-
 class MemoryDbClass {
   // the key of the stones is the UID, the short-uint8 id.
   stones:    {[shortUid: string]: Crownstone } = {};
 
   // the key of the locations is the UID, the short-uint8 id.
-  locations: {[shortUid: string]: Location } = {};
+  locations: {[shortUid: string]: Location_t } = {};
 
   // the key of the locations is the cloudId, the mongo id.
-  locationByCloudId: {[cloudId: string]: Location}
+  locationByCloudId: {[cloudId: string]: Location_t}
 
   loadCloudLocationData( locationData: cloud_Location[] ) {
     let usedUIDs : map = {};
@@ -91,6 +69,7 @@ class MemoryDbClass {
           uid:             cloudStone.uid,
           macAddress:      cloudStone.address,
           locked:          cloudStone.locked,
+          type:            cloudStone.type,
           locationCloudId: cloudStone.locationId,
           cloudId:         cloudStone.id,
           updatedAt:       cloudDataUpdateTime,

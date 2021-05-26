@@ -9,7 +9,15 @@ interface CrownstoneInMeshData {
 export declare class MeshController {
     constructor();
     getCrownstonesInMesh(): Promise<CrownstoneInMeshData[]>;
-    getTopology(): Promise<Edge[]>;
+    getTopology(): Promise<{
+        edges: Edge[];
+        nodes: {
+            [shortUid: string]: Crownstone;
+        };
+        locations: {
+            [cloudId: string]: Location_t;
+        };
+    }>;
     refreshTopology(): Promise<void>;
 }
 export {};

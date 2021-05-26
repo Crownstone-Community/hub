@@ -7,15 +7,21 @@
     <link href="./topologyViewer/css/groups.css" rel="stylesheet" type="text/css" />
     <link href="./topologyViewer/css/vis-network.min.css" rel="stylesheet" type="text/css" />
     <script src="./topologyViewer/js/lib/vis.js"></script>
+    <script src="./topologyViewer/js/lib/colorConverters.js"></script>
     <script src="./topologyViewer/js/util.js"></script>
     <script src="./topologyViewer/js/visHandler.js"></script>
     <script src="./topologyViewer/js/init.js"></script>
 
     <style>
         #meshTopology {
-            width:  800px;
-            height: 600px;
+            width: 99vw;
+            height: 95vh;
             border: 1px solid lightgray;
+            display: inline-block
+        }
+
+        #detail {
+            white-space: pre;
         }
 
     </style>
@@ -30,7 +36,14 @@
 <div id="networkContainer" style="display:none">
     <input type="button" value="Refresh Topology" style="width:200px" onclick="refreshTopology()"/>
     <input type="button" value="Get topology data" style="width:200px" onclick="getTopology()"/>
-    <div id="meshTopology"></div>
+    <br />
+    <div style="position:relative;">
+        <div id="meshTopology"></div>
+        <div style="position:absolute; top:10px; left:10px; pointer-events: none;">
+            <div id="detail"></div>
+        </div>
+    </div>
+    <div id="config"></div>
 </div>
 </body>
 </html>

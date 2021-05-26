@@ -1,32 +1,12 @@
-interface Crownstone {
-    name: string;
-    uid: number;
-    macAddress: string;
-    switchState: number | null;
-    locked: boolean;
-    dimming: boolean;
-    switchcraft: boolean;
-    tapToToggle: boolean;
-    cloudId: string;
-    locationCloudId: string;
-    updatedAt: number;
-}
-interface Location {
-    name: string;
-    uid: number;
-    icon: string;
-    cloudId: string;
-    updatedAt: number;
-}
 declare class MemoryDbClass {
     stones: {
         [shortUid: string]: Crownstone;
     };
     locations: {
-        [shortUid: string]: Location;
+        [shortUid: string]: Location_t;
     };
     locationByCloudId: {
-        [cloudId: string]: Location;
+        [cloudId: string]: Location_t;
     };
     loadCloudLocationData(locationData: cloud_Location[]): void;
     loadCloudStoneData(stoneData: cloud_Stone[]): void;
