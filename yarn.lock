@@ -2372,10 +2372,10 @@ crownstone-cloud@^0.25.5:
     node-fetch "^2.6.0"
     sha-1 "~0.1.1"
 
-crownstone-core@0.19.6, crownstone-core@^0.19.6:
-  version "0.19.6"
-  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.19.6.tgz#a13f13ad620bbc31f604f497a8364ec6953af957"
-  integrity sha512-eYItV4EmbTtOHOuQasn1qllSbGVGay7X3NHifhkjlU5MU4LwoHdGC+JHXsnevyMn2smhIPoMI4byvrxXUnv+KA==
+crownstone-core@0.19.7, crownstone-core@^0.19.7:
+  version "0.19.7"
+  resolved "https://registry.yarnpkg.com/crownstone-core/-/crownstone-core-0.19.7.tgz#a358a615e155840928a86b1b9b86c614a6e42621"
+  integrity sha512-ev7bfPH52qVH+QlqfJajttrvzPvF/f4V1swU+Z+GNs8iU20yq2b6yDg3VtD1VI25NDjcg0r/uLJTBbOiX2hIYw==
   dependencies:
     aes-js "^3.1.1"
     crownstone-logger "^0.1.4"
@@ -2407,13 +2407,13 @@ crownstone-sse@^4.2.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@0.22.2:
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.22.2.tgz#68d8843971c0241533d925ad6cfc8b91be055c36"
-  integrity sha512-q20kKAbwFSHmtO9+NAeM4WL4CDP6T7R3bLUsPfUeHGY85sWLTTiPzLiZ4s6RI6jrnpdWqlW7imSsn21tWAkLEQ==
+crownstone-uart@0.22.3:
+  version "0.22.3"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.22.3.tgz#0aa474ac2978bf0f4979aef6a3cbe8a69caef56a"
+  integrity sha512-hF+5Nk/JoiUdbPAJoRUjvz4R09E16B+sjDWjE2gXoq1EUokw+sv6j6z2rDwnyz6avd3Pw9p3rRvtGZTimMbucg==
   dependencies:
     aes-js "^3.1.1"
-    crownstone-core "^0.19.6"
+    crownstone-core "^0.19.7"
     crownstone-logger "^0.1.4"
     serialport "9.0.0"
 

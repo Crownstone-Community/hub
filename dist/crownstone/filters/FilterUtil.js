@@ -76,7 +76,7 @@ exports.FilterUtil = {
         if (filter.type === "EXACT_MATCH") {
             // we have to get the dataLength from the assets in the filter.
             let assets = filter.assets;
-            if (assets.length > 0) {
+            if (assets && assets.length > 0) {
                 let dataBytes = Buffer.from(assets[0].data, 'hex');
                 filterType = "EXACT_MATCH:" + dataBytes.length;
             }
