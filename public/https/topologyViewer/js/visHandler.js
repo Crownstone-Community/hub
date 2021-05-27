@@ -103,7 +103,7 @@ function initVis() {
         ...edgeData.data, lastSeen: new Date(edgeData.data.lastSeen).toLocaleTimeString()
       }, undefined, 2);
     }
-    if (data.nodes.length == 0 && data.edges.length == 0) {
+    else if (data.nodes.length == 0 && data.edges.length == 0) {
       DETAIL.innerHTML = '';
     }
     else {
