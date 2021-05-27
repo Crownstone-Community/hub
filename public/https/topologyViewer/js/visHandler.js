@@ -10,6 +10,8 @@ let EDGES_DATASET = new vis.DataSet();
 let NETWORK;
 let LOCATION_DATA = {};
 
+const optionsKey = "VISJS_NETWORK_OPTIONS_OVERRIDE";
+
 let GROUP_COLORS = [
   colors.csBlue,
   colors.csOrange,
@@ -46,6 +48,19 @@ function initDOM() {
 function initVis() {
   // create a dataSet with groups
 
+  let customOptions = window.localStorage.getItem(optionsKey);
+  if (customOptions === null) {
+    customOptions = {};
+  }
+  else {
+    try {
+      customOptions = JSON.parse(customOptions);
+    }
+    catch (err) {
+      window.localStorage.removeItem(optionsKey);
+      customOptions = {};
+    }
+  }
   var options = {
     nodes: {
       shape: "dot",
@@ -74,8 +89,10 @@ function initVis() {
         springConstant: 0.02
       },
       minVelocity: 0.75
-    }
+    },
   };
+
+  vis.util.deepExtend(options, customOptions);
   NETWORK = new vis.Network(VIS_CONTAINER, {nodes: NODES_DATASET, edges: EDGES_DATASET}, options);
 
   NETWORK.on("click", (data) => {
@@ -94,6 +111,12 @@ function initVis() {
       let nodeData = NODES_DATASET.get(data.nodes[0])
       DETAIL.innerHTML = JSON.stringify({connections: data.edges.length, ...nodeData}, undefined, 2)
     }
+  })
+
+  NETWORK.on("configChange", (options) => {
+    let baseOptions = NETWORK.getOptionsFromConfigurator();
+    vis.util.deepExtend(baseOptions, options);
+    window.localStorage.setItem(optionsKey, JSON.stringify(baseOptions));
   })
 }
 
