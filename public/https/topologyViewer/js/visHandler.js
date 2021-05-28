@@ -199,7 +199,7 @@ function downloadAndShowData(finishedCallback = null) {
       if (edgeData.rssi['39'] !== 0) { average += edgeData.rssi['39']; avgCount += 1; }
       let avg = Math.round(average/avgCount);
 
-      let id = getEdgeId(edge);
+      let id = getEdgeId(edgeData);
       // this eliminates the back-forth edges.
       if (duplicateMap[id] === undefined) {
         duplicateMap[id] = true;
