@@ -137,9 +137,15 @@ class Uart {
         this.keyWasSet = true;
     }
     async refreshMeshTopology() {
-        return this.queue.register(() => {
+        return this.queue.register(async () => {
             log.info("Dispatching refreshMeshTopology");
-            return this.connection.mesh.refreshTopology();
+            try {
+                return await this.connection.mesh.refreshTopology();
+            }
+            catch (err) {
+                log.error("Failed to refresh topology", err);
+                throw err;
+            }
         }, "refreshMeshTopology from Uart");
     }
     async switchCrownstones(switchPairs) {
