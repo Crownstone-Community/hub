@@ -319,6 +319,7 @@ function getAmountOfUnspecifiedFiltersIfExact(filterRequirements: FilterRequirem
   }
   return total;
 }
+
 function getAmountOfUnspecifiedFiltersIfCuckoo(filterRequirements: FilterRequirements) {
   let total = 0;
   for (let typeDescription in filterRequirements) {

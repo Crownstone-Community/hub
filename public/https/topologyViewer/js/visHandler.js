@@ -188,7 +188,8 @@ function downloadAndShowData(finishedCallback = null) {
 
     LOCATION_DATA = data.locations;
 
-    let connections = {};
+    let connectionSizeMap = {};
+    let duplicateMap = {}
     for (let i = 0; i < data.edges.length; i++) {
       let edgeData = data.edges[i];
       let average  = 0;
@@ -198,12 +199,17 @@ function downloadAndShowData(finishedCallback = null) {
       if (edgeData.rssi['39'] !== 0) { average += edgeData.rssi['39']; avgCount += 1; }
       let avg = Math.round(average/avgCount);
 
-      if (connections[edgeData.from] === undefined) { connections[edgeData.from] = 15; }
-      if (connections[edgeData.to] === undefined)   { connections[edgeData.to]   = 15; }
-      connections[edgeData.from] += 3;
-      connections[edgeData.to]   += 3;
+      let id = getEdgeId(edge);
+      // this eliminates the back-forth edges.
+      if (duplicateMap[id] === undefined) {
+        duplicateMap[id] = true;
+        edges.push({from: edgeData.from, to: edgeData.to, ...getEdgeSettings(avg), data: edgeData});
 
-      edges.push({from: edgeData.from, to: edgeData.to, ...getEdgeSettings(avg), data: edgeData});
+        if (connectionSizeMap[edgeData.from] === undefined) { connectionSizeMap[edgeData.from] = 15; }
+        if (connectionSizeMap[edgeData.to] === undefined)   { connectionSizeMap[edgeData.to]   = 15; }
+        connectionSizeMap[edgeData.from] += 3;
+        connectionSizeMap[edgeData.to]   += 3;
+      }
     }
 
     for (let nodeId in data.nodes) {
@@ -215,7 +221,7 @@ function downloadAndShowData(finishedCallback = null) {
       if (groups.indexOf(locationName) === -1) {
         groups.push(locationName);
       }
-      nodes.push({id: nodeId, label: node.name, ...node, group: locationName, size: connections[nodeId] || 15, shape: node.type === 'CROWNSTONE_HUB' ? 'star' : 'dot'})
+      nodes.push({id: nodeId, label: node.name, ...node, group: locationName, size: connectionSizeMap[nodeId] || 15, shape: node.type === 'CROWNSTONE_HUB' ? 'star' : 'dot'})
     }
 
     NODES_DATASET.update(nodes);
@@ -235,4 +241,10 @@ function downloadAndShowData(finishedCallback = null) {
       finishedCallback();
     }
   })
+}
+
+function getEdgeId(edge) {
+  let ar = [edge.to, edge.from]
+  ar.sort();
+  return ar.join("__")
 }
