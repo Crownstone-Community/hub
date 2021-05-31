@@ -132,7 +132,7 @@ function getTopology() {
 
 
 function refreshTopology() {
-  postCommand(`../api/refreshTopology?access_token=${TOKEN}`, (data) => {})
+  postCommand(`../api/network/refreshTopology?access_token=${TOKEN}`, (data) => {})
 }
 
 

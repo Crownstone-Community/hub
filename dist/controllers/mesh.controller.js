@@ -36,13 +36,16 @@ class MeshController {
         let locations = MemoryDb_1.MemoryDb.locationByCloudId;
         return { edges, nodes, locations };
     }
+    async getStatistics() {
+        return CrownstoneHub_1.CrownstoneHub.mesh.network.lossStatistics;
+    }
     async refreshTopology() {
         await CrownstoneHub_1.CrownstoneHub.uart.refreshMeshTopology();
         CrownstoneHub_1.CrownstoneHub.mesh.network.resetTopology();
     }
 }
 tslib_1.__decorate([
-    rest_1.get('/crownstonesInMesh'),
+    rest_1.get('/network/crownstones'),
     authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
@@ -56,7 +59,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], MeshController.prototype, "getTopology", null);
 tslib_1.__decorate([
-    rest_1.post('/refreshTopology'),
+    rest_1.get('/network/statistics'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeshController.prototype, "getStatistics", null);
+tslib_1.__decorate([
+    rest_1.post('/network/refreshTopology'),
     authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),

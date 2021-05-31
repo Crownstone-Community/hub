@@ -2,6 +2,9 @@ export declare class NetworkMonitor {
     crownstonesInMesh: {
         [stoneUID: string]: number;
     };
+    lossStatistics: {
+        [stoneUID: string]: LossStatistics;
+    };
     topology: {
         [lookupId: string]: Edge;
     };

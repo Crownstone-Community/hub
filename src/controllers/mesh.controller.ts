@@ -18,7 +18,7 @@ interface CrownstoneInMeshData {
 export class MeshController {
   constructor() {}
 
-  @get('/crownstonesInMesh')
+  @get('/network/crownstones')
   @authenticate(SecurityTypes.sphere)
   async getCrownstonesInMesh() : Promise<CrownstoneInMeshData[]> {
     let topology = {...CrownstoneHub.mesh.network.crownstonesInMesh};
@@ -55,7 +55,15 @@ export class MeshController {
     return {edges, nodes, locations}
   }
 
-  @post('/refreshTopology')
+ @get('/network/statistics')
+  @authenticate(SecurityTypes.sphere)
+  async getStatistics() : Promise<{
+    [crownstoneId: string] : LossStatistics
+  }> {
+    return CrownstoneHub.mesh.network.lossStatistics
+  }
+
+  @post('/network/refreshTopology')
   @authenticate(SecurityTypes.sphere)
   async refreshTopology() : Promise<void> {
     await CrownstoneHub.uart.refreshMeshTopology();

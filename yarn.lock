@@ -2407,10 +2407,10 @@ crownstone-sse@^4.2.0:
     rimraf "^3.0.2"
     typescript "^3.7.5"
 
-crownstone-uart@0.23.1:
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.23.1.tgz#83f9e6ccb124f2e40e3bb7a8a7f6febfbdecfe31"
-  integrity sha512-nih7gJG04VQgkjxL7RVARuFv0YnNLh8iomFEh0GFsbgzcjY0HzTHmz/7/PKthB0JPFYDR06u6vLycyukdv5qQw==
+crownstone-uart@0.23.2:
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/crownstone-uart/-/crownstone-uart-0.23.2.tgz#17c1699102ee4ef74eec85313e8ac16708cc4d3c"
+  integrity sha512-fEaqxWRiRSmfKjFJ1UVtO8Sww5ZHeK0hnbdVwwJdE9S4/kpixPUpnrtFI/J/N5VWbqu6xV/wx4Re82pyzXibTw==
   dependencies:
     aes-js "^3.1.1"
     crownstone-core "^0.20.1"

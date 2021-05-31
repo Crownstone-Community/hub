@@ -18,6 +18,9 @@ export declare class MeshController {
             [cloudId: string]: Location_t;
         };
     }>;
+    getStatistics(): Promise<{
+        [crownstoneId: string]: LossStatistics;
+    }>;
     refreshTopology(): Promise<void>;
 }
 export {};

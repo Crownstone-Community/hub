@@ -53,7 +53,7 @@
     "crownstone-core": "0.20.1",
     "crownstone-logger": "^0.1.4",
     "crownstone-sse": "^4.2.0",
-    "crownstone-uart": "0.23.1",
+    "crownstone-uart": "0.23.2",
     "helmet": "^4.2.0",
     "loopback-connector-mongodb": "^5.4.0",
     "mongodb": "^3.6.2",

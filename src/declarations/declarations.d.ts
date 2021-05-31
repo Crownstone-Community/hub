@@ -49,6 +49,13 @@ interface Edge {
   lastSeen: number,
 }
 
+interface LossStatistics {
+  lastUpdate: number,
+  messageNumber: number,
+  received: number,
+  lost: number
+}
+
 interface Crownstone {
   name: string,
   uid: number,
