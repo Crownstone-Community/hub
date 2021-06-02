@@ -8,21 +8,21 @@ import {Asset, filterFormat, filterOutputDescription} from '../../models/cloud/a
 
 export const FilterUtil = {
 
-  // getMetaData: function(filter: AssetFilter) {
-  //   return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
-  // },
-
-
   setFilterMetaData: function(
     filter: AssetFilterCore,
     type : string,
     profileId : number,
     inputData: filterHubFormat,
-    outputDescription: filterHubOutputDescription
+    outputDescription: filterHubOutputDescription,
+    exclude: boolean
   ) {
 
-    filter.setFilterType(type === "CUCKOO" ? FilterType.CUCKCOO_V1 : FilterType.EXACT_MATCH)
+    filter.setFilterType(type === "CUCKOO" ? FilterType.CUCKCOO : FilterType.EXACT_MATCH)
     filter.useAsProfileId(profileId)
+
+    if (exclude) {
+      filter.markAsExcludeFilter()
+    }
 
     switch (inputData.type) {
       case "MAC_ADDRESS":     filter.filterOnMacAddress();                                    break;
@@ -61,7 +61,7 @@ export const FilterUtil = {
   getFilterSizeOverhead(asset: Asset) : number {
     // it does not matter here whether it is EXACT_MATCH or something else.
     let filter = new AssetFilterCore();
-    return FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription).getPacket().length;
+    return FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket().length;
   },
 
 
@@ -80,7 +80,7 @@ export const FilterUtil = {
       let dataBytes = Buffer.from(asset.data, 'hex');
       filterType = "EXACT_MATCH:" + dataBytes.length;
     }
-    return FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription, filterType);
+    return FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription, asset.exclude, filterType);
   },
 
 
@@ -94,7 +94,7 @@ export const FilterUtil = {
         filterType = "EXACT_MATCH:" + dataBytes.length;
       }
     }
-    return FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription, filterType);
+    return FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription, filter.exclude, filterType);
   },
 
 
@@ -109,6 +109,7 @@ export const FilterUtil = {
     profileId: number,
     input : filterFormat,
     output: filterOutputDescription,
+    exclude: boolean,
     type: string
   ) : string {
 
@@ -148,7 +149,7 @@ export const FilterUtil = {
 
 
 
-    return `${type}_${inputSet}_${outputSet}_p${profileId}`;
+    return `${type}_${inputSet}_${outputSet}_profileId:${profileId}_excludeType:${exclude}`;
   },
 
 }

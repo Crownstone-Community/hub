@@ -24,6 +24,7 @@ export declare class Asset extends Asset_base {
     committed: boolean;
     markedForDeletion: boolean;
     profileId: number;
+    exclude: boolean;
     desiredFilterType: filterType_t;
     inputData: filterFormat;
     outputDescription: filterOutputDescription;

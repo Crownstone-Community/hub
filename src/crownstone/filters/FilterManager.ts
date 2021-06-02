@@ -17,6 +17,7 @@ interface FilterRequirement {
   filterCRC?:        string,
   filterType:        string,
   sizeEstimate:      number,
+  exclude:           boolean,
   exists:            boolean
 }
 
@@ -122,6 +123,7 @@ export class FilterManagerClass {
           dataMap:           {},
           assets:            [],
           sizeEstimate:      overhead,
+          exclude:           asset.exclude,
           exists:            false,
         };
 
@@ -208,7 +210,8 @@ export class FilterManagerClass {
         requirement.filterType,
         requirement.profileId,
         requirement.inputData,
-        requirement.outputDescription
+        requirement.outputDescription,
+        requirement.exclude,
       );
 
       for (let data of requirement.data) {

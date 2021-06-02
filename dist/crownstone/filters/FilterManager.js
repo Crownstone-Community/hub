@@ -92,6 +92,7 @@ class FilterManagerClass {
                     dataMap: {},
                     assets: [],
                     sizeEstimate: overhead,
+                    exclude: asset.exclude,
                     exists: false,
                 };
                 if (filterType) {
@@ -160,7 +161,7 @@ class FilterManagerClass {
         for (let description in filterRequirements) {
             let requirement = filterRequirements[description];
             let filter = new crownstone_core_1.AssetFilter();
-            FilterUtil_1.FilterUtil.setFilterMetaData(filter, requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription);
+            FilterUtil_1.FilterUtil.setFilterMetaData(filter, requirement.filterType, requirement.profileId, requirement.inputData, requirement.outputDescription, requirement.exclude);
             for (let data of requirement.data) {
                 filter.addToFilter(data);
             }

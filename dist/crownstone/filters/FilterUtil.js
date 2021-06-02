@@ -4,12 +4,12 @@ exports.FilterUtil = void 0;
 const crownstone_core_1 = require("crownstone-core");
 const crownstone_core_2 = require("crownstone-core");
 exports.FilterUtil = {
-    // getMetaData: function(filter: AssetFilter) {
-    //   return FilterUtil.getFilterMetaData(filter.type, filter.profileId, filter.inputData, filter. outputDescription);
-    // },
-    setFilterMetaData: function (filter, type, profileId, inputData, outputDescription) {
-        filter.setFilterType(type === "CUCKOO" ? crownstone_core_1.FilterType.CUCKCOO_V1 : crownstone_core_1.FilterType.EXACT_MATCH);
+    setFilterMetaData: function (filter, type, profileId, inputData, outputDescription, exclude) {
+        filter.setFilterType(type === "CUCKOO" ? crownstone_core_1.FilterType.CUCKCOO : crownstone_core_1.FilterType.EXACT_MATCH);
         filter.useAsProfileId(profileId);
+        if (exclude) {
+            filter.markAsExcludeFilter();
+        }
         switch (inputData.type) {
             case "MAC_ADDRESS":
                 filter.filterOnMacAddress();
@@ -54,7 +54,7 @@ exports.FilterUtil = {
     getFilterSizeOverhead(asset) {
         // it does not matter here whether it is EXACT_MATCH or something else.
         let filter = new crownstone_core_2.AssetFilter();
-        return exports.FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription).getPacket().length;
+        return exports.FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket().length;
     },
     generateMasterCRC: function (filters) {
         let payload = {};
@@ -69,7 +69,7 @@ exports.FilterUtil = {
             let dataBytes = Buffer.from(asset.data, 'hex');
             filterType = "EXACT_MATCH:" + dataBytes.length;
         }
-        return exports.FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription, filterType);
+        return exports.FilterUtil.getMetaDataDescription(asset.profileId, asset.inputData, asset.outputDescription, asset.exclude, filterType);
     },
     getMetaDataDescriptionFromFilter: async function (filter) {
         let filterType = filter.type;
@@ -81,7 +81,7 @@ exports.FilterUtil = {
                 filterType = "EXACT_MATCH:" + dataBytes.length;
             }
         }
-        return exports.FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription, filterType);
+        return exports.FilterUtil.getMetaDataDescription(filter.profileId, filter.inputData, filter.outputDescription, filter.exclude, filterType);
     },
     /**
      * In the case of filter types which depend on an exact amount of bytes, the type is appended with ":<bytelength>", ie: ":2"
@@ -90,7 +90,7 @@ exports.FilterUtil = {
      * @param output
      * @param type
      */
-    getMetaDataDescription: function (profileId, input, output, type) {
+    getMetaDataDescription: function (profileId, input, output, exclude, type) {
         let inputSet = '' + input.type;
         let outputSet = '' + output.type;
         switch (input.type) {
@@ -122,7 +122,7 @@ exports.FilterUtil = {
                     break;
             }
         }
-        return `${type}_${inputSet}_${outputSet}_p${profileId}`;
+        return `${type}_${inputSet}_${outputSet}_profileId:${profileId}_excludeType:${exclude}`;
     },
 };
 //# sourceMappingURL=FilterUtil.js.map

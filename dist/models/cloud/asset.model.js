@@ -41,6 +41,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], Asset.prototype, "profileId", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'boolean', default: false }),
+    tslib_1.__metadata("design:type", Boolean)
+], Asset.prototype, "exclude", void 0);
+tslib_1.__decorate([
     repository_1.property({ type: 'string' }),
     tslib_1.__metadata("design:type", String)
 ], Asset.prototype, "desiredFilterType", void 0);

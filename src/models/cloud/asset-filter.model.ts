@@ -22,6 +22,9 @@ export class AssetFilter extends AddTimestamps(BaseEntity) {
   @property({type: 'number'})
   profileId: number;
 
+  @property({type: 'boolean', required: true, default: false})
+  exclude: boolean;
+
   @property({required: true})
   inputData: filterFormat
 

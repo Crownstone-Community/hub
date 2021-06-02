@@ -7,10 +7,6 @@ import { mocked } from 'ts-jest/utils'
 import {auth, createAsset_ad_track_ad, createAsset_mac_report, createHub, createUser} from './dataGenerators';
 import {Dbs} from '../src/crownstone/data/DbReference';
 import {FilterManager} from '../src/crownstone/filters/FilterManager';
-import {FilterUtil} from '../src/crownstone/filters/FilterUtil';
-import set = Reflect.set;
-
-
 
 let app    : CrownstoneHubApplication;
 let client : Client;
@@ -47,6 +43,7 @@ test("Create assets via REST", async () => {
        createdAt: "1970-01-01T00:16:40.000Z",
        id: '1',
        committed: false,
+       exclude: false,
        markedForDeletion: false,
        inputData: { type: 'MAC_ADDRESS' },
        outputDescription: {type:'MAC_ADDRESS_REPORT'},
@@ -75,19 +72,8 @@ test("Create assets directly", async () => {
   let changeRequired = await FilterManager.reconstructFilters();
   expect(changeRequired).toBeTruthy();
 
-  let assetsNow = await Dbs.assets.find();
   let filtersNow = await Dbs.assetFilters.find();
   expect(filtersNow.length).toBe(3)
-
-  let filterCategories = {}
-  for (let filter of filtersNow) {
-    filterCategories[await FilterUtil.getMetaDataDescriptionFromFilter(filter)] = filter;
-  }
-
-  for (let asset of assetsNow) {
-    let filterId = filterCategories[FilterUtil.getMetaDataDescriptionFromAsset(asset, asset.desiredFilterType ?? "UNSPECIFIED")].id;
-    expect(asset.filterId).toBe(filterId);
-  }
 });
 
 test("Create assets and remove them after, see if filtersets are updated when everything is removed.", async () => {
@@ -106,9 +92,8 @@ test("Create assets and remove them after, see if filtersets are updated when ev
   await FilterManager.refreshFilterSets();
   let setsNow = await Dbs.assetFilterSets.find();
   expect(setsNow.length).toBe(1);
-  console.log(setsNow)
   expect(setsNow[0].masterVersion).toBe(1);
-  expect(setsNow[0].masterCRC).toBe(21346);
+  expect(setsNow[0].masterCRC).toBe(3937753986);
 
   await Dbs.assets.deleteAll({});
   let assetsNow = await Dbs.assets.find();
@@ -123,7 +108,7 @@ test("Create assets and remove them after, see if filtersets are updated when ev
   setsNow = await Dbs.assetFilterSets.find();
   expect(setsNow.length).toBe(1);
   expect(setsNow[0].masterVersion).toBe(2);
-  expect(setsNow[0].masterCRC).toBe(65535);
+  expect(setsNow[0].masterCRC).toBe(0);
 });
 
 test("Create assets and check if the filters are constructed correctly.", async () => {
