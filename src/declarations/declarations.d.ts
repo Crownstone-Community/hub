@@ -50,6 +50,7 @@ interface Edge {
 }
 
 interface LossStatistics {
+  lastReset: number,
   lastUpdate: number,
   messageNumber: number,
   received: number,

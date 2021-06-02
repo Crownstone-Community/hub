@@ -13,13 +13,15 @@ class NetworkMonitor {
     updateTopology(data) {
         let lookupId = this._getLookupId(data);
         let lastMessageNumber = data.messageNumber;
-        let received = 0;
+        let received = 1;
         let lost = 0;
+        let lastReset = Date.now();
         // Keep track of the amount of lost packets.
         if (this.lossStatistics[data.receiverId] !== undefined) {
             lastMessageNumber = this.lossStatistics[data.receiverId].messageNumber;
-            received = this.lossStatistics[data.receiverId].received;
+            received = this.lossStatistics[data.receiverId].received + 1;
             lost = this.lossStatistics[data.receiverId].lost;
+            lastReset = this.lossStatistics[data.receiverId].lastReset;
             let missed = getMissedMessageCount(data.messageNumber, lastMessageNumber);
             // 50 is too large of a gap. If the connection is so bad we'd actually get 1 in 50 messages, a uint8 counter is not
             // sufficient to monitor this.
@@ -33,9 +35,10 @@ class NetworkMonitor {
         }
         // update the statistics
         this.lossStatistics[data.receiverId] = {
+            lastReset: lastReset,
             lastUpdate: Date.now(),
             messageNumber: data.messageNumber,
-            received: received++,
+            received: received,
             lost: lost
         };
         // update the topology
@@ -53,6 +56,7 @@ class NetworkMonitor {
     resetTopology() {
         this.topology = {};
         this.crownstonesInMesh = {};
+        this.lossStatistics = {};
     }
     _getLookupId(data) {
         return `${data.senderId}-${data.receiverId}`;
@@ -66,7 +70,7 @@ function getMissedMessageCount(currentIndex, lastIndex) {
         return 0;
     }
     else if (currentIndex > expected) {
-        return expected - currentIndex;
+        return currentIndex - expected;
     }
     else { // if (currentIndex < expected) {
         // we have overflown? Check if the expected is at the upper half
