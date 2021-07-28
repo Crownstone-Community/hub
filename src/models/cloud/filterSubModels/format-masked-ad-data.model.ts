@@ -9,6 +9,6 @@ export class FormatMaskedAdData extends Entity {
   @property({type: 'number', required: true})
   adType: number;
 
-  @property({type: 'string', required: true})
+  @property({type: 'number', required: true})
   mask: number;
 }

@@ -21,7 +21,7 @@ export class WebhookController {
 
 
   @post('/webhooks')
-  @authenticate(SecurityTypes.sphere)
+  @authenticate(SecurityTypes.admin)
   async createWebhook(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @requestBody({
@@ -56,7 +56,7 @@ export class WebhookController {
 
 
   @del('/webhooks/{id}')
-  @authenticate(SecurityTypes.sphere)
+  @authenticate(SecurityTypes.admin)
   async deleteWebhook(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.path.string('id') id: string,
@@ -70,7 +70,7 @@ export class WebhookController {
   }
 
   @del('/webhooks/all')
-  @authenticate(SecurityTypes.sphere)
+  @authenticate(SecurityTypes.admin)
   async deleteAllAssets(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
     @param.query.string('YesImSure', {required:true}) YesImSure: string,

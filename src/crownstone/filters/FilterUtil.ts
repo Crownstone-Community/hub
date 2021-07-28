@@ -37,22 +37,22 @@ export const FilterUtil = {
       case "SHORT_ASSET_ID_TRACK":
         switch (outputDescription.inputData.type) {
           case "MAC_ADDRESS":
-            filter.outputTrackableShortIdBasedOnMacAddress()
+            filter.outputTrackableShortIdBasedOnMacAddress();
             break;
           case "FULL_AD_DATA":
-            filter.outputTrackableShortIdBasedOnFullAdType(outputDescription.inputData.adType)
+            filter.outputTrackableShortIdBasedOnFullAdType(outputDescription.inputData.adType);
             break;
           case "MASKED_AD_DATA":
-            filter.outputTrackableShortIdBasedOnMaskedAdType(outputDescription.inputData.adType, outputDescription.inputData.mask)
+            filter.outputTrackableShortIdBasedOnMaskedAdType(outputDescription.inputData.adType, outputDescription.inputData.mask);
             break;
           default:
-            console.log("Invalid input data type received", outputDescription.inputData)
-            throw "INVALID_INPUTDATA_TYPE"
+            console.log("Invalid input data type received", outputDescription.inputData);
+            throw "INVALID_INPUTDATA_TYPE";
         };
         break;
       default:
-        console.log("Invalid outputDescription data type received", outputDescription)
-        throw "INVALID_OUTPUT_DESCRIPTION_TYPE"
+        console.log("Invalid outputDescription data type received", outputDescription);
+        throw "INVALID_OUTPUT_DESCRIPTION_TYPE";
     }
 
     return filter.metaData;

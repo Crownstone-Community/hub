@@ -43,7 +43,12 @@ export class CrownstoneUtil {
     }
   }
 
-
+  /**
+   * @param partial | If true, the energy data will be retained. Once a new hub is setup and it belongs to a different sphere
+   *                           the energy data will be cleared anyway. This is the default method.
+*                     If partial is false, the full database will be cleared.
+   * @param hubOnly | If true, the uart dongle will also be placed back in setup mode. If false, only the hub snap will be reset
+   */
   static async deleteCrownstoneHub(partial: boolean = false, hubOnly: boolean = false) : Promise<string> {
     if (await Dbs.hub.isSet() === true) {
       // make sure all the pending cloud issues are finished before we remove everything.
