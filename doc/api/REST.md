@@ -4,12 +4,12 @@ Welcome to the REST endpoint documentation! Our endpoints are split up into a fe
 
 You can find your REST interface here:
 ```
-https://<ip-of-your-hub>:5050/api/
+https://<ip-of-your-hub>/api/
 ```
 
 You can also explore the endpoints from your browser here:
 ```
-https://<ip-of-your-hub>:5050/api/explorer 
+https://<ip-of-your-hub>/api/explorer 
 ```
 
 Initially, you may get a warning from your browser. This is because we (have to) use self-signed certificates in order
