@@ -36,6 +36,7 @@
 <div id="networkContainer" style="display:none">
     <input type="button" value="Refresh Topology" style="width:200px" onclick="refreshTopology()"/>
     <input type="button" value="Get topology data" style="width:200px" onclick="getTopology()"/>
+    Minimum Edge RSSI value: <input type="range" min="-100" max="-40" value="-100" id="rssiThresholdRange" onchange="refreshEdgeRequirements()" style="width:300px" /><span id="rangeValue">-100</span>
     <br />
     <div style="position:relative;">
         <div id="meshTopology"></div>

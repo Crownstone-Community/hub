@@ -4,12 +4,20 @@ let TOKEN_INPUT_WRAPPER;
 let TOKEN_INPUT;
 let GRAPH_WRAPPER;
 let DETAIL;
+let EDGE_RSSI_RANGE;
+let EDGE_RSSI_RANGE_SPAN;
 
 let NODES_DATASET = new vis.DataSet();
 let EDGES_DATASET = new vis.DataSet();
 let NETWORK;
 let LOCATION_DATA = {};
 
+let RAW_DATA = {};
+
+let MIN_EDGE_RSSI = -100;
+
+
+const labelFontSize = 30;
 const optionsKey = "VISJS_NETWORK_OPTIONS_OVERRIDE";
 
 let GROUP_COLORS = [
@@ -37,6 +45,9 @@ function initDOM() {
   DETAIL                = document.getElementById("detail");
   TOKEN_INPUT           = document.getElementById("tokenInput");
   VIS_CONTAINER         = document.getElementById("meshTopology")
+
+  EDGE_RSSI_RANGE       = document.getElementById("rssiThresholdRange")
+  EDGE_RSSI_RANGE_SPAN  = document.getElementById("rangeValue")
   if (TOKEN) {
     TOKEN_INPUT_WRAPPER.style.display = 'none';
     GRAPH_WRAPPER.style.display = 'block';
@@ -64,6 +75,9 @@ function initVis() {
   var options = {
     nodes: {
       shape: "dot",
+      font : {
+        size : labelFontSize,
+      },
     },
     configure: {
       filter: function (option, path) {
@@ -80,16 +94,20 @@ function initVis() {
     edges: {
       smooth: {
         forceDirection: 'none'
-      }
+      },
+      font : {
+        size : labelFontSize,
+      },
     },
     physics: {
       barnesHut: {
-        gravitationalConstant: -10000,
-        springLength: 130,
-        springConstant: 0.02
+        gravitationalConstant: -720527,
+        centralGravity: 3,
+        springLength: 1775,
+        springConstant: 0.105
       },
-      minVelocity: 0.75
-    },
+      minVelocity: 0.75,
+    }
   };
 
   vis.util.deepExtend(options, customOptions);
@@ -130,9 +148,16 @@ function getTopology() {
   downloadAndShowData()
 }
 
+function refreshEdgeRequirements() {
+  let value = EDGE_RSSI_RANGE.value
+  EDGE_RSSI_RANGE_SPAN.innerHTML = value;
+  MIN_EDGE_RSSI = Number(value);
+  loadDataIntoVis()
+}
+
 
 function refreshTopology() {
-  postCommand(`../api/network/refreshTopology?access_token=${TOKEN}`, (data) => {})
+  postCommand(`${baseURL}api/network/refreshTopology?access_token=${TOKEN}`, (data) => {})
 }
 
 
@@ -180,67 +205,77 @@ function getEdgeSettings(rssi) {
  * @param finishedCallback
  */
 function downloadAndShowData(finishedCallback = null) {
-  getData(`../api/network?access_token=${TOKEN}`, (stringifiedData) => {
+  getData(`${baseURL}api/network?access_token=${TOKEN}`, (stringifiedData) => {
     let data = JSON.parse(stringifiedData);
-    let nodes = [];
-    let edges = [];
-    let groups = [];
-
-    LOCATION_DATA = data.locations;
-
-    let connectionSizeMap = {};
-    let duplicateMap = {}
-    for (let i = 0; i < data.edges.length; i++) {
-      let edgeData = data.edges[i];
-      let average  = 0;
-      let avgCount = 0;
-      if (edgeData.rssi['37'] !== 0) { average += edgeData.rssi['37']; avgCount += 1; }
-      if (edgeData.rssi['38'] !== 0) { average += edgeData.rssi['38']; avgCount += 1; }
-      if (edgeData.rssi['39'] !== 0) { average += edgeData.rssi['39']; avgCount += 1; }
-      let avg = Math.round(average/avgCount);
-
-      let id = getEdgeId(edgeData);
-      // this eliminates the back-forth edges.
-      if (duplicateMap[id] === undefined) {
-        duplicateMap[id] = true;
-        edges.push({from: edgeData.from, to: edgeData.to, ...getEdgeSettings(avg), data: edgeData});
-
-        if (connectionSizeMap[edgeData.from] === undefined) { connectionSizeMap[edgeData.from] = 15; }
-        if (connectionSizeMap[edgeData.to] === undefined)   { connectionSizeMap[edgeData.to]   = 15; }
-        connectionSizeMap[edgeData.from] += 3;
-        connectionSizeMap[edgeData.to]   += 3;
-      }
-    }
-
-    for (let nodeId in data.nodes) {
-      let node = data.nodes[nodeId];
-      let locationName = node.locationCloudId;
-      if (locationName && LOCATION_DATA[locationName]) {
-        locationName = LOCATION_DATA[locationName].name;
-      }
-      if (groups.indexOf(locationName) === -1) {
-        groups.push(locationName);
-      }
-      nodes.push({id: nodeId, label: node.name, ...node, group: locationName, size: connectionSizeMap[nodeId] || 15, shape: node.type === 'CROWNSTONE_HUB' ? 'star' : 'dot'})
-    }
-
-    NODES_DATASET.update(nodes);
-    EDGES_DATASET.clear();
-    EDGES_DATASET.add(edges);
-
-    groups.sort();
-    let groupObject = {};
-    let index = 0;
-    for (let group of groups) {
-      groupObject[group] = { color: GROUP_COLORS[index++].hex }
-    }
-    console.log(groups, groupObject)
-    NETWORK.setOptions({groups:groupObject})
+    RAW_DATA = data;
+    loadDataIntoVis()
+    NETWORK.stabilize(150)
 
     if (finishedCallback) {
       finishedCallback();
     }
   })
+}
+
+
+function loadDataIntoVis() {
+  let nodes = [];
+  let edges = [];
+  let groups = [];
+
+  LOCATION_DATA = RAW_DATA.locations;
+
+  let connectionSizeMap = {};
+  let duplicateMap = {}
+  for (let i = 0; i < RAW_DATA.edges.length; i++) {
+    let edgeData = RAW_DATA.edges[i];
+    let average  = 0;
+    let avgCount = 0;
+    if (edgeData.rssi['37'] !== 0) { average += edgeData.rssi['37']; avgCount += 1; }
+    if (edgeData.rssi['38'] !== 0) { average += edgeData.rssi['38']; avgCount += 1; }
+    if (edgeData.rssi['39'] !== 0) { average += edgeData.rssi['39']; avgCount += 1; }
+    let avg = Math.round(average/avgCount);
+
+    if (avg < MIN_EDGE_RSSI) { continue; }
+
+    let id = getEdgeId(edgeData);
+    // this eliminates the back-forth edges.
+    if (duplicateMap[id] === undefined) {
+      duplicateMap[id] = true;
+      edges.push({from: edgeData.from, to: edgeData.to, ...getEdgeSettings(avg), data: edgeData});
+
+      if (connectionSizeMap[edgeData.from] === undefined) { connectionSizeMap[edgeData.from] = 15; }
+      if (connectionSizeMap[edgeData.to] === undefined)   { connectionSizeMap[edgeData.to]   = 15; }
+      connectionSizeMap[edgeData.from] += 3;
+      connectionSizeMap[edgeData.to]   += 3;
+    }
+  }
+
+  for (let nodeId in RAW_DATA.nodes) {
+    let node = RAW_DATA.nodes[nodeId];
+    let locationName = node.locationCloudId;
+    if (locationName && LOCATION_DATA[locationName]) {
+      locationName = LOCATION_DATA[locationName].name;
+    }
+    if (groups.indexOf(locationName) === -1) {
+      groups.push(locationName);
+    }
+    nodes.push({id: nodeId, label: node.name, ...node, group: locationName, size: connectionSizeMap[nodeId] || 15, shape: node.type === 'CROWNSTONE_HUB' ? 'star' : 'dot'})
+  }
+
+  NODES_DATASET.update(nodes);
+  EDGES_DATASET.clear();
+  EDGES_DATASET.add(edges);
+
+  groups.sort();
+  let groupObject = {};
+  let index = 0;
+  for (let group of groups) {
+    groupObject[group] = { color: GROUP_COLORS[index++].hex }
+  }
+  console.log(groups, groupObject)
+  NETWORK.setOptions({groups:groupObject})
+
 }
 
 function getEdgeId(edge) {
