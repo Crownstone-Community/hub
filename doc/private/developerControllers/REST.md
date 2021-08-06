@@ -13,7 +13,7 @@ https://<hub-ip>/enableLogging?access_token=<sphere-auth-token>
 
 https://<hub-ip>/disableLogging?access_token=<sphere-auth-token>
 ```
-
+[Api docs here.](./controllers/LoggingController.md)
 
 ## Developer controller
 ```
@@ -21,5 +21,6 @@ https://<hub-ip>/enableDeveloperMode?access_token=<sphere-auth-token>
 
 https://<hub-ip>/disableDeveloperMode?access_token=<sphere-auth-token>
 ```
+[Api docs here.](./controllers/DeveloperController.md)
 
 
