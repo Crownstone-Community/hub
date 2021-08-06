@@ -53,7 +53,7 @@ let WebhookController = class WebhookController {
 };
 tslib_1.__decorate([
     rest_1.post('/webhooks'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.requestBody({
         required: true,
@@ -81,7 +81,7 @@ tslib_1.__decorate([
 ], WebhookController.prototype, "getWebhooks", null);
 tslib_1.__decorate([
     rest_1.del('/webhooks/{id}'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.path.string('id')),
     tslib_1.__metadata("design:type", Function),
@@ -90,7 +90,7 @@ tslib_1.__decorate([
 ], WebhookController.prototype, "deleteWebhook", null);
 tslib_1.__decorate([
     rest_1.del('/webhooks/all'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.string('YesImSure', { required: true })),
     tslib_1.__metadata("design:type", Function),
