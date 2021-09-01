@@ -1,4 +1,4 @@
-import {del, get, getModelSchemaRef, HttpErrors, oas, param, post, requestBody, Response, RestBindings} from '@loopback/rest';
+import {del, get, getModelSchemaRef, HttpErrors, oas, param, post, requestBody, Response, RestBindings, SchemaObject} from '@loopback/rest';
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {SecurityBindings} from '@loopback/security';
@@ -8,8 +8,17 @@ import {repository} from '@loopback/repository';
 import {EnergyDataProcessedRepository, EnergyDataRepository} from '../../repositories';
 import {CrownstoneHub} from '../../crownstone/CrownstoneHub';
 import {Logger} from '../../Logger';
+import {getHubConfig, storeHubConfig} from '../../util/ConfigUtil';
 
 const log = Logger(__filename);
+
+const DeveloperOptionsSchema  : SchemaObject = {
+  type: 'object',
+  properties: {
+    actOnSwitchCommands: {type: 'boolean'}
+  }
+};
+
 
 export class DevController {
 
@@ -133,6 +142,8 @@ export class DevController {
       };
     }
   }
+
+
   @get('/reprocessEnergyAggregatesStatus')
   @authenticate(SecurityTypes.admin)
   async reprocessEnergyAggregatesStatus(
@@ -155,4 +166,30 @@ export class DevController {
       };
     }
   }
+
+
+  @get('/developerOptions')
+  @authenticate(SecurityTypes.admin)
+  async getDeveloperOptions(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+  ) : Promise<HubDevOptions> {
+    let hubConfig = getHubConfig();
+    return hubConfig.developerOptions
+
+  }
+
+
+  @post('/developerOptions')
+  @authenticate(SecurityTypes.admin)
+  async putDeveloperOptions(
+    @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
+    @requestBody({
+      content: {'application/json': { schema: DeveloperOptionsSchema}},
+    }) devOptions: HubDevOptions,
+  ) : Promise<void> {
+    let hubConfig = getHubConfig();
+    hubConfig.developerOptions = devOptions;
+    storeHubConfig(hubConfig);
+  }
+
 }

@@ -3,31 +3,20 @@ import fs from "fs";
 import {Util} from './Util';
 import path from 'path';
 import {Logger} from '../Logger';
+import {eventBus} from '../crownstone/HubEventBus';
+import {topics} from '../crownstone/topics';
 
 const log = Logger(__filename);
 
-interface HubConfig {
-  useDevControllers: boolean,
-  useLogControllers: boolean,
-  logging: HubLogConfig
-}
-
-
-interface HubPortConfig {
-  httpPort?: number,
-  enableHttp?: boolean,
-  httpsPort?: number
-}
-
-interface HubLogConfig {
-  [loggerId: string] : {console: TransportLevel, file: TransportLevel}
-}
 
 const defaultConfig : HubConfig = {
   useDevControllers: false,
   useLogControllers: false,
 
-  logging: {}
+  logging: {},
+  developerOptions: {
+    actOnSwitchCommands: true
+  }
 }
 
 const defaultPortConfig : HubPortConfig = {
@@ -111,5 +100,6 @@ function prepareConfigPath() {
 export function storeHubConfig(config : HubConfig) {
   let configPath = getConfigPath();
   let str = JSON.stringify(config);
-  fs.writeFileSync(configPath, str)
+  fs.writeFileSync(configPath, str);
+  eventBus.emit(topics.HUB_CONFIG_UPDATED)
 }

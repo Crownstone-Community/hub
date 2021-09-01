@@ -3,6 +3,7 @@ import {topics} from '../topics';
 import {CrownstoneHub} from '../CrownstoneHub';
 
 import {Logger} from '../../Logger';
+import {getHubConfig} from '../../util/ConfigUtil';
 const log = Logger(__filename);
 
 
@@ -62,6 +63,10 @@ export class SseEventHandler {
     switch (event.subType) {
       case 'multiSwitch':
         if (!Array.isArray(event.switchData)) { return; }
+
+        let hubConfig = getHubConfig();
+        if (hubConfig.developerOptions.actOnSwitchCommands === false) { return; }
+
         let switchPairs: SwitchData[] = [];
         event.switchData.forEach((switchData) => {
           if (switchData.type === 'PERCENTAGE' && switchData.percentage !== undefined) {
