@@ -33,9 +33,7 @@ function addLoggingRoutes(app, loopbackApp) {
                 config.useLogControllers = false;
                 ConfigUtil_1.storeHubConfig(config);
                 res.end("Command accepted. LoggingController will be disabled. Changed will take effect on next reboot.");
-                setTimeout(() => {
-                    process.exit();
-                }, 2000);
+                setTimeout(() => { process.exit(); }, 2000);
             }
         }
         catch (e) {
