@@ -43,7 +43,7 @@ export async function main(options: ApplicationConfig = {}) {
   let portConfig = getPortConfig();
 
   if (portConfig.enableHttp !== false) {
-    const httpServer = new PublicExpressServer();
+    const httpServer = new PublicExpressServer({},server.lbApp);
     await httpServer.start();
   }
 

@@ -9,4 +9,6 @@ export declare class DevController {
     reprocessEnergyAggregates(userProfile: UserProfileDescription): Promise<import("@loopback/repository").Count>;
     reprocessEnergyDataStatus(userProfile: UserProfileDescription): Promise<any>;
     reprocessEnergyAggregatesStatus(userProfile: UserProfileDescription): Promise<any>;
+    getDeveloperOptions(userProfile: UserProfileDescription): Promise<HubDevOptions>;
+    putDeveloperOptions(userProfile: UserProfileDescription, devOptions: HubDevOptions): Promise<void>;
 }

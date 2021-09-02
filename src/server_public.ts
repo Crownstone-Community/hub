@@ -12,6 +12,8 @@ import { ApplicationConfig } from '@loopback/core';
 import {Logger} from './Logger';
 import {getIpAddress} from './util/HubUtil';
 import {getHttpPort, getHttpsPort} from './util/ConfigUtil';
+import {applyCustomRoutes} from './customRoutes/ApplyCustomRoutes';
+import {CrownstoneHubApplication} from './application';
 
 export {ApplicationConfig};
 
@@ -31,7 +33,7 @@ export class PublicExpressServer {
   httpPort : number;
   httpsPort : number;
 
-  constructor(options: ApplicationConfig = {}) {
+  constructor(options: ApplicationConfig = {}, lbApp : CrownstoneHubApplication) {
     this.app = express();
     this.app.use(cors());
 
@@ -42,6 +44,11 @@ export class PublicExpressServer {
     this.app.get('/', function (req: Request, res: Response) {
       res.sendFile(path.join(__dirname, '../public/http/index.html'));
     });
+
+    // Expose the front-end assets via Express, not as LB4 route
+    this.app.use('/api', lbApp.requestHandler);
+
+    applyCustomRoutes(this.app, lbApp);
 
     this.app.get('/forward', (req: Request, res: Response) => {
       let ipAddress = getIpAddress();

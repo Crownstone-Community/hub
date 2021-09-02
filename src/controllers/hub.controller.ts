@@ -18,7 +18,7 @@ import {authenticate} from '@loopback/authentication';
 export class HubController {
 
   constructor(
-    @repository(HubRepository) protected hubRepo: HubRepository,
+    @repository(HubRepository)  protected hubRepo: HubRepository,
     @repository(UserRepository) protected userRepo: UserRepository,
   ) {}
 

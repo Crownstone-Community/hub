@@ -11,7 +11,14 @@ const repository_1 = require("@loopback/repository");
 const repositories_1 = require("../../repositories");
 const CrownstoneHub_1 = require("../../crownstone/CrownstoneHub");
 const Logger_1 = require("../../Logger");
+const ConfigUtil_1 = require("../../util/ConfigUtil");
 const log = Logger_1.Logger(__filename);
+const DeveloperOptionsSchema = {
+    type: 'object',
+    properties: {
+        actOnSwitchCommands: { type: 'boolean' }
+    }
+};
 let DevController = class DevController {
     constructor(energyDataProcessedRepo, energyDataRepo) {
         this.energyDataProcessedRepo = energyDataProcessedRepo;
@@ -114,6 +121,15 @@ let DevController = class DevController {
             };
         }
     }
+    async getDeveloperOptions(userProfile) {
+        let hubConfig = ConfigUtil_1.getHubConfig();
+        return hubConfig.developerOptions;
+    }
+    async putDeveloperOptions(userProfile, devOptions) {
+        let hubConfig = ConfigUtil_1.getHubConfig();
+        hubConfig.developerOptions = devOptions;
+        ConfigUtil_1.storeHubConfig(hubConfig);
+    }
 };
 tslib_1.__decorate([
     rest_1.get('/rawEnergyRange'),
@@ -160,6 +176,25 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyAggregatesStatus", null);
+tslib_1.__decorate([
+    rest_1.get('/developerOptions'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], DevController.prototype, "getDeveloperOptions", null);
+tslib_1.__decorate([
+    rest_1.post('/developerOptions'),
+    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, rest_1.requestBody({
+        content: { 'application/json': { schema: DeveloperOptionsSchema } },
+    })),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], DevController.prototype, "putDeveloperOptions", null);
 DevController = tslib_1.__decorate([
     tslib_1.__param(0, repository_1.repository(repositories_1.EnergyDataProcessedRepository)),
     tslib_1.__param(1, repository_1.repository(repositories_1.EnergyDataRepository)),

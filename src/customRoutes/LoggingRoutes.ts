@@ -33,9 +33,7 @@ export function addLoggingRoutes(app : express.Application, loopbackApp: Crownst
         config.useLogControllers = false;
         storeHubConfig(config);
         res.end("Command accepted. LoggingController will be disabled. Changed will take effect on next reboot.");
-        setTimeout(() => {
-          process.exit()
-        }, 2000);
+        setTimeout(() => { process.exit(); }, 2000);
       }
     }
     catch(e) {

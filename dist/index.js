@@ -30,7 +30,7 @@ async function main(options = {}) {
     log.info(`Server started.`);
     let portConfig = ConfigUtil_1.getPortConfig();
     if (portConfig.enableHttp !== false) {
-        const httpServer = new server_public_1.PublicExpressServer();
+        const httpServer = new server_public_1.PublicExpressServer({}, server.lbApp);
         await httpServer.start();
     }
     log.info(`Creating Database References...`);

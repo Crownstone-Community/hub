@@ -7,11 +7,16 @@ const fs_1 = tslib_1.__importDefault(require("fs"));
 const Util_1 = require("./Util");
 const path_1 = tslib_1.__importDefault(require("path"));
 const Logger_1 = require("../Logger");
+const HubEventBus_1 = require("../crownstone/HubEventBus");
+const topics_1 = require("../crownstone/topics");
 const log = Logger_1.Logger(__filename);
 const defaultConfig = {
     useDevControllers: false,
     useLogControllers: false,
-    logging: {}
+    logging: {},
+    developerOptions: {
+        actOnSwitchCommands: true
+    }
 };
 const defaultPortConfig = {
     httpPort: 80,
@@ -89,6 +94,7 @@ function storeHubConfig(config) {
     let configPath = getConfigPath();
     let str = JSON.stringify(config);
     fs_1.default.writeFileSync(configPath, str);
+    HubEventBus_1.eventBus.emit(topics_1.topics.HUB_CONFIG_UPDATED);
 }
 exports.storeHubConfig = storeHubConfig;
 //# sourceMappingURL=ConfigUtil.js.map

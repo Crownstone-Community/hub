@@ -1,4 +1,4 @@
-import {getModelSchemaRef, param, post, requestBody, SchemaObject} from '@loopback/rest';
+import {param, post, requestBody, SchemaObject} from '@loopback/rest';
 import {HttpErrors} from '@loopback/rest/dist';
 import {EmptyReturnCode} from './returnCodes/ReturnCodes';
 import {authenticate} from '@loopback/authentication';

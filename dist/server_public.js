@@ -14,6 +14,7 @@ const path_1 = tslib_1.__importDefault(require("path"));
 const Logger_1 = require("./Logger");
 const HubUtil_1 = require("./util/HubUtil");
 const ConfigUtil_1 = require("./util/ConfigUtil");
+const ApplyCustomRoutes_1 = require("./customRoutes/ApplyCustomRoutes");
 const log = Logger_1.Logger(__filename);
 const config = {
     rest: {
@@ -22,7 +23,7 @@ const config = {
     },
 };
 class PublicExpressServer {
-    constructor(options = {}) {
+    constructor(options = {}, lbApp) {
         this.app = express_1.default();
         this.app.use(cors_1.default());
         this.httpPort = ConfigUtil_1.getHttpPort();
@@ -31,6 +32,9 @@ class PublicExpressServer {
         this.app.get('/', function (req, res) {
             res.sendFile(path_1.default.join(__dirname, '../public/http/index.html'));
         });
+        // Expose the front-end assets via Express, not as LB4 route
+        this.app.use('/api', lbApp.requestHandler);
+        ApplyCustomRoutes_1.applyCustomRoutes(this.app, lbApp);
         this.app.get('/forward', (req, res) => {
             let ipAddress = HubUtil_1.getIpAddress();
             res.writeHead(302, {
