@@ -1,9 +1,9 @@
-import {resetMocks} from './mocks/suite.mock';
+import {mocks, resetMocks} from './mocks/suite.mock';
 import {clearTestDatabase, createApp} from './helpers';
 import {CrownstoneHubApplication} from '../src';
 import {Client, createRestAppClient} from '@loopback/testlab';
 import {EMPTY_DATABASE} from '../src/crownstone/data/DbUtil';
-import { mocked } from 'ts-jest/utils'
+import {mocked } from 'ts-jest/utils'
 import {auth, createAsset_ad_track_ad, createAsset_mac_report, createHub, createUser} from './dataGenerators';
 import {Dbs} from '../src/crownstone/data/DbReference';
 import {FilterManager} from '../src/crownstone/filters/FilterManager';
@@ -24,7 +24,9 @@ afterAll(async () => { await app.stop(); })
 
 test("Create assets via REST", async () => {
   await createHub();
-  await createUser()
+  await createUser();
+
+  mocks.uart._loadQueue({supportedFilterProtocol:0}, 3);
 
   await client.get(auth("/assets"))
     .expect(200)
@@ -69,6 +71,7 @@ test("Create assets directly", async () => {
   await createAsset_ad_track_ad();
   await createAsset_ad_track_ad(51);
 
+  mocks.uart._loadQueue({supportedFilterProtocol:0});
   let changeRequired = await FilterManager.reconstructFilters();
   expect(changeRequired).toBeTruthy();
 
@@ -84,6 +87,7 @@ test("Create assets and remove them after, see if filtersets are updated when ev
   await createAsset_mac_report(123);
   await createAsset_mac_report(51);
 
+  mocks.uart._loadQueue({supportedFilterProtocol:0});
   let changeRequired = await FilterManager.reconstructFilters();
   expect(changeRequired).toBeTruthy();
   let filtersNow = await Dbs.assetFilters.find();
@@ -120,6 +124,7 @@ test("Create assets and check if the filters are constructed correctly.", async 
   await createAsset_mac_report(0xfd6a)
   await createAsset_mac_report(0x7dea)
 
+  mocks.uart._loadQueue({supportedFilterProtocol:0}, 3);
   let changesRequired = await FilterManager.reconstructFilters();
   expect(changesRequired).toBeTruthy();
 

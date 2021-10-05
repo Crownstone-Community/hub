@@ -40,10 +40,12 @@ export class Uart implements UartInterface {
     this.forwardEvents();
 
     // in case we reconnect, and have booted the hub (so the key was set), we try to sync the filters.
-    this.connection.on(UartTopics.ConnectionEstablished, () => {
+    this.connection.on(UartTopics.ConnectionEstablished, async () => {
       log.notice("UART connection established. Keys are set:", this.keyWasSet);
       if (this.keyWasSet) {
-        this.syncFilters();
+        // we reconstruct the filters to check if a new filter command protocol had been set.
+        await FilterManager.reconstructFilters();
+        await this.syncFilters();
       }
     })
   }
@@ -210,10 +212,10 @@ export class Uart implements UartInterface {
     let filterSet  = await Dbs.assetFilterSets.findOne();
     if (!filterSet) { throw "NO_FILTER_SET"; }
 
-    let filtersInSet = await Dbs.assetFilters.find({where: {filterSetId: filterSet.id}});
+    let filtersInSet = await Dbs.assetFilters.find({where: {filterSetId: filterSet.id, possibleWithinProtocol: true}});
     let data: FilterSyncingTargetData = {
       masterVersion: filterSet.masterVersion,
-      masterCRC: filterSet.masterCRC,
+      masterCRC:     filterSet.masterCRC,
       filters: []
     }
     for (let filter of filtersInSet) {
@@ -231,7 +233,7 @@ export class Uart implements UartInterface {
       getSummaries: async () => {
         return this.queue.register(async () => {
           log.info("Getting filter summaries");
-          let summaries = await this.connection.control.getFilterSummaries();
+          let summaries = await this.connection.control.getFilterSummaries(0);
           receivedMasterVersion = summaries.masterVersion;
           receivedMasterCRC     = summaries.masterCRC;
           return summaries;
@@ -240,20 +242,20 @@ export class Uart implements UartInterface {
       remove: async (protocol: number, filterId: number) => {
         return this.queue.register(async () => {
           log.info("Removing filter", filterId);
-          return this.connection.control.removeFilter(filterId);
+          return this.connection.control.removeFilter(filterId, protocol);
         }, "syncFilters from Uart");
       },
       upload: async (protocol: number, filterData: FilterData) => {
         return this.queue.register(async () => {
           log.info("uploading filter");
-          return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.filter);
+          return this.connection.control.uploadFilter(filterData.idOnCrownstone, filterData.filter, protocol);
         }, "syncFilters from Uart");
       },
       commit: async (protocol: number) => {
         return this.queue.register(async () => {
           log.info("commiting filter changes");
           // @ts-ignore
-          return this.connection.control.commitFilterChanges(filterSet.masterVersion, filterSet.masterCRC)
+          return this.connection.control.commitFilterChanges(filterSet.masterVersion, filterSet.masterCRC, protocol);
         }, "syncFilters from Uart");
       },
     }
@@ -268,7 +270,7 @@ export class Uart implements UartInterface {
         case "TARGET_HAS_HIGHER_VERSION":
           if (receivedMasterVersion) {
             // set our version one higher than the one on the Crownstone.
-            filterSet.masterVersion = receivedMasterVersion + 1;
+            filterSet.masterVersion = increaseMasterVersion(receivedMasterVersion);
             await Dbs.assetFilterSets.update(filterSet)
             return this.syncFilters()
           }

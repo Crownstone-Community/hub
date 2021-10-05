@@ -58,10 +58,10 @@ export const FilterUtil = {
     return filter.metaData;
   },
 
-  getFilterSizeOverhead(asset: Asset) : number {
+  getFilterSizeOverhead(asset: Asset, filterCommandProtocol: number) : number {
     // it does not matter here whether it is EXACT_MATCH or something else.
     let filter = new AssetFilterCore();
-    return FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket().length;
+    return FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket(filterCommandProtocol).length;
   },
 
 

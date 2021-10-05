@@ -25,6 +25,9 @@ export class AssetFilter extends AddTimestamps(BaseEntity) {
   @property({type: 'boolean', required: true, default: false})
   exclude: boolean;
 
+  @property({type: 'boolean'})
+  possibleWithinProtocol: boolean;
+
   @property({required: true})
   inputData: filterFormat
 
