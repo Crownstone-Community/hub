@@ -4,7 +4,8 @@ type filterFormat_maskedAdDataType_t = "MASKED_AD_DATA"
 type filterFormat_manufacturerId_t   = "MANUFACTURER_ID"
 
 type filterFormat_macAddress_report_t  = "MAC_ADDRESS_REPORT"
-type filterFormat_shortAssetId_track_t = "SHORT_ASSET_ID_TRACK"
+type filterFormat_assetId_report_t     = "ASSET_ID_REPORT"
+type filterFormat_noOutput_t           = "NO_OUTPUT"
 
 type filterType_t = "CUCKOO" | "EXACT_MATCH"
 
@@ -34,9 +35,13 @@ interface FilterOutputDescription_macAddress {
   type: filterFormat_macAddress_report_t
 }
 
-interface FilterOutputDescription_shortAssetId{
-  type:      filterFormat_shortAssetId_track_t,
+interface FilterOutputDescription_noOutput {
+  type: filterFormat_noOutput_t
+}
+
+interface FilterOutputDescription_assetId{
+  type:      filterFormat_assetId_report_t,
   inputData: filterHubFormat
 }
 
-type filterHubOutputDescription = FilterOutputDescription_macAddress | FilterOutputDescription_shortAssetId
+type filterHubOutputDescription = FilterOutputDescription_macAddress | FilterOutputDescription_noOutput | FilterOutputDescription_assetId

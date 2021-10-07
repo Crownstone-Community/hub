@@ -1,16 +1,17 @@
-import {belongsTo,  model, property}     from '@loopback/repository';
-import {AddTimestamps}                   from '../bases/timestamp-mixin';
-import {BaseEntity}                      from '../bases/base-entity';
-import {AssetFilter}                     from './asset-filter.model';
-import {FormatMaskedAdData}              from './filterSubModels/format-masked-ad-data.model';
-import {FormatFullAdData}                from './filterSubModels/format-full-ad-data.model';
-import {FormatMacAddress}                from './filterSubModels/format-mac-address.model';
-import {FilterInputManufacturerId}       from './filterSubModels/filter-input-manufacturer-id';
-import {OutputDescription_shortId_track} from './filterSubModels/output-description-shortId-track.model';
-import {OutputDescription_mac_report}    from './filterSubModels/output-description-mac-report.model';
+import {belongsTo,  model, property}      from '@loopback/repository';
+import {AddTimestamps}                    from '../bases/timestamp-mixin';
+import {BaseEntity}                       from '../bases/base-entity';
+import {AssetFilter}                      from './asset-filter.model';
+import {FormatMaskedAdData}               from './filterSubModels/format-masked-ad-data.model';
+import {FormatFullAdData}                 from './filterSubModels/format-full-ad-data.model';
+import {FormatMacAddress}                 from './filterSubModels/format-mac-address.model';
+import {FilterInputManufacturerId}        from './filterSubModels/filter-input-manufacturer-id';
+import {OutputDescription_mac_report}     from './filterSubModels/output-description-mac-report.model';
+import {OutputDescription_assetId_report} from './filterSubModels/output-description-assetId-report.model';
+import {OutputDescription_no_output}      from './filterSubModels/output-description-no-output.model';
 
 export type filterFormat            = FormatMacAddress | FormatFullAdData | FormatMaskedAdData | FilterInputManufacturerId;
-export type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report
+export type filterOutputDescription = OutputDescription_assetId_report | OutputDescription_mac_report | OutputDescription_no_output
 
 
 @model()
@@ -54,9 +55,6 @@ export class Asset extends AddTimestamps(BaseEntity) {
 
   @property({required: true})
   data: string // hexString
-
-  // @hasOne(() => AssetPresence, {name: 'presence', keyTo:'assetId', keyFrom:'presenceId'})
-  // presence: AssetPresence;
 
   @belongsTo(() => AssetFilter, {name:'filter'})
   filterId: string;

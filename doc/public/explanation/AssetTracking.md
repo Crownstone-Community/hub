@@ -30,27 +30,30 @@ of the advertisement the `InputData`
 
 The output description of an asset will define what the Crownstone network should do with a device if it fulfills the `InputData` criteria.
 
-Currently, we have 2 options:
+Currently, we have 3 options:
 - Tell the hub a Crownstone has seen a device
-- Pass the advertisement to the in-network localization before it gets reported to the hub.
+- No output from the filters, only use the profile ID.
 
 The first option will report the MAC address of the Asset, the id of the Crownstone that has seen it and the signal strength.
 
-The second option will condense the representation of the Asset to a ShortAssetId and will localize it. This option is still work in progress. 
+The second option will condense the representation of the Asset to a AssetId and will localize it.
 
-### ShortAssetId (WIP)
+### AssetId
 
 If you have defined `InputData` which can be many Asset, you want to get a report back in such a way that it can identify one particular Asset.
 
 For example, you use an iBeacon UUID as the `InputData`, but want to know which major & minor belong to the beacon that was detected.
 
-To solve this in a generic way, we have introduces the `ShortAssetId`. This is a 3 byte hash of a part of the advertisement. Since we do not know 
+To solve this in a generic way, we have introduced the `AssetId`. This is a 3 byte hash of a part of the advertisement. Since we do not know 
+
 which part of your Asset's advertisement can uniquely identify your Asset, you can again provide an InputData to the OutputDescription so you can specify this.
 
-The shortAssetId is a [CRC32 hash](https://en.wikipedia.org/wiki/Cyclic_redundancy_check#CRC-32_algorithm) of the byte array that you have identified in the `InputData`.
+The AssetId is a [CRC32 hash](https://en.wikipedia.org/wiki/Cyclic_redundancy_check#CRC-32_algorithm) of the byte array that you have identified in the `InputData`.
+
 From these 4 bytes, the most significant byte is dropped.
 
-If you want to work with these ShortAssetIds, we assume you have a complete list of all your individual assets. This allows you to precalculate all the shortAssetId representations of
+If you want to work with these AssetIds, we assume you have a complete list of all your individual assets. This allows you to precalculate all the AssetId representations of
+
 these individual assets and quickly match them as they come in.
 
 

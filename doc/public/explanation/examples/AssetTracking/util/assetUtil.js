@@ -17,7 +17,7 @@ function generateMask(bits) {
 }
 
 /**
- * Remember, all our hubs for blyott will call the AWS. AWS is free for 1e6 calls per month.
+ * Remember, all our hubs for X will call the AWS. AWS is free for 1e6 calls per month.
  * @returns {{endPoint: string, batchTimeSeconds: number, apiKey: string, clientSecret: string, compressed: boolean, event: string, apiKeyHeader: string}}
  */
 function createWebhook() {

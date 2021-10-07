@@ -68,6 +68,18 @@ class FilterManagerClass {
         }
     }
     async reconstructFilters() {
+        if (this.uartReference === null) {
+            throw "UART_CONNECTION_UNAVAILABLE";
+        }
+        let summaries = await this.uartReference.queue.register(async () => {
+            if (this.uartReference) {
+                return await this.uartReference.connection.control.getFilterSummaries(0);
+            }
+        });
+        let filterCommandProtocol = summaries?.supportedFilterProtocol ?? null;
+        if (filterCommandProtocol === null) {
+            throw "FAILED_TO_GET_PROTOCOL_VERSION";
+        }
         let allAssets = await DbReference_1.Dbs.assets.find({ where: { committed: true } });
         let allFilters = await DbReference_1.Dbs.assetFilters.find({ include: [{ relation: "assets" }] });
         let filterChangeRequired = false;
@@ -81,7 +93,7 @@ class FilterManagerClass {
         // this closure will place an asset in the filterRequirements summary
         function placeAssetInSet(asset, filterType) {
             let typeDescription = FilterUtil_1.FilterUtil.getMetaDataDescriptionFromAsset(asset, filterType);
-            let overhead = FilterUtil_1.FilterUtil.getFilterSizeOverhead(asset);
+            let overhead = FilterUtil_1.FilterUtil.getFilterSizeOverhead(asset, filterCommandProtocol);
             if (filterRequirements[typeDescription] === undefined) {
                 filterRequirements[typeDescription] = {
                     filterType: filterType,
@@ -94,6 +106,7 @@ class FilterManagerClass {
                     sizeEstimate: overhead,
                     exclude: asset.exclude,
                     exists: false,
+                    possibleWithinProtocol: true,
                 };
                 if (filterType) {
                     amountOfRequiredFilters++;
@@ -165,9 +178,14 @@ class FilterManagerClass {
             for (let data of requirement.data) {
                 filter.addToFilter(data);
             }
-            let filterPacket = filter.getFilterPacket();
-            requirement.filterPacket = filterPacket.toString('hex');
-            requirement.filterCRC = filter.getCRC().toString(16);
+            try {
+                let filterPacket = filter.getFilterPacket(filterCommandProtocol);
+                requirement.filterPacket = filterPacket.toString('hex');
+                requirement.filterCRC = filter.getCRC(filterCommandProtocol).toString(16);
+            }
+            catch (err) {
+                requirement.possibleWithinProtocol = false;
+            }
         }
         // match against the existing filters.
         let ids = {};
@@ -200,6 +218,7 @@ class FilterManagerClass {
                     outputDescription: requirement.outputDescription,
                     data: requirement.filterPacket,
                     dataCRC: requirement.filterCRC,
+                    possibleWithinProtocol: requirement.possibleWithinProtocol
                 });
                 await updateAssetFilterIds(requirement.assets, newFilter.id).catch();
             }

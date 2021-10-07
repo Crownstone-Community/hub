@@ -32,9 +32,11 @@ export const FilterUtil = {
     }
 
     switch (outputDescription.type) {
+      case "NO_OUTPUT":
+        filter.doNotOutput(); break;
       case "MAC_ADDRESS_REPORT":
         filter.outputMacRssiReport(); break;
-      case "SHORT_ASSET_ID_TRACK":
+      case "ASSET_ID_REPORT":
         switch (outputDescription.inputData.type) {
           case "MAC_ADDRESS":
             filter.outputTrackableShortIdBasedOnMacAddress();
@@ -57,6 +59,7 @@ export const FilterUtil = {
 
     return filter.metaData;
   },
+
 
   getFilterSizeOverhead(asset: Asset, filterCommandProtocol: number) : number {
     // it does not matter here whether it is EXACT_MATCH or something else.
@@ -132,7 +135,7 @@ export const FilterUtil = {
     if (input.type === "FULL_AD_DATA") {
       inputSet += input.adType;
     }
-    if (output.type === 'SHORT_ASSET_ID_TRACK') {
+    if (output.type === 'ASSET_ID_REPORT') {
       outputSet += output.inputData.type;
       switch (output.inputData.type) {
         case 'MAC_ADDRESS':

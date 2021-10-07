@@ -162,22 +162,30 @@ The output description data format is one of the following:
     - ```
       { type: "MAC_ADDRESS_REPORT" }
       ```
-- #### OutputDescription_shortId_track
+- #### OutputDescription_no_output
+  - ```
+      { type: "NO_OUTPUT" }
+    ```
+- #### OutputDescription_assetId_report
     - ```
-      { type: "SHORT_ASSET_ID_TRACK", inputData: InputData }
+      { type: "ASSET_ID_REPORT", inputData: InputData }
       ```
-    - NOT AVAILABLE YET!
+
     
 If you choose OutputDescription_mac_report, a combination of mac address and rssi from each Crownstone that hears this asset will be relayed to the hub.
 You can then choose the webhooks to forward this to an URL of your chosing.
 
-If you choose OutputDescription_shortId_track, a 3 byte identifier describing an individual asset that adheres to your provided input data (in the ASSET model).
-You can then use the inputData field in the OutputDescription_shortId_track object to determine which data this should be based on.
+If you choose OutputDescription_assetId_report, a 3 byte identifier describing an individual asset that adheres to your provided input data (in the ASSET model).
+
+You can then use the inputData field in the OutputDescription_assetId_report object to determine which data this should be based on.
 
 To illustrate, if you want to identify a set of Assets based on their iBeacon UUID like in our example, you may want to use the mac address, or major&minor of a scanned
-iBeacon to identify it for the shortId.
+iBeacon to identify it for the assetId.
 
-This shortId will then be used by the Crownstone network localization algorithm. This is WIP and not finished.
+This assetId will then be used by the Crownstone network localization algorithm. 
+
+Finally, if you choose OutputDescription_no_output, there will be no output propagated over the mesh when an asset is scanned. However, the profileId will be used. This means that this is the
+one to choose if you want to use it for in-sphere presence via ble beacons etc.
 
 ## Explanation of specific fields
 

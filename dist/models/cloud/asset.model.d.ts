@@ -3,10 +3,11 @@ import { FormatMaskedAdData } from './filterSubModels/format-masked-ad-data.mode
 import { FormatFullAdData } from './filterSubModels/format-full-ad-data.model';
 import { FormatMacAddress } from './filterSubModels/format-mac-address.model';
 import { FilterInputManufacturerId } from './filterSubModels/filter-input-manufacturer-id';
-import { OutputDescription_shortId_track } from './filterSubModels/output-description-shortId-track.model';
 import { OutputDescription_mac_report } from './filterSubModels/output-description-mac-report.model';
+import { OutputDescription_assetId_report } from './filterSubModels/output-description-assetId-report.model';
+import { OutputDescription_no_output } from './filterSubModels/output-description-no-output.model';
 export declare type filterFormat = FormatMacAddress | FormatFullAdData | FormatMaskedAdData | FilterInputManufacturerId;
-export declare type filterOutputDescription = OutputDescription_shortId_track | OutputDescription_mac_report;
+export declare type filterOutputDescription = OutputDescription_assetId_report | OutputDescription_mac_report | OutputDescription_no_output;
 declare const Asset_base: {
     new (...args: any[]): {
         updatedAt: Date;

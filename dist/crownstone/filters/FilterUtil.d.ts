@@ -3,7 +3,7 @@ import { AssetFilter } from '../../models/cloud/asset-filter.model';
 import { Asset, filterFormat, filterOutputDescription } from '../../models/cloud/asset.model';
 export declare const FilterUtil: {
     setFilterMetaData: (filter: AssetFilterCore, type: string, profileId: number, inputData: filterHubFormat, outputDescription: filterHubOutputDescription, exclude: boolean) => import("crownstone-core").FilterMetaData;
-    getFilterSizeOverhead(asset: Asset): number;
+    getFilterSizeOverhead(asset: Asset, filterCommandProtocol: number): number;
     generateMasterCRC: (filters: AssetFilter[]) => number;
     getMetaDataDescriptionFromAsset: (asset: Asset, filterType: string) => string;
     getMetaDataDescriptionFromFilter: (filter: AssetFilter) => Promise<string>;

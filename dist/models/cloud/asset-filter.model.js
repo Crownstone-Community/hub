@@ -34,6 +34,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Boolean)
 ], AssetFilter.prototype, "exclude", void 0);
 tslib_1.__decorate([
+    repository_1.property({ type: 'boolean' }),
+    tslib_1.__metadata("design:type", Boolean)
+], AssetFilter.prototype, "possibleWithinProtocol", void 0);
+tslib_1.__decorate([
     repository_1.property({ required: true }),
     tslib_1.__metadata("design:type", Object)
 ], AssetFilter.prototype, "inputData", void 0);

@@ -25,10 +25,13 @@ exports.FilterUtil = {
                 break;
         }
         switch (outputDescription.type) {
+            case "NO_OUTPUT":
+                filter.doNotOutput();
+                break;
             case "MAC_ADDRESS_REPORT":
                 filter.outputMacRssiReport();
                 break;
-            case "SHORT_ASSET_ID_TRACK":
+            case "ASSET_ID_REPORT":
                 switch (outputDescription.inputData.type) {
                     case "MAC_ADDRESS":
                         filter.outputTrackableShortIdBasedOnMacAddress();
@@ -51,10 +54,10 @@ exports.FilterUtil = {
         }
         return filter.metaData;
     },
-    getFilterSizeOverhead(asset) {
+    getFilterSizeOverhead(asset, filterCommandProtocol) {
         // it does not matter here whether it is EXACT_MATCH or something else.
         let filter = new crownstone_core_2.AssetFilter();
-        return exports.FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket().length;
+        return exports.FilterUtil.setFilterMetaData(filter, "EXACT_MATCH", asset.profileId, asset.inputData, asset.outputDescription, asset.exclude).getPacket(filterCommandProtocol).length;
     },
     generateMasterCRC: function (filters) {
         let payload = {};
@@ -108,7 +111,7 @@ exports.FilterUtil = {
         if (input.type === "FULL_AD_DATA") {
             inputSet += input.adType;
         }
-        if (output.type === 'SHORT_ASSET_ID_TRACK') {
+        if (output.type === 'ASSET_ID_REPORT') {
             outputSet += output.inputData.type;
             switch (output.inputData.type) {
                 case 'MAC_ADDRESS':

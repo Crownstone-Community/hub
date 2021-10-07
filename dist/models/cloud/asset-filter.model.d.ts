@@ -15,6 +15,7 @@ export declare class AssetFilter extends AssetFilter_base {
     idOnCrownstone: number;
     profileId: number;
     exclude: boolean;
+    possibleWithinProtocol: boolean;
     inputData: filterFormat;
     outputDescription: filterOutputDescription;
     data: string;

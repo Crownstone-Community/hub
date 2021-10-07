@@ -46,11 +46,13 @@ let normalizeCommand = function(command : string) {
   for(let i = 0; i <= cmd.length - 1; i++) {
     if(cmd[i].charAt(cmd[i].length - 1) == '\\') {
       cmdbuffer.push(cmd[i]);
-    } else {
-      if(cmdbuffer.length > 0) {
+    }
+    else {
+      if (cmdbuffer.length > 0) {
         outcmd.push(cmdbuffer.join(' ') + ' ' + cmd[i]);
         cmdbuffer.length = 0;
-      } else {
+      }
+      else {
         outcmd.push(cmd[i]);
       }
     }
