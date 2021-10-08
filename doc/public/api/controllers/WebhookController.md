@@ -10,7 +10,7 @@ WebhookController
 > ```
 > Webhook
 >   {
->      "event":                 string,   // "ASSET_REPORT" or "ASSET_TRACKING". Details below.
+>      "event":                 string,   // "ASSET_REPORT". Details below.
 >      "clientSecret":          string,   // string that is included in each request. Can be used to authenticate.
 >      "endPoint":              string,   // URL to sent the data to as a POST request.
 >      "compressed":            boolean,  // this will reduce the size of the request payload.
@@ -79,6 +79,3 @@ The event-specific-data of this event is:
     t:   number    // timestamp
 }
 ```
-
-### ASSET_TRACKING
-WIP

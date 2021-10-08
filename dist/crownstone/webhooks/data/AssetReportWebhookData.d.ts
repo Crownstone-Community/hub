@@ -1,4 +1,5 @@
 export declare class AssetReportWebhookData {
+    type: "AssetReportWebhookData";
     crownstoneId: number;
     crownstoneMacAddress: string | null;
     assetMacAddress: string;

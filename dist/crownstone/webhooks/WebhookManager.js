@@ -21,12 +21,36 @@ class WebhookManager {
     async refreshHooks() {
         try {
             let hooks = await DbReference_1.Dbs.webhooks.find();
+            // close the current collectors before remaking them.
             for (let collector of this.collectors) {
                 await collector.wrapUp();
             }
             this.collectors = [];
             for (let hook of hooks) {
+                let customHandler = null;
+                if (hook.customHandler) {
+                    try {
+                        eval(hook.customHandler);
+                    }
+                    catch (err) {
+                        customHandler = null;
+                    }
+                }
                 this.collectors.push(new WebhookCollector_1.WebhookCollector(hook, async (data) => {
+                    if (customHandler) {
+                        try {
+                            await customHandler(hook, data);
+                            if (hook.customHandlerIssue !== "none") {
+                                hook.customHandlerIssue = 'none';
+                                await DbReference_1.Dbs.webhooks.update(hook);
+                            }
+                        }
+                        catch (err) {
+                            hook.customHandlerIssue = "ERROR_EXECUTING:" + err.message;
+                            await DbReference_1.Dbs.webhooks.update(hook);
+                        }
+                        return;
+                    }
                     await this.invoke(hook, data);
                 }));
             }

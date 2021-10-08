@@ -39,9 +39,6 @@ export class WebhookCollector{
             }
         ));
         break;
-      case 'ASSET_TRACKING':
-        // TODO: implement
-        break;
     }
   }
 

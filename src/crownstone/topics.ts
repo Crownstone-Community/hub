@@ -18,10 +18,7 @@ export const topics : {[topicEnum: string]: string} = {
 
 export const WebhookTopics : {[topicEnum: string]: string} = {
   ASSET_REPORT:   "ASSET_REPORT",
-  ASSET_TRACKING: "ASSET_TRACKING",
 }
 export const WebhookInternalTopics : {[topicEnum: string]: string} = {
   __ASSET_REPORT:           "__ASSET_REPORT",
-  __ASSET_TRACKING_UPDATE:  "__ASSET_TRACKING_UPDATE",
-  __ASSET_TRACKING_TIMEOUT: "__ASSET_TRACKING_TIMEOUT",
 }

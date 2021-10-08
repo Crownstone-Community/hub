@@ -2,6 +2,8 @@ import {MemoryDb} from '../../data/MemoryDb';
 
 export class AssetReportWebhookData {
 
+  type: "AssetReportWebhookData"
+
   crownstoneId:         number;
   crownstoneMacAddress: string | null;
   assetMacAddress:      string;

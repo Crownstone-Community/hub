@@ -21,6 +21,12 @@ export class Webhook extends Entity {
   @property({type: 'number'})
   batchTimeSeconds: number;
 
+  @property({type: 'string'})
+  customHandler: string;
+
+  @property({type: 'string'})
+  customHandlerIssue: string;
+
   @property({type: 'string', required: false})
   apiKey: string;
 

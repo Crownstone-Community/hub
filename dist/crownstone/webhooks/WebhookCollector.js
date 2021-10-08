@@ -27,9 +27,6 @@ class WebhookCollector {
                     this.load(topics_1.WebhookInternalTopics.__ASSET_REPORT, data);
                 }));
                 break;
-            case 'ASSET_TRACKING':
-                // TODO: implement
-                break;
         }
     }
     load(topic, data) {

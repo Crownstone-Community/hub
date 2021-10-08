@@ -43,6 +43,17 @@ export class WebhookController {
       throw new HttpErrors.BadRequest("Invalid Event. Possiblities are: " + Object.keys(WebhookTopics).join(", "))
     }
 
+    if (newHook.customHandler !== undefined) {
+      // custom handler here is required in order to eval the function string.
+      let customHandler = null;
+      try {
+        eval(newHook.customHandler);
+      }
+      catch (err) {
+        throw new HttpErrors.BadRequest("Custom handler generated an error when tryin to evaluate. " + err.message);
+      }
+    }
+
     let hook = await this.webhookRepo.create(newHook);
     await CrownstoneHub.webhooks.refreshHooks();
     return hook;

@@ -6,6 +6,8 @@ export declare class Webhook extends Entity {
     endPoint: string;
     compressed: boolean;
     batchTimeSeconds: number;
+    customHandler: string;
+    customHandlerIssue: string;
     apiKey: string;
     apiKeyHeader: string;
 }

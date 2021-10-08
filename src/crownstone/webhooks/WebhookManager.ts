@@ -6,6 +6,8 @@ import {WebhookCollector, webhookDataType} from './WebhookCollector';
 
 const log = Logger(__filename);
 
+type customHandler = (hook: Webhook, data: webhookDataType[]) => Promise<void>;
+
 export class WebhookManager {
 
   hookIntervals: () => {}
@@ -24,13 +26,41 @@ export class WebhookManager {
   async refreshHooks() {
     try {
       let hooks = await Dbs.webhooks.find();
+
+      // close the current collectors before remaking them.
       for (let collector of this.collectors) {
         await collector.wrapUp();
       }
+
       this.collectors = [];
 
+
       for (let hook of hooks) {
+        let customHandler : null | customHandler = null;
+        if (hook.customHandler) {
+          try {
+            eval(hook.customHandler)
+          }
+          catch (err) {
+            customHandler = null;
+          }
+        }
+
         this.collectors.push(new WebhookCollector(hook, async (data : webhookDataType[]) => {
+          if (customHandler) {
+            try {
+              await customHandler(hook, data);
+              if (hook.customHandlerIssue !== "none") {
+                hook.customHandlerIssue = 'none';
+                await Dbs.webhooks.update(hook)
+              }
+            }
+            catch (err) {
+              hook.customHandlerIssue = "ERROR_EXECUTING:" + err.message;
+              await Dbs.webhooks.update(hook)
+            }
+            return;
+          }
           await this.invoke(hook, data);
         }))
       }

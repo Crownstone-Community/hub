@@ -14,11 +14,8 @@ exports.topics = {
 };
 exports.WebhookTopics = {
     ASSET_REPORT: "ASSET_REPORT",
-    ASSET_TRACKING: "ASSET_TRACKING",
 };
 exports.WebhookInternalTopics = {
     __ASSET_REPORT: "__ASSET_REPORT",
-    __ASSET_TRACKING_UPDATE: "__ASSET_TRACKING_UPDATE",
-    __ASSET_TRACKING_TIMEOUT: "__ASSET_TRACKING_TIMEOUT",
 };
 //# sourceMappingURL=topics.js.map
