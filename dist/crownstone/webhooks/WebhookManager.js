@@ -41,12 +41,12 @@ class WebhookManager {
                         try {
                             await customHandler(hook, data);
                             if (hook.customHandlerIssue !== "none") {
-                                hook.customHandlerIssue = 'none';
+                                hook.customHandlerIssue = 'Executed successfully on' + Date.now();
                                 await DbReference_1.Dbs.webhooks.update(hook);
                             }
                         }
                         catch (err) {
-                            hook.customHandlerIssue = "ERROR_EXECUTING:" + err.message;
+                            hook.customHandlerIssue = "Error while executing: " + err.message;
                             await DbReference_1.Dbs.webhooks.update(hook);
                         }
                         return;

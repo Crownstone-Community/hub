@@ -27,6 +27,17 @@ let WebhookController = class WebhookController {
         if (!topics_1.WebhookTopics[newHook.event]) {
             throw new rest_1.HttpErrors.BadRequest("Invalid Event. Possiblities are: " + Object.keys(topics_1.WebhookTopics).join(", "));
         }
+        if (newHook.customHandler !== undefined) {
+            // custom handler here is required in order to eval the function string.
+            let customHandler = null;
+            newHook.customHandlerIssue = "Not executed yet...";
+            try {
+                eval(newHook.customHandler);
+            }
+            catch (err) {
+                throw new rest_1.HttpErrors.BadRequest("Custom handler generated an error when tryin to evaluate. " + err.message);
+            }
+        }
         let hook = await this.webhookRepo.create(newHook);
         await CrownstoneHub_1.CrownstoneHub.webhooks.refreshHooks();
         return hook;

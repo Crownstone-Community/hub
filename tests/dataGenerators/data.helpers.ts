@@ -42,11 +42,11 @@ export async function createHub() {
 
 let lastSeenToken = null;
 export async function createUser(token?, role?) {
-  let useToken = token ?? "DefaultAccessToken";
-  lastSeenToken = useToken;
+  let userToken = token ?? "DefaultAccessToken";
+  lastSeenToken = userToken;
   await Dbs.user.create({
     userId: "cloudUserId",
-    userToken: useToken,
+    userToken: userToken,
     sphereRole: role ?? "admin"
   });
 }
@@ -92,7 +92,7 @@ export async function createAsset_ad_track_mac(adType = 23, mask = 523465324, da
   }
   return await Dbs.assets.create({
     inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask},
-    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData:{type:'MAC_ADDRESS'}},
+    outputDescription: {type:'ASSET_ID_REPORT',inputData:{type:'MAC_ADDRESS'}},
     data: data,
     committed: true,
     markedForDeletion: false,
@@ -105,7 +105,7 @@ export async function createAsset_ad_track_ad(adType = 23, mask = 523465324, dat
   }
   return await Dbs.assets.create({
     inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask},
-    outputDescription: {type:'SHORT_ASSET_ID_TRACK',inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask}},
+    outputDescription: {type:'ASSET_ID_REPORT',inputData: {type:'FULL_AD_DATA', adType: adType, mask: mask}},
     data: data,
     committed: true,
     markedForDeletion: false,

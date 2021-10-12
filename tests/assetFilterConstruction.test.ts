@@ -13,8 +13,9 @@ let client : Client;
 
 beforeEach(async () => {
   mocked(EMPTY_DATABASE).mockReset();
-  await clearTestDatabase(); })
+  await clearTestDatabase();
   resetMocks()
+})
 beforeAll(async () => {
   app    = await createApp()
   client = createRestAppClient(app);
@@ -87,7 +88,7 @@ test("Create assets and remove them after, see if filtersets are updated when ev
   await createAsset_mac_report(123);
   await createAsset_mac_report(51);
 
-  mocks.uart._loadQueue({supportedFilterProtocol:0});
+  mocks.uart._loadQueue({supportedFilterProtocol:0}, 2);
   let changeRequired = await FilterManager.reconstructFilters();
   expect(changeRequired).toBeTruthy();
   let filtersNow = await Dbs.assetFilters.find();

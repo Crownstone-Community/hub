@@ -1,3 +1,5 @@
+import path from 'path';
+
 let value = 0;
 
 beforeEach(async () => { value = 0; })
@@ -9,7 +11,7 @@ customHandler = function(val) {
 }
 
 function printer() {
-  console.log("printed a thing");
+  // console.log("printed a thing");
 }
 `
 
@@ -18,6 +20,8 @@ function fillTheThing() {
   eval(code)
   return customHandler;
 }
+
+
 
 test("Eval custom code to see if we can do things with it", async () => {
   let customHandler = null;

@@ -46,6 +46,7 @@ export class WebhookController {
     if (newHook.customHandler !== undefined) {
       // custom handler here is required in order to eval the function string.
       let customHandler = null;
+      newHook.customHandlerIssue = "Not executed yet..."
       try {
         eval(newHook.customHandler);
       }
