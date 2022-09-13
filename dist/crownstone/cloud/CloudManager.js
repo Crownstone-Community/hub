@@ -291,7 +291,7 @@ class CloudManager {
         this.sseSetupInprogress = true;
         log.info("Cloudmanager SSE setup started.");
         if (this.sse === null) {
-            this.sse = new crownstone_sse_1.CrownstoneSSE({ hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false });
+            this.sse = new crownstone_sse_1.CrownstoneSSE({ hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false, projectName: 'crownstoneHub' });
         }
         let sseLoggedIn = false;
         while (sseLoggedIn == false && this.resetTriggered === false) {
