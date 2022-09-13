@@ -13,13 +13,14 @@ import {HubStatus} from '../HubStatus';
 import {getIpAddress} from '../../util/HubUtil';
 import {getHttpPort, getHttpsPort} from '../../util/ConfigUtil';
 import {CrownstoneUtil} from '../CrownstoneUtil';
+import {SseClassInterface} from 'crownstone-sse/dist/CrownstoneSSE';
 
 const log = Logger(__filename);
 const RETRY_INTERVAL_MS = 5000;
 
 export class CloudManager {
   cloud           : CrownstoneCloud;
-  sse             : CrownstoneSSE | null = null;
+  sse             : SseClassInterface | null = null;
   sseEventHandler : SseEventHandler;
 
   initializeInProgress = false;
@@ -309,7 +310,7 @@ export class CloudManager {
     this.sseSetupInprogress = true;
     log.info("Cloudmanager SSE setup started.");
     if (this.sse === null) {
-      this.sse = new CrownstoneSSE({hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false});
+      this.sse = new CrownstoneSSE({hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false, projectName:'crownstoneHub'});
     }
 
     let sseLoggedIn = false;
@@ -317,7 +318,7 @@ export class CloudManager {
       try {
         log.info("Logging into the SSE...");
         await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true;
-        log.info("Login to SSE sucessful:", this.sse.accessToken);
+        log.info("Login to SSE sucessful:", (this.sse as any).accessToken);
       }
       catch(e) {
         log.warn("Error in SSE", e);
@@ -329,7 +330,7 @@ export class CloudManager {
       }
     }
 
-    log.info("Initializing the SSE with accessToken", this.sse.accessToken);
+    log.info("Initializing the SSE with accessToken", (this.sse as any).accessToken);
     this.sse.start(this.sseEventHandler.handleSseEvent)
     log.info("Cloudmanager SSE setup finished.");
     HubStatus.loggedIntoSSE = true;

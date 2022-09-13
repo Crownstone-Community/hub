@@ -14,7 +14,6 @@ let AssetFilterRepository = class AssetFilterRepository extends timestamped_crud
         this.assetRepository = assetRepository;
         this.filterSet = this.createBelongsToAccessorFor('filterSet', filterSetRepoGetter);
         this.assets = this.createHasManyRepositoryFactoryFor('assets', async () => assetRepository);
-        // this.presence = this.createHasOneRepositoryFactoryFor('presence', assetPresenceRepoGetter);
         // add this line to register inclusion resolver
         this.registerInclusionResolver('assets', this.assets.inclusionResolver);
     }
