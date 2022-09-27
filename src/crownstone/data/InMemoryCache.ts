@@ -2,21 +2,21 @@ import {Logger} from '../../Logger';
 
 const log = Logger(__filename);
 
-export class InMemoryCache {
+export class InMemoryCache<T> {
   processing = false;
 
-  cache   : object[] = [];
-  reserve : object[] = [];
+  cache   : T[] = [];
+  reserve : T[] = [];
 
   name : string;
-  batchStorageMethod : (data : any) => Promise<void>;
+  batchStorageMethod : (data : T[]) => Promise<void>;
 
-  constructor(batchStorageMethod : (data : object[]) => Promise<void>, name: string) {
+  constructor(batchStorageMethod : (data : T[]) => Promise<void>, name: string) {
     this.batchStorageMethod = batchStorageMethod;
     this.name = name;
   }
 
-  collect(data: object) {
+  collect(data: T) {
     if (this.processing) {
       this.reserve.push(data)
     }

@@ -525,15 +525,15 @@
     chalk "^4.0.0"
 
 "@loopback/authentication@^7.0.4":
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/@loopback/authentication/-/authentication-7.0.4.tgz#dc7efe30254e16050277efc469d767aee25690cb"
-  integrity sha512-GMI8tubgGBgbP7KrTpnnrbhRCAPUOBKVg0keaXpKL1pXgpmTdpkrHLOMYk9TiLtanwqjuvCCEom77gjVrcHIDg==
+  version "7.3.4"
+  resolved "https://registry.yarnpkg.com/@loopback/authentication/-/authentication-7.3.4.tgz#6299037d0df130ca1ebf023e1c2a52b54725716e"
+  integrity sha512-Ck6ggwiIkTI9Vu3YjQhKHCueuSE/NWYq3ILWF5ToloPDEITaHK5Tr8q/DM3mqM2gASz3OQeTQ28zbGrq5mMzbQ==
   dependencies:
-    "@loopback/security" "^0.3.4"
-    "@types/express" "^4.17.9"
-    "@types/lodash" "^4.14.165"
-    lodash "^4.17.20"
-    tslib "^2.0.3"
+    "@loopback/security" "^0.5.4"
+    "@types/express" "^4.17.13"
+    "@types/lodash" "^4.14.175"
+    lodash "^4.17.21"
+    tslib "^2.3.1"
 
 "@loopback/authorization@^0.5.11":
   version "0.5.11"
@@ -760,6 +760,14 @@
   dependencies:
     debug "^4.2.0"
     tslib "^2.0.3"
+
+"@loopback/security@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@loopback/security/-/security-0.5.4.tgz#07861b562a8bb3603549b9f92d3428b630ef0f05"
+  integrity sha512-9pgs790AtKCQPTNa+FYQZqHZpuF22XZKTPzK9C/WmUoClF5BGvjPbXwJVOMJPYmgjZIeB0dONWiq+QlIvdcSOw==
+  dependencies:
+    debug "^4.3.2"
+    tslib "^2.3.1"
 
 "@loopback/service-proxy@^3.0.4":
   version "3.0.4"
@@ -1031,6 +1039,15 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
+"@types/express-serve-static-core@^4.17.18":
+  version "4.17.31"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.31.tgz#a1139efeab4e7323834bb0226e62ac019f474b2f"
+  integrity sha512-DxMhY+NAsTwMMFHBTtJFNp5qiHKJ7TeqOo23zVEM9alT1Ml27Q3xcTH0xwxn7Q0BbMcVEJOs/7aQtUWupUQN3Q==
+  dependencies:
+    "@types/node" "*"
+    "@types/qs" "*"
+    "@types/range-parser" "*"
+
 "@types/express@*", "@types/express@^4.16.0", "@types/express@^4.17.9":
   version "4.17.9"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.9.tgz#f5f2df6add703ff28428add52bdec8a1091b0a78"
@@ -1038,6 +1055,16 @@
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
+    "@types/qs" "*"
+    "@types/serve-static" "*"
+
+"@types/express@^4.17.13":
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.14.tgz#143ea0557249bc1b3b54f15db4c81c3d4eb3569c"
+  integrity sha512-TEbt+vaPFQ+xpxFLFssxUDXj5cWCxZJjIcB7Yg0k0GMHGtgtQgpvx/MUQUeAkNbA9AAGrwkAsoeItdTgS7FMyg==
+  dependencies:
+    "@types/body-parser" "*"
+    "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
 
@@ -1112,10 +1139,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.165":
-  version "4.14.165"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
-  integrity sha512-tjSSOTHhI5mCHTy/OOXYIhi2Wt1qcbHmuXD1Ha7q70CgI/I71afO4XtLb/cVexki1oVYchpul/TOuu3Arcdxrg==
+"@types/lodash@^4.14.175":
+  version "4.14.185"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.185.tgz#c9843f5a40703a8f5edfd53358a58ae729816908"
+  integrity sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==
 
 "@types/mime@*":
   version "2.0.3"
@@ -2504,6 +2531,13 @@ debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0, debug@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
+  dependencies:
+    ms "2.1.2"
+
+debug@^4.3.2:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
 
@@ -4998,7 +5032,7 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash@4.x:
+lodash@4.x, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -7392,6 +7426,11 @@ tslib@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
   integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
+
+tslib@^2.3.1:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
 tsutils@^3.17.1:
   version "3.17.1"
