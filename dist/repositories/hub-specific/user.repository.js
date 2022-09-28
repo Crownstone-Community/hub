@@ -73,8 +73,8 @@ let UserRepository = class UserRepository extends repository_1.DefaultCrudReposi
     }
 };
 UserRepository = tslib_1.__decorate([
-    tslib_1.__param(0, core_1.inject('datasources.mongo')),
-    tslib_1.__param(1, repository_1.repository(user_permission_repository_1.UserPermissionRepository)),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.mongo')),
+    tslib_1.__param(1, (0, repository_1.repository)(user_permission_repository_1.UserPermissionRepository)),
     tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource, user_permission_repository_1.UserPermissionRepository])
 ], UserRepository);
 exports.UserRepository = UserRepository;

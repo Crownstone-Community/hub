@@ -50,7 +50,7 @@ export class WebhookController {
       try {
         eval(newHook.customHandler);
       }
-      catch (err) {
+      catch (err: any) {
         throw new HttpErrors.BadRequest("Custom handler generated an error when tryin to evaluate. " + err.message);
       }
     }

@@ -15,7 +15,7 @@ const Logger_1 = require("./Logger");
 const HubUtil_1 = require("./util/HubUtil");
 const ConfigUtil_1 = require("./util/ConfigUtil");
 const ApplyCustomRoutes_1 = require("./customRoutes/ApplyCustomRoutes");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const config = {
     rest: {
         // Use the LB4 application as a route. It should not be listening.
@@ -24,19 +24,19 @@ const config = {
 };
 class PublicExpressServer {
     constructor(options = {}, lbApp) {
-        this.app = express_1.default();
-        this.app.use(cors_1.default());
-        this.httpPort = ConfigUtil_1.getHttpPort();
-        this.httpsPort = ConfigUtil_1.getHttpsPort();
+        this.app = (0, express_1.default)();
+        this.app.use((0, cors_1.default)());
+        this.httpPort = (0, ConfigUtil_1.getHttpPort)();
+        this.httpsPort = (0, ConfigUtil_1.getHttpsPort)();
         // Custom Express routes
         this.app.get('/', function (req, res) {
             res.sendFile(path_1.default.join(__dirname, '../public/http/index.html'));
         });
         // Expose the front-end assets via Express, not as LB4 route
         this.app.use('/api', lbApp.requestHandler);
-        ApplyCustomRoutes_1.applyCustomRoutes(this.app, lbApp);
+        (0, ApplyCustomRoutes_1.applyCustomRoutes)(this.app, lbApp);
         this.app.get('/forward', (req, res) => {
-            let ipAddress = HubUtil_1.getIpAddress();
+            let ipAddress = (0, HubUtil_1.getIpAddress)();
             res.writeHead(302, {
                 Location: `https://${ipAddress}:${this.httpsPort}/`
             });
@@ -47,17 +47,17 @@ class PublicExpressServer {
     }
     async start() {
         this.server = http_1.default.createServer(this.app).listen(this.httpPort, () => {
-            let ipAddress = HubUtil_1.getIpAddress();
+            let ipAddress = (0, HubUtil_1.getIpAddress)();
             log.info(`Hub is available at http://${ipAddress}:${this.httpPort}`);
         });
-        await events_1.once(this.server, 'listening');
+        await (0, events_1.once)(this.server, 'listening');
     }
     // For testing purposes
     async stop() {
         if (!this.server)
             return;
         this.server.close();
-        await events_1.once(this.server, 'close');
+        await (0, events_1.once)(this.server, 'close');
         this.server = undefined;
     }
 }

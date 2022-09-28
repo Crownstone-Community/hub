@@ -34,12 +34,12 @@ let CrownstoneSequence = class CrownstoneSequence {
     }
 };
 CrownstoneSequence = tslib_1.__decorate([
-    tslib_1.__param(0, context_1.inject(SequenceActions.FIND_ROUTE)),
-    tslib_1.__param(1, context_1.inject(SequenceActions.PARSE_PARAMS)),
-    tslib_1.__param(2, context_1.inject(authentication_1.AuthenticationBindings.AUTH_ACTION)),
-    tslib_1.__param(3, context_1.inject(SequenceActions.INVOKE_METHOD)),
-    tslib_1.__param(4, context_1.inject(SequenceActions.SEND)),
-    tslib_1.__param(5, context_1.inject(SequenceActions.REJECT)),
+    tslib_1.__param(0, (0, context_1.inject)(SequenceActions.FIND_ROUTE)),
+    tslib_1.__param(1, (0, context_1.inject)(SequenceActions.PARSE_PARAMS)),
+    tslib_1.__param(2, (0, context_1.inject)(authentication_1.AuthenticationBindings.AUTH_ACTION)),
+    tslib_1.__param(3, (0, context_1.inject)(SequenceActions.INVOKE_METHOD)),
+    tslib_1.__param(4, (0, context_1.inject)(SequenceActions.SEND)),
+    tslib_1.__param(5, (0, context_1.inject)(SequenceActions.REJECT)),
     tslib_1.__metadata("design:paramtypes", [Function, Function, Function, Function, Function, Function])
 ], CrownstoneSequence);
 exports.CrownstoneSequence = CrownstoneSequence;

@@ -10,13 +10,13 @@ const rest_1 = require("@loopback/rest");
 function addLoggingRoutes(app, loopbackApp) {
     app.get('/enableLogging', async (req, res) => {
         try {
-            let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
+            let access_token = (0, csToken_strategy_1.extractToken)(req);
+            let userData = await (0, services_1.checkAccessToken)(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
-                let config = ConfigUtil_1.getHubConfig();
+                let config = (0, ConfigUtil_1.getHubConfig)();
                 config.useLogControllers = true;
-                ConfigUtil_1.storeHubConfig(config);
-                application_1.updateControllersBasedOnConfig(loopbackApp);
+                (0, ConfigUtil_1.storeHubConfig)(config);
+                (0, application_1.updateControllersBasedOnConfig)(loopbackApp);
                 res.end("Command accepted. LoggingController is now enabled.");
             }
         }
@@ -26,12 +26,12 @@ function addLoggingRoutes(app, loopbackApp) {
     });
     app.get('/disableLogging', async (req, res) => {
         try {
-            let access_token = csToken_strategy_1.extractToken(req);
-            let userData = await services_1.checkAccessToken(access_token, DbReference_1.Dbs.user);
+            let access_token = (0, csToken_strategy_1.extractToken)(req);
+            let userData = await (0, services_1.checkAccessToken)(access_token, DbReference_1.Dbs.user);
             if (userData.sphereRole === 'admin') {
-                let config = ConfigUtil_1.getHubConfig();
+                let config = (0, ConfigUtil_1.getHubConfig)();
                 config.useLogControllers = false;
-                ConfigUtil_1.storeHubConfig(config);
+                (0, ConfigUtil_1.storeHubConfig)(config);
                 res.end("Command accepted. LoggingController will be disabled. Changed will take effect on next reboot.");
                 setTimeout(() => { process.exit(); }, 2000);
             }

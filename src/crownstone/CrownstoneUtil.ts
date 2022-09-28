@@ -27,7 +27,7 @@ export class CrownstoneUtil {
           await CrownstoneHub.cloud.cloud.hub().update({linkedStoneId: linkedStoneId});
           await Dbs.hub.update(hub);
         }
-      } catch (err) {
+      } catch (err: any) {
         if (err?.statusCode === 404) {
           await CrownstoneHub.cloud.sync()
           // if we synced, and still cant find the dongle, we will reset the hub
@@ -76,7 +76,7 @@ export class CrownstoneUtil {
           await CrownstoneHub.cloud.cloud.crownstone(hub.linkedStoneId).deleteCrownstone();
           log.notice("Deleting hub linked DONE")
         }
-        catch (err) {
+        catch (err: any) {
           if (err?.statusCode !== 401) {
             log.notice("Deleting hub linked stone failed.", err)
           }
@@ -101,7 +101,7 @@ export class CrownstoneUtil {
           await CrownstoneHub.cloud.cloud.hub().deleteHub();
           log.notice("Deleting hub DONE")
         }
-        catch (err) {
+        catch (err: any) {
           if (err?.statusCode !== 401) {
             log.notice("Deleting hub in cloud failed.", err)
           }

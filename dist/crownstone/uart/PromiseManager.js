@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PromiseManager = void 0;
 const Logger_1 = require("../../Logger");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const PROMISE_MANAGER_FALLBACK_TIMEOUT = 5000;
 class PromiseManager {
     constructor() {

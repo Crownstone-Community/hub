@@ -9,7 +9,7 @@ const topics_1 = require("./topics");
 const MemoryDb_1 = require("./data/MemoryDb");
 const rest_1 = require("@loopback/rest");
 const CrownstoneHub_1 = require("./CrownstoneHub");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class CrownstoneUtil {
     static async checkLinkedStoneId() {
         let hub = await DbReference_1.Dbs.hub.get();
@@ -19,7 +19,7 @@ class CrownstoneUtil {
             try {
                 macAddress = await CrownstoneHub_1.CrownstoneHub.uart.connection.config.getMacAddress();
                 log.info("Obtained MAC Address", macAddress);
-                let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
+                let linkedStoneId = (0, MemoryDb_1.getStoneIdFromMacAdddress)(macAddress);
                 if (String(hub.linkedStoneId) !== String(linkedStoneId)) {
                     hub.linkedStoneId = linkedStoneId;
                     // @ts-ignore
@@ -31,7 +31,7 @@ class CrownstoneUtil {
                 if (err?.statusCode === 404) {
                     await CrownstoneHub_1.CrownstoneHub.cloud.sync();
                     // if we synced, and still cant find the dongle, we will reset the hub
-                    let linkedStoneId = MemoryDb_1.getStoneIdFromMacAdddress(macAddress);
+                    let linkedStoneId = (0, MemoryDb_1.getStoneIdFromMacAdddress)(macAddress);
                     if (!linkedStoneId) {
                         log.warn("Crownstone USB Instance does not exist in the cloud anymore. Resetting hub...");
                         await CrownstoneUtil.deleteCrownstoneHub(true);
@@ -53,7 +53,7 @@ class CrownstoneUtil {
             // make sure all the pending cloud issues are finished before we remove everything.
             await CrownstoneHub_1.CrownstoneHub.cloud.cleanup();
             let hub = await DbReference_1.Dbs.hub.get();
-            HubStatus_1.resetHubStatus();
+            (0, HubStatus_1.resetHubStatus)();
             let hubExists = false;
             if (hub) {
                 try {

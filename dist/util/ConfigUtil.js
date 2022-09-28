@@ -9,7 +9,7 @@ const path_1 = tslib_1.__importDefault(require("path"));
 const Logger_1 = require("../Logger");
 const HubEventBus_1 = require("../crownstone/HubEventBus");
 const topics_1 = require("../crownstone/topics");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const defaultConfig = {
     useDevControllers: false,
     useLogControllers: false,

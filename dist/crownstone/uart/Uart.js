@@ -14,7 +14,7 @@ const HubStatusManager_1 = require("./HubStatusManager");
 const FilterSyncer_1 = require("crownstone-core/dist/util/FilterSyncer");
 const crownstone_core_1 = require("crownstone-core");
 const FilterManager_1 = require("../filters/FilterManager");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class Uart {
     constructor(cloud) {
         this.ready = false;
@@ -228,7 +228,7 @@ class Uart {
                 case "TARGET_HAS_HIGHER_VERSION":
                     if (receivedMasterVersion) {
                         // set our version one higher than the one on the Crownstone.
-                        filterSet.masterVersion = crownstone_core_1.increaseMasterVersion(receivedMasterVersion);
+                        filterSet.masterVersion = (0, crownstone_core_1.increaseMasterVersion)(receivedMasterVersion);
                         await DbReference_1.Dbs.assetFilterSets.update(filterSet);
                         return this.syncFilters();
                     }
@@ -237,7 +237,7 @@ class Uart {
                     }
                 case "TARGET_HAS_SAME_VERSION_DIFFERENT_CRC":
                     // bump our version.
-                    filterSet.masterVersion = crownstone_core_1.increaseMasterVersion(filterSet.masterVersion);
+                    filterSet.masterVersion = (0, crownstone_core_1.increaseMasterVersion)(filterSet.masterVersion);
                     await DbReference_1.Dbs.assetFilterSets.update(filterSet);
                     return this.syncFilters();
                 case crownstone_core_1.ResultValue.WRONG_STATE:

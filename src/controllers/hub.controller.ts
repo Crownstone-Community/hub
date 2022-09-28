@@ -38,7 +38,7 @@ export class HubController {
       try {
         await cloud.hubLogin(newHub.cloudId, newHub.token);
       }
-      catch (e) {
+      catch (e: any) {
         if (e && e.statusCode === 401) {
           throw new HttpErrors.BadRequest("Invalid token/cloudId combination.");
         }

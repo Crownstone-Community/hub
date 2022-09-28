@@ -16,13 +16,13 @@ class HubDataParser {
         this.dataType = stepper.getUInt16();
         switch (this.dataType) {
             case HubProtocol_1.HubDataType.SETUP:
-                return HubDataParsers_1.parseHubSetup(this, stepper);
+                return (0, HubDataParsers_1.parseHubSetup)(this, stepper);
             case HubProtocol_1.HubDataType.REQUEST_DATA:
-                return HubDataParsers_1.parseRequestData(this, stepper);
+                return (0, HubDataParsers_1.parseRequestData)(this, stepper);
             case HubProtocol_1.HubDataType.FACTORY_RESET:
-                return HubDataParsers_1.parseFactoryResetData(this, stepper);
+                return (0, HubDataParsers_1.parseFactoryResetData)(this, stepper);
             case HubProtocol_1.HubDataType.FACTORY_RESET_HUB_ONLY:
-                return HubDataParsers_1.parseFactoryResetHubOnlyData(this, stepper);
+                return (0, HubDataParsers_1.parseFactoryResetHubOnlyData)(this, stepper);
         }
     }
 }

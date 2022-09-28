@@ -18,8 +18,8 @@ let AssetFilterSetRepository = class AssetFilterSetRepository extends timestampe
     }
 };
 AssetFilterSetRepository = tslib_1.__decorate([
-    tslib_1.__param(0, core_1.inject('datasources.mongo')),
-    tslib_1.__param(1, repository_1.repository(asset_filter_repository_1.AssetFilterRepository)),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.mongo')),
+    tslib_1.__param(1, (0, repository_1.repository)(asset_filter_repository_1.AssetFilterRepository)),
     tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource, asset_filter_repository_1.AssetFilterRepository])
 ], AssetFilterSetRepository);
 exports.AssetFilterSetRepository = AssetFilterSetRepository;

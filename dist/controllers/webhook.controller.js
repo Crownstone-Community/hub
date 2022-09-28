@@ -63,14 +63,14 @@ let WebhookController = class WebhookController {
     }
 };
 tslib_1.__decorate([
-    rest_1.post('/webhooks'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.requestBody({
+    (0, rest_1.post)('/webhooks'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, (0, rest_1.requestBody)({
         required: true,
         content: {
             'application/json': {
-                schema: rest_1.getModelSchemaRef(webhook_model_1.Webhook, {
+                schema: (0, rest_1.getModelSchemaRef)(webhook_model_1.Webhook, {
                     title: 'NewWebhook',
                     exclude: ['id'],
                 }),
@@ -83,33 +83,33 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], WebhookController.prototype, "createWebhook", null);
 tslib_1.__decorate([
-    rest_1.get('/webhooks'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/webhooks'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], WebhookController.prototype, "getWebhooks", null);
 tslib_1.__decorate([
-    rest_1.del('/webhooks/{id}'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/webhooks/{id}'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.path.string('id')),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], WebhookController.prototype, "deleteWebhook", null);
 tslib_1.__decorate([
-    rest_1.del('/webhooks/all'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/webhooks/all'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.string('YesImSure', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], WebhookController.prototype, "deleteAllAssets", null);
 WebhookController = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(webhook_repository_1.WebhookRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(webhook_repository_1.WebhookRepository)),
     tslib_1.__metadata("design:paramtypes", [webhook_repository_1.WebhookRepository])
 ], WebhookController);
 exports.WebhookController = WebhookController;

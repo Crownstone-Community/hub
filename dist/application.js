@@ -17,15 +17,15 @@ const csAdminToken_strategy_1 = require("./security/authentication-strategies/cs
 const Logger_1 = require("./Logger");
 const dev_controller_1 = require("./controllers/development/dev.controller");
 const pkg = require('../package.json');
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 exports.BOOT_TIME = Date.now();
-class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(repository_1.RepositoryMixin(rest_1.RestApplication))) {
+class CrownstoneHubApplication extends (0, boot_1.BootMixin)((0, service_proxy_1.ServiceMixin)((0, repository_1.RepositoryMixin)(rest_1.RestApplication))) {
     constructor(options = {}) {
         let executionPath = __dirname;
         if (options.customPath !== undefined) {
             executionPath = options.customPath;
         }
-        let customPort = ConfigUtil_1.getHttpsPort();
+        let customPort = (0, ConfigUtil_1.getHttpsPort)();
         if (options.rest && options.rest.port !== undefined) {
             customPort = options.rest.port;
         }
@@ -47,8 +47,8 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
         this.component(authentication_1.AuthenticationComponent);
         this.component(authorization_1.AuthorizationComponent);
         // authentication
-        authentication_1.registerAuthenticationStrategy(this, csToken_strategy_1.CsTokenStrategy);
-        authentication_1.registerAuthenticationStrategy(this, csAdminToken_strategy_1.CsAdminTokenStrategy);
+        (0, authentication_1.registerAuthenticationStrategy)(this, csToken_strategy_1.CsTokenStrategy);
+        (0, authentication_1.registerAuthenticationStrategy)(this, csAdminToken_strategy_1.CsAdminTokenStrategy);
         // Set up the custom sequence
         this.sequence(sequence_1.CrownstoneSequence);
         // Customize @loopback/rest-explorer configuration here
@@ -86,7 +86,7 @@ class CrownstoneHubApplication extends boot_1.BootMixin(service_proxy_1.ServiceM
 }
 exports.CrownstoneHubApplication = CrownstoneHubApplication;
 function updateControllersBasedOnConfig(app) {
-    let hubConfig = ConfigUtil_1.getHubConfig();
+    let hubConfig = (0, ConfigUtil_1.getHubConfig)();
     if (hubConfig.useLogControllers) {
         app.controller(log_controller_1.LogController);
     }
@@ -96,7 +96,7 @@ function updateControllersBasedOnConfig(app) {
 }
 exports.updateControllersBasedOnConfig = updateControllersBasedOnConfig;
 function updateLoggingBasedOnConfig() {
-    let hubConfig = ConfigUtil_1.getHubConfig();
+    let hubConfig = (0, ConfigUtil_1.getHubConfig)();
     let individualFileLoggingEnabled = false;
     let loggers = log.config.getLoggerIds();
     let overrideLoggerIds = Object.keys(hubConfig.logging);

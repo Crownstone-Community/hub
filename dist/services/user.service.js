@@ -17,7 +17,7 @@ let UserService = class UserService {
     }
 };
 UserService = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(repositories_1.UserRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(repositories_1.UserRepository)),
     tslib_1.__metadata("design:paramtypes", [repositories_1.UserRepository])
 ], UserService);
 exports.UserService = UserService;

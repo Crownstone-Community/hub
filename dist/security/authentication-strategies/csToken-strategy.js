@@ -26,7 +26,7 @@ let CsTokenStrategy = class CsTokenStrategy {
     }
 };
 CsTokenStrategy = tslib_1.__decorate([
-    tslib_1.__param(0, context_1.inject('UserService')),
+    tslib_1.__param(0, (0, context_1.inject)('UserService')),
     tslib_1.__metadata("design:paramtypes", [services_1.UserService])
 ], CsTokenStrategy);
 exports.CsTokenStrategy = CsTokenStrategy;

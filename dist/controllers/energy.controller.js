@@ -25,7 +25,7 @@ let EnergyController = class EnergyController {
             let result = [];
             let uids = await collection.distinct('stoneUID');
             for (let i = 0; i < uids.length; i++) {
-                let data = MemoryDb_1.fillWithStoneData(uids[i]);
+                let data = (0, MemoryDb_1.fillWithStoneData)(uids[i]);
                 data.count = 0;
                 if (data.cloudId) {
                     let countData = await this.energyDataProcessedRepo.count({ stoneUID: uids[i], interval: '1m' });
@@ -83,17 +83,17 @@ let EnergyController = class EnergyController {
     }
 };
 tslib_1.__decorate([
-    rest_1.get('/energyAvailability'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/energyAvailability'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "getEnergyAvailability", null);
 tslib_1.__decorate([
-    rest_1.get('/energyRange'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/energyRange'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
     tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
@@ -105,9 +105,9 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "getEnergyData", null);
 tslib_1.__decorate([
-    rest_1.del('/energyFromCrownstone'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/energyFromCrownstone'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
     tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
@@ -117,9 +117,9 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "deleteStoneEnergy", null);
 tslib_1.__decorate([
-    rest_1.del('/energyData'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/energyData'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.dateTime('from', { required: false })),
     tslib_1.__param(2, rest_1.param.query.dateTime('until', { required: false })),
     tslib_1.__metadata("design:type", Function),
@@ -128,8 +128,8 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], EnergyController.prototype, "deleteAllEnergyData", null);
 EnergyController = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(repositories_1.EnergyDataProcessedRepository)),
-    tslib_1.__param(1, repository_1.repository(repositories_1.EnergyDataRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(repositories_1.EnergyDataProcessedRepository)),
+    tslib_1.__param(1, (0, repository_1.repository)(repositories_1.EnergyDataRepository)),
     tslib_1.__metadata("design:paramtypes", [repositories_1.EnergyDataProcessedRepository,
         repositories_1.EnergyDataRepository])
 ], EnergyController);

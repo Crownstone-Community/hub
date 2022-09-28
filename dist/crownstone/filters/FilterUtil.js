@@ -65,7 +65,7 @@ exports.FilterUtil = {
         for (let filter of filters) {
             payload[filter.idOnCrownstone] = parseInt(filter.dataCRC, 16);
         }
-        return crownstone_core_1.getMasterCRC(payload);
+        return (0, crownstone_core_1.getMasterCRC)(payload);
     },
     getMetaDataDescriptionFromAsset: function (asset, filterType) {
         if (filterType === "EXACT_MATCH") {

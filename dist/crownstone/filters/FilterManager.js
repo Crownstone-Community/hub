@@ -45,7 +45,7 @@ class FilterManagerClass {
                 changeRequired = true;
             }
             if (changeRequired) {
-                set.masterVersion = crownstone_core_1.increaseMasterVersion(set.masterVersion);
+                set.masterVersion = (0, crownstone_core_1.increaseMasterVersion)(set.masterVersion);
                 set.masterCRC = FilterUtil_1.FilterUtil.generateMasterCRC(allFilters);
                 await updateFilterSetIds(allFilters, set.id);
                 await DbReference_1.Dbs.assetFilterSets.update(set);

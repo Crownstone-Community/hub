@@ -42,7 +42,7 @@ export class CloudManager {
   interval_ip   : Timeout | null = null;
 
   constructor() {
-    this.cloud = new CrownstoneCloud("https://cloud.crownstone.rocks/api/");
+    this.cloud = new CrownstoneCloud();
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();
@@ -161,7 +161,7 @@ export class CloudManager {
 
           this.initialized = true;
         }
-        catch (err) {
+        catch (err: any) {
           log.warn("We could not initialize the Cloud manager. Maybe this hub or sphere has been removed from the cloud?", err);
           eventBus.emit(topics.CLOUD_AUTHENTICATION_PROBLEM_401);
           this.initialized = false;
@@ -214,7 +214,8 @@ export class CloudManager {
           hub.accessToken = loginData.accessToken;
           hub.accessTokenExpiration = new Date((loginData.ttl * 1000) + Date.now());
           await Dbs.hub.update(hub);
-        } catch (e) {
+        }
+        catch (e: any) {
           log.warn("Error in login to cloud", e);
           HubStatus.loggedIntoCloud = false;
           // we can get a 401 if a sphere is deleted, or if our hub entity is deleted (and it's tokens removed)
@@ -229,7 +230,7 @@ export class CloudManager {
       log.info("Cloudmanager login finished.");
       this.loginInProgress = false;
     }
-    catch (e) {
+    catch (e: any) {
       log.warn("Login failed...", e);
       this.loginInProgress = false;
       await Util.wait(RETRY_INTERVAL_MS);
@@ -253,7 +254,7 @@ export class CloudManager {
         if (stones) { MemoryDb.loadCloudStoneData(stones); }
         stonesSynced = true;
       }
-      catch(e) {
+      catch(e: any) {
         HubStatus.syncedWithCloud = false;
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
@@ -271,7 +272,7 @@ export class CloudManager {
         usersObtained = true;
         await Dbs.user.merge(sphereUsers, tokenSets);
       }
-      catch(e) {
+      catch(e: any) {
         HubStatus.syncedWithCloud = false;
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and go back to un-initialized state.
@@ -288,7 +289,7 @@ export class CloudManager {
         if (locations) { MemoryDb.loadCloudLocationData(locations); }
         locationsSynced = true;
       }
-      catch(e) {
+      catch(e: any) {
         HubStatus.syncedWithCloud = false;
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
         // Both scenarios are equally breaking to a hub. We will unlink the cloud connection and attempt re-initialization.
@@ -320,7 +321,7 @@ export class CloudManager {
         await this.sse.hubLogin(hub.cloudId, hub.token); sseLoggedIn = true;
         log.info("Login to SSE sucessful:", (this.sse as any).accessToken);
       }
-      catch(e) {
+      catch(e: any) {
         log.warn("Error in SSE", e);
         HubStatus.loggedIntoSSE = false;
         // we can get a 401 if a sphere is deleted, out accessToken has expired, or if our hub entity is deleted (and it's tokens removed)
@@ -353,7 +354,7 @@ export class CloudManager {
           await this.cloud.hub().setLocalIpAddress(ipAddress, getHttpPort(), getHttpsPort());
           this.storedIpAddress = ipAddress;
           ipUpdated = true;
-        } catch (e) {
+        } catch (e: any) {
           if (e && e.statusCode && e.statusCode === 401) { throw 401; }
           log.warn("Error updating local IP address", e);
           await Util.wait(RETRY_INTERVAL_MS);

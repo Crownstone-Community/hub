@@ -66,39 +66,39 @@ let HubController = class HubController {
     }
 };
 tslib_1.__decorate([
-    rest_1.post('/hub'),
-    tslib_1.__param(0, rest_1.requestBody({
-        content: { 'application/json': { schema: rest_1.getModelSchemaRef(models_1.Hub, { title: 'newHub', exclude: ['id', 'uartKey', 'accessToken', 'accessTokenExpiration'] }) } },
+    (0, rest_1.post)('/hub'),
+    tslib_1.__param(0, (0, rest_1.requestBody)({
+        content: { 'application/json': { schema: (0, rest_1.getModelSchemaRef)(models_1.Hub, { title: 'newHub', exclude: ['id', 'uartKey', 'accessToken', 'accessTokenExpiration'] }) } },
     })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "createHub", null);
 tslib_1.__decorate([
-    rest_1.del('/hub/'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    (0, rest_1.del)('/hub/'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, rest_1.param.query.string('YesImSure', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "delete", null);
 tslib_1.__decorate([
-    rest_1.del('/hub/everything'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    (0, rest_1.del)('/hub/everything'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
     tslib_1.__param(0, rest_1.param.query.string('YesImSure', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "deleteEverything", null);
 tslib_1.__decorate([
-    rest_1.get('/hubStatus'),
+    (0, rest_1.get)('/hubStatus'),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "getHubStatus", null);
 HubController = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(hub_repository_1.HubRepository)),
-    tslib_1.__param(1, repository_1.repository(repositories_1.UserRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(hub_repository_1.HubRepository)),
+    tslib_1.__param(1, (0, repository_1.repository)(repositories_1.UserRepository)),
     tslib_1.__metadata("design:paramtypes", [hub_repository_1.HubRepository,
         repositories_1.UserRepository])
 ], HubController);

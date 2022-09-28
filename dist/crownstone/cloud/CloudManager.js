@@ -14,7 +14,7 @@ const HubStatus_1 = require("../HubStatus");
 const HubUtil_1 = require("../../util/HubUtil");
 const ConfigUtil_1 = require("../../util/ConfigUtil");
 const CrownstoneUtil_1 = require("../CrownstoneUtil");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const RETRY_INTERVAL_MS = 5000;
 class CloudManager {
     constructor() {
@@ -32,7 +32,7 @@ class CloudManager {
         this.intervalsRegistered = false;
         this.interval_sync = null;
         this.interval_ip = null;
-        this.cloud = new crownstone_cloud_1.CrownstoneCloud("https://cloud.crownstone.rocks/api/");
+        this.cloud = new crownstone_cloud_1.CrownstoneCloud();
         this.sseEventHandler = new SseEventHandler_1.SseEventHandler();
         this.setupEvents();
     }
@@ -324,13 +324,13 @@ class CloudManager {
         }
         log.info("Cloudmanager IP update started.");
         this.ipUpdateInprogress = true;
-        let ipAddress = HubUtil_1.getIpAddress();
+        let ipAddress = (0, HubUtil_1.getIpAddress)();
         // we update the ip regardless of local change. WE DO NOT CARE IF ITS THE SAME. this method also updates external ip address and the last seen.
         if (ipAddress) {
             let ipUpdated = false;
             while (ipUpdated == false && this.resetTriggered === false) {
                 try {
-                    await this.cloud.hub().setLocalIpAddress(ipAddress, ConfigUtil_1.getHttpPort(), ConfigUtil_1.getHttpsPort());
+                    await this.cloud.hub().setLocalIpAddress(ipAddress, (0, ConfigUtil_1.getHttpPort)(), (0, ConfigUtil_1.getHttpsPort)());
                     this.storedIpAddress = ipAddress;
                     ipUpdated = true;
                 }

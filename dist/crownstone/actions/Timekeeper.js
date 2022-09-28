@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Timekeeper = void 0;
 const Logger_1 = require("../../Logger");
 const crownstone_core_1 = require("crownstone-core");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class Timekeeper {
     constructor(hub) {
         this.hubReference = hub;

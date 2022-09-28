@@ -1,7 +1,8 @@
+/// <reference types="express" />
+import { Request } from '@loopback/rest';
 import { AuthenticationStrategy } from '@loopback/authentication';
 import { securityId, UserProfile } from '@loopback/security';
 import { UserService } from '../../services';
-import { Request } from "express-serve-static-core";
 export interface UserProfileDescription {
     [securityId]: string;
     permissions: {

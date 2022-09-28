@@ -18,15 +18,15 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     mountComponentBooters(componentInstanceOrClass: import("@loopback/core").Constructor<unknown> | import("@loopback/boot").InstanceWithBooters): void;
     readonly options: ApplicationConfig;
     readonly state: string;
-    controller: <T_1>(controllerCtor: import("@loopback/core").Constructor<T_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1>;
+    controller: <T_1>(controllerCtor: import("@loopback/core").ControllerClass<T_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1>;
     server: <T_2 extends import("@loopback/core").Server>(ctor: import("@loopback/core").Constructor<T_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_2>;
     servers: <T_3 extends import("@loopback/core").Server>(ctors: import("@loopback/core").Constructor<T_3>[]) => import("@loopback/boot").Binding<any>[];
     getServer: <T_4 extends import("@loopback/core").Server>(target: string | import("@loopback/core").Constructor<T_4>) => Promise<T_4>;
     init: () => Promise<void>;
-    onInit: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
-    onStart: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onInit: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStart: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     stop: () => Promise<void>;
-    onStop: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStop: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     setMetadata: (metadata: import("@loopback/core").ApplicationMetadata) => void;
     lifeCycleObserver: <T_5 extends import("@loopback/core").LifeCycleObserver>(ctor: import("@loopback/core").Constructor<T_5>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_5>;
     service: <S>(cls: import("@loopback/core").ServiceOrProviderClass<S>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S>;
@@ -39,7 +39,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     emitError: (err: unknown) => void;
     bind: <ValueType = any>(key: import("@loopback/core").BindingAddress<ValueType>) => import("@loopback/boot").Binding<ValueType>;
     add: (binding: import("@loopback/boot").Binding<unknown>) => import("@loopback/core").Application;
-    configure: <ConfigValueType = any>(key?: string | import("@loopback/core").BindingKey<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType>;
+    configure: <ConfigValueType = any>(key?: import("@loopback/core").BindingAddress<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType>;
     getConfigAsValueOrPromise: <ConfigValueType_1>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => import("@loopback/core").ValueOrPromise<ConfigValueType_1 | undefined>;
     getConfig: <ConfigValueType_2>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => Promise<ConfigValueType_2 | undefined>;
     getConfigSync: <ConfigValueType_3>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => ConfigValueType_3 | undefined;
@@ -48,15 +48,15 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     unsubscribe: (observer: import("@loopback/core").ContextEventObserver) => boolean;
     close: () => void;
     isSubscribed: (observer: import("@loopback/core").ContextObserver) => boolean;
-    createView: <T_7 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined) => import("@loopback/core").ContextView<T_7>;
+    createView: <T_7 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined, options?: Omit<import("@loopback/core").ResolutionOptions, "session"> | undefined) => import("@loopback/core").ContextView<T_7>;
     contains: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
     isBound: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
-    getOwnerContext: (keyOrBinding: string | import("@loopback/core").BindingKey<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
+    getOwnerContext: (keyOrBinding: import("@loopback/core").BindingAddress<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     getScopedContext: (scope: import("@loopback/core").BindingScope.APPLICATION | import("@loopback/core").BindingScope.SERVER | import("@loopback/core").BindingScope.REQUEST) => import("@loopback/core").Context | undefined;
     getResolutionContext: (binding: Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     isVisibleTo: (ctx: import("@loopback/core").Context) => boolean;
     find: <ValueType_1 = any>(pattern?: string | RegExp | import("@loopback/core").BindingFilter | undefined) => Readonly<import("@loopback/boot").Binding<ValueType_1>>[];
-    findByTag: <ValueType_2 = any>(tagFilter: string | RegExp | Record<string, any>) => Readonly<import("@loopback/boot").Binding<ValueType_2>>[];
+    findByTag: <ValueType_2 = any>(tagFilter: RegExp | import("@loopback/core").BindingTag) => Readonly<import("@loopback/boot").Binding<ValueType_2>>[];
     get: {
         <ValueType_3>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_3>, session?: import("@loopback/core").ResolutionSession | undefined): Promise<ValueType_3>;
         <ValueType_4>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_4>, options: import("@loopback/core").ResolutionOptions): Promise<ValueType_4 | undefined>;
@@ -72,7 +72,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         } | undefined): import("@loopback/boot").Binding<ValueType_8> | undefined;
     };
     findOrCreateBinding: <T_8>(key: import("@loopback/core").BindingAddress<T_8>, policy?: import("@loopback/core").BindingCreationPolicy | undefined) => import("@loopback/boot").Binding<T_8>;
-    getValueOrPromise: <ValueType_9>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9>, optionsOrSession?: import("@loopback/core").ResolutionOptions | import("@loopback/core").ResolutionSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9 | undefined>;
+    getValueOrPromise: <ValueType_9>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9>, optionsOrSession?: import("@loopback/core").ResolutionOptionsOrSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9 | undefined>;
     toJSON: () => import("@loopback/core").JSONObject;
     inspect: (options?: import("@loopback/core").ContextInspectOptions | undefined) => import("@loopback/core").JSONObject;
     on: {
@@ -84,8 +84,6 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         (event: string | symbol, listener: (...args: any[]) => void): import("@loopback/core").Application;
     };
     addListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     off: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeAllListeners: (event?: string | symbol | undefined) => import("@loopback/core").Application;
@@ -94,15 +92,17 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     listeners: (event: string | symbol) => Function[];
     rawListeners: (event: string | symbol) => Function[];
     emit: (event: string | symbol, ...args: any[]) => boolean;
+    listenerCount: (event: string | symbol) => number;
+    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
+    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     eventNames: () => (string | symbol)[];
-    listenerCount: (type: string | symbol) => number;
 }) & (new (...args: any[]) => {
     serviceProvider<S_1>(provider: import("@loopback/core").Constructor<import("@loopback/core").Provider<S_1>>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined): import("@loopback/boot").Binding<S_1>;
     component<C_1 extends import("@loopback/core").Component = import("@loopback/core").Component>(componentCtor: import("@loopback/core").Constructor<C_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined): import("@loopback/boot").Binding<C_1>;
-    mountComponentServices<C_1_1 extends import("@loopback/core").Component = import("@loopback/core").Component>(component: import("@loopback/core").Constructor<C_1_1>, componentBindingKey?: string | import("@loopback/core").BindingKey<C_1_1> | undefined): void;
+    mountComponentServices<C_1 extends import("@loopback/core").Component = import("@loopback/core").Component>(component: import("@loopback/core").Constructor<C_1>, componentBindingKey?: import("@loopback/core").BindingAddress<C_1> | undefined): void;
     readonly options: ApplicationConfig;
     readonly state: string;
-    controller: <T_1_1>(controllerCtor: import("@loopback/core").Constructor<T_1_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1_1>;
+    controller: <T_1_1>(controllerCtor: import("@loopback/core").ControllerClass<T_1_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1_1>;
     server: <T_2_1 extends import("@loopback/core").Server>(ctor: import("@loopback/core").Constructor<T_2_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_2_1>;
     servers: <T_3_1 extends import("@loopback/core").Server>(ctors: import("@loopback/core").Constructor<T_3_1>[]) => import("@loopback/boot").Binding<any>[];
     getServer: <T_4_1 extends import("@loopback/core").Server>(target: string | import("@loopback/core").Constructor<T_4_1>) => Promise<T_4_1>;
@@ -114,7 +114,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     onStop: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     setMetadata: (metadata: import("@loopback/core").ApplicationMetadata) => void;
     lifeCycleObserver: <T_5_1 extends import("@loopback/core").LifeCycleObserver>(ctor: import("@loopback/core").Constructor<T_5_1>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_5_1>;
-    service: <S_2>(cls: import("@loopback/core").ServiceOrProviderClass<S_2>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S_2>;
+    service: <S_1>(cls: import("@loopback/core").ServiceOrProviderClass<S_1>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S_1>;
     interceptor: (interceptor: import("@loopback/core").Interceptor | import("@loopback/core").Constructor<import("@loopback/core").Provider<import("@loopback/core").Interceptor>>, nameOrOptions?: string | import("@loopback/core").InterceptorBindingOptions | undefined) => import("@loopback/boot").Binding<import("@loopback/core").Interceptor>;
     readonly name: string;
     readonly subscriptionManager: import("@loopback/core").ContextSubscriptionManager;
@@ -124,7 +124,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     emitError: (err: unknown) => void;
     bind: <ValueType_10 = any>(key: import("@loopback/core").BindingAddress<ValueType_10>) => import("@loopback/boot").Binding<ValueType_10>;
     add: (binding: import("@loopback/boot").Binding<unknown>) => import("@loopback/core").Application;
-    configure: <ConfigValueType_4 = any>(key?: string | import("@loopback/core").BindingKey<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType_4>;
+    configure: <ConfigValueType_4 = any>(key?: import("@loopback/core").BindingAddress<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType_4>;
     getConfigAsValueOrPromise: <ConfigValueType_1_1>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => import("@loopback/core").ValueOrPromise<ConfigValueType_1_1 | undefined>;
     getConfig: <ConfigValueType_2_1>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => Promise<ConfigValueType_2_1 | undefined>;
     getConfigSync: <ConfigValueType_3_1>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => ConfigValueType_3_1 | undefined;
@@ -133,15 +133,15 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     unsubscribe: (observer: import("@loopback/core").ContextEventObserver) => boolean;
     close: () => void;
     isSubscribed: (observer: import("@loopback/core").ContextObserver) => boolean;
-    createView: <T_7_1 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined) => import("@loopback/core").ContextView<T_7_1>;
+    createView: <T_7_1 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined, options?: Omit<import("@loopback/core").ResolutionOptions, "session"> | undefined) => import("@loopback/core").ContextView<T_7_1>;
     contains: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
     isBound: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
-    getOwnerContext: (keyOrBinding: string | import("@loopback/core").BindingKey<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
+    getOwnerContext: (keyOrBinding: import("@loopback/core").BindingAddress<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     getScopedContext: (scope: import("@loopback/core").BindingScope.APPLICATION | import("@loopback/core").BindingScope.SERVER | import("@loopback/core").BindingScope.REQUEST) => import("@loopback/core").Context | undefined;
     getResolutionContext: (binding: Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     isVisibleTo: (ctx: import("@loopback/core").Context) => boolean;
     find: <ValueType_1_1 = any>(pattern?: string | RegExp | import("@loopback/core").BindingFilter | undefined) => Readonly<import("@loopback/boot").Binding<ValueType_1_1>>[];
-    findByTag: <ValueType_2_1 = any>(tagFilter: string | RegExp | Record<string, any>) => Readonly<import("@loopback/boot").Binding<ValueType_2_1>>[];
+    findByTag: <ValueType_2_1 = any>(tagFilter: RegExp | import("@loopback/core").BindingTag) => Readonly<import("@loopback/boot").Binding<ValueType_2_1>>[];
     get: {
         <ValueType_3_1>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_3_1>, session?: import("@loopback/core").ResolutionSession | undefined): Promise<ValueType_3_1>;
         <ValueType_4_1>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_4_1>, options: import("@loopback/core").ResolutionOptions): Promise<ValueType_4_1 | undefined>;
@@ -157,7 +157,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         } | undefined): import("@loopback/boot").Binding<ValueType_8_1> | undefined;
     };
     findOrCreateBinding: <T_8_1>(key: import("@loopback/core").BindingAddress<T_8_1>, policy?: import("@loopback/core").BindingCreationPolicy | undefined) => import("@loopback/boot").Binding<T_8_1>;
-    getValueOrPromise: <ValueType_9_1>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9_1>, optionsOrSession?: import("@loopback/core").ResolutionOptions | import("@loopback/core").ResolutionSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9_1 | undefined>;
+    getValueOrPromise: <ValueType_9_1>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9_1>, optionsOrSession?: import("@loopback/core").ResolutionOptionsOrSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9_1 | undefined>;
     toJSON: () => import("@loopback/core").JSONObject;
     inspect: (options?: import("@loopback/core").ContextInspectOptions | undefined) => import("@loopback/core").JSONObject;
     on: {
@@ -169,8 +169,6 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         (event: string | symbol, listener: (...args: any[]) => void): import("@loopback/core").Application;
     };
     addListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     off: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeAllListeners: (event?: string | symbol | undefined) => import("@loopback/core").Application;
@@ -179,12 +177,14 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     listeners: (event: string | symbol) => Function[];
     rawListeners: (event: string | symbol) => Function[];
     emit: (event: string | symbol, ...args: any[]) => boolean;
+    listenerCount: (event: string | symbol) => number;
+    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
+    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     eventNames: () => (string | symbol)[];
-    listenerCount: (type: string | symbol) => number;
 }) & (new (...args: any[]) => {
     repository<R extends import("@loopback/repository").Repository<any>>(repoClass: import("@loopback/repository").Class<R>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined): import("@loopback/boot").Binding<R>;
-    getRepository<R_2 extends import("@loopback/repository").Repository<any>>(repo: import("@loopback/repository").Class<R_2>): Promise<R_2>;
-    dataSource<D extends import("loopback-datasource-juggler").DataSource>(dataSource: D | import("@loopback/repository").Class<D>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined): import("@loopback/boot").Binding<D>;
+    getRepository<R_1 extends import("@loopback/repository").Repository<any>>(repo: import("@loopback/repository").Class<R_1>): Promise<R_1>;
+    dataSource<D extends import("@loopback/repository").JugglerDataSource>(dataSource: D | import("@loopback/repository").Class<D>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined): import("@loopback/boot").Binding<D>;
     model<M extends import("@loopback/repository").Class<unknown>>(modelClass: M): import("@loopback/boot").Binding<M>;
     component<C_2 extends import("@loopback/core").Component = import("@loopback/core").Component>(componentCtor: import("@loopback/core").Constructor<C_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined): import("@loopback/boot").Binding<C_2>;
     mountComponentRepositories(componentInstanceOrClass: import("@loopback/repository").RepositoryComponent | import("@loopback/repository").Class<unknown>): void;
@@ -192,19 +192,19 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     migrateSchema(options?: import("@loopback/repository").SchemaMigrationOptions | undefined): Promise<void>;
     readonly options: ApplicationConfig;
     readonly state: string;
-    controller: <T_1_2>(controllerCtor: import("@loopback/core").Constructor<T_1_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1_2>;
+    controller: <T_1_2>(controllerCtor: import("@loopback/core").ControllerClass<T_1_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_1_2>;
     server: <T_2_2 extends import("@loopback/core").Server>(ctor: import("@loopback/core").Constructor<T_2_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_2_2>;
     servers: <T_3_2 extends import("@loopback/core").Server>(ctors: import("@loopback/core").Constructor<T_3_2>[]) => import("@loopback/boot").Binding<any>[];
     getServer: <T_4_2 extends import("@loopback/core").Server>(target: string | import("@loopback/core").Constructor<T_4_2>) => Promise<T_4_2>;
     init: () => Promise<void>;
-    onInit: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onInit: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     start: () => Promise<void>;
-    onStart: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStart: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     stop: () => Promise<void>;
-    onStop: (fn: () => void | PromiseLike<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
+    onStop: (fn: () => import("@loopback/core").ValueOrPromise<void>) => import("@loopback/boot").Binding<import("@loopback/core").LifeCycleObserver>;
     setMetadata: (metadata: import("@loopback/core").ApplicationMetadata) => void;
     lifeCycleObserver: <T_5_2 extends import("@loopback/core").LifeCycleObserver>(ctor: import("@loopback/core").Constructor<T_5_2>, nameOrOptions?: string | import("@loopback/core").BindingFromClassOptions | undefined) => import("@loopback/boot").Binding<T_5_2>;
-    service: <S_3>(cls: import("@loopback/core").ServiceOrProviderClass<S_3>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S_3>;
+    service: <S_2>(cls: import("@loopback/core").ServiceOrProviderClass<S_2>, nameOrOptions?: string | import("@loopback/core").ServiceOptions | undefined) => import("@loopback/boot").Binding<S_2>;
     interceptor: (interceptor: import("@loopback/core").Interceptor | import("@loopback/core").Constructor<import("@loopback/core").Provider<import("@loopback/core").Interceptor>>, nameOrOptions?: string | import("@loopback/core").InterceptorBindingOptions | undefined) => import("@loopback/boot").Binding<import("@loopback/core").Interceptor>;
     readonly name: string;
     readonly subscriptionManager: import("@loopback/core").ContextSubscriptionManager;
@@ -214,7 +214,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     emitError: (err: unknown) => void;
     bind: <ValueType_11 = any>(key: import("@loopback/core").BindingAddress<ValueType_11>) => import("@loopback/boot").Binding<ValueType_11>;
     add: (binding: import("@loopback/boot").Binding<unknown>) => import("@loopback/core").Application;
-    configure: <ConfigValueType_5 = any>(key?: string | import("@loopback/core").BindingKey<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType_5>;
+    configure: <ConfigValueType_5 = any>(key?: import("@loopback/core").BindingAddress<unknown> | undefined) => import("@loopback/boot").Binding<ConfigValueType_5>;
     getConfigAsValueOrPromise: <ConfigValueType_1_2>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => import("@loopback/core").ValueOrPromise<ConfigValueType_1_2 | undefined>;
     getConfig: <ConfigValueType_2_2>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => Promise<ConfigValueType_2_2 | undefined>;
     getConfigSync: <ConfigValueType_3_2>(key: import("@loopback/core").BindingAddress<unknown>, propertyPath?: string | undefined, resolutionOptions?: import("@loopback/core").ResolutionOptions | undefined) => ConfigValueType_3_2 | undefined;
@@ -223,15 +223,15 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     unsubscribe: (observer: import("@loopback/core").ContextEventObserver) => boolean;
     close: () => void;
     isSubscribed: (observer: import("@loopback/core").ContextObserver) => boolean;
-    createView: <T_7_2 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined) => import("@loopback/core").ContextView<T_7_2>;
+    createView: <T_7_2 = unknown>(filter: import("@loopback/core").BindingFilter, comparator?: import("@loopback/core").BindingComparator | undefined, options?: Omit<import("@loopback/core").ResolutionOptions, "session"> | undefined) => import("@loopback/core").ContextView<T_7_2>;
     contains: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
     isBound: (key: import("@loopback/core").BindingAddress<unknown>) => boolean;
-    getOwnerContext: (keyOrBinding: string | import("@loopback/core").BindingKey<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
+    getOwnerContext: (keyOrBinding: import("@loopback/core").BindingAddress<unknown> | Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     getScopedContext: (scope: import("@loopback/core").BindingScope.APPLICATION | import("@loopback/core").BindingScope.SERVER | import("@loopback/core").BindingScope.REQUEST) => import("@loopback/core").Context | undefined;
     getResolutionContext: (binding: Readonly<import("@loopback/boot").Binding<unknown>>) => import("@loopback/core").Context | undefined;
     isVisibleTo: (ctx: import("@loopback/core").Context) => boolean;
     find: <ValueType_1_2 = any>(pattern?: string | RegExp | import("@loopback/core").BindingFilter | undefined) => Readonly<import("@loopback/boot").Binding<ValueType_1_2>>[];
-    findByTag: <ValueType_2_2 = any>(tagFilter: string | RegExp | Record<string, any>) => Readonly<import("@loopback/boot").Binding<ValueType_2_2>>[];
+    findByTag: <ValueType_2_2 = any>(tagFilter: RegExp | import("@loopback/core").BindingTag) => Readonly<import("@loopback/boot").Binding<ValueType_2_2>>[];
     get: {
         <ValueType_3_2>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_3_2>, session?: import("@loopback/core").ResolutionSession | undefined): Promise<ValueType_3_2>;
         <ValueType_4_2>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_4_2>, options: import("@loopback/core").ResolutionOptions): Promise<ValueType_4_2 | undefined>;
@@ -247,7 +247,7 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         } | undefined): import("@loopback/boot").Binding<ValueType_8_2> | undefined;
     };
     findOrCreateBinding: <T_8_2>(key: import("@loopback/core").BindingAddress<T_8_2>, policy?: import("@loopback/core").BindingCreationPolicy | undefined) => import("@loopback/boot").Binding<T_8_2>;
-    getValueOrPromise: <ValueType_9_2>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9_2>, optionsOrSession?: import("@loopback/core").ResolutionOptions | import("@loopback/core").ResolutionSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9_2 | undefined>;
+    getValueOrPromise: <ValueType_9_2>(keyWithPath: import("@loopback/core").BindingAddress<ValueType_9_2>, optionsOrSession?: import("@loopback/core").ResolutionOptionsOrSession | undefined) => import("@loopback/core").ValueOrPromise<ValueType_9_2 | undefined>;
     toJSON: () => import("@loopback/core").JSONObject;
     inspect: (options?: import("@loopback/core").ContextInspectOptions | undefined) => import("@loopback/core").JSONObject;
     on: {
@@ -259,8 +259,6 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
         (event: string | symbol, listener: (...args: any[]) => void): import("@loopback/core").Application;
     };
     addListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
-    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     off: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     removeAllListeners: (event?: string | symbol | undefined) => import("@loopback/core").Application;
@@ -269,8 +267,10 @@ declare const CrownstoneHubApplication_base: (new (...args: any[]) => {
     listeners: (event: string | symbol) => Function[];
     rawListeners: (event: string | symbol) => Function[];
     emit: (event: string | symbol, ...args: any[]) => boolean;
+    listenerCount: (event: string | symbol) => number;
+    prependListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
+    prependOnceListener: (event: string | symbol, listener: (...args: any[]) => void) => import("@loopback/core").Application;
     eventNames: () => (string | symbol)[];
-    listenerCount: (type: string | symbol) => number;
 }) & typeof RestApplication;
 export declare class CrownstoneHubApplication extends CrownstoneHubApplication_base {
     constructor(options?: ApplicationConfig);

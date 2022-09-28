@@ -13,7 +13,7 @@ let DatabaseInfoRepository = class DatabaseInfoRepository extends repository_1.D
     }
 };
 DatabaseInfoRepository = tslib_1.__decorate([
-    tslib_1.__param(0, core_1.inject('datasources.mongo')),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.mongo')),
     tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource])
 ], DatabaseInfoRepository);
 exports.DatabaseInfoRepository = DatabaseInfoRepository;

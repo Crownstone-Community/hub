@@ -18,14 +18,14 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
                 if (partialHub) {
                     // casting to string here is important because mongo Ids are not strings...
                     if (String(entity.sphereId) !== String(partialHub?.sphereId)) {
-                        await DbUtil_1.EMPTY_DATABASE();
+                        await (0, DbUtil_1.EMPTY_DATABASE)();
                     }
                     else {
                         await this.delete(partialHub);
                     }
                 }
                 else {
-                    await DbUtil_1.EMPTY_DATABASE();
+                    await (0, DbUtil_1.EMPTY_DATABASE)();
                 }
             }
             return super.create(entity, options);
@@ -65,7 +65,7 @@ let HubRepository = class HubRepository extends repository_1.DefaultCrudReposito
     }
 };
 HubRepository = tslib_1.__decorate([
-    tslib_1.__param(0, core_1.inject('datasources.mongo')),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.mongo')),
     tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource])
 ], HubRepository);
 exports.HubRepository = HubRepository;

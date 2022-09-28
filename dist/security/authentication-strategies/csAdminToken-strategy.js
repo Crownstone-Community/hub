@@ -14,7 +14,7 @@ let CsAdminTokenStrategy = class CsAdminTokenStrategy {
         this.name = Constants_1.SecurityTypes.admin;
     }
     async authenticate(request) {
-        let access_token = csToken_strategy_1.extractToken(request);
+        let access_token = (0, csToken_strategy_1.extractToken)(request);
         let user = await this.userService.checkAccessToken(access_token);
         if (user.sphereRole !== 'admin') {
             throw new rest_1.HttpErrors.Unauthorized("Admin access required.");
@@ -30,7 +30,7 @@ let CsAdminTokenStrategy = class CsAdminTokenStrategy {
     }
 };
 CsAdminTokenStrategy = tslib_1.__decorate([
-    tslib_1.__param(0, context_1.inject('UserService')),
+    tslib_1.__param(0, (0, context_1.inject)('UserService')),
     tslib_1.__metadata("design:paramtypes", [services_1.UserService])
 ], CsAdminTokenStrategy);
 exports.CsAdminTokenStrategy = CsAdminTokenStrategy;

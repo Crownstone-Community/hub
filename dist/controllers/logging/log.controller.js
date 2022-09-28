@@ -15,7 +15,7 @@ const ConfigUtil_1 = require("../../util/ConfigUtil");
 const path_1 = tslib_1.__importDefault(require("path"));
 const Constants_1 = require("../../constants/Constants");
 const application_1 = require("../../application");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 let AVAILABLE_LEVELS = ["none", "critical", "error", "warn", "notice", "info", "debug", "verbose", "silly"];
 class LogController {
     constructor() { }
@@ -31,7 +31,7 @@ class LogController {
     async setIndividualLevels(userProfile, loggerConfig) {
         let loggerIds = log.config.getLoggerIds();
         let providedKeys = Object.keys(loggerConfig);
-        let hubConfig = ConfigUtil_1.getHubConfig();
+        let hubConfig = (0, ConfigUtil_1.getHubConfig)();
         for (let i = 0; i < providedKeys.length; i++) {
             let loggerId = providedKeys[i];
             let levels = loggerConfig[loggerId];
@@ -71,11 +71,11 @@ class LogController {
             }
             hubConfig.logging[loggerId] = currentLevels;
         }
-        ConfigUtil_1.storeHubConfig(hubConfig);
-        application_1.updateLoggingBasedOnConfig();
+        (0, ConfigUtil_1.storeHubConfig)(hubConfig);
+        (0, application_1.updateLoggingBasedOnConfig)();
     }
     async clearIndividualLevels(userProfile) {
-        let hubConfig = ConfigUtil_1.getHubConfig();
+        let hubConfig = (0, ConfigUtil_1.getHubConfig)();
         let providedKeys = Object.keys(hubConfig.logging);
         let loggerIds = log.config.getLoggerIds();
         for (let i = 0; i < providedKeys.length; i++) {
@@ -94,7 +94,7 @@ class LogController {
             continue;
         }
         hubConfig.logging = {};
-        ConfigUtil_1.storeHubConfig(hubConfig);
+        (0, ConfigUtil_1.storeHubConfig)(hubConfig);
     }
     async availableLogFiles(userProfile) {
         let logPath = process.env.CS_FILE_LOGGING_DIRNAME;
@@ -153,53 +153,53 @@ class LogController {
     }
 }
 tslib_1.__decorate([
-    rest_1.get('/individualLogLevels'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/individualLogLevels'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "getLoggers", null);
 tslib_1.__decorate([
-    rest_1.post('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.requestBody({ 'application/json': { example: { loggerId: { console: 'info', file: 'none' } } } })),
+    (0, rest_1.post)('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, (0, rest_1.requestBody)({ 'application/json': { example: { loggerId: { console: 'info', file: 'none' } } } })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "setIndividualLevels", null);
 tslib_1.__decorate([
-    rest_1.del('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/individualLogLevels', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "clearIndividualLevels", null);
 tslib_1.__decorate([
-    rest_1.get('/availableLogFiles', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/availableLogFiles', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "availableLogFiles", null);
 tslib_1.__decorate([
-    rest_1.get('/downloadLogFile'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
+    (0, rest_1.get)('/downloadLogFile'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
     rest_1.oas.response.file(),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.string('filename', { required: true })),
-    tslib_1.__param(2, context_1.inject(rest_1.RestBindings.Http.RESPONSE)),
+    tslib_1.__param(2, (0, context_1.inject)(rest_1.RestBindings.Http.RESPONSE)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, String, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], LogController.prototype, "downloadLogFile", null);
 tslib_1.__decorate([
-    rest_1.del('/deleteAllLogs', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.del)('/deleteAllLogs', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)

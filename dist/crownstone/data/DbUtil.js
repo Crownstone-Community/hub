@@ -4,7 +4,7 @@ exports.EMPTY_DATABASE = void 0;
 const Logger_1 = require("../../Logger");
 const MemoryDb_1 = require("./MemoryDb");
 const DbReference_1 = require("./DbReference");
-const logger = Logger_1.Logger(__filename);
+const logger = (0, Logger_1.Logger)(__filename);
 async function EMPTY_DATABASE() {
     logger.notice("Emptying database...");
     logger.info("Deleting All data from db...");

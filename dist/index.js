@@ -17,10 +17,10 @@ const asset_repository_1 = require("./repositories/cloud/asset.repository");
 const asset_filter_repository_1 = require("./repositories/cloud/asset-filter.repository");
 const asset_filter_set_repository_1 = require("./repositories/cloud/asset-filter-set.repository");
 const webhook_repository_1 = require("./repositories/hub-specific/webhook.repository");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 Error.stackTraceLimit = 100;
 async function main(options = {}) {
-    application_1.updateLoggingBasedOnConfig();
+    (0, application_1.updateLoggingBasedOnConfig)();
     log.info(`Creating Server...`);
     const server = new server_1.ExpressServer();
     log.info(`Server Booting...`);
@@ -28,7 +28,7 @@ async function main(options = {}) {
     log.info(`Server starting...`);
     await server.start();
     log.info(`Server started.`);
-    let portConfig = ConfigUtil_1.getPortConfig();
+    let portConfig = (0, ConfigUtil_1.getPortConfig)();
     if (portConfig.enableHttp !== false) {
         const httpServer = new server_public_1.PublicExpressServer({}, server.lbApp);
         await httpServer.start();

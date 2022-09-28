@@ -12,7 +12,7 @@ const repositories_1 = require("../../repositories");
 const CrownstoneHub_1 = require("../../crownstone/CrownstoneHub");
 const Logger_1 = require("../../Logger");
 const ConfigUtil_1 = require("../../util/ConfigUtil");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const DeveloperOptionsSchema = {
     type: 'object',
     properties: {
@@ -122,19 +122,19 @@ let DevController = class DevController {
         }
     }
     async getDeveloperOptions(userProfile) {
-        let hubConfig = ConfigUtil_1.getHubConfig();
+        let hubConfig = (0, ConfigUtil_1.getHubConfig)();
         return hubConfig.developerOptions;
     }
     async putDeveloperOptions(userProfile, devOptions) {
-        let hubConfig = ConfigUtil_1.getHubConfig();
+        let hubConfig = (0, ConfigUtil_1.getHubConfig)();
         hubConfig.developerOptions = devOptions;
-        ConfigUtil_1.storeHubConfig(hubConfig);
+        (0, ConfigUtil_1.storeHubConfig)(hubConfig);
     }
 };
 tslib_1.__decorate([
-    rest_1.get('/rawEnergyRange'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/rawEnergyRange'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.dateTime('from', { required: false })),
     tslib_1.__param(3, rest_1.param.query.dateTime('until', { required: false })),
@@ -145,50 +145,50 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "getRawEnergyData", null);
 tslib_1.__decorate([
-    rest_1.post('/reprocessEnergyData'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.post)('/reprocessEnergyData'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyData", null);
 tslib_1.__decorate([
-    rest_1.post('/reprocessEnergyAggregates'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.post)('/reprocessEnergyAggregates'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyAggregates", null);
 tslib_1.__decorate([
-    rest_1.get('/reprocessEnergyDataStatus'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/reprocessEnergyDataStatus'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyDataStatus", null);
 tslib_1.__decorate([
-    rest_1.get('/reprocessEnergyAggregatesStatus'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/reprocessEnergyAggregatesStatus'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "reprocessEnergyAggregatesStatus", null);
 tslib_1.__decorate([
-    rest_1.get('/developerOptions'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/developerOptions'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "getDeveloperOptions", null);
 tslib_1.__decorate([
-    rest_1.post('/developerOptions'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.admin),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.requestBody({
+    (0, rest_1.post)('/developerOptions'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, (0, rest_1.requestBody)({
         content: { 'application/json': { schema: DeveloperOptionsSchema } },
     })),
     tslib_1.__metadata("design:type", Function),
@@ -196,8 +196,8 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], DevController.prototype, "putDeveloperOptions", null);
 DevController = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(repositories_1.EnergyDataProcessedRepository)),
-    tslib_1.__param(1, repository_1.repository(repositories_1.EnergyDataRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(repositories_1.EnergyDataProcessedRepository)),
+    tslib_1.__param(1, (0, repository_1.repository)(repositories_1.EnergyDataRepository)),
     tslib_1.__metadata("design:paramtypes", [repositories_1.EnergyDataProcessedRepository,
         repositories_1.EnergyDataRepository])
 ], DevController);

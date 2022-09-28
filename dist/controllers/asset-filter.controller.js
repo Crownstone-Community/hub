@@ -26,25 +26,25 @@ let AssetFilterController = class AssetFilterController {
     }
 };
 tslib_1.__decorate([
-    rest_1.get('/assetFilters'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/assetFilters'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], AssetFilterController.prototype, "getAllFilters", null);
 tslib_1.__decorate([
-    rest_1.get('/assetFilters/{id}'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, core_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.get)('/assetFilters/{id}'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, core_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.path.string('id')),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], AssetFilterController.prototype, "getFilter", null);
 AssetFilterController = tslib_1.__decorate([
-    tslib_1.__param(0, repository_1.repository(asset_filter_repository_1.AssetFilterRepository)),
-    tslib_1.__param(1, repository_1.repository(asset_filter_set_repository_1.AssetFilterSetRepository)),
+    tslib_1.__param(0, (0, repository_1.repository)(asset_filter_repository_1.AssetFilterRepository)),
+    tslib_1.__param(1, (0, repository_1.repository)(asset_filter_set_repository_1.AssetFilterSetRepository)),
     tslib_1.__metadata("design:paramtypes", [asset_filter_repository_1.AssetFilterRepository,
         asset_filter_set_repository_1.AssetFilterSetRepository])
 ], AssetFilterController);

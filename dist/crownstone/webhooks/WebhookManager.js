@@ -5,7 +5,7 @@ const DbReference_1 = require("../data/DbReference");
 const Logger_1 = require("../../Logger");
 const request_1 = require("crownstone-cloud/dist/util/request");
 const WebhookCollector_1 = require("./WebhookCollector");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class WebhookManager {
     constructor() {
         this.collectors = [];
@@ -74,7 +74,7 @@ class WebhookManager {
             timestamp: Date.now()
         };
         try {
-            await request_1.req("POST", hook.endPoint, { headers: headers, json: payload }, true);
+            await (0, request_1.req)("POST", hook.endPoint, { headers: headers, json: payload }, true);
         }
         catch (err) {
             // log.error("Something went wrong during invocation of ", hook.id, err);

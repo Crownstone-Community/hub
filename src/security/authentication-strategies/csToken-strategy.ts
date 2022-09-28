@@ -1,10 +1,9 @@
 
-import {HttpErrors} from '@loopback/rest';
+import {HttpErrors, Request} from '@loopback/rest';
 import {AuthenticationStrategy} from '@loopback/authentication';
 import {securityId, UserProfile} from '@loopback/security';
 import {UserService} from '../../services';
 import {inject} from '@loopback/context';
-import {Request} from "express-serve-static-core";
 import {SecurityTypes} from '../../constants/Constants';
 
 

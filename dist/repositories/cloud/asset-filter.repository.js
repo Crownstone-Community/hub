@@ -19,9 +19,9 @@ let AssetFilterRepository = class AssetFilterRepository extends timestamped_crud
     }
 };
 AssetFilterRepository = tslib_1.__decorate([
-    tslib_1.__param(0, core_1.inject('datasources.mongo')),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.mongo')),
     tslib_1.__param(1, repository_1.repository.getter('FilterSetRepository')),
-    tslib_1.__param(2, repository_1.repository(asset_repository_1.AssetRepository)),
+    tslib_1.__param(2, (0, repository_1.repository)(asset_repository_1.AssetRepository)),
     tslib_1.__metadata("design:paramtypes", [repository_1.juggler.DataSource, Function, asset_repository_1.AssetRepository])
 ], AssetFilterRepository);
 exports.AssetFilterRepository = AssetFilterRepository;

@@ -69,27 +69,27 @@ class SwitchController {
     }
 }
 tslib_1.__decorate([
-    rest_1.post('/turnOn', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.post)('/turnOn', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Number]),
     tslib_1.__metadata("design:returntype", Promise)
 ], SwitchController.prototype, "turnOn", null);
 tslib_1.__decorate([
-    rest_1.post('/turnOff', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.post)('/turnOff', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Number]),
     tslib_1.__metadata("design:returntype", Promise)
 ], SwitchController.prototype, "turnOff", null);
 tslib_1.__decorate([
-    rest_1.post('/switch', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
+    (0, rest_1.post)('/switch', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
     tslib_1.__param(1, rest_1.param.query.number('crownstoneUID', { required: true })),
     tslib_1.__param(2, rest_1.param.query.number('percentage', { required: true })),
     tslib_1.__metadata("design:type", Function),
@@ -97,10 +97,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], SwitchController.prototype, "dim", null);
 tslib_1.__decorate([
-    rest_1.post('/switchMultiple', ReturnCodes_1.EmptyReturnCode),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
-    tslib_1.__param(0, context_1.inject(security_1.SecurityBindings.USER)),
-    tslib_1.__param(1, rest_1.requestBody({
+    (0, rest_1.post)('/switchMultiple', ReturnCodes_1.EmptyReturnCode),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
+    tslib_1.__param(0, (0, context_1.inject)(security_1.SecurityBindings.USER)),
+    tslib_1.__param(1, (0, rest_1.requestBody)({
         content: { 'application/json': { schema: SwitchDataSchema } },
     })),
     tslib_1.__metadata("design:type", Function),

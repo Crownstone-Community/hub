@@ -8,7 +8,7 @@ const SwitchMonitor_1 = require("./SwitchMonitor");
 const HubEventBus_1 = require("../HubEventBus");
 const topics_1 = require("../topics");
 const Logger_1 = require("../../Logger");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class MeshMonitor {
     constructor() {
         this.eventsRegistered = false;

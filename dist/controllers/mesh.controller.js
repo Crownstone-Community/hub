@@ -13,7 +13,7 @@ class MeshController {
         let topology = { ...CrownstoneHub_1.CrownstoneHub.mesh.network.crownstonesInMesh };
         let result = [];
         Object.keys(topology).forEach((uid) => {
-            let data = MemoryDb_1.fillWithStoneData(uid);
+            let data = (0, MemoryDb_1.fillWithStoneData)(uid);
             data.lastSeen = new Date(topology[uid]);
             data.lastSeenSwitchState = null;
             if (data.cloudId) {
@@ -45,29 +45,29 @@ class MeshController {
     }
 }
 tslib_1.__decorate([
-    rest_1.get('/network/crownstones'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    (0, rest_1.get)('/network/crownstones'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeshController.prototype, "getCrownstonesInMesh", null);
 tslib_1.__decorate([
-    rest_1.get('/network'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    (0, rest_1.get)('/network'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeshController.prototype, "getTopology", null);
 tslib_1.__decorate([
-    rest_1.get('/network/statistics'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    (0, rest_1.get)('/network/statistics'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeshController.prototype, "getStatistics", null);
 tslib_1.__decorate([
-    rest_1.post('/network/refreshTopology'),
-    authentication_1.authenticate(Constants_1.SecurityTypes.sphere),
+    (0, rest_1.post)('/network/refreshTopology'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.sphere),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)

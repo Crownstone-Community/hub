@@ -67,7 +67,7 @@ export class EnergyMonitor {
     }, PROCESSING_INTERVAL*1.1); // every 61 seconds.;
 
     this.uploadInterval = setInterval(async () => {
-
+      this.uploadEnergyCache.store();
     }, UPLOAD_INTERVAL); // every 60 seconds.;
 
     // do the upload check initially.
@@ -273,10 +273,6 @@ export class EnergyMonitor {
   }
 
 
-
-
-
-
   async _processStoneEnergy(stoneUID: number, energyData: EnergyData[]) {
     // we want at least 2 points to process.
     if (energyData.length === 0) { return }
@@ -328,24 +324,28 @@ export class EnergyMonitor {
 
 
   async _uploadStoneEnergy(measuredData: CollectedEnergyDataForUpload[]) {
-    // TODO: check if the user has given permission.
+    console.log("WAITING TO UPLOAD")
     if (this.uploadEnergyCache.cache.length > 0) {
-      let dataToUpload : {stoneId: string, energyUsage: number, timestamp: string}[] = [];
+      let dataToUpload : {stoneId: string, energy: number, t: string}[] = [];
       for (let datapoint of measuredData) {
         let cloudId = MemoryDb.stones[datapoint.stoneUID]?.cloudId;
         if (!cloudId) { continue; }
 
         dataToUpload.push({
           stoneId: cloudId,
-          energyUsage: datapoint.energyUsage,
-          timestamp: datapoint.timestamp.toISOString(),
+          energy: datapoint.energyUsage,
+          t: datapoint.timestamp.toISOString(),
         });
       }
 
       if (dataToUpload.length > 0) {
-        // console.log("I HAVE DATA TO UPLOAD", measurementData)
+        console.log("I HAVE DATA TO UPLOAD", dataToUpload)
         CloudCommandHandler.addToQueue(async (CM) => {
+          let permission = await CM.cloud.sphere(CM.sphereId).getEnergyCollectionPermission();
 
+          if (permission) {
+            await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
+          }
         })
       }
     }

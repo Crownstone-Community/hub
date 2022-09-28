@@ -19,8 +19,8 @@ let MongoDataSource = class MongoDataSource extends repository_1.juggler.DataSou
 };
 MongoDataSource.dataSourceName = 'mongo';
 MongoDataSource = tslib_1.__decorate([
-    core_1.lifeCycleObserver('datasource'),
-    tslib_1.__param(0, core_1.inject('datasources.config.mongo', { optional: true })),
+    (0, core_1.lifeCycleObserver)('datasource'),
+    tslib_1.__param(0, (0, core_1.inject)('datasources.config.mongo', { optional: true })),
     tslib_1.__metadata("design:paramtypes", [Object])
 ], MongoDataSource);
 exports.MongoDataSource = MongoDataSource;

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processPair = exports.minuteInterval = void 0;
 const DbReference_1 = require("../data/DbReference");
 const Logger_1 = require("../../Logger");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const INTERPOLATION_THRESHOLD = 5;
 function minuteInterval(timestamp) {
     return new Date(timestamp).setSeconds(0, 0);

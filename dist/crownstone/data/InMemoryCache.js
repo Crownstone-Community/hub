@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InMemoryCache = void 0;
 const Logger_1 = require("../../Logger");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class InMemoryCache {
     constructor(batchStorageMethod, name) {
         this.processing = false;

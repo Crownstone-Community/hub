@@ -8,28 +8,28 @@ export class PowerMonitor {
 
 
   storeInterval : Timeout;
-  powerCache : InMemoryCache;
+  // powerCache : InMemoryCache;
 
   constructor() {
-    this.powerCache = new InMemoryCache(async (data: object[]) => { await Dbs.power.createAll(data) }, 'powerMonitor')
+    // this.powerCache = new InMemoryCache(async (data: object[]) => { await Dbs.power.createAll(data) }, 'powerMonitor')
   }
 
 
   init() {
     this.stop();
     // use this to batch the writes in the database.
-    this.storeInterval = setInterval(async () => {
-      await this.powerCache.store();
-    }, 2000);
+    // this.storeInterval = setInterval(async () => {
+    //   await this.powerCache.store();
+    // }, 2000);
   }
 
   stop() {
     if (this.storeInterval) {
-      clearInterval(this.storeInterval);
+      // clearInterval(this.storeInterval);
     }
   }
 
-      collect(crownstoneId: number, powerUsageReal: number, powerFactor: number, timestamp: number) {
+  collect(crownstoneId: number, powerUsageReal: number, powerFactor: number, timestamp: number) {
    return Dbs.power.create({
       stoneUID:    crownstoneId,
       powerUsage:  powerUsageReal,

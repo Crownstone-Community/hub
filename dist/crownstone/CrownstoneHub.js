@@ -17,7 +17,7 @@ const DbUtil_1 = require("./data/DbUtil");
 const HubStatusManager_1 = require("./uart/HubStatusManager");
 const WebhookManager_1 = require("./webhooks/WebhookManager");
 const FilterManager_1 = require("./filters/FilterManager");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class CrownstoneHubClass {
     constructor() {
         this.cloud = new CloudManager_1.CloudManager();
@@ -36,7 +36,7 @@ class CrownstoneHubClass {
     }
     async initialize() {
         this.webhooks.init();
-        HubStatus_1.resetHubStatus();
+        (0, HubStatus_1.resetHubStatus)();
         let hub = await DbReference_1.Dbs.hub.get();
         if (hub && hub.cloudId !== 'null' && hub.cloudId !== '') {
             log.info("Launching Modules");
@@ -113,7 +113,7 @@ class CrownstoneHubClass {
         }
         else {
             log.notice("Deleting hub database...");
-            await DbUtil_1.EMPTY_DATABASE();
+            await (0, DbUtil_1.EMPTY_DATABASE)();
             log.notice("Deleting hub database. DONE!");
         }
     }

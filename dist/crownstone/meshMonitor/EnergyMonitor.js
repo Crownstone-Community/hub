@@ -9,14 +9,16 @@ const crownstone_core_1 = require("crownstone-core");
 const EnergyProcessor_1 = require("../processing/EnergyProcessor");
 const IntervalData_1 = require("../processing/IntervalData");
 const InMemoryCache_1 = require("../data/InMemoryCache");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 const PROCESSING_INTERVAL = 60000; // 1 minute;
+const UPLOAD_INTERVAL = 60000; // 1 minute;
 class EnergyMonitor {
     constructor() {
         this.energyIsProcessing = false;
         this.energyIsAggregating = false;
         this.processingPaused = false;
         this.aggregationProcessingPaused = false;
+        this.uploadEnergyCache = new InMemoryCache_1.InMemoryCache(async (data) => { this._uploadStoneEnergy(data); }, 'energyUploadMonitor');
         this.energyCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.Dbs.energy.createAll(data); }, 'energyMonitor');
     }
     init() {
@@ -30,6 +32,9 @@ class EnergyMonitor {
                 this.processing().catch();
             }
         }, PROCESSING_INTERVAL * 1.1); // every 61 seconds.;
+        this.uploadInterval = setInterval(async () => {
+            this.uploadEnergyCache.store();
+        }, UPLOAD_INTERVAL); // every 60 seconds.;
         // do the upload check initially.
         this.processing().catch();
     }
@@ -39,6 +44,9 @@ class EnergyMonitor {
         }
         if (this.storeInterval) {
             clearInterval(this.storeInterval);
+        }
+        if (this.uploadInterval) {
+            clearInterval(this.uploadInterval);
         }
     }
     pauseProcessing(seconds) {
@@ -195,45 +203,6 @@ class EnergyMonitor {
             await DbReference_1.Dbs.energyProcessed.createAll(samples);
         }
     }
-    async uploadProcessed() {
-        let processedData = await DbReference_1.Dbs.energyProcessed.find({ where: { uploaded: false } });
-        try {
-            await this._uploadStoneEnergy(processedData);
-        }
-        catch (e) {
-            log.info("processMeasurements: Error in _uploadStoneEnergy", e);
-        }
-    }
-    async _uploadStoneEnergy(processedData) {
-        if (processedData.length > 0) {
-            let hasData = false;
-            let measurementData = {};
-            let dataUploaded = [];
-            for (let i = 0; i < processedData.length; i++) {
-                let energy = processedData[i];
-                // console.log(energy.stoneUID, MemoryDb.stones[energy.stoneUID]?.cloudId)
-                let cloudId = MemoryDb_1.MemoryDb.stones[energy.stoneUID]?.cloudId;
-                if (cloudId) {
-                    if (measurementData[cloudId] === undefined) {
-                        measurementData[cloudId] = [];
-                    }
-                    hasData = true;
-                    measurementData[cloudId].push({ t: energy.timestamp.valueOf(), energy: energy.energyUsage });
-                    energy.uploaded = true;
-                    dataUploaded.push(energy);
-                }
-            }
-            if (hasData) {
-                // console.log("I HAVE DATA TO UPLOAD", measurementData)
-                CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
-                    await CM.cloud.hub().uploadEnergyMeasurements(measurementData);
-                    for (let i = 0; i < dataUploaded.length; i++) {
-                        await DbReference_1.Dbs.energyProcessed.update(dataUploaded[i]);
-                    }
-                });
-            }
-        }
-    }
     async _processStoneEnergy(stoneUID, energyData) {
         // we want at least 2 points to process.
         if (energyData.length === 0) {
@@ -252,7 +221,7 @@ class EnergyMonitor {
         }
         for (let i = startFromIndex; i < energyData.length; i++) {
             let datapoint = energyData[i];
-            await EnergyProcessor_1.processPair(lastDatapoint, datapoint, { calculateSamplePoint: EnergyProcessor_1.minuteInterval, intervalMs: 60000 }, samples);
+            await (0, EnergyProcessor_1.processPair)(lastDatapoint, datapoint, { calculateSamplePoint: EnergyProcessor_1.minuteInterval, intervalMs: 60000 }, samples);
             lastDatapoint = datapoint;
         }
         if (samples.length > 0) {
@@ -269,7 +238,37 @@ class EnergyMonitor {
             timestamp: new Date(crownstone_core_1.Util.crownstoneTimeToTimestamp(timestamp)),
             processed: false
         });
-        // return Dbs.energy.create()
+        this.uploadEnergyCache.collect({
+            stoneUID: crownstoneId,
+            energyUsage: accumulatedEnergy,
+            timestamp: new Date(crownstone_core_1.Util.crownstoneTimeToTimestamp(timestamp)),
+        });
+    }
+    async _uploadStoneEnergy(measuredData) {
+        console.log("WAITING TO UPLOAD");
+        if (this.uploadEnergyCache.cache.length > 0) {
+            let dataToUpload = [];
+            for (let datapoint of measuredData) {
+                let cloudId = MemoryDb_1.MemoryDb.stones[datapoint.stoneUID]?.cloudId;
+                if (!cloudId) {
+                    continue;
+                }
+                dataToUpload.push({
+                    stoneId: cloudId,
+                    energy: datapoint.energyUsage,
+                    t: datapoint.timestamp.toISOString(),
+                });
+            }
+            if (dataToUpload.length > 0) {
+                console.log("I HAVE DATA TO UPLOAD", dataToUpload);
+                CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
+                    let permission = await CM.cloud.sphere(CM.sphereId).getEnergyCollectionPermission();
+                    if (permission) {
+                        await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
+                    }
+                });
+            }
+        }
     }
 }
 exports.EnergyMonitor = EnergyMonitor;

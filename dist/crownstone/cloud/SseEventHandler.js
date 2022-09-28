@@ -6,7 +6,7 @@ const topics_1 = require("../topics");
 const CrownstoneHub_1 = require("../CrownstoneHub");
 const Logger_1 = require("../../Logger");
 const ConfigUtil_1 = require("../../util/ConfigUtil");
-const log = Logger_1.Logger(__filename);
+const log = (0, Logger_1.Logger)(__filename);
 class SseEventHandler {
     constructor() {
         this.handleSseEvent = (event) => {
@@ -61,7 +61,7 @@ class SseEventHandler {
                 if (!Array.isArray(event.switchData)) {
                     return;
                 }
-                let hubConfig = ConfigUtil_1.getHubConfig();
+                let hubConfig = (0, ConfigUtil_1.getHubConfig)();
                 if (hubConfig.developerOptions.actOnSwitchCommands === false) {
                     return;
                 }

@@ -55,7 +55,7 @@ export class WebhookManager {
                 await Dbs.webhooks.update(hook)
               }
             }
-            catch (err) {
+            catch (err : any) {
               hook.customHandlerIssue = "Error while executing: " + err.message;
               await Dbs.webhooks.update(hook)
             }

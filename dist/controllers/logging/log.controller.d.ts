@@ -11,7 +11,7 @@ export declare class LogController {
     setIndividualLevels(userProfile: UserProfileDescription, loggerConfig: any): Promise<any>;
     clearIndividualLevels(userProfile: UserProfileDescription): Promise<any>;
     availableLogFiles(userProfile: UserProfileDescription): Promise<LogFileDetails[]>;
-    downloadLogFile(userProfile: UserProfileDescription, filename: string, response: Response): Promise<Response<any>>;
+    downloadLogFile(userProfile: UserProfileDescription, filename: string, response: Response): Promise<Response<any, Record<string, any>>>;
     deleteAllLogs(userProfile: UserProfileDescription): Promise<void>;
 }
 export {};

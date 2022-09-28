@@ -59,7 +59,7 @@ let runOpenSSLCommand = function (cmd, callback) {
     const stdoutbuff = [];
     const stderrbuff = [];
     let terminate = false;
-    const shell = child_process_1.spawn('openssl', normalizeCommand(cmd));
+    const shell = (0, child_process_1.spawn)('openssl', normalizeCommand(cmd));
     console.log("openssl", cmd);
     shell.stderr.on('data', function (data) {
         stderrbuff.push(data.toString());
