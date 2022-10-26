@@ -52,6 +52,10 @@ let HubController = class HubController {
         }
         return await CrownstoneUtil_1.CrownstoneUtil.deleteCrownstoneHub(true);
     }
+    reboot() {
+        // since the hub is launched as a service, any crash will be restarted.
+        process.exit();
+    }
     async deleteEverything(YesImSure) {
         if (YesImSure !== 'YesImSure') {
             throw new rest_1.HttpErrors.BadRequest("YesImSure must be 'YesImSure'");
@@ -82,6 +86,13 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], HubController.prototype, "delete", null);
+tslib_1.__decorate([
+    (0, rest_1.post)('hub/reboot'),
+    (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], HubController.prototype, "reboot", null);
 tslib_1.__decorate([
     (0, rest_1.del)('/hub/everything'),
     (0, authentication_1.authenticate)(Constants_1.SecurityTypes.admin),

@@ -11,6 +11,7 @@ export declare class HubController {
     constructor(hubRepo: HubRepository, userRepo: UserRepository);
     createHub(newHub: DataObject<Hub>): Promise<void>;
     delete(YesImSure: string): Promise<string>;
+    reboot(): void;
     deleteEverything(YesImSure: string): Promise<string>;
     getHubStatus(): Promise<HubStatus>;
 }
