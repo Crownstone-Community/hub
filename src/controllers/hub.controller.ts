@@ -64,6 +64,13 @@ export class HubController {
     return await CrownstoneUtil.deleteCrownstoneHub(true);
   }
 
+  @post('hub/reboot')
+  @authenticate(SecurityTypes.admin)
+  reboot(): void {
+    // since the hub is launched as a service, any crash will be restarted.
+    process.exit();
+  }
+
   @del('/hub/everything')
   @authenticate(SecurityTypes.admin)
   async deleteEverything(
