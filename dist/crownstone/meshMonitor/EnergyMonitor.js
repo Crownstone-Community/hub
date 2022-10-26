@@ -18,8 +18,8 @@ class EnergyMonitor {
         this.energyIsAggregating = false;
         this.processingPaused = false;
         this.aggregationProcessingPaused = false;
-        this.uploadEnergyCache = new InMemoryCache_1.InMemoryCache(async (data) => { this._uploadStoneEnergy(data); }, 'energyUploadMonitor');
-        this.energyCache = new InMemoryCache_1.InMemoryCache(async (data) => { await DbReference_1.Dbs.energy.createAll(data); }, 'energyMonitor');
+        this.uploadEnergyCache = new InMemoryCache_1.InMemoryCache(1000, async (data) => { this._uploadStoneEnergy(data); }, 'energyUploadMonitor');
+        this.energyCache = new InMemoryCache_1.InMemoryCache(1000, async (data) => { await DbReference_1.Dbs.energy.createAll(data); }, 'energyMonitor');
     }
     init() {
         this.stop();
@@ -70,7 +70,6 @@ class EnergyMonitor {
     async processing() {
         await this.processMeasurements();
         await this.processAggregations();
-        // await this.uploadProcessed();
     }
     async processMeasurements(force = false) {
         if (this.energyIsProcessing || this.energyIsAggregating) {
@@ -245,27 +244,49 @@ class EnergyMonitor {
         });
     }
     async _uploadStoneEnergy(measuredData) {
-        console.log("WAITING TO UPLOAD");
         if (this.uploadEnergyCache.cache.length > 0) {
             let dataToUpload = [];
-            for (let datapoint of measuredData) {
-                let cloudId = MemoryDb_1.MemoryDb.stones[datapoint.stoneUID]?.cloudId;
-                if (!cloudId) {
-                    continue;
+            try {
+                for (let datapoint of measuredData) {
+                    let cloudId = MemoryDb_1.MemoryDb.stones[datapoint.stoneUID]?.cloudId;
+                    if (!cloudId) {
+                        continue;
+                    }
+                    dataToUpload.push({
+                        stoneId: cloudId,
+                        energy: datapoint.energyUsage,
+                        t: datapoint.timestamp.toISOString(),
+                    });
                 }
-                dataToUpload.push({
-                    stoneId: cloudId,
-                    energy: datapoint.energyUsage,
-                    t: datapoint.timestamp.toISOString(),
-                });
+            }
+            catch (err) {
+                throw new Error("COULD_NOT_PROCESS_DATA");
             }
             if (dataToUpload.length > 0) {
-                console.log("I HAVE DATA TO UPLOAD", dataToUpload);
-                CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
-                    let permission = await CM.cloud.sphere(CM.sphereId).getEnergyCollectionPermission();
-                    if (permission) {
-                        await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
-                    }
+                return new Promise((resolve, reject) => {
+                    CloudCommandHandler_1.CloudCommandHandler.addToQueue(async (CM) => {
+                        try {
+                            let permission = false;
+                            try {
+                                permission = await CM.cloud.sphere(CM.sphereId).getEnergyCollectionPermission();
+                            }
+                            catch (err) {
+                                throw new Error("COULD_NOT_STORE");
+                            }
+                            if (permission) {
+                                try {
+                                    await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
+                                }
+                                catch (err) {
+                                    throw new Error("FAILED_TO_STORE");
+                                }
+                            }
+                            resolve();
+                        }
+                        catch (err) {
+                            reject(err);
+                        }
+                    });
                 });
             }
         }
