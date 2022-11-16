@@ -20,23 +20,29 @@ let EnergyController = class EnergyController {
         this.energyDataRepo = energyDataRepo;
     }
     async getEnergyAvailability(userProfile) {
-        let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
-        if (collection) {
-            let result = [];
-            let uids = await collection.distinct('stoneUID');
-            for (let i = 0; i < uids.length; i++) {
-                let data = (0, MemoryDb_1.fillWithStoneData)(uids[i]);
-                data.count = 0;
-                if (data.cloudId) {
-                    let countData = await this.energyDataProcessedRepo.count({ stoneUID: uids[i], interval: '1m' });
-                    if (countData) {
-                        data.count = countData.count;
-                    }
-                    result.push(data);
-                }
-            }
-            return result;
+        let stones = MemoryDb_1.MemoryDb.stones;
+        let result = [];
+        for (let uid in stones) {
+            let data = (0, MemoryDb_1.fillWithStoneData)(uid);
+            result.push(data);
         }
+        // let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
+        // if (collection) {
+        //   let result = [];
+        //   let uids = await collection.distinct('stoneUID');
+        //   for (let i = 0; i < uids.length; i++) {
+        //     let data : any = fillWithStoneData(uids[i]);
+        //     data.count = 0;
+        //     if (data.cloudId) {
+        //       let countData = await this.energyDataProcessedRepo.count({stoneUID: uids[i], interval: '1m' });
+        //       if (countData) {
+        //         data.count = countData.count;
+        //       }
+        //       result.push(data);
+        //     }
+        //   }
+        //   return result;
+        // }
         throw new rest_1.HttpErrors.InternalServerError("Could not get distinct list");
     }
     async getEnergyData(userProfile, crownstoneUID, from, until, limit, interval) {
