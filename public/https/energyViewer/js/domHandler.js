@@ -110,10 +110,10 @@ function getAvailableData() {
     })
     dataArr.forEach((element) => {
       var el = document.createElement("option");
-      el.textContent = `${element.locationName}: ${element.name} (${element.uid}) -- ${element.count} samples`;
+      el.textContent = `${element.locationName}: ${element.name} (${element.uid})`;
       el.value = element.uid;
       STONE_SELECT_DROPDOWN.appendChild(el);
-    })
+    });
   }, (err) => {
     console.log(err)
   })

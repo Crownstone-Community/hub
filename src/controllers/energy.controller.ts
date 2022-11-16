@@ -25,23 +25,30 @@ export class EnergyController {
   async getEnergyAvailability(
     @inject(SecurityBindings.USER) userProfile : UserProfileDescription,
   ) : Promise<{crownstoneUID: number, name: string, locationName: string, count: number}[]> {
-    let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
-    if (collection) {
-      let result = [];
-      let uids = await collection.distinct('stoneUID');
-      for (let i = 0; i < uids.length; i++) {
-        let data : any = fillWithStoneData(uids[i]);
-        data.count = 0;
-        if (data.cloudId) {
-          let countData = await this.energyDataProcessedRepo.count({stoneUID: uids[i], interval: '1m' });
-          if (countData) {
-            data.count = countData.count;
-          }
-          result.push(data);
-        }
-      }
-      return result;
+    let stones = MemoryDb.stones;
+    let result = [];
+    for (let uid in stones) {
+      let data : any = fillWithStoneData(uid);
+      result.push(data);
     }
+
+    // let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
+    // if (collection) {
+    //   let result = [];
+    //   let uids = await collection.distinct('stoneUID');
+    //   for (let i = 0; i < uids.length; i++) {
+    //     let data : any = fillWithStoneData(uids[i]);
+    //     data.count = 0;
+    //     if (data.cloudId) {
+    //       let countData = await this.energyDataProcessedRepo.count({stoneUID: uids[i], interval: '1m' });
+    //       if (countData) {
+    //         data.count = countData.count;
+    //       }
+    //       result.push(data);
+    //     }
+    //   }
+    //   return result;
+    // }
     throw new HttpErrors.InternalServerError("Could not get distinct list");
   }
 

@@ -323,6 +323,7 @@ export class EnergyMonitor {
 
 
   async _uploadStoneEnergy(measuredData: CollectedEnergyDataForUpload[]) {
+    log.debug("Uploading energy data for", measuredData.length, "stones");
     if (this.uploadEnergyCache.cache.length > 0) {
       let dataToUpload: {stoneId: string, energy: number, t: string}[] = [];
       try {
@@ -338,8 +339,10 @@ export class EnergyMonitor {
             t: datapoint.timestamp.toISOString(),
           });
         }
+        log.debug("Uploading", dataToUpload.length, "datapoints");
       }
-      catch (err) {
+      catch (err: any) {
+        log.warn("PROBLEM UPLOADING ENERGY DATA", 'COULD_NOT_PROCESS_DATA', err?.message);
         throw new Error("COULD_NOT_PROCESS_DATA");
       }
 
@@ -351,25 +354,32 @@ export class EnergyMonitor {
               try {
                  permission = await CM.cloud.sphere(CM.sphereId).getEnergyCollectionPermission()
               }
-              catch (err) {
+              catch (err: any) {
+                log.warn("PROBLEM UPLOADING ENERGY DATA", 'COULD_NOT_STORE', err?.message);
                 throw new Error("COULD_NOT_STORE");
               }
 
               if (permission) {
                 try {
-                  await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
+                  let reply = await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
+                  log.info("Successfully uploaded energy data", dataToUpload.length, reply);
                 }
-                catch (err) {
+                catch (err: any) {
+                  log.warn("PROBLEM UPLOADING ENERGY DATA", 'FAILED_TO_STORE', err?.message);
                   throw new Error("FAILED_TO_STORE");
                 }
               }
               resolve();
             }
-            catch(err) {
+            catch(err: any) {
+              log.warn("Failed to upload stone energy.", err?.message);
               reject(err);
             }
           })
         })
+      }
+      else {
+        log.debug("Problem while uploading: No data", JSON.stringify(measuredData, null, 2));
       }
     }
   }
