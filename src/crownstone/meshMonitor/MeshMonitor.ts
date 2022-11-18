@@ -55,7 +55,7 @@ export class MeshMonitor {
 
     if (data.timeIsSet) {
       this.switch.collect(crownstoneUid, data.switchState, data.timestamp);
-      this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
+      // this.power.collect(crownstoneUid, data.powerUsageReal, data.powerFactor, data.timestamp);
       this.energy.collect(crownstoneUid, data.accumulatedEnergy, data.powerUsageReal, data.timestamp);
     }
     else {

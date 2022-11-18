@@ -42,7 +42,7 @@ export class CloudManager {
   interval_ip   : Timeout | null = null;
 
   constructor() {
-    this.cloud = new CrownstoneCloud();
+    this.cloud = new CrownstoneCloud({customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL} );
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();
@@ -311,7 +311,12 @@ export class CloudManager {
     this.sseSetupInprogress = true;
     log.info("Cloudmanager SSE setup started.");
     if (this.sse === null) {
-      this.sse = new CrownstoneSSE({hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false, projectName:'crownstoneHub'});
+      this.sse = new CrownstoneSSE({
+        sseUrl: process.env.SSE_URL,
+        hubLoginBase: process.env.hubLoginBase ?? 'https://cloud.crownstone.rocks/api/Hubs/',
+        autoreconnect: false,
+        projectName:'crownstoneHub'
+      });
     }
 
     let sseLoggedIn = false;

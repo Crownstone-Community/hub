@@ -47,11 +47,8 @@ export class EnergyMonitor {
 
   constructor() {
     this.uploadEnergyCache = new InMemoryCache(1000,async (data: CollectedEnergyDataForUpload[]) => { this._uploadStoneEnergy(data) }, 'energyUploadMonitor');
-    this.energyCache       = new InMemoryCache(1000, async (data: CollectedEnergyData[]) => { await Dbs.energy.createAll(data) }, 'energyMonitor');
+    this.energyCache       = new InMemoryCache(1000,async (data: CollectedEnergyData[]) => { await Dbs.energy.createAll(data) }, 'energyMonitor');
   }
-
-
-
 
   init() {
     this.stop();
@@ -75,6 +72,7 @@ export class EnergyMonitor {
   }
 
   stop() {
+    log.warn("Stopping energy monitor");
     if (this.timeInterval) {
       clearInterval(this.timeInterval)
     }
@@ -82,6 +80,7 @@ export class EnergyMonitor {
       clearInterval(this.storeInterval)
     }
     if (this.uploadInterval) {
+      log.warn("Stopping upload interval");
       clearInterval(this.uploadInterval)
     }
   }
