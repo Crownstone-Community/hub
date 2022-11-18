@@ -121,10 +121,11 @@ function getAvailableData() {
 
 
 function validateTokenInput() {
-  let value = TOKEN_INPUT.value;
+  let value = ACCESS_TOKEN || TOKEN_INPUT.value;
   if (value.length === 64) {
     window.location.href = window.location.href + "?access_token="+value;
     TOKEN = value;
+    localStorage.setItem('accessToken', ACCESS_TOKEN);
     TOKEN_INPUT_WRAPPER.style.display = 'none';
     GRAPH_WRAPPER.style.display = 'block';
     initVis();
