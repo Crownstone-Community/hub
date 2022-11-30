@@ -32,7 +32,7 @@ class CloudManager {
         this.intervalsRegistered = false;
         this.interval_sync = null;
         this.interval_ip = null;
-        this.cloud = new crownstone_cloud_1.CrownstoneCloud();
+        this.cloud = new crownstone_cloud_1.CrownstoneCloud({ customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL });
         this.sseEventHandler = new SseEventHandler_1.SseEventHandler();
         this.setupEvents();
     }
@@ -291,7 +291,12 @@ class CloudManager {
         this.sseSetupInprogress = true;
         log.info("Cloudmanager SSE setup started.");
         if (this.sse === null) {
-            this.sse = new crownstone_sse_1.CrownstoneSSE({ hubLoginBase: 'https://cloud.crownstone.rocks/api/Hubs/', autoreconnect: false, projectName: 'crownstoneHub' });
+            this.sse = new crownstone_sse_1.CrownstoneSSE({
+                sseUrl: process.env.SSE_URL,
+                hubLoginBase: process.env.hubLoginBase ?? 'https://cloud.crownstone.rocks/api/Hubs/',
+                autoreconnect: false,
+                projectName: 'crownstoneHub'
+            });
         }
         let sseLoggedIn = false;
         while (sseLoggedIn == false && this.resetTriggered === false) {

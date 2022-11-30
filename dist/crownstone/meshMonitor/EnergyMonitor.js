@@ -39,6 +39,7 @@ class EnergyMonitor {
         this.processing().catch();
     }
     stop() {
+        log.warn("Stopping energy monitor");
         if (this.timeInterval) {
             clearInterval(this.timeInterval);
         }
@@ -46,6 +47,7 @@ class EnergyMonitor {
             clearInterval(this.storeInterval);
         }
         if (this.uploadInterval) {
+            log.warn("Stopping upload interval");
             clearInterval(this.uploadInterval);
         }
     }
