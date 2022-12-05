@@ -322,7 +322,7 @@ export class EnergyMonitor {
 
 
   async _uploadStoneEnergy(measuredData: CollectedEnergyDataForUpload[]) {
-    log.debug("Uploading energy data for", measuredData.length, "stones");
+    log.info("Uploading energy data for", measuredData.length, "stones");
     if (this.uploadEnergyCache.cache.length > 0) {
       let dataToUpload: {stoneId: string, energy: number, t: string}[] = [];
       try {
@@ -338,7 +338,7 @@ export class EnergyMonitor {
             t: datapoint.timestamp.toISOString(),
           });
         }
-        log.debug("Uploading", dataToUpload.length, "datapoints");
+        log.info("Uploading", dataToUpload.length, "datapoints");
       }
       catch (err: any) {
         log.warn("PROBLEM UPLOADING ENERGY DATA", 'COULD_NOT_PROCESS_DATA', err?.message);
@@ -360,6 +360,7 @@ export class EnergyMonitor {
 
               if (permission) {
                 try {
+                  log.info("Uploading energy data...", dataToUpload);
                   let reply = await CM.cloud.sphere(CM.sphereId).uploadEnergyData(dataToUpload);
                   log.info("Successfully uploaded energy data", dataToUpload.length, reply);
                 }
@@ -378,7 +379,7 @@ export class EnergyMonitor {
         })
       }
       else {
-        log.debug("Problem while uploading: No data", JSON.stringify(measuredData, null, 2));
+        log.info("Problem while uploading: No data", JSON.stringify(measuredData, null, 2));
       }
     }
   }
