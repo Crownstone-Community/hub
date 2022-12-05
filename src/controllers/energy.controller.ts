@@ -31,6 +31,7 @@ export class EnergyController {
       let data : any = fillWithStoneData(uid);
       result.push(data);
     }
+    return result;
 
     // let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
     // if (collection) {
