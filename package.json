@@ -1,6 +1,6 @@
 {
   "name": "crownstone-hub",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "description": "Hub platform of Crownstone",
   "keywords": [
     "loopback-application",

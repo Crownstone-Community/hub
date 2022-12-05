@@ -26,6 +26,7 @@ let EnergyController = class EnergyController {
             let data = (0, MemoryDb_1.fillWithStoneData)(uid);
             result.push(data);
         }
+        return result;
         // let collection = this.energyDataProcessedRepo.dataSource.connector?.collection("EnergyDataProcessed");
         // if (collection) {
         //   let result = [];
