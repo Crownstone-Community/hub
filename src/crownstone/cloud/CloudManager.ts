@@ -313,7 +313,8 @@ export class CloudManager {
     if (this.sse === null) {
       this.sse = new CrownstoneSSE({
         sseUrl: process.env.SSE_URL,
-        hubLoginBase: process.env.hubLoginBase ?? 'https://cloud.crownstone.rocks/api/Hubs/',
+        loginUrl: process.env.LOGIN_URL,
+        hubLoginBase: process.env.hubLoginBase,
         autoreconnect: false,
         projectName:'crownstoneHub'
       });
