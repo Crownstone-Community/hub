@@ -25,7 +25,7 @@ let HubController = class HubController {
     }
     async createHub(newHub) {
         if (await this.hubRepo.isSet() === false) {
-            let cloud = new crownstone_cloud_1.CrownstoneCloud();
+            let cloud = new crownstone_cloud_1.CrownstoneCloud({ customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL });
             if (!(newHub.cloudId && newHub.token)) {
                 throw new rest_1.HttpErrors.BadRequest("CloudId and token are mandatory.");
             }
