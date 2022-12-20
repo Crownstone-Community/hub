@@ -5,6 +5,8 @@ if [ "$1" == "" ]; then
   exit 0
 fi
 
+nvm use 14
+
 read -r -p "Are you sure you want to release ${VERSION}? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
