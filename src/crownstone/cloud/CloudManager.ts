@@ -42,7 +42,7 @@ export class CloudManager {
   interval_ip   : Timeout | null = null;
 
   constructor() {
-    this.cloud = new CrownstoneCloud({customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL} );
+    this.cloud = new CrownstoneCloud({customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL});
     this.sseEventHandler = new SseEventHandler();
 
     this.setupEvents();

@@ -46,7 +46,7 @@ export class UartHubDataCommunication {
 
   async handleSetup(setupPacket: HubData_setup) {
     if (await Dbs.hub.isSet() === false) {
-      let cloud = new CrownstoneCloud();
+      let cloud = new CrownstoneCloud({customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL});
       try {
         await cloud.hubLogin(setupPacket.cloudId, setupPacket.token);
       }

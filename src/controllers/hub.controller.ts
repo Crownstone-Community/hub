@@ -31,7 +31,7 @@ export class HubController {
     newHub: DataObject<Hub>,
   ): Promise<void> {
     if (await this.hubRepo.isSet() === false) {
-      let cloud = new CrownstoneCloud();
+      let cloud = new CrownstoneCloud({customCloudAddress: process.env.CLOUD_V1_URL, customCloudV2Address: process.env.CLOUD_V2_URL});
       if (!(newHub.cloudId && newHub.token)) {
         throw new HttpErrors.BadRequest("CloudId and token are mandatory.");
       }
