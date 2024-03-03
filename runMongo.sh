@@ -1,1 +1,1 @@
-mongod --dbpath ~/data/db
+mongod --dbpath /opt/homebrew/var/mongodb

@@ -1,5 +1,5 @@
 name: crownstone-hub
-version: "0.29.1"
+version: "0.30.0"
 summary: Crownstone gateway.
 description: |
   Provides a REST API for your Crownstones: https://crownstone.rocks
@@ -36,7 +36,7 @@ parts:
 
 #    build:
 #      - openssl-hub.conf
-    
+
 #    prime:
 #      - openssl-hub.conf
 
@@ -65,7 +65,7 @@ apps:
       CS_HUB_SLL_CONFIG_PATH: $SNAP
       CS_HUB_CONFIG_PATH: $SNAP_COMMON/config
       CS_FILE_LOGGING_DIRNAME: $SNAP_COMMON/logs
-#      CS_FILE_LOGGING_BASENAME: 
+#      CS_FILE_LOGGING_BASENAME:
       CS_ENABLE_FILE_LOGGING: "false"
       CS_FILE_LOGGING_LEVEL: "none"
       CS_CONSOLE_LOGGING_LEVEL: "none"
